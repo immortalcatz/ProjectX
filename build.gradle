@@ -1,0 +1,124 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven { url = "http://files.minecraftforge.net/maven" }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
+    }
+}
+
+repositories {
+    maven {
+        name "CB's Maven"
+        url "http://chickenbones.net/maven"
+    }
+    maven {
+        name "KitsuneAlex' Maven"
+        url "http://maven.k-4u.nl"
+    }
+}
+
+apply plugin: 'net.minecraftforge.gradle.forge'
+
+version = "2.0.1"
+group= "keri.projectx" 
+archivesBaseName = "ProjectX-[1.10.2]"
+
+sourceCompatibility = targetCompatibility = "1.8" 
+compileJava {
+    sourceCompatibility = targetCompatibility = "1.8"
+}
+
+minecraft {
+    version = "1.10.2-12.18.3.2185"
+    runDir = "run"
+    mappings = "snapshot_20161111"
+}
+
+dependencies {
+    deobfCompile "codechicken:CodeChickenLib:1.10.2-2.5.7.241:deobf"
+    deobfCompile "keri.ninetaillib:NineTailLib-[1.10.2]:0.0.50:deobf"
+}
+
+processResources
+{
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+        expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
+        
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
+
+jar {
+    classifier = 'universal'
+}
+
+task deobfJar(type: Jar) {
+    from sourceSets.main.output
+    classifier = 'deobf'
+}
+
+task srcJar(type: Jar) {
+    from sourceSets.main.allSource
+    classifier = 'sources'
+}
+
+artifacts {
+    archives deobfJar
+    archives srcJar
+}
+
+task("uploadJars", dependsOn: "reobf") {
+    description = "uploads JARs"
+    if (System.getenv("local_maven") != null) {
+        apply plugin: 'maven'
+        uploadArchives {
+            repositories {
+                mavenDeployer {
+                    repository(url: "file://" + System.getenv("local_maven"))
+                    pom {
+                        groupId = project.group
+                        version = project.version
+                        artifactId = project.archivesBaseName
+                        project {
+                            name project.archivesBaseName
+                            packaging 'jar'
+                            description 'ProjectX'
+                            url 'http://github.com/TeamMD5/ProjectX'
+                            scm {
+                                url 'http://github.com/TeamMD5/ProjectX'
+                                connection 'scm:git:git@github.com:TeamMD5/ProjectX/ProjectX.git'
+                                developerConnection 'scm:git:git@github.com:TeamMD5/ProjectX/ProjectX.git'
+                            }
+                            issueManagement {
+                                system 'github'
+                                url 'http://github.com/TeamMD5/ProjectX/issues'
+                            }
+                            licenses {
+                                license {
+                                    name 'GNUv3'
+                                    url 'http://github.com/TeamMD5/ProjectX/blob/master/LICENSE'
+                                    distribution 'repo'
+                                }
+                            }
+                            developers {
+                                developer {
+                                    id 'KitsuneAlex'
+                                    name 'KitsuneAlex'
+                                    roles { role 'developer' }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
