@@ -14,6 +14,8 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.stream.IntStream;
+
 public class BlockXycroniumOre extends BlockCustomRenderer implements IMetaBlock {
 
     public BlockXycroniumOre() {
@@ -51,9 +53,9 @@ public class BlockXycroniumOre extends BlockCustomRenderer implements IMetaBlock
     public void registerBlockIcons(IIconRegistrar registrar) {
         this.texture = new TextureAtlasSprite[6];
 
-        for(int i = 0; i < 5; i++){
-            this.texture[i] = registrar.registerIcon(ModPrefs.MODID + ":blocks/ore/ore_" + EnumXycroniumColor.values()[i].getName());
-        }
+        IntStream.range(0, 5).forEach(index -> {
+            this.texture[index] = registrar.registerIcon(ModPrefs.MODID + ":blocks/ore/ore_" + EnumXycroniumColor.values()[index].getName());
+        });
 
         this.texture[5] = registrar.registerIcon(ModPrefs.MODID + ":blocks/ore/ore_effect");
     }

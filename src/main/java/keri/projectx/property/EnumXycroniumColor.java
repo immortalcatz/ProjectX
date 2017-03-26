@@ -3,6 +3,8 @@ package keri.projectx.property;
 import codechicken.lib.colour.ColourRGBA;
 import keri.ninetaillib.util.IPropertyProvider;
 
+import java.util.stream.IntStream;
+
 public enum EnumXycroniumColor implements IPropertyProvider {
 
     BLUE("blue", 0, new ColourRGBA(0, 100, 255, 255)),
@@ -28,9 +30,9 @@ public enum EnumXycroniumColor implements IPropertyProvider {
     public static String[] toStringArray(){
         String[] subNames = new String[values().length];
 
-        for(int i = 0; i < values().length; i++){
-            subNames[i] = values()[i].getName();
-        }
+        IntStream.range(0, values().length).forEach(index -> {
+            subNames[index] = values()[index].getName();
+        });
 
         return subNames;
     }

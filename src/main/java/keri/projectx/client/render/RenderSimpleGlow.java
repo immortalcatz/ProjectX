@@ -23,6 +23,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
+import java.util.stream.IntStream;
+
 @SideOnly(Side.CLIENT)
 public class RenderSimpleGlow implements IBlockRenderingHandler {
 
@@ -36,8 +38,8 @@ public class RenderSimpleGlow implements IBlockRenderingHandler {
             int meta = state.getBlock().getMetaFromState(state);
             int prevBrightness = (int)OpenGlHelper.lastBrightnessY << 16 | (int)OpenGlHelper.lastBrightnessX;
 
-            for(int pass = 0; pass < 2; pass++){
-                for(int side = 0; side < 6; side++){
+            IntStream.range(0, 2).forEach(pass -> {
+                IntStream.range(0, 6).forEach(side -> {
                     renderState.reset();
                     renderState.brightness = pass == 0 ? handler.getAnimationBrightness(meta, side) : prevBrightness;
                     renderState.pushLightmap();
@@ -45,8 +47,8 @@ public class RenderSimpleGlow implements IBlockRenderingHandler {
                     TextureAtlasSprite texture = pass == 0 ? handler.getAnimationIcon(meta, side) : iconProvider.getIcon(meta, side);
                     model.setColour(color.rgba());
                     model.render(renderState, 0 + (4 * side), 4 + (4 * side), new IconTransformation(texture));
-                }
-            }
+                });
+            });
         }
         else{
             throw new IllegalArgumentException("Block must be an instance of IAnimationSideHandler !");
@@ -64,8 +66,8 @@ public class RenderSimpleGlow implements IBlockRenderingHandler {
                 Tessellator.getInstance().draw();
                 int prevBrightness = (int)OpenGlHelper.lastBrightnessY << 16 | (int)OpenGlHelper.lastBrightnessX;
 
-                for(int pass = 0; pass < 2; pass++){
-                    for(int side = 0; side < 6; side++){
+                IntStream.range(0, 2).forEach(pass -> {
+                    IntStream.range(0, 6).forEach(side -> {
                         VertexBuffer buffer = Tessellator.getInstance().getBuffer();
                         buffer.begin(GL11.GL_QUADS, VertexUtils.getFormatWithLightMap(DefaultVertexFormats.ITEM));
                         CCRenderState state = CCRenderState.instance();
@@ -78,18 +80,18 @@ public class RenderSimpleGlow implements IBlockRenderingHandler {
                         model.setColour(color.rgba());
                         model.render(state, 0 + (4 * side), 4 + (4 * side), new IconTransformation(texture));
                         Tessellator.getInstance().draw();
-                    }
-                }
+                    });
+                });
 
                 Tessellator.getInstance().getBuffer().begin(GL11.GL_QUADS, VertexUtils.getFormatWithLightMap(DefaultVertexFormats.ITEM));
             }
             else{
-                for(int side = 0; side < 6; side++){
+                IntStream.range(0, 6).forEach(side -> {
                     model.setColour(handler.getAnimationColor(meta, side).rgba());
                     model.render(renderState, new IconTransformation(handler.getAnimationIcon(meta, side)));
                     model.setColour(new ColourRGBA(255, 255, 255, 255).rgba());
                     model.render(renderState, new IconTransformation(iconProvider.getIcon(meta, side)));
-                }
+                });
             }
         }
         else{
