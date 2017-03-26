@@ -7,6 +7,7 @@ import codechicken.lib.vec.Scale;
 import codechicken.lib.vec.Translation;
 import codechicken.lib.vec.Vector3;
 import codechicken.lib.vec.Vertex5;
+import com.google.common.collect.Lists;
 import keri.ninetaillib.render.IBlockKeyProvider;
 import keri.ninetaillib.render.IBlockRenderingHandler;
 import keri.ninetaillib.texture.IIconBlock;
@@ -22,11 +23,15 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
+import java.util.List;
+import java.util.stream.IntStream;
+
 @SideOnly(Side.CLIENT)
 public class RenderQuartzCrystal implements IBlockRenderingHandler, IBlockKeyProvider {
 
     @Override
     public void renderBlock(CCRenderState renderState, IBlockState state, EnumFacing face, BlockRenderLayer layer, long rand) {
+        TextureAtlasSprite texture = ((IIconBlock)state.getBlock()).getIcon(0, 0);
 
     }
 
@@ -67,6 +72,23 @@ public class RenderQuartzCrystal implements IBlockRenderingHandler, IBlockKeyPro
     @Override
     public String getExtendedBlockKey(IExtendedBlockState state) {
         return "";
+    }
+
+    private CCModel getModel(TextureAtlasSprite texture, Vector3 axis, int amount, int side){
+        Vertex5[] verts = this.getVertices(texture);
+        List<Vertex5> vertexList = Lists.newArrayList();
+
+        IntStream.range(0, amount).forEach(i -> {
+            IntStream.range(0, verts.length).forEach(j -> {
+                vertexList.add(new Vertex5(verts[j].vec.copy().rotate(1.5707963267948966D + Math.signum(Math.cos(i * Math.PI / 3D) * Math.sin(i * Math.PI / 3D)), axis).rotate(side == 1 ? 22.5D : 0D, new Vector3(0D, 0D, 1D)), verts[j].uv.u, verts[j].uv.v));
+            });
+        });
+
+        Vertex5[] output = new Vertex5[vertexList.size()];
+        IntStream.range(0, vertexList.size()).forEach(index -> output[index] = vertexList.get(index));
+        CCModel model = CCModel.newModel(GL11.GL_QUADS);
+        model.verts = output;
+        return model;
     }
 
     private Vertex5[] getVertices(TextureAtlasSprite texture){
