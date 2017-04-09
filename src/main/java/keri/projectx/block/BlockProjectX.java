@@ -1,6 +1,8 @@
 package keri.projectx.block;
 
 import keri.ninetaillib.block.BlockBase;
+import keri.ninetaillib.render.registry.IRenderingRegistry;
+import keri.projectx.ProjectX;
 import keri.projectx.client.ProjectXTab;
 import keri.projectx.util.ModPrefs;
 import net.minecraft.block.material.MapColor;
@@ -24,6 +26,12 @@ public class BlockProjectX<T extends TileEntity> extends BlockBase<T> {
     @SideOnly(Side.CLIENT)
     public CreativeTabs getCreativeTab() {
         return ProjectXTab.PROJECTX;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public IRenderingRegistry getRenderingRegistry() {
+        return ProjectX.PROXY.getRenderingRegistry();
     }
 
 }

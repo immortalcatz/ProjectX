@@ -1,40 +1,21 @@
 package keri.projectx.property;
 
-import codechicken.lib.colour.ColourRGBA;
 import keri.ninetaillib.util.IPropertyProvider;
-
-import java.util.stream.IntStream;
 
 public enum EnumXycroniumColor implements IPropertyProvider {
 
-    BLUE("blue", 0, new ColourRGBA(0, 100, 255, 255)),
-    GREEN("green", 1, new ColourRGBA(16711935)),
-    RED("red", 2, new ColourRGBA(-16776961)),
-    DARK("dark", 3, new ColourRGBA(30, 30, 30, 255)),
-    LIGHT("light", 4, new ColourRGBA(-1));
+    BLUE("blue", 0),
+    GREEN("green", 1),
+    RED("red", 2),
+    DARK("dark", 3),
+    LIGHT("light", 4);
 
     private String name;
     private int ID;
-    private ColourRGBA color;
 
-    EnumXycroniumColor(String name, int ID, ColourRGBA color){
+    EnumXycroniumColor(String name, int ID){
         this.name = name;
         this.ID = ID;
-        this.color = color;
-    }
-
-    public ColourRGBA getColor(){
-        return this.color;
-    }
-
-    public static String[] toStringArray(){
-        String[] subNames = new String[values().length];
-
-        IntStream.range(0, values().length).forEach(index -> {
-            subNames[index] = values()[index].getName();
-        });
-
-        return subNames;
     }
 
     @Override
@@ -49,7 +30,17 @@ public enum EnumXycroniumColor implements IPropertyProvider {
 
     @Override
     public String toString() {
-        return this.getName();
+        return this.name;
+    }
+
+    public static String[] toStringArray(){
+        String[] names = new String[values().length];
+
+        for(int i = 0; i < values().length; i++){
+            names[i] = values()[i].getName();
+        }
+
+        return names;
     }
 
 }

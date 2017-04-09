@@ -3,7 +3,13 @@ COLOR 0E
 GOTO:INIT
 
 :INIT
-ECHO (!!!! PUT LOGO HERE !!!!) 
+ECHO.
+ECHO    .------..------..------..------..------..------.
+ECHO    ^|G.--. ^|^|B.--. ^|^|A.--. ^|^|T.--. ^|^|C.--. ^|^|H.--. ^|
+ECHO    ^| :/\: ^|^| :(): ^|^| (\/) ^|^| :/\: ^|^| :/\: ^|^| :/\: ^|
+ECHO    ^| :\/: ^|^| ()() ^|^| :\/: ^|^| (__) ^|^| :\/: ^|^| (__) ^|
+ECHO    ^| '--'G^|^| '--'B^|^| '--'A^|^| '--'T^|^| '--'C^|^| '--'H^|
+ECHO    `------'`------'`------'`------'`------'`------'
 ECHO.
 ECHO Please choose an option from below
 ECHO and enter the number of the option
@@ -64,7 +70,7 @@ IF %INPUT%==1 (
 ECHO Please wait while Gradle is setting
 ECHO up your workspace...
 ECHO.
-gradlew setupDecompWorkspace eclipse
+START gradlew setupDecompWorkspace eclipse
 ECHO.
 ECHO Task successfull !
 PAUSE
@@ -75,7 +81,7 @@ GOTO:INIT
 ECHO Please wait while Gradle is setting
 ECHO up your workspace...
 ECHO.
-gradlew setupDecompWorkspace idea
+START gradlew setupDecompWorkspace idea
 ECHO.
 ECHO Task successfull !
 PAUSE
@@ -86,7 +92,7 @@ GOTO:INIT
 ECHO Please wait while Gradle is refreshing
 ECHO your workspace dependencies...
 ECHO.
-gradlew --refresh-dependencies
+START gradlew --refresh-dependencies
 ECHO.
 ECHO Task successfull !
 PAUSE
@@ -97,7 +103,7 @@ GOTO:INIT
 ECHO Please wait while Gradle is starting
 ECHO your Minecraft client...
 ECHO.
-gradlew runClient
+START gradlew runClient
 ECHO.
 ECHO Task successfull !
 PAUSE
@@ -108,7 +114,7 @@ GOTO:INIT
 ECHO Please wait while Gradle is starting
 ECHO your Minecraft server...
 ECHO.
-gradlew runServer
+START gradlew runServer
 ECHO.
 ECHO Task successfull !
 PAUSE
@@ -134,7 +140,7 @@ IF %INPUT%=="yes" (
 ECHO Please wait while Gradle is cleaning
 ECHO your workspace...
 ECHO.
-gradlew clean
+START gradlew clean
 ECHO.
 ECHO Task successfull !
 PAUSE

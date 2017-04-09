@@ -1,23 +1,27 @@
 package keri.projectx.proxy;
 
-import keri.projectx.client.texture.AnimationFX;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import keri.ninetaillib.render.registry.IRenderingRegistry;
+import keri.ninetaillib.texture.DefaultIconRegistrar;
+import keri.ninetaillib.texture.IIconRegistrar;
+import keri.projectx.client.RenderingRegistryProjectX;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 public class ClientProxy implements IProjectXProxy {
 
-    private AnimationFX animation;
+    private static final DefaultIconRegistrar iconRegistrar = new DefaultIconRegistrar();
+    private static final RenderingRegistryProjectX renderingRegistry = new RenderingRegistryProjectX();
 
     @Override
     public void preInit(FMLPreInitializationEvent event) {
-        this.animation = new AnimationFX();
+        this.iconRegistrar.preInit();
+        this.renderingRegistry.preInit();
     }
 
     @Override
     public void init(FMLInitializationEvent event) {
-
+        this.renderingRegistry.init();
     }
 
     @Override
@@ -26,8 +30,13 @@ public class ClientProxy implements IProjectXProxy {
     }
 
     @Override
-    public TextureAtlasSprite getAnimationIcon() {
-        return this.animation.texture;
+    public IRenderingRegistry getRenderingRegistry() {
+        return this.renderingRegistry;
+    }
+
+    @Override
+    public IIconRegistrar getIconRegistrar() {
+        return this.iconRegistrar;
     }
 
 }

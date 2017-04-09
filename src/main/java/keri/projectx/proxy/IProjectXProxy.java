@@ -1,6 +1,7 @@
 package keri.projectx.proxy;
 
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import keri.ninetaillib.render.registry.IRenderingRegistry;
+import keri.ninetaillib.texture.IIconRegistrar;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -13,6 +14,8 @@ public interface IProjectXProxy {
 
     void postInit(FMLPostInitializationEvent event);
 
-    TextureAtlasSprite getAnimationIcon();
+    IRenderingRegistry getRenderingRegistry();
+
+    IIconRegistrar getIconRegistrar();
 
 }

@@ -1,9 +1,8 @@
 package keri.projectx.client;
 
-import keri.projectx.init.ProjectXContent;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -11,8 +10,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ProjectXTab extends CreativeTabs {
 
     public static final ProjectXTab PROJECTX = new ProjectXTab();
-    private int ticks = 0;
-    private int color = 0;
 
     public ProjectXTab() {
         super("projectx.name");
@@ -20,26 +17,7 @@ public class ProjectXTab extends CreativeTabs {
 
     @Override
     public Item getTabIconItem() {
-        return Item.getItemFromBlock(ProjectXContent.xycroniumOre);
-    }
-
-    @Override
-    public ItemStack getIconItemStack() {
-        if(this.ticks < 32){
-            this.ticks++;
-        }
-        else{
-            if(this.color < 4){
-                this.color++;
-            }
-            else{
-                this.color = 0;
-            }
-
-            this.ticks = 0;
-        }
-
-        return new ItemStack(ProjectXContent.xycroniumOre, 1, this.color);
+        return Item.getItemFromBlock(Blocks.EMERALD_BLOCK);
     }
 
 }
