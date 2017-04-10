@@ -1,6 +1,8 @@
 package keri.projectx.init;
 
 import keri.projectx.block.BlockXycroniumOre;
+import keri.projectx.integration.IntegrationLoader;
+import keri.projectx.integration.tinkers.ModuleTinkersConstruct;
 import keri.projectx.item.*;
 import keri.projectx.util.ModPrefs;
 import net.minecraft.block.Block;
@@ -51,6 +53,8 @@ public class ProjectXContent {
         xycroniumArmorRed = armorHelper.createArmorSet("xycronium_red", EnumHelper.addArmorMaterial("xycronium_red", ModPrefs.MODID + ":xycronium_red", 16, new int[]{2, 5, 6, 2}, 12, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 0.1F));
         xycroniumArmorDark = armorHelper.createArmorSet("xycronium_dark", EnumHelper.addArmorMaterial("xycronium_dark", ModPrefs.MODID + ":xycronium_dark", 16, new int[]{2, 5, 6, 2}, 12, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 0.1F));
         xycroniumArmorLight = armorHelper.createArmorSet("xycronium_light", EnumHelper.addArmorMaterial("xycronium_light", ModPrefs.MODID + ":xycronium_light", 16, new int[]{2, 5, 6, 2}, 12, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 0.1F));
+
+        IntegrationLoader.INSTANCE.registerModule(new ModuleTinkersConstruct());
     }
 
     public static void init(){

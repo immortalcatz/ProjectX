@@ -17,11 +17,15 @@ repositories {
         name "KitsuneAlex' Maven"
         url "http://maven.k-4u.nl"
     }
+    maven {
+        name 'DVS1 Maven FS'
+        url 'http://dvs1.progwml6.com/files/maven'
+    }
 }
 
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-version = "2.0.3"
+version = "2.0.4"
 group= "keri.projectx" 
 archivesBaseName = "ProjectX-[1.10.2]"
 
@@ -39,6 +43,8 @@ minecraft {
 dependencies {
     deobfCompile "codechicken:CodeChickenLib:1.10.2-2.5.7.248:deobf"
     deobfCompile "keri.ninetaillib:NineTailLib-[1.10.2]:0.0.73:deobf"
+    deobfCompile "slimeknights.mantle:Mantle:1.10.2-1.1.5.205"
+    deobfCompile "slimeknights:TConstruct:1.10.2-2.6.3.501"
 }
 
 processResources

@@ -23,6 +23,9 @@ import java.util.List;
 
 public class BlockXycroniumOre extends BlockSimpleGlow implements IMetaBlock {
 
+    @SideOnly(Side.CLIENT)
+    private TextureAtlasSprite[] texture;
+
     public BlockXycroniumOre() {
         super("xycronium_ore", Material.ROCK);
         this.setHardness(1.6F);
@@ -55,9 +58,6 @@ public class BlockXycroniumOre extends BlockSimpleGlow implements IMetaBlock {
     public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
         return Lists.newArrayList(new ItemStack(ProjectXContent.xycroniumCrystal, 4 + fortune, this.getMetaFromState(state)));
     }
-
-    @SideOnly(Side.CLIENT)
-    private TextureAtlasSprite[] texture;
 
     @Override
     @SideOnly(Side.CLIENT)
