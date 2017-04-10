@@ -1,12 +1,16 @@
 package keri.projectx.init;
 
+import keri.projectx.block.BlockXycroniumOre;
 import keri.projectx.item.*;
 import keri.projectx.util.ModPrefs;
+import net.minecraft.block.Block;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.util.EnumHelper;
 
 public class ProjectXContent {
+
+    public static Block xycroniumOre;
 
     public static Item xycroniumCrystal;
     public static Item xycroniumIngot;
@@ -29,6 +33,8 @@ public class ProjectXContent {
     public static Item[] xycroniumArmorLight;
 
     public static void preInit(){
+        xycroniumOre = new BlockXycroniumOre();
+
         xycroniumCrystal = new ItemXycroniumCrystal();
         xycroniumIngot = new ItemXycroniumIngot();
         xycroniumNugget = new ItemXycroniumNugget();
