@@ -1,8 +1,10 @@
 package keri.projectx.block;
 
 import codechicken.lib.colour.ColourRGBA;
+import com.google.common.collect.Lists;
 import keri.ninetaillib.block.IMetaBlock;
 import keri.ninetaillib.texture.IIconRegistrar;
+import keri.projectx.init.ProjectXContent;
 import keri.projectx.property.EnumXycroniumColor;
 import keri.projectx.property.ProjectXProperties;
 import keri.projectx.util.ModPrefs;
@@ -11,14 +13,20 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.List;
 
 public class BlockXycroniumOre extends BlockSimpleGlow implements IMetaBlock {
 
     public BlockXycroniumOre() {
         super("xycronium_ore", Material.ROCK);
         this.setHardness(1.6F);
+        this.setHarvestLevel("pickaxe", 2);
         this.setDefaultState(this.blockState.getBaseState().withProperty(ProjectXProperties.XYCRONIUM_COLOR, EnumXycroniumColor.BLUE));
     }
 
@@ -41,6 +49,11 @@ public class BlockXycroniumOre extends BlockSimpleGlow implements IMetaBlock {
     @Override
     public String[] getSubNames() {
         return EnumXycroniumColor.toStringArray();
+    }
+
+    @Override
+    public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
+        return Lists.newArrayList(new ItemStack(ProjectXContent.xycroniumCrystal, 4 + fortune, this.getMetaFromState(state)));
     }
 
     @SideOnly(Side.CLIENT)
