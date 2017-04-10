@@ -38,7 +38,7 @@ minecraft {
 
 dependencies {
     deobfCompile "codechicken:CodeChickenLib:1.10.2-2.5.7.248:deobf"
-    deobfCompile "keri.ninetaillib:NineTailLib-[1.10.2]:0.0.72:deobf"
+    deobfCompile "keri.ninetaillib:NineTailLib-[1.10.2]:0.0.73:deobf"
 }
 
 processResources
