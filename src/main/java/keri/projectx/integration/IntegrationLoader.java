@@ -40,7 +40,6 @@ public class IntegrationLoader {
         this.integrationModules.forEach(module -> {
             if(Loader.isModLoaded(module.getModId())){
                 module.postInit(event, side);
-                ProjectX.LOGGER.info("[Integration] " + module.getName() + " integration initialized!");
             }
         });
 
