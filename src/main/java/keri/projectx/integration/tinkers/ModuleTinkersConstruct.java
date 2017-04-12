@@ -4,7 +4,6 @@ import keri.projectx.block.BlockFluidProjectX;
 import keri.projectx.fluid.FluidProjectX;
 import keri.projectx.integration.IModIntegration;
 import keri.projectx.integration.tinkers.block.BlockXycroniumToolForge;
-import keri.projectx.integration.tinkers.materials.TinkersMaterials;
 import net.minecraft.block.Block;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -50,11 +49,6 @@ public class ModuleTinkersConstruct implements IModIntegration {
         moltenXycroniumDark = new BlockFluidProjectX(fluidMoltenXycroniumDark);
         moltenXycroniumLight = new BlockFluidProjectX(fluidMoltenXycroniumLight);
         xycroniumToolForge = new BlockXycroniumToolForge();
-        TinkersMaterials.preInit();
-
-        if(side == Side.CLIENT){
-            TinkersMaterials.registerRenderInfo();
-        }
     }
 
     @Override
