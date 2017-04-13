@@ -1,7 +1,6 @@
 package keri.projectx.init;
 
-import keri.projectx.block.BlockXycroniumOre;
-import keri.projectx.block.BlockXycroniumStorage;
+import keri.projectx.block.*;
 import keri.projectx.integration.IntegrationLoader;
 import keri.projectx.integration.tinkers.ModuleTinkersConstruct;
 import keri.projectx.item.*;
@@ -15,6 +14,10 @@ public class ProjectXContent {
 
     public static Block xycroniumOre;
     public static Block xycroniumBlock;
+    public static Block xycroniumPlatform;
+    public static Block xycroniumPlate;
+    public static Block xycroniumStructure;
+    public static Block xycroniumShield;
 
     public static Item xycroniumCrystal;
     public static Item xycroniumIngot;
@@ -43,6 +46,10 @@ public class ProjectXContent {
     public static void preInit(){
         xycroniumOre = new BlockXycroniumOre();
         xycroniumBlock = new BlockXycroniumStorage();
+        xycroniumPlatform = new BlockXycroniumPlatform();
+        xycroniumPlate = new BlockXycroniumPlate();
+        xycroniumStructure = new BlockXycroniumStructure();
+        xycroniumShield = new BlockXycroniumShield();
 
         xycroniumCrystal = new ItemXycroniumCrystal();
         xycroniumIngot = new ItemXycroniumIngot();
