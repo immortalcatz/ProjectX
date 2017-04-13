@@ -4,11 +4,14 @@ import keri.projectx.block.*;
 import keri.projectx.integration.IntegrationLoader;
 import keri.projectx.integration.tinkers.ModuleTinkersConstruct;
 import keri.projectx.item.*;
+import keri.projectx.tile.TileEntityXycroniumLadder;
 import keri.projectx.util.ModPrefs;
 import net.minecraft.block.Block;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.EnumHelper;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ProjectXContent {
 
@@ -18,11 +21,13 @@ public class ProjectXContent {
     public static Block xycroniumPlate;
     public static Block xycroniumStructure;
     public static Block xycroniumShield;
+    public static Block xycroniumLadder;
 
     public static Item xycroniumCrystal;
     public static Item xycroniumIngot;
     public static Item xycroniumNugget;
     public static Item xycroniumDust;
+    public static Item colorAnalyzer;
 
     private static Item.ToolMaterial toolMaterialXycronium = EnumHelper.addToolMaterial("xycronium", 2, 700, 6.1F, 2.1F, 15);
     private static ItemToolHelperProjectX toolHelper = new ItemToolHelperProjectX();
@@ -50,11 +55,13 @@ public class ProjectXContent {
         xycroniumPlate = new BlockXycroniumPlate();
         xycroniumStructure = new BlockXycroniumStructure();
         xycroniumShield = new BlockXycroniumShield();
+        xycroniumLadder = new BlockXycroniumLadder();
 
         xycroniumCrystal = new ItemXycroniumCrystal();
         xycroniumIngot = new ItemXycroniumIngot();
         xycroniumNugget = new ItemXycroniumNugget();
         xycroniumDust = new ItemXycroniumDust();
+        colorAnalyzer = new ItemColorAnalyzer();
 
         xycroniumToolsBlue = toolHelper.createToolset("xycronium_blue", toolMaterialXycronium);
         xycroniumToolsGreen = toolHelper.createToolset("xycronium_green", toolMaterialXycronium);
@@ -70,7 +77,12 @@ public class ProjectXContent {
     }
 
     public static void init(){
+        registerTileEntity(TileEntityXycroniumLadder.class, xycroniumLadder);
+    }
 
+    private static void registerTileEntity(Class<? extends TileEntity> tileClass, Block owner){
+        String registryName = owner.getRegistryName().getResourceDomain() + ".tile." + owner.getRegistryName().getResourcePath();
+        GameRegistry.registerTileEntity(tileClass, registryName);
     }
 
 }

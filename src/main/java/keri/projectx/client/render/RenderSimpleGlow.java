@@ -10,6 +10,7 @@ import keri.ninetaillib.render.util.VertexUtils;
 import keri.ninetaillib.texture.IIconBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
@@ -43,7 +44,6 @@ public class RenderSimpleGlow implements IBlockRenderingHandler {
                 int animationBrightness = handler.getAnimationBrightness(meta, side);
                 ColourRGBA animationColor = handler.getAnimationColor(meta, side);
                 renderState.brightness = pass == 0 ? animationBrightness : lastBrightness;
-                renderState.pushLightmap();
                 model.setColour(pass == 0 ? animationColor.rgba() : 0xFFFFFFFF);
                 model.render(renderState, 0 + (4 * side), 4 + (4 * side), new IconTransformation(pass == 0 ? textureAnimation : textureBlock));
             }
@@ -54,6 +54,7 @@ public class RenderSimpleGlow implements IBlockRenderingHandler {
 
     @Override
     public void renderItem(CCRenderState renderState, ItemStack stack, long rand) {
+        GlStateManager.disableBlend();
         Tessellator.getInstance().draw();
         IAnimationSideHandler handler = (IAnimationSideHandler)Block.getBlockFromItem(stack.getItem());
         IIconBlock iconProvider = (IIconBlock)Block.getBlockFromItem(stack.getItem());
@@ -63,25 +64,24 @@ public class RenderSimpleGlow implements IBlockRenderingHandler {
         for(int pass = 0; pass < 2; pass++){
             VertexBuffer buffer = Tessellator.getInstance().getBuffer();
             buffer.begin(GL11.GL_QUADS, VertexUtils.getFormatWithLightMap(DefaultVertexFormats.ITEM));
-            CCRenderState ccrs = CCRenderState.instance();
-            ccrs.reset();
-            ccrs.bind(buffer);
+            renderState.reset();
+            renderState.bind(buffer);
 
             for(int side = 0; side < 6; side++){
                 TextureAtlasSprite textureBlock = iconProvider.getIcon(meta, side);
                 TextureAtlasSprite textureAnimation = handler.getAnimationIcon(meta, side);
                 int animationBrightness = handler.getAnimationBrightness(meta, side);
                 ColourRGBA animationColor = handler.getAnimationColor(meta, side);
-                ccrs.brightness = pass == 0 ? animationBrightness : lastBrightness;
-                ccrs.pushLightmap();
+                renderState.brightness = pass == 0 ? animationBrightness : lastBrightness;
                 model.setColour(pass == 0 ? animationColor.rgba() : 0xFFFFFFFF);
-                model.render(ccrs, 0 + (4 * side), 4 + (4 * side), new IconTransformation(pass == 0 ? textureAnimation : textureBlock));
+                model.render(renderState, 0 + (4 * side), 4 + (4 * side), new IconTransformation(pass == 0 ? textureAnimation : textureBlock));
             }
 
             Tessellator.getInstance().draw();
         }
 
         Tessellator.getInstance().getBuffer().begin(GL11.GL_QUADS, VertexUtils.getFormatWithLightMap(DefaultVertexFormats.ITEM));
+        GlStateManager.enableBlend();
     }
 
     @Override

@@ -5,6 +5,8 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 
 public interface IAnimationSideHandler {
 
+    //TODO extend methods to seperated block & item methods using IBlockState & ItemsStack?
+
     TextureAtlasSprite getAnimationIcon(int meta, int side);
 
     int getAnimationBrightness(int meta, int side);

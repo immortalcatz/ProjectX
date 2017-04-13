@@ -1,8 +1,7 @@
 package keri.projectx.integration.tinkers.block;
 
 import codechicken.lib.colour.ColourRGBA;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
+import codechicken.lib.raytracer.RayTracer;
 import keri.ninetaillib.block.IMetaBlock;
 import keri.ninetaillib.render.block.IBlockRenderingHandler;
 import keri.ninetaillib.texture.IIconRegistrar;
@@ -36,20 +35,18 @@ import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.tools.common.tileentity.TileToolForge;
 
 import javax.annotation.Nullable;
-import java.util.List;
 
 public class BlockXycroniumToolForge extends BlockProjectX<TileToolForge> implements IMetaBlock, IAnimationSideHandler {
 
     @SideOnly(Side.CLIENT)
     private TextureAtlasSprite[] texture;
-
-    private static ImmutableList<AxisAlignedBB> BOUNDS = ImmutableList.of(
+    public static AxisAlignedBB[] BLOCK_BOUNDS = new AxisAlignedBB[]{
             new AxisAlignedBB(0D, 0.75D, 0D, 1D, 1D, 1D),
             new AxisAlignedBB(0D, 0D, 0D, 0.25D, 0.75D, 0.25D),
             new AxisAlignedBB(0.75D, 0D, 0D, 1D, 0.75D, 0.25D),
             new AxisAlignedBB(0.75D, 0D, 0.75D, 1D, 0.75D, 1D),
             new AxisAlignedBB(0D, 0D, 0.75D, 0.25D, 0.75D, 1D)
-    );
+    };
 
     public BlockXycroniumToolForge(){
         super("tool_forge", Material.IRON);
@@ -100,35 +97,8 @@ public class BlockXycroniumToolForge extends BlockProjectX<TileToolForge> implem
     @Nullable
     @Override
     @SuppressWarnings("deprecation")
-    public RayTraceResult collisionRayTrace(IBlockState blockState, World worldIn, BlockPos pos, Vec3d start, Vec3d end) {
-        List<RayTraceResult> list = Lists.newArrayList();
-
-        for(AxisAlignedBB aabb : BOUNDS) {
-            list.add(rayTrace2(pos, start, end, aabb));
-        }
-
-        RayTraceResult raytraceresult1 = null;
-        double d1 = 0D;
-
-        for(RayTraceResult raytraceresult : list) {
-            if(raytraceresult != null) {
-                double d0 = raytraceresult.hitVec.squareDistanceTo(end);
-
-                if(d0 > d1) {
-                    raytraceresult1 = raytraceresult;
-                    d1 = d0;
-                }
-            }
-        }
-
-        return raytraceresult1;
-    }
-
-    private RayTraceResult rayTrace2(BlockPos pos, Vec3d start, Vec3d end, AxisAlignedBB boundingBox) {
-        Vec3d vec3d = start.subtract((double) pos.getX(), (double) pos.getY(), (double) pos.getZ());
-        Vec3d vec3d1 = end.subtract((double) pos.getX(), (double) pos.getY(), (double) pos.getZ());
-        RayTraceResult raytraceresult = boundingBox.calculateIntercept(vec3d, vec3d1);
-        return raytraceresult == null ? null : new RayTraceResult(raytraceresult.hitVec.addVector((double) pos.getX(), (double) pos.getY(), (double) pos.getZ()), raytraceresult.sideHit, pos);
+    public RayTraceResult collisionRayTrace(IBlockState state, World world, BlockPos pos, Vec3d start, Vec3d end) {
+        return RayTracer.rayTraceCuboidsClosest(start, end, pos, BLOCK_BOUNDS);
     }
 
     @Override
