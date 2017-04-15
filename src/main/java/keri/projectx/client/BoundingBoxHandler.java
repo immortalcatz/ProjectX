@@ -7,6 +7,7 @@ import codechicken.lib.vec.Cuboid6;
 import codechicken.lib.vec.Rotation;
 import codechicken.lib.vec.Vector3;
 import keri.ninetaillib.util.CommonUtils;
+import keri.projectx.ProjectX;
 import keri.projectx.block.BlockXycroniumLadder;
 import keri.projectx.integration.tinkers.block.BlockXycroniumToolForge;
 import keri.projectx.tile.TileEntityXycroniumLadder;
@@ -16,25 +17,30 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
+import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class ClientEventHandler {
+public class BoundingBoxHandler {
 
     @SubscribeEvent
     public void drawBlockHighlight(DrawBlockHighlightEvent event){
-        if(event.getPhase() == EventPriority.NORMAL){
-            World world = Minecraft.getMinecraft().theWorld;
-            BlockPos pos = event.getTarget().getBlockPos();
-            RayTraceResult hit = event.getTarget();
+        if(ProjectX.CONFIG.fancyBoundingBoxes){
+            if(event.isCancelable() && event.getResult() == Event.Result.DEFAULT){
+                if(event.getPhase() == EventPriority.NORMAL){
+                    World world = Minecraft.getMinecraft().theWorld;
+                    BlockPos pos = event.getTarget().getBlockPos();
+                    RayTraceResult hit = event.getTarget();
 
-            if(hit.typeOfHit == RayTraceResult.Type.BLOCK && hit instanceof CuboidRayTraceResult && !((CuboidRayTraceResult)hit).disableAutoHitboxRender) {
-                this.drawLadderHitbox(world, pos, event.getPlayer(), event.getPartialTicks());
-                this.drawToolForgeHitbox(world, pos, event.getPlayer(), event.getPartialTicks());
-                event.setCanceled(true);
+                    if(hit.typeOfHit == RayTraceResult.Type.BLOCK && hit instanceof CuboidRayTraceResult && !((CuboidRayTraceResult)hit).disableAutoHitboxRender) {
+                        this.drawLadderHitbox(world, pos, event.getPlayer(), event.getPartialTicks());
+                        this.drawToolForgeHitbox(world, pos, event.getPlayer(), event.getPartialTicks());
+                        event.setCanceled(true);
+                    }
+                }
             }
         }
     }

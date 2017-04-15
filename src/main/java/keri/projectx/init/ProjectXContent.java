@@ -4,6 +4,7 @@ import keri.projectx.block.*;
 import keri.projectx.integration.IntegrationLoader;
 import keri.projectx.integration.tinkers.ModuleTinkersConstruct;
 import keri.projectx.item.*;
+import keri.projectx.tile.TileEntityTankValve;
 import keri.projectx.tile.TileEntityXycroniumLadder;
 import keri.projectx.util.ModPrefs;
 import net.minecraft.block.Block;
@@ -22,6 +23,7 @@ public class ProjectXContent {
     public static Block xycroniumStructure;
     public static Block xycroniumShield;
     public static Block xycroniumLadder;
+    public static Block tankValve;
 
     public static Item xycroniumCrystal;
     public static Item xycroniumIngot;
@@ -56,6 +58,7 @@ public class ProjectXContent {
         xycroniumStructure = new BlockXycroniumStructure();
         xycroniumShield = new BlockXycroniumShield();
         xycroniumLadder = new BlockXycroniumLadder();
+        tankValve = new BlockTankValve();
 
         xycroniumCrystal = new ItemXycroniumCrystal();
         xycroniumIngot = new ItemXycroniumIngot();
@@ -78,6 +81,7 @@ public class ProjectXContent {
 
     public static void init(){
         registerTileEntity(TileEntityXycroniumLadder.class, xycroniumLadder);
+        registerTileEntity(TileEntityTankValve.class, tankValve);
     }
 
     private static void registerTileEntity(Class<? extends TileEntity> tileClass, Block owner){

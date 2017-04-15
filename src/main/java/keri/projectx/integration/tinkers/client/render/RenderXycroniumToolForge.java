@@ -58,12 +58,13 @@ public class RenderXycroniumToolForge implements IBlockRenderingHandler {
         TextureAtlasSprite textureBlockBottom = iconProvider.getIcon(meta, 2);
         int animationBrightness = handler.getAnimationBrightness(meta, 0);
         ColourRGBA animationColor = handler.getAnimationColor(meta, 0);
-        int lastBrightness = (int)OpenGlHelper.lastBrightnessY << 16 | (int)OpenGlHelper.lastBrightnessX;
+        int lastBrightness = (int)OpenGlHelper.lastBrightnessY << 8 | (int)OpenGlHelper.lastBrightnessX;
 
         for(int pass = 0; pass < 2; pass++){
-            renderState.brightness = pass == 0 ? animationBrightness : lastBrightness;
+            renderState.reset();
 
             for(int part = 0; part < model.length; part++){
+                renderState.brightness = pass == 0 ? animationBrightness : lastBrightness;
                 model[part].setColour(pass == 0 ? animationColor.rgba() : 0xFFFFFFFF);
                 model[part].render(renderState, pass == 0 ? new IconTransformation(textureAnimation) : new MultiIconTransformation(textureBlockBottom, textureBlockTop, textureBlockSide, textureBlockSide, textureBlockSide, textureBlockSide));
             }
