@@ -47,6 +47,7 @@ public class WorldGenOres implements IWorldGenerator {
 
     }
 
+    @SuppressWarnings("deprecation")
     private void generateBlock(Block block, int meta, Block target, World world, Random rand, int blockX, int blockZ, int[] params){
         int chance = params[0];
         int minHeight = params[1];

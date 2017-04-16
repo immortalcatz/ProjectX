@@ -52,12 +52,12 @@ public class RenderXycroniumToolForge implements IBlockRenderingHandler {
         IAnimationSideHandler handler = (IAnimationSideHandler)state.getBlock();
         IIconBlock iconProvider = (IIconBlock)state.getBlock();
         int meta = state.getBlock().getMetaFromState(state);
-        TextureAtlasSprite textureAnimation = handler.getAnimationIcon(meta, 0);
+        TextureAtlasSprite textureAnimation = handler.getAnimationIcon(state, 0);
         TextureAtlasSprite textureBlockTop = iconProvider.getIcon(meta, 0);
         TextureAtlasSprite textureBlockSide = iconProvider.getIcon(meta, 1);
         TextureAtlasSprite textureBlockBottom = iconProvider.getIcon(meta, 2);
-        int animationBrightness = handler.getAnimationBrightness(meta, 0);
-        ColourRGBA animationColor = handler.getAnimationColor(meta, 0);
+        int animationBrightness = handler.getAnimationBrightness(state, 0);
+        ColourRGBA animationColor = handler.getAnimationColor(state, 0);
         int lastBrightness = (int)OpenGlHelper.lastBrightnessY << 8 | (int)OpenGlHelper.lastBrightnessX;
 
         for(int pass = 0; pass < 2; pass++){
@@ -78,12 +78,12 @@ public class RenderXycroniumToolForge implements IBlockRenderingHandler {
         IAnimationSideHandler handler = (IAnimationSideHandler)Block.getBlockFromItem(stack.getItem());
         IIconBlock iconProvider = (IIconBlock)Block.getBlockFromItem(stack.getItem());
         int meta = stack.getMetadata();
-        TextureAtlasSprite textureAnimation = handler.getAnimationIcon(meta, 0);
+        TextureAtlasSprite textureAnimation = handler.getAnimationIcon(stack, 0);
         TextureAtlasSprite textureBlockTop = iconProvider.getIcon(meta, 0);
         TextureAtlasSprite textureBlockSide = iconProvider.getIcon(meta, 1);
         TextureAtlasSprite textureBlockBottom = iconProvider.getIcon(meta, 2);
-        int animationBrightness = handler.getAnimationBrightness(meta, 0);
-        ColourRGBA animationColor = handler.getAnimationColor(meta, 0);
+        int animationBrightness = handler.getAnimationBrightness(stack, 0);
+        ColourRGBA animationColor = handler.getAnimationColor(stack, 0);
         int lastBrightness = (int) OpenGlHelper.lastBrightnessY << 16 | (int)OpenGlHelper.lastBrightnessX;
 
         for(int pass = 0; pass < 2; pass++){

@@ -6,7 +6,7 @@ import keri.ninetaillib.block.IMetaBlock;
 import keri.ninetaillib.render.block.IBlockRenderingHandler;
 import keri.ninetaillib.texture.IIconRegistrar;
 import keri.projectx.ProjectX;
-import keri.projectx.block.BlockProjectX;
+import keri.projectx.block.base.BlockProjectX;
 import keri.projectx.client.render.IAnimationSideHandler;
 import keri.projectx.integration.tinkers.client.render.RenderXycroniumToolForge;
 import keri.projectx.property.EnumXycroniumColor;
@@ -132,20 +132,38 @@ public class BlockXycroniumToolForge extends BlockProjectX<TileToolForge> implem
 
     @Override
     @SideOnly(Side.CLIENT)
-    public TextureAtlasSprite getAnimationIcon(int meta, int side) {
+    public TextureAtlasSprite getAnimationIcon(IBlockState state, int side) {
         return ProjectX.PROXY.getAnimationIcon();
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public int getAnimationBrightness(int meta, int side) {
+    public int getAnimationBrightness(IBlockState state, int side) {
         return 0x00F000F0;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public ColourRGBA getAnimationColor(int meta, int side) {
-        return EnumXycroniumColor.values()[meta].getColor();
+    public ColourRGBA getAnimationColor(IBlockState state, int side) {
+        return EnumXycroniumColor.values()[state.getBlock().getMetaFromState(state)].getColor();
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public TextureAtlasSprite getAnimationIcon(ItemStack stack, int side) {
+        return ProjectX.PROXY.getAnimationIcon();
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getAnimationBrightness(ItemStack stack, int side) {
+        return 0x00F000F0;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public ColourRGBA getAnimationColor(ItemStack stack, int side) {
+        return EnumXycroniumColor.values()[stack.getMetadata()].getColor();
     }
 
     @Override

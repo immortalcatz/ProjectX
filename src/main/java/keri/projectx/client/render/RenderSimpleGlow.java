@@ -41,9 +41,9 @@ public class RenderSimpleGlow implements IBlockRenderingHandler {
 
             for(int side = 0; side < 6; side++){
                 TextureAtlasSprite textureBlock = iconProvider.getIcon(meta, side);
-                TextureAtlasSprite textureAnimation = handler.getAnimationIcon(meta, side);
-                int animationBrightness = handler.getAnimationBrightness(meta, side);
-                ColourRGBA animationColor = handler.getAnimationColor(meta, side);
+                TextureAtlasSprite textureAnimation = handler.getAnimationIcon(state, side);
+                int animationBrightness = handler.getAnimationBrightness(state, side);
+                ColourRGBA animationColor = handler.getAnimationColor(state, side);
                 renderState.brightness = pass == 0 ? animationBrightness : lastBrightness;
                 model.setColour(pass == 0 ? animationColor.rgba() : 0xFFFFFFFF);
                 model.render(renderState, 0 + (4 * side), 4 + (4 * side), new IconTransformation(pass == 0 ? textureAnimation : textureBlock));
@@ -70,9 +70,9 @@ public class RenderSimpleGlow implements IBlockRenderingHandler {
 
                 for(int side = 0; side < 6; side++){
                     TextureAtlasSprite textureBlock = iconProvider.getIcon(meta, side);
-                    TextureAtlasSprite textureAnimation = handler.getAnimationIcon(meta, side);
-                    int animationBrightness = handler.getAnimationBrightness(meta, side);
-                    ColourRGBA animationColor = handler.getAnimationColor(meta, side);
+                    TextureAtlasSprite textureAnimation = handler.getAnimationIcon(stack, side);
+                    int animationBrightness = handler.getAnimationBrightness(stack, side);
+                    ColourRGBA animationColor = handler.getAnimationColor(stack, side);
                     renderState.brightness = pass == 0 ? animationBrightness : lastBrightness;
                     model.setColour(pass == 0 ? animationColor.rgba() : 0xFFFFFFFF);
                     model.render(renderState, 0 + (4 * side), 4 + (4 * side), new IconTransformation(pass == 0 ? textureAnimation : textureBlock));
@@ -88,8 +88,8 @@ public class RenderSimpleGlow implements IBlockRenderingHandler {
             for(int pass = 0; pass < 2; pass++){
                 for(int side = 0; side < 6; side++){
                     TextureAtlasSprite textureBlock = iconProvider.getIcon(meta, side);
-                    TextureAtlasSprite textureAnimation = handler.getAnimationIcon(meta, side);
-                    ColourRGBA animationColor = handler.getAnimationColor(meta, side);
+                    TextureAtlasSprite textureAnimation = handler.getAnimationIcon(stack, side);
+                    ColourRGBA animationColor = handler.getAnimationColor(stack, side);
                     model.setColour(pass == 0 ? animationColor.rgba() : 0xFFFFFFFF);
                     model.render(renderState, 0 + (4 * side), 4 + (4 * side), new IconTransformation(pass == 0 ? textureAnimation : textureBlock));
                 }

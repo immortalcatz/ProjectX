@@ -1,16 +1,17 @@
-package keri.projectx.item;
+package keri.projectx.item.resource;
 
 import keri.ninetaillib.texture.IIconRegistrar;
+import keri.projectx.item.base.ItemProjectX;
 import keri.projectx.property.EnumXycroniumColor;
 import keri.projectx.util.ModPrefs;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemXycroniumDust extends ItemProjectX {
+public class ItemXycroniumNugget extends ItemProjectX {
 
-    public ItemXycroniumDust() {
-        super("xycronium_dust", EnumXycroniumColor.toStringArray());
+    public ItemXycroniumNugget() {
+        super("xycronium_nugget", EnumXycroniumColor.toStringArray());
     }
 
     @SideOnly(Side.CLIENT)
@@ -22,7 +23,7 @@ public class ItemXycroniumDust extends ItemProjectX {
         this.texture = new TextureAtlasSprite[EnumXycroniumColor.values().length];
 
         for(int i = 0; i < EnumXycroniumColor.values().length; i++){
-            this.texture[i] = registrar.registerIcon(ModPrefs.MODID + ":items/resource/xycronium_dust_" + EnumXycroniumColor.values()[i].getName());
+            this.texture[i] = registrar.registerIcon(ModPrefs.MODID + ":items/resource/xycronium_nugget_" + EnumXycroniumColor.values()[i].getName());
         }
     }
 

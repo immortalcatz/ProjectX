@@ -59,10 +59,10 @@ public class RenderXycroniumLadder implements IBlockRenderingHandler {
         IIconBlock iconProvider = (IIconBlock)state.getBlock();
         int meta = state.getBlock().getMetaFromState(state);
         int lastBrightness = (int) OpenGlHelper.lastBrightnessY << 8 | (int)OpenGlHelper.lastBrightnessX;
-        TextureAtlasSprite textureAnimation = handler.getAnimationIcon(meta, 0);
+        TextureAtlasSprite textureAnimation = handler.getAnimationIcon(state, 0);
         TextureAtlasSprite textureBlock = iconProvider.getIcon(meta, 0);
-        int animationBrightness = handler.getAnimationBrightness(meta, 0);
-        ColourRGBA animationColor = handler.getAnimationColor(meta, 0);
+        int animationBrightness = handler.getAnimationBrightness(state, 0);
+        ColourRGBA animationColor = handler.getAnimationColor(state, 0);
 
         for(int pass = 0; pass < 2; pass++){
             renderState.reset();
@@ -81,10 +81,10 @@ public class RenderXycroniumLadder implements IBlockRenderingHandler {
         IIconBlock iconProvider = (IIconBlock)Block.getBlockFromItem(stack.getItem());
         int meta = stack.getMetadata();
         int lastBrightness = (int) OpenGlHelper.lastBrightnessY << 16 | (int)OpenGlHelper.lastBrightnessX;
-        TextureAtlasSprite textureAnimation = handler.getAnimationIcon(meta, 0);
+        TextureAtlasSprite textureAnimation = handler.getAnimationIcon(stack, 0);
         TextureAtlasSprite textureBlock = iconProvider.getIcon(meta, 0);
-        int animationBrightness = handler.getAnimationBrightness(meta, 0);
-        ColourRGBA animationColor = handler.getAnimationColor(meta, 0);
+        int animationBrightness = handler.getAnimationBrightness(stack, 0);
+        ColourRGBA animationColor = handler.getAnimationColor(stack, 0);
         Transformation rotation = new Rotation(180D * MathHelper.torad, new Vector3(0D, 1D, 0D)).at(Vector3.center);
 
         if(this.hasDynamicItemRendering()){

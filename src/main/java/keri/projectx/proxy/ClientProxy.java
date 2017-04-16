@@ -3,9 +3,8 @@ package keri.projectx.proxy;
 import keri.ninetaillib.render.registry.IRenderingRegistry;
 import keri.ninetaillib.texture.DefaultIconRegistrar;
 import keri.ninetaillib.texture.IIconRegistrar;
-import keri.projectx.client.BoundingBoxHandler;
 import keri.projectx.client.RenderingRegistryProjectX;
-import keri.projectx.client.TankOverlayHandler;
+import keri.projectx.client.handler.BoundingBoxHandler;
 import keri.projectx.client.render.AnimationFX;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraftforge.common.MinecraftForge;
@@ -22,7 +21,6 @@ public class ClientProxy implements IProjectXProxy {
     @Override
     public void preInit(FMLPreInitializationEvent event){
         MinecraftForge.EVENT_BUS.register(new BoundingBoxHandler());
-        MinecraftForge.EVENT_BUS.register(new TankOverlayHandler());
         this.iconRegistrar.preInit();
         this.renderingRegistry.preInit();
         this.animationFX = new AnimationFX();

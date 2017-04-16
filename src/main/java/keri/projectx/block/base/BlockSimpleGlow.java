@@ -1,4 +1,4 @@
-package keri.projectx.block;
+package keri.projectx.block.base;
 
 import keri.ninetaillib.render.block.IBlockRenderingHandler;
 import keri.projectx.client.render.IAnimationSideHandler;

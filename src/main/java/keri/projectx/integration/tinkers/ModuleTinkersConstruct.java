@@ -1,6 +1,6 @@
 package keri.projectx.integration.tinkers;
 
-import keri.projectx.block.BlockFluidProjectX;
+import keri.projectx.block.base.BlockFluidProjectX;
 import keri.projectx.fluid.FluidProjectX;
 import keri.projectx.integration.IModIntegration;
 import keri.projectx.integration.tinkers.block.BlockXycroniumToolForge;

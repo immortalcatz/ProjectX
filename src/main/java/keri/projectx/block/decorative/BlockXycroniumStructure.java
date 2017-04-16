@@ -1,4 +1,4 @@
-package keri.projectx.block;
+package keri.projectx.block.decorative;
 
 import codechicken.lib.colour.ColourRGBA;
 import keri.ninetaillib.block.IMetaBlock;
@@ -6,24 +6,25 @@ import keri.ninetaillib.property.CommonProperties;
 import keri.ninetaillib.property.EnumDyeColor;
 import keri.ninetaillib.texture.IIconRegistrar;
 import keri.projectx.ProjectX;
+import keri.projectx.block.base.BlockSimpleGlow;
 import keri.projectx.util.ModPrefs;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockXycroniumShield extends BlockSimpleGlow implements IMetaBlock {
+public class BlockXycroniumStructure extends BlockSimpleGlow implements IMetaBlock {
 
     @SideOnly(Side.CLIENT)
     private TextureAtlasSprite texture;
 
-    public BlockXycroniumShield() {
-        super("xycronium_shield", Material.ROCK);
+    public BlockXycroniumStructure() {
+        super("xycronium_structure", Material.ROCK);
         this.setHardness(1.4F);
-        this.setResistance(1000000000000F);
         this.setDefaultState(this.blockState.getBaseState().withProperty(CommonProperties.DYE_COLOR, EnumDyeColor.BLACK));
     }
 
@@ -51,7 +52,7 @@ public class BlockXycroniumShield extends BlockSimpleGlow implements IMetaBlock 
     @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegistrar registrar) {
-        this.texture = registrar.registerIcon(ModPrefs.MODID + ":blocks/xycronium_shield");
+        this.texture = registrar.registerIcon(ModPrefs.MODID + ":blocks/xycronium_structure");
     }
 
     @Override
@@ -61,20 +62,38 @@ public class BlockXycroniumShield extends BlockSimpleGlow implements IMetaBlock 
 
     @Override
     @SideOnly(Side.CLIENT)
-    public TextureAtlasSprite getAnimationIcon(int meta, int side) {
+    public TextureAtlasSprite getAnimationIcon(IBlockState state, int side) {
         return ProjectX.PROXY.getAnimationIcon();
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public int getAnimationBrightness(int meta, int side) {
+    public int getAnimationBrightness(IBlockState state, int side) {
         return 0x00F000F0;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public ColourRGBA getAnimationColor(int meta, int side) {
-        return EnumDyeColor.values()[meta].getColor();
+    public ColourRGBA getAnimationColor(IBlockState state, int side) {
+        return EnumDyeColor.values()[state.getBlock().getMetaFromState(state)].getColor();
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public TextureAtlasSprite getAnimationIcon(ItemStack stack, int side) {
+        return ProjectX.PROXY.getAnimationIcon();
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getAnimationBrightness(ItemStack stack, int side) {
+        return 0x00F000F0;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public ColourRGBA getAnimationColor(ItemStack stack, int side) {
+        return EnumDyeColor.values()[stack.getMetadata()].getColor();
     }
 
 }

@@ -1,4 +1,4 @@
-package keri.projectx.client;
+package keri.projectx.client.handler;
 
 import codechicken.lib.math.MathHelper;
 import codechicken.lib.raytracer.CuboidRayTraceResult;
@@ -8,7 +8,7 @@ import codechicken.lib.vec.Rotation;
 import codechicken.lib.vec.Vector3;
 import keri.ninetaillib.util.CommonUtils;
 import keri.projectx.ProjectX;
-import keri.projectx.block.BlockXycroniumLadder;
+import keri.projectx.block.decorative.BlockXycroniumLadder;
 import keri.projectx.integration.tinkers.block.BlockXycroniumToolForge;
 import keri.projectx.tile.TileEntityXycroniumLadder;
 import net.minecraft.client.Minecraft;

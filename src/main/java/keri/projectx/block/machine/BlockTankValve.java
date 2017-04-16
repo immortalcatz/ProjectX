@@ -1,8 +1,9 @@
-package keri.projectx.block;
+package keri.projectx.block.machine;
 
 import codechicken.lib.colour.ColourRGBA;
 import keri.ninetaillib.texture.IIconRegistrar;
 import keri.projectx.ProjectX;
+import keri.projectx.block.base.BlockSimpleGlow;
 import keri.projectx.property.EnumXycroniumColor;
 import keri.projectx.tile.TileEntityTankValve;
 import keri.projectx.util.ModPrefs;
@@ -37,7 +38,7 @@ public class BlockTankValve extends BlockSimpleGlow<TileEntityTankValve> {
 
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
-        if(!world.isRemote && !player.isSneaking()){
+        if(!player.isSneaking()){
             TileEntityTankValve tile = (TileEntityTankValve)world.getTileEntity(pos);
 
             if(tile != null){
@@ -45,10 +46,14 @@ public class BlockTankValve extends BlockSimpleGlow<TileEntityTankValve> {
                     //TODO gui code goes here...
                 }
                 else{
-                    tile.checkMultiblock();
+                    if(!world.isRemote){
+                        tile.checkMultiblock(player, side);
+                        return true;
+                    }
+                    else{
+                        return true;
+                    }
                 }
-
-                return true;
             }
         }
 
@@ -69,19 +74,37 @@ public class BlockTankValve extends BlockSimpleGlow<TileEntityTankValve> {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public TextureAtlasSprite getAnimationIcon(int meta, int side) {
+    public TextureAtlasSprite getAnimationIcon(IBlockState state, int side) {
         return ProjectX.PROXY.getAnimationIcon();
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public int getAnimationBrightness(int meta, int side) {
+    public int getAnimationBrightness(IBlockState state, int side) {
         return 0x00F000F0;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public ColourRGBA getAnimationColor(int meta, int side) {
+    public ColourRGBA getAnimationColor(IBlockState state, int side) {
+        return EnumXycroniumColor.BLUE.getColor();
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public TextureAtlasSprite getAnimationIcon(ItemStack stack, int side) {
+        return ProjectX.PROXY.getAnimationIcon();
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getAnimationBrightness(ItemStack stack, int side) {
+        return 0x00F000F0;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public ColourRGBA getAnimationColor(ItemStack stack, int side) {
         return EnumXycroniumColor.BLUE.getColor();
     }
 

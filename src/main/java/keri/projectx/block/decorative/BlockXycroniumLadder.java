@@ -1,4 +1,4 @@
-package keri.projectx.block;
+package keri.projectx.block.decorative;
 
 import codechicken.lib.colour.ColourRGBA;
 import codechicken.lib.math.MathHelper;
@@ -15,6 +15,7 @@ import keri.ninetaillib.render.block.IBlockRenderingHandler;
 import keri.ninetaillib.texture.IIconRegistrar;
 import keri.ninetaillib.util.CommonUtils;
 import keri.projectx.ProjectX;
+import keri.projectx.block.base.BlockProjectX;
 import keri.projectx.client.render.IAnimationSideHandler;
 import keri.projectx.client.render.RenderXycroniumLadder;
 import keri.projectx.tile.TileEntityXycroniumLadder;
@@ -163,20 +164,38 @@ public class BlockXycroniumLadder extends BlockProjectX<TileEntityXycroniumLadde
 
     @Override
     @SideOnly(Side.CLIENT)
-    public TextureAtlasSprite getAnimationIcon(int meta, int side) {
+    public TextureAtlasSprite getAnimationIcon(IBlockState state, int side) {
         return ProjectX.PROXY.getAnimationIcon();
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public int getAnimationBrightness(int meta, int side) {
+    public int getAnimationBrightness(IBlockState state, int side) {
         return 0x00F000F0;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public ColourRGBA getAnimationColor(int meta, int side) {
-        return EnumDyeColor.values()[meta].getColor();
+    public ColourRGBA getAnimationColor(IBlockState state, int side) {
+        return EnumDyeColor.values()[state.getBlock().getMetaFromState(state)].getColor();
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public TextureAtlasSprite getAnimationIcon(ItemStack stack, int side) {
+        return ProjectX.PROXY.getAnimationIcon();
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getAnimationBrightness(ItemStack stack, int side) {
+        return 0x00F000F0;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public ColourRGBA getAnimationColor(ItemStack stack, int side) {
+        return EnumDyeColor.values()[stack.getMetadata()].getColor();
     }
 
     @Override

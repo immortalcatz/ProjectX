@@ -1,9 +1,20 @@
 package keri.projectx.init;
 
-import keri.projectx.block.*;
+import keri.projectx.block.decorative.*;
+import keri.projectx.block.machine.BlockEngineeringFrame;
+import keri.projectx.block.machine.BlockTankValve;
+import keri.projectx.block.resource.BlockXycroniumOre;
+import keri.projectx.block.resource.BlockXycroniumStorage;
 import keri.projectx.integration.IntegrationLoader;
 import keri.projectx.integration.tinkers.ModuleTinkersConstruct;
-import keri.projectx.item.*;
+import keri.projectx.item.base.ItemArmorHelperProjectX;
+import keri.projectx.item.base.ItemToolHelperProjectX;
+import keri.projectx.item.machine.ItemColorAnalyzer;
+import keri.projectx.item.resource.ItemXycroniumCrystal;
+import keri.projectx.item.resource.ItemXycroniumDust;
+import keri.projectx.item.resource.ItemXycroniumIngot;
+import keri.projectx.item.resource.ItemXycroniumNugget;
+import keri.projectx.tile.TileEntityEngineeringFrame;
 import keri.projectx.tile.TileEntityTankValve;
 import keri.projectx.tile.TileEntityXycroniumLadder;
 import keri.projectx.util.ModPrefs;
@@ -23,6 +34,7 @@ public class ProjectXContent {
     public static Block xycroniumStructure;
     public static Block xycroniumShield;
     public static Block xycroniumLadder;
+    public static Block engineeringFrame;
     public static Block tankValve;
 
     public static Item xycroniumCrystal;
@@ -58,6 +70,7 @@ public class ProjectXContent {
         xycroniumStructure = new BlockXycroniumStructure();
         xycroniumShield = new BlockXycroniumShield();
         xycroniumLadder = new BlockXycroniumLadder();
+        engineeringFrame = new BlockEngineeringFrame();
         tankValve = new BlockTankValve();
 
         xycroniumCrystal = new ItemXycroniumCrystal();
@@ -82,6 +95,7 @@ public class ProjectXContent {
     public static void init(){
         registerTileEntity(TileEntityXycroniumLadder.class, xycroniumLadder);
         registerTileEntity(TileEntityTankValve.class, tankValve);
+        registerTileEntity(TileEntityEngineeringFrame.class, engineeringFrame);
     }
 
     private static void registerTileEntity(Class<? extends TileEntity> tileClass, Block owner){
