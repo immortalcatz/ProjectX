@@ -5,6 +5,7 @@ import keri.projectx.init.ProjectXContent;
 import keri.projectx.init.ProjectXCrafting;
 import keri.projectx.init.ProjectXOreDictionary;
 import keri.projectx.integration.IntegrationLoader;
+import keri.projectx.multiblock.ProjectXMultiblocks;
 import keri.projectx.proxy.IProjectXProxy;
 import keri.projectx.world.WorldGenOres;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -33,6 +34,7 @@ public class ProjectX {
     public void preInit(FMLPreInitializationEvent event){
         CONFIG = new ProjectXConfig(event);
         ProjectXContent.preInit();
+        ProjectXMultiblocks.preInit();
         IntegrationLoader.INSTANCE.preInit(event, FMLCommonHandler.instance().getEffectiveSide());
         PROXY.preInit(event);
     }
@@ -42,6 +44,7 @@ public class ProjectX {
         ProjectXContent.init();
         ProjectXCrafting.init();
         ProjectXOreDictionary.init();
+        ProjectXMultiblocks.init();
         IntegrationLoader.INSTANCE.init(event, FMLCommonHandler.instance().getEffectiveSide());
         GameRegistry.registerWorldGenerator(new WorldGenOres(), 1);
         PROXY.init(event);

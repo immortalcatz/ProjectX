@@ -5,6 +5,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.FMLLog;
 
 public class MultiblockTank implements IMultiblock {
 
@@ -20,12 +21,12 @@ public class MultiblockTank implements IMultiblock {
 
     @Override
     public boolean isValid(World world, BlockPos pos, EntityPlayer player, EnumFacing side){
-        return false;
+        return ProjectXMultiblocks.getMultiblock("tank_tier_1").isValid(world, pos, side);
     }
 
     @Override
     public void onFormed(World world, BlockPos pos, EntityPlayer player, EnumFacing side){
-
+        FMLLog.info("HELLO WORLD");
     }
 
 }

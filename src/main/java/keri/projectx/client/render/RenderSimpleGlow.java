@@ -44,8 +44,9 @@ public class RenderSimpleGlow implements IBlockRenderingHandler {
                 TextureAtlasSprite textureAnimation = handler.getAnimationIcon(state, side);
                 int animationBrightness = handler.getAnimationBrightness(state, side);
                 ColourRGBA animationColor = handler.getAnimationColor(state, side);
+                ColourRGBA colorMultiplier = handler.getColorMultiplier(state, side);
                 renderState.brightness = pass == 0 ? animationBrightness : lastBrightness;
-                model.setColour(pass == 0 ? animationColor.rgba() : 0xFFFFFFFF);
+                model.setColour(pass == 0 ? animationColor.rgba() : colorMultiplier.rgba());
                 model.render(renderState, 0 + (4 * side), 4 + (4 * side), new IconTransformation(pass == 0 ? textureAnimation : textureBlock));
             }
         }
@@ -73,8 +74,9 @@ public class RenderSimpleGlow implements IBlockRenderingHandler {
                     TextureAtlasSprite textureAnimation = handler.getAnimationIcon(stack, side);
                     int animationBrightness = handler.getAnimationBrightness(stack, side);
                     ColourRGBA animationColor = handler.getAnimationColor(stack, side);
+                    ColourRGBA colorMultiplier = handler.getColorMultiplier(stack, side);
                     renderState.brightness = pass == 0 ? animationBrightness : lastBrightness;
-                    model.setColour(pass == 0 ? animationColor.rgba() : 0xFFFFFFFF);
+                    model.setColour(pass == 0 ? animationColor.rgba() : colorMultiplier.rgba());
                     model.render(renderState, 0 + (4 * side), 4 + (4 * side), new IconTransformation(pass == 0 ? textureAnimation : textureBlock));
                 }
 
@@ -90,7 +92,8 @@ public class RenderSimpleGlow implements IBlockRenderingHandler {
                     TextureAtlasSprite textureBlock = iconProvider.getIcon(meta, side);
                     TextureAtlasSprite textureAnimation = handler.getAnimationIcon(stack, side);
                     ColourRGBA animationColor = handler.getAnimationColor(stack, side);
-                    model.setColour(pass == 0 ? animationColor.rgba() : 0xFFFFFFFF);
+                    ColourRGBA colorMultiplier = handler.getColorMultiplier(stack, side);
+                    model.setColour(pass == 0 ? animationColor.rgba() : colorMultiplier.rgba());
                     model.render(renderState, 0 + (4 * side), 4 + (4 * side), new IconTransformation(pass == 0 ? textureAnimation : textureBlock));
                 }
             }

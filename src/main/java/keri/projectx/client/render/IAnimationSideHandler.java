@@ -19,4 +19,8 @@ public interface IAnimationSideHandler {
 
     ColourRGBA getAnimationColor(ItemStack stack, int side);
 
+    default ColourRGBA getColorMultiplier(IBlockState state, int side){ return new ColourRGBA(255, 255, 255, 255); };
+
+    default ColourRGBA getColorMultiplier(ItemStack stack, int side){ return new ColourRGBA(255, 255, 255, 255); };
+
 }
