@@ -23,6 +23,7 @@ import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.client.model.IPerspectiveAwareModel;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -60,8 +61,6 @@ public class RenderColorAnalyzer implements IItemRenderingHandler {
 
     @Override
     public void renderItem(CCRenderState renderState, ItemStack stack, long rand){
-        GlStateManager.disableBlend();
-        Tessellator.getInstance().draw();
         IIconItem iconProvider = (IIconItem)stack.getItem();
         TextureAtlasSprite textureBase = iconProvider.getIcon(0);
         TextureAtlasSprite textureFrame = iconProvider.getIcon(1);
@@ -69,50 +68,90 @@ public class RenderColorAnalyzer implements IItemRenderingHandler {
         int lastBrightness = (int) OpenGlHelper.lastBrightnessY << 16 | (int)OpenGlHelper.lastBrightnessX;
         Transformation translation = new Translation(new Vector3(0D, 0.1D, 0D));
 
-        for(int pass = 0; pass < 2; pass++){
-            VertexBuffer buffer = Tessellator.getInstance().getBuffer();
-            buffer.begin(GL11.GL_QUADS, VertexUtils.getFormatWithLightMap(DefaultVertexFormats.ITEM));
-            renderState.reset();
-            renderState.bind(buffer);
-            renderState.brightness = pass == 0 ? 0x00F000F0 : lastBrightness;
-
-            for(int part = 0; part < model.length; part++){
-                model[part].apply(translation);
-            }
-
-            if(pass == 0){
-                //TODO actually make the color of this thing change...
-                model[5].setColour(EnumDyeColor.ORANGE.getColor().rgba());
-                model[5].render(renderState, new IconTransformation(ProjectX.PROXY.getAnimationIcon()));
-                model[12].setColour(EnumDyeColor.ORANGE.getColor().rgba());
-                model[12].render(renderState, new IconTransformation(ProjectX.PROXY.getAnimationIcon()));
-            }
-            else{
-                model[0].render(renderState, new IconTransformation(textureBase));
-                model[1].render(renderState, new IconTransformation(textureFrame));
-                model[2].render(renderState, new IconTransformation(textureFrame));
-                model[3].render(renderState, new IconTransformation(textureFrame));
-                model[4].render(renderState, new IconTransformation(textureFrame));
-                model[6].render(renderState, new IconTransformation(textureFrame));
-                model[7].render(renderState, new IconTransformation(textureFrame));
-                model[8].render(renderState, new IconTransformation(textureFrame));
-                model[9].setColour(EnumDyeColor.RED.getColor().rgba());
-                model[9].render(renderState, new IconTransformation(textureButton));
-                model[10].setColour(EnumDyeColor.GREEN.getColor().rgba());
-                model[10].render(renderState, new IconTransformation(textureButton));
-                model[11].setColour(EnumDyeColor.BLUE.getColor().rgba());
-                model[11].render(renderState, new IconTransformation(textureButton));
-            }
-
-            for(int part = 0; part < model.length; part++){
-                model[part].apply(translation.inverse());
-            }
-
+        if(!this.useRenderCache()){
+            GlStateManager.disableBlend();
             Tessellator.getInstance().draw();
-        }
 
-        Tessellator.getInstance().getBuffer().begin(GL11.GL_QUADS, VertexUtils.getFormatWithLightMap(DefaultVertexFormats.ITEM));
-        GlStateManager.enableBlend();
+            for(int pass = 0; pass < 2; pass++){
+                VertexBuffer buffer = Tessellator.getInstance().getBuffer();
+                buffer.begin(GL11.GL_QUADS, VertexUtils.getFormatWithLightMap(DefaultVertexFormats.ITEM));
+                renderState.reset();
+                renderState.bind(buffer);
+                renderState.brightness = pass == 0 ? 0x00F000F0 : lastBrightness;
+
+                for(int part = 0; part < model.length; part++){
+                    model[part].apply(translation);
+                }
+
+                if(pass == 0){
+                    //TODO actually make the color of this thing change...
+                    model[5].setColour(EnumDyeColor.ORANGE.getColor().rgba());
+                    model[5].render(renderState, new IconTransformation(ProjectX.PROXY.getAnimationIcon()));
+                    model[12].setColour(EnumDyeColor.ORANGE.getColor().rgba());
+                    model[12].render(renderState, new IconTransformation(ProjectX.PROXY.getAnimationIcon()));
+                }
+                else{
+                    model[0].render(renderState, new IconTransformation(textureBase));
+                    model[1].render(renderState, new IconTransformation(textureFrame));
+                    model[2].render(renderState, new IconTransformation(textureFrame));
+                    model[3].render(renderState, new IconTransformation(textureFrame));
+                    model[4].render(renderState, new IconTransformation(textureFrame));
+                    model[6].render(renderState, new IconTransformation(textureFrame));
+                    model[7].render(renderState, new IconTransformation(textureFrame));
+                    model[8].render(renderState, new IconTransformation(textureFrame));
+                    model[9].setColour(EnumDyeColor.RED.getColor().rgba());
+                    model[9].render(renderState, new IconTransformation(textureButton));
+                    model[10].setColour(EnumDyeColor.GREEN.getColor().rgba());
+                    model[10].render(renderState, new IconTransformation(textureButton));
+                    model[11].setColour(EnumDyeColor.BLUE.getColor().rgba());
+                    model[11].render(renderState, new IconTransformation(textureButton));
+                }
+
+                for(int part = 0; part < model.length; part++){
+                    model[part].apply(translation.inverse());
+                }
+
+                Tessellator.getInstance().draw();
+            }
+
+            Tessellator.getInstance().getBuffer().begin(GL11.GL_QUADS, VertexUtils.getFormatWithLightMap(DefaultVertexFormats.ITEM));
+            GlStateManager.enableBlend();
+        }
+        else{
+            for(int pass = 0; pass < 2; pass++){
+                for(int part = 0; part < model.length; part++){
+                    model[part].apply(translation);
+                }
+
+                if(pass == 0){
+                    //TODO actually make the color of this thing change...
+                    model[5].setColour(EnumDyeColor.ORANGE.getColor().rgba());
+                    model[5].render(renderState, new IconTransformation(ProjectX.PROXY.getAnimationIcon()));
+                    model[12].setColour(EnumDyeColor.ORANGE.getColor().rgba());
+                    model[12].render(renderState, new IconTransformation(ProjectX.PROXY.getAnimationIcon()));
+                }
+                else{
+                    model[0].render(renderState, new IconTransformation(textureBase));
+                    model[1].render(renderState, new IconTransformation(textureFrame));
+                    model[2].render(renderState, new IconTransformation(textureFrame));
+                    model[3].render(renderState, new IconTransformation(textureFrame));
+                    model[4].render(renderState, new IconTransformation(textureFrame));
+                    model[6].render(renderState, new IconTransformation(textureFrame));
+                    model[7].render(renderState, new IconTransformation(textureFrame));
+                    model[8].render(renderState, new IconTransformation(textureFrame));
+                    model[9].setColour(EnumDyeColor.RED.getColor().rgba());
+                    model[9].render(renderState, new IconTransformation(textureButton));
+                    model[10].setColour(EnumDyeColor.GREEN.getColor().rgba());
+                    model[10].render(renderState, new IconTransformation(textureButton));
+                    model[11].setColour(EnumDyeColor.BLUE.getColor().rgba());
+                    model[11].render(renderState, new IconTransformation(textureButton));
+                }
+
+                for(int part = 0; part < model.length; part++){
+                    model[part].apply(translation.inverse());
+                }
+            }
+        }
     }
 
     @Override
@@ -123,7 +162,7 @@ public class RenderColorAnalyzer implements IItemRenderingHandler {
 
     @Override
     public boolean useRenderCache() {
-        return false;
+        return ProjectX.CONFIG.fastItemRendering;
     }
 
     @Override
@@ -133,7 +172,17 @@ public class RenderColorAnalyzer implements IItemRenderingHandler {
 
     @Override
     public String getItemKey(ItemStack stack) {
-        //TODO add item key based on stored color in the NBTTagCompound...
+        if(stack.getTagCompound() != null){
+            NBTTagCompound tag = stack.getTagCompound();
+            StringBuilder builder = new StringBuilder();
+            builder.append(tag.getInteger("color_r"));
+            builder.append(':');
+            builder.append(tag.getInteger("color_g"));
+            builder.append(':');
+            builder.append(tag.getInteger("color_b"));
+            return builder.toString();
+        }
+
         return null;
     }
 

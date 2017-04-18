@@ -1,6 +1,6 @@
-package keri.projectx.item;
+package keri.projectx.item.base;
 
-import keri.ninetaillib.item.ItemBase;
+import keri.ninetaillib.item.ItemFoodBase;
 import keri.ninetaillib.render.registry.IRenderingRegistry;
 import keri.projectx.ProjectX;
 import keri.projectx.client.ProjectXTab;
@@ -9,14 +9,14 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemProjectX extends ItemBase {
+public class ItemFoodProjectX extends ItemFoodBase {
 
-    public ItemProjectX(String itemName) {
-        super(ModPrefs.MODID, itemName);
+    public ItemFoodProjectX(String itemName, int amount, float saturation, boolean isWolfFood) {
+        super(ModPrefs.MODID, itemName, amount, saturation, isWolfFood);
     }
 
-    public ItemProjectX(String itemName, String... subNames) {
-        super(ModPrefs.MODID, itemName, subNames);
+    public ItemFoodProjectX(String itemName, int amount, boolean isWolfFood) {
+        super(ModPrefs.MODID, itemName, amount, isWolfFood);
     }
 
     @Override

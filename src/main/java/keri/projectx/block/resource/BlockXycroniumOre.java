@@ -1,9 +1,10 @@
-package keri.projectx.block;
+package keri.projectx.block.resource;
 
 import codechicken.lib.colour.ColourRGBA;
 import com.google.common.collect.Lists;
 import keri.ninetaillib.block.IMetaBlock;
 import keri.ninetaillib.texture.IIconRegistrar;
+import keri.projectx.block.base.BlockSimpleGlow;
 import keri.projectx.init.ProjectXContent;
 import keri.projectx.property.EnumXycroniumColor;
 import keri.projectx.property.ProjectXProperties;
@@ -79,20 +80,38 @@ public class BlockXycroniumOre extends BlockSimpleGlow implements IMetaBlock {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public TextureAtlasSprite getAnimationIcon(int meta, int side) {
+    public TextureAtlasSprite getAnimationIcon(IBlockState state, int side) {
         return this.texture[5];
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public int getAnimationBrightness(int meta, int side) {
+    public int getAnimationBrightness(IBlockState state, int side) {
         return 0x00F000F0;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public ColourRGBA getAnimationColor(int meta, int side) {
-        return EnumXycroniumColor.values()[meta].getColor();
+    public ColourRGBA getAnimationColor(IBlockState state, int side) {
+        return EnumXycroniumColor.values()[state.getBlock().getMetaFromState(state)].getColor();
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public TextureAtlasSprite getAnimationIcon(ItemStack stack, int side) {
+        return this.texture[5];
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getAnimationBrightness(ItemStack stack, int side) {
+        return 0x00F000F0;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public ColourRGBA getAnimationColor(ItemStack stack, int side) {
+        return EnumXycroniumColor.values()[stack.getMetadata()].getColor();
     }
 
 }

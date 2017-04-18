@@ -1,22 +1,25 @@
-package keri.projectx.item;
+package keri.projectx.block.base;
 
-import keri.ninetaillib.item.ItemFoodBase;
+import keri.ninetaillib.block.BlockBase;
 import keri.ninetaillib.render.registry.IRenderingRegistry;
 import keri.projectx.ProjectX;
 import keri.projectx.client.ProjectXTab;
 import keri.projectx.util.ModPrefs;
+import net.minecraft.block.material.MapColor;
+import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemFoodProjectX extends ItemFoodBase {
+public class BlockProjectX<T extends TileEntity> extends BlockBase<T> {
 
-    public ItemFoodProjectX(String itemName, int amount, float saturation, boolean isWolfFood) {
-        super(ModPrefs.MODID, itemName, amount, saturation, isWolfFood);
+    public BlockProjectX(String blockName, Material material, MapColor mapColor) {
+        super(ModPrefs.MODID, blockName, material, mapColor);
     }
 
-    public ItemFoodProjectX(String itemName, int amount, boolean isWolfFood) {
-        super(ModPrefs.MODID, itemName, amount, isWolfFood);
+    public BlockProjectX(String blockName, Material material) {
+        super(ModPrefs.MODID, blockName, material);
     }
 
     @Override

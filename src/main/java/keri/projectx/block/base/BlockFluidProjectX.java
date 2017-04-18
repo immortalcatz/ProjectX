@@ -1,4 +1,4 @@
-package keri.projectx.block;
+package keri.projectx.block.base;
 
 import keri.ninetaillib.block.BlockFluidBase;
 import keri.projectx.client.ProjectXTab;

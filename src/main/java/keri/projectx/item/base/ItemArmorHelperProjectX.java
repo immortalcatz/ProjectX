@@ -1,6 +1,6 @@
-package keri.projectx.item;
+package keri.projectx.item.base;
 
-import keri.ninetaillib.item.ItemToolHelper;
+import keri.ninetaillib.item.ItemArmorHelper;
 import keri.ninetaillib.render.registry.IRenderingRegistry;
 import keri.projectx.ProjectX;
 import keri.projectx.client.ProjectXTab;
@@ -9,9 +9,9 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemToolHelperProjectX extends ItemToolHelper {
+public class ItemArmorHelperProjectX extends ItemArmorHelper {
 
-    public ItemToolHelperProjectX() {
+    public ItemArmorHelperProjectX() {
         super(ModPrefs.MODID);
     }
 
