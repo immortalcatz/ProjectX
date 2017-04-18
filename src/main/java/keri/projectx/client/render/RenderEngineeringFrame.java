@@ -49,7 +49,6 @@ public class RenderEngineeringFrame implements IBlockRenderingHandler {
                 new Cuboid6(15D, 0D, 1D, 16D, 1D, 15D),
                 new Cuboid6(15D, 15D, 1D, 16D, 16D, 15D),
                 new Cuboid6(0D, 15D, 1D, 1D, 16D, 15D),
-                //core
                 new Cuboid6(1D, 1D, 1D, 15D, 15D, 15D)
         };
 
@@ -69,8 +68,7 @@ public class RenderEngineeringFrame implements IBlockRenderingHandler {
                     IIconBlock iconProvider = (IIconBlock)state.getBlock();
                     int meta = state.getBlock().getMetaFromState(state);
                     TextureAtlasSprite textureAnimation = handler.getAnimationIcon(state, 0);
-                    TextureAtlasSprite textureFrame = iconProvider.getIcon(meta, 0);
-                    TextureAtlasSprite textureBase = iconProvider.getIcon(meta, 0);
+                    TextureAtlasSprite textureBlock = iconProvider.getIcon(meta, 0);
                     int animationBrightness = handler.getAnimationBrightness(state, 0);
                     ColourRGBA animationColor = handler.getAnimationColor(state, 0);
                     int lastBrightness = (int) OpenGlHelper.lastBrightnessY << 8 | (int)OpenGlHelper.lastBrightnessX;
@@ -80,11 +78,10 @@ public class RenderEngineeringFrame implements IBlockRenderingHandler {
                         renderState.brightness = pass == 0 ? animationBrightness : lastBrightness;
 
                         for(int part = 0; part < model.length - 1; part++){
-                            model[part].render(renderState, new IconTransformation(textureFrame));
+                            model[part].render(renderState, new IconTransformation(textureBlock));
                         }
 
-                        model[12].setColour(pass == 0 ? animationColor.rgba() : 0xFFFFFFFF);
-                        model[12].render(renderState, new IconTransformation(pass == 0 ? textureAnimation : textureBase));
+                        model[12].render(renderState, new IconTransformation(textureBlock));
                     }
                 }
             }
@@ -97,8 +94,7 @@ public class RenderEngineeringFrame implements IBlockRenderingHandler {
         IIconBlock iconProvider = (IIconBlock)Block.getBlockFromItem(stack.getItem());
         int meta = stack.getMetadata();
         TextureAtlasSprite textureAnimation = handler.getAnimationIcon(stack, 0);
-        TextureAtlasSprite textureFrame = iconProvider.getIcon(meta, 0);
-        TextureAtlasSprite textureBase = iconProvider.getIcon(meta, 0);
+        TextureAtlasSprite textureBlock = iconProvider.getIcon(meta, 0);
         int animationBrightness = handler.getAnimationBrightness(stack, 0);
         ColourRGBA animationColor = handler.getAnimationColor(stack, 0);
         int lastBrightness = (int) OpenGlHelper.lastBrightnessY << 16 | (int)OpenGlHelper.lastBrightnessX;
@@ -115,11 +111,10 @@ public class RenderEngineeringFrame implements IBlockRenderingHandler {
                 renderState.brightness = pass == 0 ? animationBrightness : lastBrightness;
 
                 for(int part = 0; part < model.length - 1; part++){
-                    model[part].render(renderState, new IconTransformation(textureFrame));
+                    model[part].render(renderState, new IconTransformation(textureBlock));
                 }
 
-                model[12].setColour(pass == 0 ? animationColor.rgba() : 0xFFFFFFFF);
-                model[12].render(renderState, new IconTransformation(pass == 0 ? textureAnimation : textureBase));
+                model[12].render(renderState, new IconTransformation(textureBlock));
                 Tessellator.getInstance().draw();
             }
 
@@ -131,11 +126,10 @@ public class RenderEngineeringFrame implements IBlockRenderingHandler {
                 renderState.reset();
 
                 for(int part = 0; part < model.length - 1; part++){
-                    model[part].render(renderState, new IconTransformation(textureFrame));
+                    model[part].render(renderState, new IconTransformation(textureBlock));
                 }
 
-                model[12].setColour(pass == 0 ? animationColor.rgba() : 0xFFFFFFFF);
-                model[12].render(renderState, new IconTransformation(pass == 0 ? textureAnimation : textureBase));
+                model[12].render(renderState, new IconTransformation(textureBlock));
             }
         }
     }

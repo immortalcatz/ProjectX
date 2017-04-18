@@ -29,6 +29,7 @@ public class ProjectXContent {
 
     public static Block xycroniumOre;
     public static Block xycroniumBlock;
+    public static Block xycroniumBricks;
     public static Block xycroniumPlatform;
     public static Block xycroniumPlate;
     public static Block xycroniumStructure;
@@ -65,6 +66,7 @@ public class ProjectXContent {
     public static void preInit(){
         xycroniumOre = new BlockXycroniumOre();
         xycroniumBlock = new BlockXycroniumStorage();
+        xycroniumBricks = new BlockXycroniumBricks();
         xycroniumPlatform = new BlockXycroniumPlatform();
         xycroniumPlate = new BlockXycroniumPlate();
         xycroniumStructure = new BlockXycroniumStructure();
