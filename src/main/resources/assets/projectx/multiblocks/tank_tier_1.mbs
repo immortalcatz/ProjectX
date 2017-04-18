@@ -1,4 +1,3 @@
-### LAYER 1 ###
 offset:{null},component:{projectx:tank_valve,0}
 offset:{e,n},component:{projectx:tank_valve,0}
 offset:{n,n},component:{projectx:tank_valve,0}
@@ -8,7 +7,6 @@ offset:{e,n,n},component:{projectx:engineering_frame,0}
 offset:{n},component:{projectx:engineering_frame,0}
 offset:{w},component:{projectx:engineering_frame,0}
 offset:{w,n,n},component:{projectx:engineering_frame,0}
-### LAYER 2 ###
 offset:{u,n},component:{minecraft:air,0}
 offset:{u},component:{minecraft:glass,0}
 offset:{u,e,n},component:{minecraft:glass,0}
@@ -18,7 +16,6 @@ offset:{u,e},component:{projectx:engineering_frame,0}
 offset:{u,e,n,n},component:{projectx:engineering_frame,0}
 offset:{u,w},component:{projectx:engineering_frame,0}
 offset:{u,w,n,n},component:{projectx:engineering_frame,0}
-### LAYER 3 ###
 offset:{u,u,n},component:{minecraft:air,0}
 offset:{u,u},component:{minecraft:glass,0}
 offset:{u,u,e,n},component:{minecraft:glass,0}
@@ -28,7 +25,6 @@ offset:{u,u,e},component:{projectx:engineering_frame,0}
 offset:{u,u,e,n,n},component:{projectx:engineering_frame,0}
 offset:{u,u,w},component:{projectx:engineering_frame,0}
 offset:{u,u,w,n,n},component:{projectx:engineering_frame,0}
-### LAYER 4 ###
 offset:{u,u,u,n},component:{minecraft:air,0}
 offset:{u,u,u},component:{minecraft:glass,0}
 offset:{u,u,u,e,n},component:{minecraft:glass,0}
@@ -38,7 +34,6 @@ offset:{u,u,u,e},component:{projectx:engineering_frame,0}
 offset:{u,u,u,e,n,n},component:{projectx:engineering_frame,0}
 offset:{u,u,u,w},component:{projectx:engineering_frame,0}
 offset:{u,u,u,w,n,n},component:{projectx:engineering_frame,0}
-### LAYER 5 ###
 offset:{u,u,u,u},component:{projectx:engineering_frame,0}
 offset:{u,u,u,u,e},component:{projectx:engineering_frame,0}
 offset:{u,u,u,u,w},component:{projectx:engineering_frame,0}
