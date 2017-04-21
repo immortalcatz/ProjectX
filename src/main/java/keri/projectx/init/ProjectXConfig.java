@@ -28,10 +28,10 @@ public class ProjectXConfig extends ConfigManagerBase {
     private static final boolean fastItemRenderingDefault = false;
     private static final boolean fancyBoundingBoxesDefault = true;
     private static final int[] worldgenOreXycroniumBlueDefault = new int[]{60, 14, 60, 3, 6};
-    private static final int[] worldgenOreXycroniumGreenDefault = new int[]{0, 0, 0, 0, 0};
-    private static final int[] worldgenOreXycroniumRedDefault = new int[]{0, 0, 0, 0, 0};
-    private static final int[] worldgenOreXycroniumDarkDefault = new int[]{0, 0, 0, 0, 0};
-    private static final int[] worldgenOreXycroniumLightDefault = new int[]{0, 0, 0, 0, 0};
+    private static final int[] worldgenOreXycroniumGreenDefault = new int[]{60, 14, 60, 3, 6};
+    private static final int[] worldgenOreXycroniumRedDefault = new int[]{60, 14, 60, 3, 6};
+    private static final int[] worldgenOreXycroniumDarkDefault = new int[]{60, 14, 60, 3, 6};
+    private static final int[] worldgenOreXycroniumLightDefault = new int[]{60, 14, 60, 3, 6};
     //values
     public boolean integrationTinkers;
     public boolean integrationThermalExpansion;
