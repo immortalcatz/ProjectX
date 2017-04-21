@@ -21,7 +21,7 @@ import java.util.Map;
 @SideOnly(Side.CLIENT)
 public class StaticModelRenderer {
 
-    private Map<String, List<ModelPart>> modelParts;
+    private static Map<String, List<ModelPart>> modelParts;
 
     public StaticModelRenderer(){
         this.modelParts = Maps.newHashMap();
