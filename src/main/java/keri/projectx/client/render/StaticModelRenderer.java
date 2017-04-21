@@ -6,6 +6,7 @@ import codechicken.lib.render.CCRenderState;
 import codechicken.lib.vec.Cuboid6;
 import codechicken.lib.vec.uv.IconTransformation;
 import codechicken.lib.vec.uv.UVTransformation;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import keri.ninetaillib.util.CommonUtils;
 import net.minecraft.client.Minecraft;
@@ -24,6 +25,19 @@ public class StaticModelRenderer {
 
     public StaticModelRenderer(){
         this.modelParts = Maps.newHashMap();
+    }
+
+    public StaticModelRenderer addPart(ModelPart part){
+        if(!this.modelParts.containsKey("default")){
+            List<ModelPart> group = Lists.newArrayList();
+            group.add(part);
+            this.modelParts.put("default", group);
+        }
+        else{
+            this.modelParts.get("default").add(part);
+        }
+
+        return this;
     }
 
     public void renderGroup(String name, CCRenderState renderState){
