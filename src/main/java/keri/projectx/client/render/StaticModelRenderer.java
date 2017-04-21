@@ -6,6 +6,7 @@ import codechicken.lib.render.CCRenderState;
 import codechicken.lib.vec.Cuboid6;
 import codechicken.lib.vec.uv.IconTransformation;
 import codechicken.lib.vec.uv.UVTransformation;
+import com.google.common.collect.Maps;
 import keri.ninetaillib.util.CommonUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -17,21 +18,39 @@ import java.util.List;
 import java.util.Map;
 
 @SideOnly(Side.CLIENT)
-public class ModelRenderer {
+public class StaticModelRenderer {
 
     private Map<String, List<ModelPart>> modelParts;
 
-    //TODO right fucking here!
+    public StaticModelRenderer(){
+        this.modelParts = Maps.newHashMap();
+    }
+
+    public void renderGroup(String name, CCRenderState renderState){
+        List<ModelPart> group = this.modelParts.get(name);
+
+        for(ModelPart part : group){
+            part.render(renderState);
+        }
+    }
+
+    public void renderAll(CCRenderState renderState){
+        for(Map.Entry<String, List<ModelPart>> entry : this.modelParts.entrySet()){
+            List<ModelPart> group = entry.getValue();
+
+            for(ModelPart part : group){
+                part.render(renderState);
+            }
+        }
+    }
 
     @SideOnly(Side.CLIENT)
     private class ModelPart {
 
-        private CCRenderState renderState;
         private CCModel part;
         private RenderAttributes[] renderAttributes;
 
-        public ModelPart(CCRenderState renderState, Cuboid6 bounds){
-            this.renderState = renderState;
+        public ModelPart(Cuboid6 bounds){
             this.part = CCModel.quadModel(24).generateBlock(0, CommonUtils.devide(bounds, 16D)).computeNormals();
             Arrays.fill(this.renderAttributes, new RenderAttributes());
         }
@@ -111,7 +130,7 @@ public class ModelRenderer {
             return this;
         }
 
-        public void render(){
+        public void render(CCRenderState renderState){
             for(int side = 0; side < 6; side++){
                 int renderFrom = side * 4;
                 int renderTo = 4 + (side * 4);
@@ -133,11 +152,11 @@ public class ModelRenderer {
                 }
 
                 if(this.renderAttributes[side].brightnessOverride){
-                    this.renderState.brightness = this.renderAttributes[side].brightness;
+                    renderState.brightness = this.renderAttributes[side].brightness;
                 }
 
                 this.part.setColour(color);
-                this.part.render(this.renderState, renderFrom, renderTo, uv);
+                this.part.render(renderState, renderFrom, renderTo, uv);
             }
         }
 
