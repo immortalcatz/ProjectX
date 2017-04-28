@@ -1,5 +1,6 @@
 package keri.projectx.integration.tinkers;
 
+import keri.projectx.ProjectX;
 import keri.projectx.block.base.BlockFluidProjectX;
 import keri.projectx.fluid.FluidProjectX;
 import keri.projectx.integration.IModIntegration;
@@ -34,6 +35,11 @@ public class ModuleTinkersConstruct implements IModIntegration {
     @Override
     public String getName() {
         return "Tinkers Construct";
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return ProjectX.CONFIG.integrationTinkers.getValue();
     }
 
     @Override

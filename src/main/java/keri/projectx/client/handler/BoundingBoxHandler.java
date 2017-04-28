@@ -28,7 +28,7 @@ public class BoundingBoxHandler {
 
     @SubscribeEvent
     public void drawBlockHighlight(DrawBlockHighlightEvent event){
-        if(ProjectX.CONFIG.fancyBoundingBoxes){
+        if(ProjectX.CONFIG.fancyBoundingBoxes.getValue()){
             if(event.isCancelable() && event.getResult() == Event.Result.DEFAULT){
                 if(event.getPhase() == EventPriority.NORMAL){
                     World world = Minecraft.getMinecraft().theWorld;

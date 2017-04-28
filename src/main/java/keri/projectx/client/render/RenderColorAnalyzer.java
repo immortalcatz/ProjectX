@@ -162,7 +162,7 @@ public class RenderColorAnalyzer implements IItemRenderingHandler {
 
     @Override
     public boolean useRenderCache() {
-        return ProjectX.CONFIG.fastItemRendering;
+        return ProjectX.CONFIG.fastItemRendering.getValue();
     }
 
     @Override

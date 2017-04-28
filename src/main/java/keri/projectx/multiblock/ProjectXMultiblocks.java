@@ -1,16 +1,16 @@
 package keri.projectx.multiblock;
 
+import keri.ninetaillib.multiblock.MultiblockLoader;
 import keri.ninetaillib.multiblock.MultiblockPattern;
-import keri.ninetaillib.multiblock.SimpleMultiblockLoader;
 import keri.projectx.util.ModPrefs;
 import net.minecraft.util.ResourceLocation;
 
 public class ProjectXMultiblocks {
 
-    private static SimpleMultiblockLoader multiblockLoader;
+    private static MultiblockLoader multiblockLoader;
 
     public static void preInit(){
-        multiblockLoader = new SimpleMultiblockLoader();
+        multiblockLoader = new MultiblockLoader();
         multiblockLoader.loadMultiblock("tank_tier_1", new ResourceLocation(ModPrefs.MODID, "multiblocks/tank_tier_1"));
         multiblockLoader.loadMultiblock("tank_tier_2", new ResourceLocation(ModPrefs.MODID, "multiblocks/tank_tier_2"));
     }

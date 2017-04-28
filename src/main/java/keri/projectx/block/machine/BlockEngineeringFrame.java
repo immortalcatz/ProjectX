@@ -8,7 +8,7 @@ import keri.ninetaillib.texture.IIconRegistrar;
 import keri.projectx.ProjectX;
 import keri.projectx.block.base.BlockProjectX;
 import keri.projectx.client.render.IAnimationSideHandler;
-import keri.projectx.client.render.RenderEngineeringFrame;
+import keri.projectx.client.render.RenderSimpleGlow;
 import keri.projectx.property.EnumXycroniumColor;
 import keri.projectx.property.ProjectXProperties;
 import keri.projectx.tile.TileEntityEngineeringFrame;
@@ -144,7 +144,7 @@ public class BlockEngineeringFrame extends BlockProjectX<TileEntityEngineeringFr
     @Override
     @SideOnly(Side.CLIENT)
     public IBlockRenderingHandler getRenderingHandler() {
-        return new RenderEngineeringFrame();
+        return new RenderSimpleGlow();
     }
 
     @Override

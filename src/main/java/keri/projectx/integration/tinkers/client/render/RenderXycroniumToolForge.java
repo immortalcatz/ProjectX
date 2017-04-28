@@ -10,6 +10,7 @@ import keri.ninetaillib.render.block.IBlockRenderingHandler;
 import keri.ninetaillib.render.util.VertexUtils;
 import keri.ninetaillib.texture.IIconBlock;
 import keri.ninetaillib.util.CommonUtils;
+import keri.projectx.ProjectX;
 import keri.projectx.client.render.IAnimationSideHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -106,13 +107,13 @@ public class RenderXycroniumToolForge implements IBlockRenderingHandler {
     }
 
     @Override
-    public TextureAtlasSprite getParticleTexture(IIconBlock block, int meta) {
-        return block.getIcon(0, 0);
+    public TextureAtlasSprite getParticleTexture(IBlockState state) {
+        return ((IIconBlock)state.getBlock()).getIcon(state.getBlock().getMetaFromState(state), 0);
     }
 
     @Override
     public boolean hasDynamicItemRendering() {
-        return true;
+        return !ProjectX.CONFIG.fastItemRendering.getValue();
     }
 
 }

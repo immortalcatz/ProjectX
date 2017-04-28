@@ -11,6 +11,8 @@ public interface IModIntegration {
 
     String getName();
 
+    default boolean isEnabled(){ return true; };
+
     void preInit(FMLPreInitializationEvent event, Side side);
 
     void init(FMLInitializationEvent event, Side side);

@@ -13,8 +13,8 @@ public class AnimationFX extends TextureFX {
     private float[] blue;
     private float[] alpha;
 
-    public AnimationFX() {
-        super(64, "animation_fx");
+    public AnimationFX(int resolution) {
+        super(resolution, "animation_fx");
         setup();
     }
 

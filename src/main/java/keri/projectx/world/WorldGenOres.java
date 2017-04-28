@@ -32,11 +32,11 @@ public class WorldGenOres implements IWorldGenerator {
     }
 
     private void generateOverworld(World world, Random rand, int blockX, int blockZ){
-        this.generateBlock(ProjectXContent.xycroniumOre, 0, Blocks.STONE, world, rand, blockX, blockZ, ProjectX.CONFIG.worldgenOreXycroniumBlue);
-        this.generateBlock(ProjectXContent.xycroniumOre, 1, Blocks.STONE, world, rand, blockX, blockZ, ProjectX.CONFIG.worldgenOreXycroniumGreen);
-        this.generateBlock(ProjectXContent.xycroniumOre, 2, Blocks.STONE, world, rand, blockX, blockZ, ProjectX.CONFIG.worldgenOreXycroniumRed);
-        this.generateBlock(ProjectXContent.xycroniumOre, 3, Blocks.STONE, world, rand, blockX, blockZ, ProjectX.CONFIG.worldgenOreXycroniumDark);
-        this.generateBlock(ProjectXContent.xycroniumOre, 4, Blocks.STONE, world, rand, blockX, blockZ, ProjectX.CONFIG.worldgenOreXycroniumLight);
+        this.generateBlock(ProjectXContent.xycroniumOre, 0, Blocks.STONE, world, rand, blockX, blockZ, ProjectX.CONFIG.worldgenOreXycroniumBlue.getValue());
+        this.generateBlock(ProjectXContent.xycroniumOre, 1, Blocks.STONE, world, rand, blockX, blockZ, ProjectX.CONFIG.worldgenOreXycroniumGreen.getValue());
+        this.generateBlock(ProjectXContent.xycroniumOre, 2, Blocks.STONE, world, rand, blockX, blockZ, ProjectX.CONFIG.worldgenOreXycroniumRed.getValue());
+        this.generateBlock(ProjectXContent.xycroniumOre, 3, Blocks.STONE, world, rand, blockX, blockZ, ProjectX.CONFIG.worldgenOreXycroniumDark.getValue());
+        this.generateBlock(ProjectXContent.xycroniumOre, 4, Blocks.STONE, world, rand, blockX, blockZ, ProjectX.CONFIG.worldgenOreXycroniumLight.getValue());
     }
 
     private void generateNether(World world, Random rand, int blockX, int blockZ){
