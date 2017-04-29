@@ -1,8 +1,6 @@
 package keri.projectx.init;
 
 import keri.projectx.block.decorative.*;
-import keri.projectx.block.machine.BlockEngineeringFrame;
-import keri.projectx.block.machine.BlockTankValve;
 import keri.projectx.block.resource.BlockXycroniumOre;
 import keri.projectx.block.resource.BlockXycroniumStorage;
 import keri.projectx.integration.IntegrationLoader;
@@ -14,9 +12,6 @@ import keri.projectx.item.resource.ItemXycroniumCrystal;
 import keri.projectx.item.resource.ItemXycroniumDust;
 import keri.projectx.item.resource.ItemXycroniumIngot;
 import keri.projectx.item.resource.ItemXycroniumNugget;
-import keri.projectx.tile.TileEntityEngineeringFrame;
-import keri.projectx.tile.TileEntityTankValve;
-import keri.projectx.tile.TileEntityXycroniumLadder;
 import keri.projectx.util.ModPrefs;
 import net.minecraft.block.Block;
 import net.minecraft.init.SoundEvents;
@@ -34,9 +29,9 @@ public class ProjectXContent {
     public static Block xycroniumPlate;
     public static Block xycroniumStructure;
     public static Block xycroniumShield;
-    public static Block xycroniumLadder;
-    public static Block engineeringFrame;
-    public static Block tankValve;
+    //public static Block xycroniumLadder;
+    //public static Block engineeringFrame;
+    //public static Block tankValve;
 
     public static Item xycroniumCrystal;
     public static Item xycroniumIngot;
@@ -71,9 +66,9 @@ public class ProjectXContent {
         xycroniumPlate = new BlockXycroniumPlate();
         xycroniumStructure = new BlockXycroniumStructure();
         xycroniumShield = new BlockXycroniumShield();
-        xycroniumLadder = new BlockXycroniumLadder();
-        engineeringFrame = new BlockEngineeringFrame();
-        tankValve = new BlockTankValve();
+        //xycroniumLadder = new BlockXycroniumLadder();
+        //engineeringFrame = new BlockEngineeringFrame();
+        //tankValve = new BlockTankValve();
 
         xycroniumCrystal = new ItemXycroniumCrystal();
         xycroniumIngot = new ItemXycroniumIngot();
@@ -95,9 +90,9 @@ public class ProjectXContent {
     }
 
     public static void init(){
-        registerTileEntity(TileEntityXycroniumLadder.class, xycroniumLadder);
-        registerTileEntity(TileEntityTankValve.class, tankValve);
-        registerTileEntity(TileEntityEngineeringFrame.class, engineeringFrame);
+        //registerTileEntity(TileEntityXycroniumLadder.class, xycroniumLadder);
+        //registerTileEntity(TileEntityTankValve.class, tankValve);
+        //registerTileEntity(TileEntityEngineeringFrame.class, engineeringFrame);
     }
 
     private static void registerTileEntity(Class<? extends TileEntity> tileClass, Block owner){

@@ -44,11 +44,11 @@ public class ModuleTinkersConstruct implements IModIntegration {
 
     @Override
     public void preInit(FMLPreInitializationEvent event, Side side) {
-        fluidMoltenXycroniumBlue = FluidProjectX.makeFluid("moltenXycroniumBlue");
-        fluidMoltenXycroniumGreen = FluidProjectX.makeFluid("moltenXycroniumGreen");
-        fluidMoltenXycroniumRed = FluidProjectX.makeFluid("moltenXycroniumRed");
-        fluidMoltenXycroniumDark = FluidProjectX.makeFluid("moltenXycroniumDark");
-        fluidMoltenXycroniumLight = FluidProjectX.makeFluid("moltenXycroniumLight");
+        fluidMoltenXycroniumBlue = FluidProjectX.makeFluid("molten_xycronium_blue");
+        fluidMoltenXycroniumGreen = FluidProjectX.makeFluid("molten_xycronium_green");
+        fluidMoltenXycroniumRed = FluidProjectX.makeFluid("molten_xycronium_red");
+        fluidMoltenXycroniumDark = FluidProjectX.makeFluid("molten_xycronium_dark");
+        fluidMoltenXycroniumLight = FluidProjectX.makeFluid("molten_xycronium_light");
         moltenXycroniumBlue = new BlockFluidProjectX(fluidMoltenXycroniumBlue);
         moltenXycroniumGreen = new BlockFluidProjectX(fluidMoltenXycroniumGreen);
         moltenXycroniumRed = new BlockFluidProjectX(fluidMoltenXycroniumRed);

@@ -1,7 +1,7 @@
 package keri.projectx.client;
 
+import keri.projectx.init.ProjectXContent;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -17,7 +17,7 @@ public class ProjectXTab extends CreativeTabs {
 
     @Override
     public Item getTabIconItem() {
-        return Item.getItemFromBlock(Blocks.EMERALD_BLOCK);
+        return Item.getItemFromBlock(ProjectXContent.xycroniumBricks);
     }
 
 }
