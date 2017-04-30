@@ -56,6 +56,7 @@ public class BlockXycroniumPlate extends BlockSimpleGlow implements IMetaBlock {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public TextureAtlasSprite getIcon(int meta, int side) {
         return this.texture;
     }

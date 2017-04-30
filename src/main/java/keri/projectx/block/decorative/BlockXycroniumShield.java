@@ -13,7 +13,10 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -51,12 +54,18 @@ public class BlockXycroniumShield extends BlockSimpleGlow implements IMetaBlock 
     }
 
     @Override
+    public boolean canEntityDestroy(IBlockState state, IBlockAccess world, BlockPos pos, Entity entity) {
+        return false;
+    }
+
+    @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegistrar registrar) {
         this.texture = registrar.registerIcon(ModPrefs.MODID + ":blocks/xycronium_shield");
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public TextureAtlasSprite getIcon(int meta, int side) {
         return this.texture;
     }

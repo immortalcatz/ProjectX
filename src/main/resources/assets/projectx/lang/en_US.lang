@@ -79,6 +79,16 @@ tile.projectx.xycronium_shield.light_blue.name=Light Blue Xycronium Shield
 tile.projectx.xycronium_shield.magenta.name=Magenta Xycronium Shield
 tile.projectx.xycronium_shield.orange.name=Orange Xycronium Shield
 tile.projectx.xycronium_shield.white.name=White Xycronium Shield
+tile.projectx.tool_forge.blue.name=Blue Xycronium Tool Forge
+tile.projectx.tool_forge.green.name=Green Xycronium Tool Forge
+tile.projectx.tool_forge.red.name=Red Xycronium Tool Forge
+tile.projectx.tool_forge.dark.name=Dark Xycronium Tool Forge
+tile.projectx.tool_forge.ligth.name=Light Xycronium Tool Forge
+tile.projectx.molten_xycronium_blue.name=Blue Molten Xycronium
+tile.projectx.molten_xycronium_green.name=Green Molten Xycronium
+tile.projectx.molten_xycronium_red.name=Red Molten Xycronium
+tile.projectx.molten_xycronium_dark.name=Dark Molten Xycronium
+tile.projectx.molten_xycronium_light.name=Light Molten Xycronium
 
 item.projectx.xycronium_crystal.blue.name=Blue Xycronium Crystal
 item.projectx.xycronium_crystal.green.name=Green Xycronium Crystal
@@ -145,7 +155,6 @@ item.projectx.boots_xycronium_green.name=Green Xycronium Boots
 item.projectx.boots_xycronium_red.name=Red Xycronium Boots
 item.projectx.boots_xycronium_dark.name=Dark Xycronium Boots
 item.projectx.boots_xycronium_light.name=Light Xycronium Boots
-
 item.projectx.color_analyzer.name=Color Analyzer [WIP]
 
 fluid.projectx.molten_xycronium_blue.name=Blue Molten Xycronium

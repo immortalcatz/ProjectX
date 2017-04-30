@@ -16,24 +16,24 @@ public class IntegrationLoader {
     private List<IModIntegration> integrationModules = Lists.newArrayList();
 
     public void preInit(FMLPreInitializationEvent event, Side side){
-        ProjectX.LOGGER.info("[Integration] Loading integration modules...");
-
         this.integrationModules.forEach(module -> {
             if(Loader.isModLoaded(module.getModId()) && module.isEnabled()){
                 module.preInit(event, side);
             }
         });
-
-        ProjectX.LOGGER.info("[Integration] All integration modules loaded!");
     }
 
     public void init(FMLInitializationEvent event, Side side){
+        ProjectX.LOGGER.info("[Integration] Loading integration modules...");
+
         this.integrationModules.forEach(module -> {
             if(Loader.isModLoaded(module.getModId()) && module.isEnabled()){
                 module.init(event, side);
                 ProjectX.LOGGER.info("[Integration] " + module.getName() + " integration initialized!");
             }
         });
+
+        ProjectX.LOGGER.info("[Integration] All integration modules loaded!");
     }
 
     public void postInit(FMLPostInitializationEvent event, Side side){
