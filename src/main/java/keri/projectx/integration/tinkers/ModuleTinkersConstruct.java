@@ -3,14 +3,21 @@ package keri.projectx.integration.tinkers;
 import keri.projectx.ProjectX;
 import keri.projectx.block.base.BlockFluidProjectX;
 import keri.projectx.fluid.FluidProjectX;
+import keri.projectx.init.ProjectXContent;
 import keri.projectx.integration.IModIntegration;
 import keri.projectx.integration.tinkers.block.BlockXycroniumToolForge;
 import net.minecraft.block.Block;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
+import slimeknights.tconstruct.smeltery.TinkerSmeltery;
+import slimeknights.tconstruct.tools.TinkerTools;
+
+import java.util.stream.IntStream;
 
 public class ModuleTinkersConstruct implements IModIntegration {
 
@@ -59,7 +66,9 @@ public class ModuleTinkersConstruct implements IModIntegration {
 
     @Override
     public void init(FMLInitializationEvent event, Side side) {
-
+        IntStream.range(0, 5).forEach(meta -> {
+            GameRegistry.addRecipe(new ItemStack(xycroniumToolForge, 1, meta), new Object[]{"XXX", "VCV", "V V", 'V', new ItemStack(ProjectXContent.xycroniumBlock, 1, meta), 'C', new ItemStack(TinkerTools.toolTables, 1, 3), 'X', TinkerSmeltery.searedBlock});
+        });
     }
 
     @Override
