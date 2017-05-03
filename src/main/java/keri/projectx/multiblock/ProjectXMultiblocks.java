@@ -11,10 +11,11 @@ public class ProjectXMultiblocks {
         multiblockLoader = new MultiblockLoader();
         //multiblockLoader.loadMultiblock("tank_tier_1", new ResourceLocation(ModPrefs.MODID, "multiblocks/tank_tier_1"));
         //multiblockLoader.loadMultiblock("tank_tier_2", new ResourceLocation(ModPrefs.MODID, "multiblocks/tank_tier_2"));
+
     }
 
     public static void init(){
-        //multiblockLoader.loadMultiblocks();
+        multiblockLoader.loadMultiblocks();
     }
 
     public static MultiblockPattern getMultiblock(String name){

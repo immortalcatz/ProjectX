@@ -11,7 +11,7 @@ import com.google.common.collect.Lists;
 import keri.ninetaillib.block.IMetaBlock;
 import keri.ninetaillib.property.CommonProperties;
 import keri.ninetaillib.property.EnumDyeColor;
-import keri.ninetaillib.render.block.IBlockRenderingHandler;
+import keri.ninetaillib.render.registry.IBlockRenderingHandler;
 import keri.ninetaillib.texture.IIconRegistrar;
 import keri.ninetaillib.util.CommonUtils;
 import keri.projectx.ProjectX;

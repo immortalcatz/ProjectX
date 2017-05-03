@@ -89,6 +89,7 @@ tile.projectx.molten_xycronium_green.name=Green Molten Xycronium
 tile.projectx.molten_xycronium_red.name=Red Molten Xycronium
 tile.projectx.molten_xycronium_dark.name=Dark Molten Xycronium
 tile.projectx.molten_xycronium_light.name=Light Molten Xycronium
+tile.projectx.xynergy_node.name=Xynergy Node
 
 item.projectx.xycronium_crystal.blue.name=Blue Xycronium Crystal
 item.projectx.xycronium_crystal.green.name=Green Xycronium Crystal

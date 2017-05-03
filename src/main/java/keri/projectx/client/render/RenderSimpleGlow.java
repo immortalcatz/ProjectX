@@ -5,7 +5,7 @@ import codechicken.lib.render.CCModel;
 import codechicken.lib.render.CCRenderState;
 import codechicken.lib.vec.Cuboid6;
 import codechicken.lib.vec.uv.IconTransformation;
-import keri.ninetaillib.render.block.IBlockRenderingHandler;
+import keri.ninetaillib.render.registry.IBlockRenderingHandler;
 import keri.ninetaillib.render.util.VertexUtils;
 import keri.ninetaillib.texture.IIconBlock;
 import keri.projectx.ProjectX;
@@ -28,11 +28,13 @@ import org.lwjgl.opengl.GL11;
 public class RenderSimpleGlow implements IBlockRenderingHandler {
 
     private static CCModel model = CCModel.quadModel(24).generateBlock(0, new Cuboid6(0D, 0D, 0D, 1D, 1D, 1D)).computeNormals();
+    private TextureAtlasSprite texture;
 
     @Override
     public void renderBlock(CCRenderState renderState, IBlockState state, EnumFacing face, BlockRenderLayer layer, long rand) {
         IAnimationSideHandler handler = (IAnimationSideHandler)state.getBlock();
         IIconBlock iconProvider = (IIconBlock)state.getBlock();
+        this.texture = iconProvider.getIcon(0, 0);
         int meta = state.getBlock().getMetaFromState(state);
         int lastBrightness = (int)OpenGlHelper.lastBrightnessY << 8 | (int)OpenGlHelper.lastBrightnessX;
 
@@ -101,8 +103,8 @@ public class RenderSimpleGlow implements IBlockRenderingHandler {
     }
 
     @Override
-    public TextureAtlasSprite getParticleTexture(IBlockState state) {
-        return ((IIconBlock)state.getBlock()).getIcon(state.getBlock().getMetaFromState(state), 0);
+    public TextureAtlasSprite getParticleTexture() {
+        return this.texture;
     }
 
     @Override

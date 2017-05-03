@@ -9,7 +9,7 @@ import codechicken.lib.vec.Translation;
 import codechicken.lib.vec.Vector3;
 import codechicken.lib.vec.uv.IconTransformation;
 import keri.ninetaillib.property.EnumDyeColor;
-import keri.ninetaillib.render.item.IItemRenderingHandler;
+import keri.ninetaillib.render.registry.IItemRenderingHandler;
 import keri.ninetaillib.render.util.VertexUtils;
 import keri.ninetaillib.texture.IIconItem;
 import keri.ninetaillib.util.CommonUtils;

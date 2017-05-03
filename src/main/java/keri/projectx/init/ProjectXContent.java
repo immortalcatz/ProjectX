@@ -1,6 +1,7 @@
 package keri.projectx.init;
 
 import keri.projectx.block.decorative.*;
+import keri.projectx.block.machine.BlockXynergyNode;
 import keri.projectx.block.resource.BlockXycroniumOre;
 import keri.projectx.block.resource.BlockXycroniumStorage;
 import keri.projectx.integration.IntegrationLoader;
@@ -12,6 +13,7 @@ import keri.projectx.item.resource.ItemXycroniumCrystal;
 import keri.projectx.item.resource.ItemXycroniumDust;
 import keri.projectx.item.resource.ItemXycroniumIngot;
 import keri.projectx.item.resource.ItemXycroniumNugget;
+import keri.projectx.tile.TileEntityXynergyNode;
 import keri.projectx.util.ModPrefs;
 import net.minecraft.block.Block;
 import net.minecraft.init.SoundEvents;
@@ -33,7 +35,7 @@ public class ProjectXContent {
     //public static Block xycroniumLadder;
     //public static Block engineeringFrame;
     //public static Block tankValve;
-    //public static Block xynergyNode;
+    public static Block xynergyNode;
 
     public static Item xycroniumCrystal;
     public static Item xycroniumIngot;
@@ -72,7 +74,7 @@ public class ProjectXContent {
         //xycroniumLadder = new BlockXycroniumLadder();
         //engineeringFrame = new BlockEngineeringFrame();
         //tankValve = new BlockTankValve();
-        //xynergyNode = new BlockXynergyNode();
+        xynergyNode = new BlockXynergyNode();
 
         xycroniumCrystal = new ItemXycroniumCrystal();
         xycroniumIngot = new ItemXycroniumIngot();
@@ -97,7 +99,7 @@ public class ProjectXContent {
         //registerTileEntity(TileEntityXycroniumLadder.class, xycroniumLadder);
         //registerTileEntity(TileEntityTankValve.class, tankValve);
         //registerTileEntity(TileEntityEngineeringFrame.class, engineeringFrame);
-        //registerTileEntity(TileEntityXynergyNode.class, xynergyNode);
+        registerTileEntity(TileEntityXynergyNode.class, xynergyNode);
     }
 
     private static void registerTileEntity(Class<? extends TileEntity> tileClass, Block owner){

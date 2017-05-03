@@ -10,7 +10,7 @@ import codechicken.lib.vec.Transformation;
 import codechicken.lib.vec.Vector3;
 import codechicken.lib.vec.uv.IconTransformation;
 import keri.ninetaillib.property.CommonProperties;
-import keri.ninetaillib.render.block.IBlockRenderingHandler;
+import keri.ninetaillib.render.registry.IBlockRenderingHandler;
 import keri.ninetaillib.render.util.VertexUtils;
 import keri.ninetaillib.texture.IIconBlock;
 import keri.ninetaillib.util.CommonUtils;
@@ -38,6 +38,7 @@ import java.util.stream.IntStream;
 public class RenderXycroniumLadder implements IBlockRenderingHandler {
 
     private static CCModel[] model;
+    private TextureAtlasSprite texture;
 
     static{
         Cuboid6[] bounds = new Cuboid6[]{
@@ -57,6 +58,7 @@ public class RenderXycroniumLadder implements IBlockRenderingHandler {
     public void renderBlock(CCRenderState renderState, IBlockState state, EnumFacing face, BlockRenderLayer layer, long rand) {
         IAnimationSideHandler handler = (IAnimationSideHandler)state.getBlock();
         IIconBlock iconProvider = (IIconBlock)state.getBlock();
+        this.texture = iconProvider.getIcon(0, 0);
         int meta = state.getBlock().getMetaFromState(state);
         int lastBrightness = (int) OpenGlHelper.lastBrightnessY << 8 | (int)OpenGlHelper.lastBrightnessX;
         TextureAtlasSprite textureAnimation = handler.getAnimationIcon(state, 0);
@@ -124,8 +126,8 @@ public class RenderXycroniumLadder implements IBlockRenderingHandler {
     }
 
     @Override
-    public TextureAtlasSprite getParticleTexture(IBlockState state) {
-        return ((IIconBlock)state.getBlock()).getIcon(state.getBlock().getMetaFromState(state), 0);
+    public TextureAtlasSprite getParticleTexture() {
+        return this.texture;
     }
 
     @Override
@@ -138,6 +140,7 @@ public class RenderXycroniumLadder implements IBlockRenderingHandler {
         return Integer.toString(((NBTTagCompound)state.getValue(CommonProperties.NBT_TAG_PROPERTY)).getInteger("orientation"));
     }
 
+    /**
     @Override
     public EnumFacing getRotation(IBlockState state) {
         if(state != null && state instanceof IExtendedBlockState){
@@ -151,5 +154,6 @@ public class RenderXycroniumLadder implements IBlockRenderingHandler {
 
         return EnumFacing.NORTH;
     }
+    */
 
 }

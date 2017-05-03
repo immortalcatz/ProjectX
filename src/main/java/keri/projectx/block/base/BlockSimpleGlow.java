@@ -1,6 +1,6 @@
 package keri.projectx.block.base;
 
-import keri.ninetaillib.render.block.IBlockRenderingHandler;
+import keri.ninetaillib.render.registry.IBlockRenderingHandler;
 import keri.projectx.client.render.IAnimationSideHandler;
 import keri.projectx.client.render.RenderSimpleGlow;
 import net.minecraft.block.material.MapColor;

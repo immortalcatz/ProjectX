@@ -3,7 +3,7 @@ package keri.projectx.integration.tinkers.block;
 import codechicken.lib.colour.ColourRGBA;
 import codechicken.lib.raytracer.RayTracer;
 import keri.ninetaillib.block.IMetaBlock;
-import keri.ninetaillib.render.block.IBlockRenderingHandler;
+import keri.ninetaillib.render.registry.IBlockRenderingHandler;
 import keri.ninetaillib.texture.IIconRegistrar;
 import keri.projectx.ProjectX;
 import keri.projectx.block.base.BlockProjectX;

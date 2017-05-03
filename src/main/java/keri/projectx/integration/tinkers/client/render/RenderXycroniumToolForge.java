@@ -6,7 +6,7 @@ import codechicken.lib.render.CCRenderState;
 import codechicken.lib.vec.Cuboid6;
 import codechicken.lib.vec.uv.IconTransformation;
 import codechicken.lib.vec.uv.MultiIconTransformation;
-import keri.ninetaillib.render.block.IBlockRenderingHandler;
+import keri.ninetaillib.render.registry.IBlockRenderingHandler;
 import keri.ninetaillib.render.util.VertexUtils;
 import keri.ninetaillib.texture.IIconBlock;
 import keri.ninetaillib.util.CommonUtils;
@@ -33,6 +33,7 @@ import java.util.stream.IntStream;
 public class RenderXycroniumToolForge implements IBlockRenderingHandler {
 
     private static CCModel[] model;
+    private TextureAtlasSprite texture;
 
     static{
         Cuboid6[] bounds = new Cuboid6[]{
@@ -52,6 +53,7 @@ public class RenderXycroniumToolForge implements IBlockRenderingHandler {
     public void renderBlock(CCRenderState renderState, IBlockState state, EnumFacing face, BlockRenderLayer layer, long rand) {
         IAnimationSideHandler handler = (IAnimationSideHandler)state.getBlock();
         IIconBlock iconProvider = (IIconBlock)state.getBlock();
+        this.texture = iconProvider.getIcon(0, 0);
         int meta = state.getBlock().getMetaFromState(state);
         TextureAtlasSprite textureAnimation = handler.getAnimationIcon(state, 0);
         TextureAtlasSprite textureBlockTop = iconProvider.getIcon(meta, 0);
@@ -107,8 +109,8 @@ public class RenderXycroniumToolForge implements IBlockRenderingHandler {
     }
 
     @Override
-    public TextureAtlasSprite getParticleTexture(IBlockState state) {
-        return ((IIconBlock)state.getBlock()).getIcon(state.getBlock().getMetaFromState(state), 0);
+    public TextureAtlasSprite getParticleTexture() {
+        return this.texture;
     }
 
     @Override
