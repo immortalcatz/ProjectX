@@ -1,4 +1,4 @@
-package keri.projectx.client.render;
+package keri.projectx.client.renderold;
 
 import codechicken.lib.math.MathHelper;
 import codechicken.lib.render.CCModel;
@@ -11,9 +11,12 @@ import keri.ninetaillib.property.CommonProperties;
 import keri.ninetaillib.render.registry.IBlockRenderingHandler;
 import keri.ninetaillib.texture.IIconBlock;
 import keri.ninetaillib.util.CommonUtils;
+import keri.projectx.client.render.IAnimationSideHandler;
+import keri.projectx.tile.TileEntityXynergyNode;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockRenderLayer;
@@ -24,10 +27,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.stream.IntStream;
 
+//TODO Convert to IMultipassModel...
 @SideOnly(Side.CLIENT)
-public class RenderXynergyNode implements IBlockRenderingHandler {
+public class RenderXynergyNode extends TileEntitySpecialRenderer<TileEntityXynergyNode> implements IBlockRenderingHandler {
 
     private static CCModel[][] model;
+    private static RenderTruncatedIcosahedron renderIcosahedron = new RenderTruncatedIcosahedron();
     private TextureAtlasSprite texture;
 
     static{
@@ -110,11 +115,19 @@ public class RenderXynergyNode implements IBlockRenderingHandler {
     }
 
     @Override
-    public void renderItem(CCRenderState renderState, ItemStack stack, long rand) {
-        TextureAtlasSprite texture = ((IIconBlock)Block.getBlockFromItem(stack.getItem())).getIcon(0, 0);
+    public void renderTileEntityAt(TileEntityXynergyNode tile, double x, double y, double z, float partialTicks, int destroyStage) {
 
-        for(int i = 0; i < model[0].length; i++){
-            model[0][i].render(renderState, new IconTransformation(texture));
+    }
+
+    @Override
+    public void renderItem(CCRenderState renderState, ItemStack stack, long rand) {
+        TextureAtlasSprite textureAnimation = ((IAnimationSideHandler)Block.getBlockFromItem(stack.getItem())).getAnimationIcon(stack, 0);
+        TextureAtlasSprite textureBlock = ((IIconBlock)Block.getBlockFromItem(stack.getItem())).getIcon(0, 0);
+
+        for(int pass = 0; pass < 2; pass++){
+            for(int part = 0; part < model[0].length; part++){
+
+            }
         }
     }
 

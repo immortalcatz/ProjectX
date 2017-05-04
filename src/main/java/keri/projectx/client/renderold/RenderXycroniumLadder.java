@@ -1,4 +1,4 @@
-package keri.projectx.client.render;
+package keri.projectx.client.renderold;
 
 import codechicken.lib.colour.ColourRGBA;
 import codechicken.lib.math.MathHelper;
@@ -15,6 +15,7 @@ import keri.ninetaillib.render.util.VertexUtils;
 import keri.ninetaillib.texture.IIconBlock;
 import keri.ninetaillib.util.CommonUtils;
 import keri.projectx.ProjectX;
+import keri.projectx.client.render.IAnimationSideHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.GlStateManager;
@@ -34,6 +35,7 @@ import org.lwjgl.opengl.GL11;
 
 import java.util.stream.IntStream;
 
+//TODO Convert to IMultipassModel...
 @SideOnly(Side.CLIENT)
 public class RenderXycroniumLadder implements IBlockRenderingHandler {
 

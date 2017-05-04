@@ -17,7 +17,7 @@ import keri.ninetaillib.util.CommonUtils;
 import keri.projectx.ProjectX;
 import keri.projectx.block.base.BlockProjectX;
 import keri.projectx.client.render.IAnimationSideHandler;
-import keri.projectx.client.render.RenderXycroniumLadder;
+import keri.projectx.client.renderold.RenderXycroniumLadder;
 import keri.projectx.tile.TileEntityXycroniumLadder;
 import keri.projectx.util.ModPrefs;
 import net.minecraft.block.material.Material;

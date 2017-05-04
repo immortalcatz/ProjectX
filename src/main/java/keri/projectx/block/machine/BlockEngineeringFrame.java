@@ -8,7 +8,7 @@ import keri.ninetaillib.texture.IIconRegistrar;
 import keri.projectx.ProjectX;
 import keri.projectx.block.base.BlockProjectX;
 import keri.projectx.client.render.IAnimationSideHandler;
-import keri.projectx.client.render.RenderSimpleGlow;
+import keri.projectx.client.renderold.RenderSimpleGlow;
 import keri.projectx.property.EnumXycroniumColor;
 import keri.projectx.property.ProjectXProperties;
 import keri.projectx.tile.TileEntityEngineeringFrame;

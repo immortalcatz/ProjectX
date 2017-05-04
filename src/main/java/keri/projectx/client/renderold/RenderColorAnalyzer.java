@@ -1,4 +1,4 @@
-package keri.projectx.client.render;
+package keri.projectx.client.renderold;
 
 import codechicken.lib.render.CCModel;
 import codechicken.lib.render.CCRenderState;
@@ -33,6 +33,7 @@ import org.lwjgl.opengl.GL11;
 import javax.vecmath.Matrix4f;
 import java.util.stream.IntStream;
 
+//TODO Convert to IMultipassModel...
 @SideOnly(Side.CLIENT)
 public class RenderColorAnalyzer implements IItemRenderingHandler {
 

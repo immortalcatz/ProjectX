@@ -2,7 +2,7 @@ package keri.projectx.item.machine;
 
 import keri.ninetaillib.render.registry.IItemRenderingHandler;
 import keri.ninetaillib.texture.IIconRegistrar;
-import keri.projectx.client.render.RenderColorAnalyzer;
+import keri.projectx.client.renderold.RenderColorAnalyzer;
 import keri.projectx.item.base.ItemProjectX;
 import keri.projectx.util.ModPrefs;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;

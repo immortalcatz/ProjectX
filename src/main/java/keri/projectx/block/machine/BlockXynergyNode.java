@@ -1,5 +1,6 @@
 package keri.projectx.block.machine;
 
+import codechicken.lib.colour.ColourRGBA;
 import codechicken.lib.math.MathHelper;
 import codechicken.lib.vec.Cuboid6;
 import codechicken.lib.vec.Rotation;
@@ -7,8 +8,10 @@ import codechicken.lib.vec.Vector3;
 import keri.ninetaillib.property.CommonProperties;
 import keri.ninetaillib.render.registry.IBlockRenderingHandler;
 import keri.ninetaillib.texture.IIconRegistrar;
+import keri.projectx.ProjectX;
 import keri.projectx.block.base.BlockProjectX;
-import keri.projectx.client.render.RenderXynergyNode;
+import keri.projectx.client.render.IAnimationSideHandler;
+import keri.projectx.client.renderold.RenderXynergyNode;
 import keri.projectx.tile.TileEntityXynergyNode;
 import keri.projectx.util.ModPrefs;
 import net.minecraft.block.material.Material;
@@ -29,7 +32,7 @@ import net.minecraftforge.common.property.IUnlistedProperty;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockXynergyNode extends BlockProjectX<TileEntityXynergyNode> {
+public class BlockXynergyNode extends BlockProjectX<TileEntityXynergyNode> implements IAnimationSideHandler {
 
     private static final Cuboid6 BLOCK_BOUNDS = new Cuboid6(0.25D, 0D, 0.25D, 0.75D, 0.1875D, 0.75D);
     private static Cuboid6[] ORIENTED_BLOCK_BOUNDS;
@@ -92,20 +95,16 @@ public class BlockXynergyNode extends BlockProjectX<TileEntityXynergyNode> {
         TileEntityXynergyNode tile = (TileEntityXynergyNode)world.getTileEntity(pos);
 
         if(tile != null){
-            if(world.isAirBlock(pos.offset(EnumFacing.UP)) && world.isAirBlock(pos.offset(EnumFacing.DOWN))){
-                int direction = MathHelper.floor(placer.rotationYaw * 4D / 360D + 0.5D) & 3;
-                tile.setOrientation(EnumFacing.getHorizontal(direction));
-                tile.markDirty();
+            int pitch = MathHelper.roundAway(placer.rotationPitch);
+
+            if(pitch >= 10){
+                tile.setOrientation(EnumFacing.DOWN);
+            }
+            else if(pitch <= -10){
+                tile.setOrientation(EnumFacing.UP);
             }
             else{
-                if(!world.isAirBlock(pos.offset(EnumFacing.UP))){
-                    tile.setOrientation(EnumFacing.UP);
-                    tile.markDirty();
-                }
-                else if(!world.isAirBlock(pos.offset(EnumFacing.DOWN))){
-                    tile.setOrientation(EnumFacing.DOWN);
-                    tile.markDirty();
-                }
+                tile.setOrientation(EnumFacing.fromAngle(placer.rotationYaw));
             }
         }
     }
@@ -120,6 +119,42 @@ public class BlockXynergyNode extends BlockProjectX<TileEntityXynergyNode> {
     @SideOnly(Side.CLIENT)
     public TextureAtlasSprite getIcon(int meta, int side) {
         return this.texture;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public TextureAtlasSprite getAnimationIcon(IBlockState state, int side) {
+        return ProjectX.PROXY.getAnimationIcon();
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getAnimationBrightness(IBlockState state, int side) {
+        return 0x00F000F0;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public ColourRGBA getAnimationColor(IBlockState state, int side) {
+        return new ColourRGBA(0, 255, 100, 255);
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public TextureAtlasSprite getAnimationIcon(ItemStack stack, int side) {
+        return ProjectX.PROXY.getAnimationIcon();
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getAnimationBrightness(ItemStack stack, int side) {
+        return 0x00F000F0;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public ColourRGBA getAnimationColor(ItemStack stack, int side) {
+        return new ColourRGBA(0, 255, 100, 255);
     }
 
     @Override
