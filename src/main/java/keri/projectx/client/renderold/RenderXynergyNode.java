@@ -1,3 +1,4 @@
+/**
 package keri.projectx.client.renderold;
 
 import codechicken.lib.math.MathHelper;
@@ -142,3 +143,4 @@ public class RenderXynergyNode extends TileEntitySpecialRenderer<TileEntityXyner
     }
 
 }
+*/

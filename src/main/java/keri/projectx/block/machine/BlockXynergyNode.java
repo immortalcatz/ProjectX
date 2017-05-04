@@ -10,8 +10,9 @@ import keri.ninetaillib.render.registry.IBlockRenderingHandler;
 import keri.ninetaillib.texture.IIconRegistrar;
 import keri.projectx.ProjectX;
 import keri.projectx.block.base.BlockProjectX;
+import keri.projectx.client.model.ModelXynergyNode;
 import keri.projectx.client.render.IAnimationSideHandler;
-import keri.projectx.client.renderold.RenderXynergyNode;
+import keri.projectx.client.render.RenderMultipassModel;
 import keri.projectx.tile.TileEntityXynergyNode;
 import keri.projectx.util.ModPrefs;
 import net.minecraft.block.material.Material;
@@ -174,7 +175,7 @@ public class BlockXynergyNode extends BlockProjectX<TileEntityXynergyNode> imple
     @Override
     @SideOnly(Side.CLIENT)
     public IBlockRenderingHandler getRenderingHandler() {
-        return new RenderXynergyNode();
+        return new RenderMultipassModel(new ModelXynergyNode());
     }
 
 }

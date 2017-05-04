@@ -6,7 +6,9 @@ import codechicken.lib.render.CCRenderState;
 import codechicken.lib.vec.uv.IconTransformation;
 import keri.ninetaillib.render.registry.IBlockRenderingHandler;
 import keri.ninetaillib.render.util.VertexUtils;
+import keri.ninetaillib.texture.IIconBlock;
 import keri.projectx.ProjectX;
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
@@ -31,15 +33,17 @@ public class RenderMultipassModel implements IBlockRenderingHandler {
 
     @Override
     public void renderBlock(CCRenderState renderState, IBlockState state, EnumFacing face, BlockRenderLayer layer, long rand) {
+        IIconBlock iconProvider = (IIconBlock)state.getBlock();
+        IAnimationSideHandler animationHandler = (IAnimationSideHandler) state.getBlock();
         int lastBrightness = (int) OpenGlHelper.lastBrightnessY << 8 | (int)OpenGlHelper.lastBrightnessX;
-        RenderData preData = new RenderData(state, null, 0, 0, lastBrightness, false);
+        RenderData preData = new RenderData(state, null, iconProvider, animationHandler, 0, 0, lastBrightness, false);
         CCModel[] model = this.mpModel.getModel(preData, EnumRenderType.BLOCK);
 
         for(int pass = 0; pass < this.mpModel.getPassCount(preData, EnumRenderType.BLOCK); pass++){
             renderState.reset();
 
             for(int part = 0; part < model.length; part++){
-                RenderData data = new RenderData(state, null, pass, part, lastBrightness, true);
+                RenderData data = new RenderData(state, null, iconProvider, animationHandler, pass, part, lastBrightness, true);
                 TextureAtlasSprite texture = this.mpModel.getModelTexture(data, EnumRenderType.BLOCK);
                 Colour color = this.mpModel.getColorMultiplier(data, EnumRenderType.BLOCK);
                 renderState.brightness = this.mpModel.getBrightness(data, EnumRenderType.BLOCK);
@@ -51,8 +55,10 @@ public class RenderMultipassModel implements IBlockRenderingHandler {
 
     @Override
     public void renderItem(CCRenderState renderState, ItemStack stack, long rand) {
+        IIconBlock iconProvider = (IIconBlock)Block.getBlockFromItem(stack.getItem());
+        IAnimationSideHandler animationHandler = (IAnimationSideHandler)Block.getBlockFromItem(stack.getItem());
         int lastBrightness = (int) OpenGlHelper.lastBrightnessY << 16 | (int)OpenGlHelper.lastBrightnessX;
-        RenderData preData = new RenderData(null, stack, 0, 0, lastBrightness, false);
+        RenderData preData = new RenderData(null, stack, iconProvider, animationHandler, 0, 0, lastBrightness, false);
         CCModel[] model = this.mpModel.getModel(preData, EnumRenderType.ITEM);
 
         if(!this.hasDynamicItemRendering()){
@@ -65,7 +71,7 @@ public class RenderMultipassModel implements IBlockRenderingHandler {
                 renderState.bind(buffer);
 
                 for(int part = 0; part < model.length; part++){
-                    RenderData data = new RenderData(null, stack, pass, part, lastBrightness, true);
+                    RenderData data = new RenderData(null, stack, iconProvider, animationHandler, pass, part, lastBrightness, true);
                     TextureAtlasSprite texture = this.mpModel.getModelTexture(data, EnumRenderType.ITEM);
                     Colour color = this.mpModel.getColorMultiplier(data, EnumRenderType.ITEM);
                     renderState.brightness = this.mpModel.getBrightness(data, EnumRenderType.ITEM);
@@ -81,7 +87,7 @@ public class RenderMultipassModel implements IBlockRenderingHandler {
         else{
             for(int pass = 0; pass < this.mpModel.getPassCount(preData, EnumRenderType.ITEM); pass++){
                 for(int part = 0; part < model.length; part++){
-                    RenderData data = new RenderData(null, stack, pass, part, lastBrightness, true);
+                    RenderData data = new RenderData(null, stack, iconProvider, animationHandler, pass, part, lastBrightness, true);
                     TextureAtlasSprite texture = this.mpModel.getModelTexture(data, EnumRenderType.ITEM);
                     Colour color = this.mpModel.getColorMultiplier(data, EnumRenderType.ITEM);
                     model[part].setColour(color.rgba());
