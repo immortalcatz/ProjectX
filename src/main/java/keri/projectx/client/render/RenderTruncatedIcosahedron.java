@@ -1,4 +1,4 @@
-package keri.projectx.client.renderold;
+package keri.projectx.client.render;
 
 import codechicken.lib.colour.Colour;
 import codechicken.lib.colour.ColourRGBA;

@@ -1,4 +1,4 @@
-package keri.projectx.client.renderold;
+package keri.projectx.client.render;
 
 import codechicken.lib.colour.ColourRGBA;
 import codechicken.lib.render.CCModel;
@@ -9,13 +9,13 @@ import keri.ninetaillib.render.registry.IBlockRenderingHandler;
 import keri.ninetaillib.render.util.VertexUtils;
 import keri.ninetaillib.texture.IIconBlock;
 import keri.projectx.ProjectX;
-import keri.projectx.client.render.IAnimationSideHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.ItemStack;
@@ -25,6 +25,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
+import java.util.List;
+
 @SideOnly(Side.CLIENT)
 public class RenderSimpleGlow implements IBlockRenderingHandler {
 
@@ -32,7 +34,7 @@ public class RenderSimpleGlow implements IBlockRenderingHandler {
     private TextureAtlasSprite texture;
 
     @Override
-    public void renderBlock(CCRenderState renderState, IBlockState state, EnumFacing face, BlockRenderLayer layer, long rand) {
+    public List<BakedQuad> renderBlock(CCRenderState renderState, IBlockState state, EnumFacing face, BlockRenderLayer layer, long rand) {
         IAnimationSideHandler handler = (IAnimationSideHandler)state.getBlock();
         IIconBlock iconProvider = (IIconBlock)state.getBlock();
         this.texture = iconProvider.getIcon(0, 0);
@@ -53,10 +55,12 @@ public class RenderSimpleGlow implements IBlockRenderingHandler {
                 model.render(renderState, 0 + (4 * side), 4 + (4 * side), new IconTransformation(pass == 0 ? textureAnimation : textureBlock));
             }
         }
+
+        return null;
     }
 
     @Override
-    public void renderItem(CCRenderState renderState, ItemStack stack, long rand) {
+    public List<BakedQuad> renderItem(CCRenderState renderState, ItemStack stack, long rand) {
         IAnimationSideHandler handler = (IAnimationSideHandler)Block.getBlockFromItem(stack.getItem());
         IIconBlock iconProvider = (IIconBlock)Block.getBlockFromItem(stack.getItem());
         int meta = stack.getMetadata();
@@ -101,6 +105,8 @@ public class RenderSimpleGlow implements IBlockRenderingHandler {
                 }
             }
         }
+
+        return null;
     }
 
     @Override

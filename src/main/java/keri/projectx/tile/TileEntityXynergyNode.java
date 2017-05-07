@@ -12,13 +12,13 @@ import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class TileEntityXynergyNode extends TileEntityBase implements IEnergyHandler, INetworkTile, ITickable {
 
     private EnumFacing orientation = EnumFacing.NORTH;
     private EnergyStorage energyStorage = new EnergyStorage(256, 128);
-    private ArrayList<BlockPos> connections = Lists.newArrayList();
+    private List<BlockPos> connections = Lists.newArrayList();
 
     @Override
     public void update() {

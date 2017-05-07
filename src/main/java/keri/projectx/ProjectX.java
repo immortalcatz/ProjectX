@@ -33,8 +33,9 @@ public class ProjectX {
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event){
         CONFIG = new ProjectXConfig(event);
+        PROXY.loadModels(event);
         ProjectXContent.preInit();
-        ProjectXMultiblocks.preInit();
+        ProjectXMultiblocks.preInit(event);
         IntegrationLoader.INSTANCE.preInit(event, FMLCommonHandler.instance().getEffectiveSide());
         PROXY.preInit(event);
     }
@@ -44,7 +45,6 @@ public class ProjectX {
         ProjectXContent.init();
         ProjectXCrafting.init();
         ProjectXOreDictionary.init();
-        ProjectXMultiblocks.init();
         IntegrationLoader.INSTANCE.init(event, FMLCommonHandler.instance().getEffectiveSide());
         GameRegistry.registerWorldGenerator(new WorldGenOres(), 1);
         PROXY.init(event);

@@ -6,13 +6,10 @@ import codechicken.lib.vec.Cuboid6;
 import codechicken.lib.vec.Rotation;
 import codechicken.lib.vec.Vector3;
 import keri.ninetaillib.property.CommonProperties;
-import keri.ninetaillib.render.registry.IBlockRenderingHandler;
 import keri.ninetaillib.texture.IIconRegistrar;
 import keri.projectx.ProjectX;
 import keri.projectx.block.base.BlockProjectX;
-import keri.projectx.client.model.ModelXynergyNode;
 import keri.projectx.client.render.IAnimationSideHandler;
-import keri.projectx.client.render.RenderMultipassModel;
 import keri.projectx.tile.TileEntityXynergyNode;
 import keri.projectx.util.ModPrefs;
 import net.minecraft.block.material.Material;
@@ -172,10 +169,12 @@ public class BlockXynergyNode extends BlockProjectX<TileEntityXynergyNode> imple
         return false;
     }
 
+    /**
     @Override
     @SideOnly(Side.CLIENT)
     public IBlockRenderingHandler getRenderingHandler() {
         return new RenderMultipassModel(new ModelXynergyNode());
     }
+    */
 
 }

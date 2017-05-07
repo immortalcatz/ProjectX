@@ -10,6 +10,11 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 public class CommonProxy implements IProjectXProxy {
 
     @Override
+    public void loadModels(FMLPreInitializationEvent event) {
+
+    }
+
+    @Override
     public void preInit(FMLPreInitializationEvent event) {
 
     }

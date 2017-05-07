@@ -9,6 +9,8 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 public interface IProjectXProxy {
 
+    void loadModels(FMLPreInitializationEvent event);
+
     void preInit(FMLPreInitializationEvent event);
 
     void init(FMLInitializationEvent event);

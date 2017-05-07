@@ -18,6 +18,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.ItemStack;
@@ -27,6 +28,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
+import java.util.List;
 import java.util.stream.IntStream;
 
 @SideOnly(Side.CLIENT)
@@ -50,7 +52,7 @@ public class RenderXycroniumToolForge implements IBlockRenderingHandler {
     }
 
     @Override
-    public void renderBlock(CCRenderState renderState, IBlockState state, EnumFacing face, BlockRenderLayer layer, long rand) {
+    public List<BakedQuad> renderBlock(CCRenderState renderState, IBlockState state, EnumFacing face, BlockRenderLayer layer, long rand) {
         IAnimationSideHandler handler = (IAnimationSideHandler)state.getBlock();
         IIconBlock iconProvider = (IIconBlock)state.getBlock();
         this.texture = iconProvider.getIcon(0, 0);
@@ -72,10 +74,12 @@ public class RenderXycroniumToolForge implements IBlockRenderingHandler {
                 model[part].render(renderState, pass == 0 ? new IconTransformation(textureAnimation) : new MultiIconTransformation(textureBlockBottom, textureBlockTop, textureBlockSide, textureBlockSide, textureBlockSide, textureBlockSide));
             }
         }
+
+        return null;
     }
 
     @Override
-    public void renderItem(CCRenderState renderState, ItemStack stack, long rand) {
+    public List<BakedQuad> renderItem(CCRenderState renderState, ItemStack stack, long rand) {
         GlStateManager.disableBlend();
         Tessellator.getInstance().draw();
         IAnimationSideHandler handler = (IAnimationSideHandler)Block.getBlockFromItem(stack.getItem());
@@ -106,6 +110,7 @@ public class RenderXycroniumToolForge implements IBlockRenderingHandler {
 
         Tessellator.getInstance().getBuffer().begin(GL11.GL_QUADS, VertexUtils.getFormatWithLightMap(DefaultVertexFormats.ITEM));
         GlStateManager.enableBlend();
+        return null;
     }
 
     @Override

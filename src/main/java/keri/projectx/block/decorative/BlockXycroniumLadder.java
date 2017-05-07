@@ -11,13 +11,11 @@ import com.google.common.collect.Lists;
 import keri.ninetaillib.block.IMetaBlock;
 import keri.ninetaillib.property.CommonProperties;
 import keri.ninetaillib.property.EnumDyeColor;
-import keri.ninetaillib.render.registry.IBlockRenderingHandler;
 import keri.ninetaillib.texture.IIconRegistrar;
 import keri.ninetaillib.util.CommonUtils;
 import keri.projectx.ProjectX;
 import keri.projectx.block.base.BlockProjectX;
 import keri.projectx.client.render.IAnimationSideHandler;
-import keri.projectx.client.renderold.RenderXycroniumLadder;
 import keri.projectx.tile.TileEntityXycroniumLadder;
 import keri.projectx.util.ModPrefs;
 import net.minecraft.block.material.Material;
@@ -218,10 +216,12 @@ public class BlockXycroniumLadder extends BlockProjectX<TileEntityXycroniumLadde
         return layer == BlockRenderLayer.SOLID || layer == BlockRenderLayer.CUTOUT_MIPPED;
     }
 
+    /**
     @Override
     @SideOnly(Side.CLIENT)
     public IBlockRenderingHandler getRenderingHandler() {
         return new RenderXycroniumLadder();
     }
+    */
 
 }

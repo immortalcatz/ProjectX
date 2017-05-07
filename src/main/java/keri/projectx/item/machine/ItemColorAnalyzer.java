@@ -1,8 +1,6 @@
 package keri.projectx.item.machine;
 
-import keri.ninetaillib.render.registry.IItemRenderingHandler;
 import keri.ninetaillib.texture.IIconRegistrar;
-import keri.projectx.client.renderold.RenderColorAnalyzer;
 import keri.projectx.item.base.ItemProjectX;
 import keri.projectx.util.ModPrefs;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -39,10 +37,12 @@ public class ItemColorAnalyzer extends ItemProjectX {
         return true;
     }
 
+    /**
     @Override
     @SideOnly(Side.CLIENT)
     public IItemRenderingHandler getRenderingHandler() {
         return new RenderColorAnalyzer();
     }
+    */
 
 }
