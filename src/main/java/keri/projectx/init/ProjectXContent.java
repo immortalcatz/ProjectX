@@ -1,6 +1,7 @@
 package keri.projectx.init;
 
 import keri.projectx.block.decorative.*;
+import keri.projectx.block.machine.BlockEngineeringTable;
 import keri.projectx.block.machine.BlockTankValve;
 import keri.projectx.block.machine.BlockXynergyNode;
 import keri.projectx.block.resource.BlockXycroniumOre;
@@ -14,6 +15,7 @@ import keri.projectx.item.resource.ItemXycroniumCrystal;
 import keri.projectx.item.resource.ItemXycroniumDust;
 import keri.projectx.item.resource.ItemXycroniumIngot;
 import keri.projectx.item.resource.ItemXycroniumNugget;
+import keri.projectx.tile.TileEntityEngineeringTable;
 import keri.projectx.tile.TileEntityTankValve;
 import keri.projectx.tile.TileEntityXynergyNode;
 import keri.projectx.util.ModPrefs;
@@ -37,6 +39,7 @@ public class ProjectXContent {
     //public static Block xycroniumLadder;
     //public static Block engineeringFrame;
     public static Block tankValve;
+    public static Block engineeringTable;
     public static Block xynergyNode;
 
     public static Item xycroniumCrystal;
@@ -76,6 +79,7 @@ public class ProjectXContent {
         //xycroniumLadder = new BlockXycroniumLadder();
         //engineeringFrame = new BlockEngineeringFrame();
         tankValve = new BlockTankValve();
+        engineeringTable = new BlockEngineeringTable();
         xynergyNode = new BlockXynergyNode();
 
         xycroniumCrystal = new ItemXycroniumCrystal();
@@ -100,6 +104,7 @@ public class ProjectXContent {
     public static void init(){
         //registerTileEntity(TileEntityXycroniumLadder.class, xycroniumLadder);
         registerTileEntity(TileEntityTankValve.class, tankValve);
+        registerTileEntity(TileEntityEngineeringTable.class, engineeringTable);
         //registerTileEntity(TileEntityEngineeringFrame.class, engineeringFrame);
         registerTileEntity(TileEntityXynergyNode.class, xynergyNode);
     }

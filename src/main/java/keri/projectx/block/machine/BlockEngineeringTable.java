@@ -9,7 +9,7 @@ import keri.projectx.client.ProjectXModels;
 import keri.projectx.client.render.IAnimationSideHandler;
 import keri.projectx.client.render.RenderModelGlow;
 import keri.projectx.property.EnumXycroniumColor;
-import keri.projectx.tile.TileEntityTankValve;
+import keri.projectx.tile.TileEntityEngineeringTable;
 import keri.projectx.util.ModPrefs;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -20,25 +20,25 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockTankValve extends BlockProjectX<TileEntityTankValve> implements IAnimationSideHandler {
+public class BlockEngineeringTable extends BlockProjectX<TileEntityEngineeringTable> implements IAnimationSideHandler {
 
     @SideOnly(Side.CLIENT)
     private TextureAtlasSprite texture;
 
-    public BlockTankValve() {
-        super("tank_valve", Material.ROCK);
-        this.setHardness(1.6F);
+    public BlockEngineeringTable() {
+        super("engineering_table", Material.IRON);
+        this.setHardness(1.4F);
     }
 
     @Override
-    public TileEntityTankValve createNewTileEntity(World world, int meta) {
-        return new TileEntityTankValve();
+    public TileEntityEngineeringTable createNewTileEntity(World world, int meta) {
+        return new TileEntityEngineeringTable();
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegistrar registrar) {
-        this.texture = registrar.registerIcon(ModPrefs.MODID + ":blocks/tank_valve");
+        this.texture = registrar.registerIcon(ModPrefs.MODID + ":blocks/engineering_table");
     }
 
     @Override
@@ -106,7 +106,7 @@ public class BlockTankValve extends BlockProjectX<TileEntityTankValve> implement
     @Override
     @SideOnly(Side.CLIENT)
     public IBlockRenderingHandler getRenderingHandler() {
-        return new RenderModelGlow(ProjectXModels.getModel("tank_valve"));
+        return new RenderModelGlow(ProjectXModels.getModel("engineering_table"));
     }
 
 }
