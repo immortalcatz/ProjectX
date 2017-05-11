@@ -42,7 +42,7 @@ minecraft {
 
 dependencies {
     deobfCompile "codechicken:CodeChickenLib:1.10.2-2.5.8.255:deobf"
-    deobfCompile "keri.ninetaillib:NineTailLib-[1.10.2]:0.4.103:deobf"
+    deobfCompile "keri.ninetaillib:NineTailLib-[1.10.2]:0.4.104:deobf"
     deobfCompile "slimeknights.mantle:Mantle:1.10.2-1.1.5.205"
     deobfCompile "slimeknights:TConstruct:1.10.2-2.6.3.501"
 }

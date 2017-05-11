@@ -3,15 +3,15 @@ package keri.projectx.integration.tinkers.client.render;
 import codechicken.lib.colour.ColourRGBA;
 import codechicken.lib.render.CCModel;
 import codechicken.lib.render.CCRenderState;
-import codechicken.lib.vec.Cuboid6;
 import codechicken.lib.vec.Translation;
 import codechicken.lib.vec.Vector3;
 import codechicken.lib.vec.uv.IconTransformation;
 import codechicken.lib.vec.uv.MultiIconTransformation;
+import keri.ninetaillib.render.fms.FMSModel;
 import keri.ninetaillib.render.registry.IBlockRenderingHandler;
 import keri.ninetaillib.render.util.VertexUtils;
 import keri.ninetaillib.texture.IIconBlock;
-import keri.ninetaillib.util.CommonUtils;
+import keri.projectx.client.ProjectXModels;
 import keri.projectx.client.render.IAnimationSideHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -28,30 +28,15 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
-import java.util.stream.IntStream;
-
 @SideOnly(Side.CLIENT)
 public class RenderXycroniumToolForge implements IBlockRenderingHandler {
 
-    private static CCModel[] model;
+    private static FMSModel externalModel = ProjectXModels.getModel("tool_forge");
     private TextureAtlasSprite texture;
-
-    static{
-        Cuboid6[] bounds = new Cuboid6[]{
-                new Cuboid6(0D, 15D, 0D, 16D, 16D, 16D),
-                new Cuboid6(0D, 12D, 0D, 16D, 15D, 16D),
-                new Cuboid6(0D, 0D, 0D, 4D, 12D, 4D),
-                new Cuboid6(12D, 0D, 0D, 16D, 12D, 4D),
-                new Cuboid6(12D, 0D, 12D, 16D, 12D, 16D),
-                new Cuboid6(0D, 0D, 12D, 4D, 12D, 16D)
-        };
-
-        model = new CCModel[bounds.length];
-        IntStream.range(0, bounds.length).forEach(part -> model[part] = CCModel.quadModel(24).generateBlock(0, CommonUtils.devide(bounds[part], 16D)).computeNormals());
-    }
 
     @Override
     public boolean renderBlock(CCRenderState renderState, IBlockAccess world, BlockPos pos, BlockRenderLayer layer) {
+        CCModel[] model = externalModel.getModel();
         IBlockState state = world.getBlockState(pos).getActualState(world, pos);
         IAnimationSideHandler handler = (IAnimationSideHandler)state.getBlock();
         IIconBlock iconProvider = (IIconBlock)state.getBlock();
@@ -65,12 +50,15 @@ public class RenderXycroniumToolForge implements IBlockRenderingHandler {
         ColourRGBA animationColor = handler.getAnimationColor(state, 0);
         int lastBrightness = (int)OpenGlHelper.lastBrightnessY << 16 | (int)OpenGlHelper.lastBrightnessX;
 
+        for(int part = 0; part < model.length; part++){
+            model[part].apply(new Translation(Vector3.fromBlockPos(pos)));
+        }
+
         for(int pass = 0; pass < 2; pass++){
             renderState.reset();
 
             for(int part = 0; part < model.length; part++){
                 renderState.brightness = pass == 0 ? animationBrightness : lastBrightness;
-                model[part].apply(new Translation(Vector3.fromBlockPos(pos)));
                 model[part].setColour(pass == 0 ? animationColor.rgba() : 0xFFFFFFFF);
                 model[part].render(renderState, pass == 0 ? new IconTransformation(textureAnimation) : new MultiIconTransformation(textureBlockBottom, textureBlockTop, textureBlockSide, textureBlockSide, textureBlockSide, textureBlockSide));
             }
@@ -81,6 +69,8 @@ public class RenderXycroniumToolForge implements IBlockRenderingHandler {
 
     @Override
     public void renderBlockDamage(CCRenderState renderState, IBlockAccess world, BlockPos pos, TextureAtlasSprite texture) {
+        CCModel[] model = externalModel.getModel();
+
         for(int part = 0; part < model.length; part++){
             model[part].apply(new Translation(Vector3.fromBlockPos(pos)));
             model[part].render(renderState, new IconTransformation(texture));
@@ -90,6 +80,7 @@ public class RenderXycroniumToolForge implements IBlockRenderingHandler {
     @Override
     public void renderItem(CCRenderState renderState, ItemStack stack) {
         Tessellator.getInstance().draw();
+        CCModel[] model = externalModel.getModel();
         IAnimationSideHandler handler = (IAnimationSideHandler)Block.getBlockFromItem(stack.getItem());
         IIconBlock iconProvider = (IIconBlock)Block.getBlockFromItem(stack.getItem());
         int meta = stack.getMetadata();
