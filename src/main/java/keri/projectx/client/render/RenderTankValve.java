@@ -29,12 +29,7 @@ import org.lwjgl.opengl.GL11;
 @SideOnly(Side.CLIENT)
 public class RenderTankValve implements IBlockRenderingHandler {
 
-    private static FMSModel externalModel;
-    private TextureAtlasSprite texture;
-
-    static{
-        externalModel = ProjectXModels.getModel("tank_valve");
-    }
+    private static FMSModel externalModel = ProjectXModels.getModel("tank_valve");
 
     @Override
     public boolean renderBlock(CCRenderState renderState, IBlockAccess world, BlockPos pos, BlockRenderLayer layer) {
@@ -42,11 +37,6 @@ public class RenderTankValve implements IBlockRenderingHandler {
         IBlockState state = world.getBlockState(pos).getActualState(world, pos);
         IAnimationSideHandler handler = (IAnimationSideHandler)state.getBlock();
         IIconBlock iconProvider = (IIconBlock)state.getBlock();
-
-        if(this.texture == null){
-            this.texture = iconProvider.getIcon(0, 0);
-        }
-
         int meta = state.getBlock().getMetaFromState(state);
         int lastBrightness = (int) OpenGlHelper.lastBrightnessY << 16 | (int)OpenGlHelper.lastBrightnessX;
         TextureAtlasSprite textureBlock = iconProvider.getIcon(meta, 0);
@@ -55,12 +45,15 @@ public class RenderTankValve implements IBlockRenderingHandler {
         ColourRGBA animationColor = handler.getAnimationColor(state, 0);
         ColourRGBA colorMultiplier = handler.getColorMultiplier(state, 0);
 
+        for(int part = 0; part < model.length; part++){
+            model[part].apply(new Translation(Vector3.fromBlockPos(pos)));
+        }
+
         for(int pass = 0; pass < 2; pass++){
             renderState.reset();
 
             for(int part = 0; part < model.length; part++){
                 renderState.brightness = pass == 0 ? animationBrightness : lastBrightness;
-                model[part].apply(new Translation(Vector3.fromBlockPos(pos)));
                 model[part].setColour(pass == 0 ? animationColor.rgba() : colorMultiplier.rgba());
                 model[part].render(renderState, new IconTransformation(pass == 0 ? textureAnimation : textureBlock));
             }
@@ -104,6 +97,8 @@ public class RenderTankValve implements IBlockRenderingHandler {
                 model[part].setColour(pass == 0 ? animationColor.rgba() : colorMultiplier.rgba());
                 model[part].render(renderState, new IconTransformation(pass == 0 ? textureAnimation : textureBlock));
             }
+
+            Tessellator.getInstance().draw();
         }
 
         Tessellator.getInstance().getBuffer().begin(GL11.GL_QUADS, VertexUtils.getFormatWithLightMap(DefaultVertexFormats.ITEM));
