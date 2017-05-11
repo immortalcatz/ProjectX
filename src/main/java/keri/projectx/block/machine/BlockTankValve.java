@@ -5,9 +5,8 @@ import keri.ninetaillib.render.registry.IBlockRenderingHandler;
 import keri.ninetaillib.texture.IIconRegistrar;
 import keri.projectx.ProjectX;
 import keri.projectx.block.base.BlockProjectX;
-import keri.projectx.client.ProjectXModels;
 import keri.projectx.client.render.IAnimationSideHandler;
-import keri.projectx.client.render.RenderModelGlow;
+import keri.projectx.client.render.RenderTankValve;
 import keri.projectx.property.EnumXycroniumColor;
 import keri.projectx.tile.TileEntityTankValve;
 import keri.projectx.util.ModPrefs;
@@ -106,7 +105,7 @@ public class BlockTankValve extends BlockProjectX<TileEntityTankValve> implement
     @Override
     @SideOnly(Side.CLIENT)
     public IBlockRenderingHandler getRenderingHandler() {
-        return new RenderModelGlow(ProjectXModels.getModel("tank_valve"));
+        return new RenderTankValve();
     }
 
 }

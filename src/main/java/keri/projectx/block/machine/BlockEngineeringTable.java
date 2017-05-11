@@ -1,13 +1,10 @@
 package keri.projectx.block.machine;
 
 import codechicken.lib.colour.ColourRGBA;
-import keri.ninetaillib.render.registry.IBlockRenderingHandler;
 import keri.ninetaillib.texture.IIconRegistrar;
 import keri.projectx.ProjectX;
 import keri.projectx.block.base.BlockProjectX;
-import keri.projectx.client.ProjectXModels;
 import keri.projectx.client.render.IAnimationSideHandler;
-import keri.projectx.client.render.RenderModelGlow;
 import keri.projectx.property.EnumXycroniumColor;
 import keri.projectx.tile.TileEntityEngineeringTable;
 import keri.projectx.util.ModPrefs;
@@ -103,10 +100,12 @@ public class BlockEngineeringTable extends BlockProjectX<TileEntityEngineeringTa
         return layer == BlockRenderLayer.SOLID || layer == BlockRenderLayer.CUTOUT_MIPPED;
     }
 
+    /**
     @Override
     @SideOnly(Side.CLIENT)
     public IBlockRenderingHandler getRenderingHandler() {
-        return new RenderModelGlow(ProjectXModels.getModel("engineering_table"));
+        return new RenderEngineeringTable();
     }
+    */
 
 }

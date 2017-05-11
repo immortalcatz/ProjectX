@@ -28,11 +28,9 @@ public class ClientProxy implements IProjectXProxy {
     @Override
     public void preInit(FMLPreInitializationEvent event){
         MinecraftForge.EVENT_BUS.register(new BoundingBoxHandler());
-        //MinecraftForge.EVENT_BUS.register(new GameOverlayHandler());
         this.animationFX = new AnimationFX(ProjectX.CONFIG.animationResolution.getValue());
         this.iconRegistrar.preInit();
         this.renderingRegistry.preInit();
-        //ClientRegistry.bindTileEntitySpecialRenderer(TileEntityXynergyNode.class, new RenderXynergyNode());
     }
 
     @Override
@@ -42,7 +40,7 @@ public class ClientProxy implements IProjectXProxy {
 
     @Override
     public void postInit(FMLPostInitializationEvent event) {
-
+        this.renderingRegistry.postInit();
     }
 
     @Override
