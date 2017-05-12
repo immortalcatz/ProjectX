@@ -8,8 +8,11 @@ import keri.projectx.client.ProjectXModels;
 import keri.projectx.client.RenderingRegistryProjectX;
 import keri.projectx.client.handler.BoundingBoxHandler;
 import keri.projectx.client.render.AnimationFX;
+import keri.projectx.client.render.RenderEngineeringTable;
+import keri.projectx.tile.TileEntityEngineeringTable;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -31,6 +34,7 @@ public class ClientProxy implements IProjectXProxy {
         this.animationFX = new AnimationFX(ProjectX.CONFIG.animationResolution.getValue());
         this.iconRegistrar.preInit();
         this.renderingRegistry.preInit();
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityEngineeringTable.class, new RenderEngineeringTable());
     }
 
     @Override
