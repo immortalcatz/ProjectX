@@ -1,6 +1,7 @@
 package keri.projectx.init;
 
 import keri.projectx.block.decorative.*;
+import keri.projectx.block.machine.BlockEngineeringBricks;
 import keri.projectx.block.machine.BlockEngineeringTable;
 import keri.projectx.block.machine.BlockTankValve;
 import keri.projectx.block.machine.BlockXynergyNode;
@@ -15,6 +16,7 @@ import keri.projectx.item.resource.ItemXycroniumCrystal;
 import keri.projectx.item.resource.ItemXycroniumDust;
 import keri.projectx.item.resource.ItemXycroniumIngot;
 import keri.projectx.item.resource.ItemXycroniumNugget;
+import keri.projectx.tile.TileEntityEngineeringBricks;
 import keri.projectx.tile.TileEntityEngineeringTable;
 import keri.projectx.tile.TileEntityTankValve;
 import keri.projectx.tile.TileEntityXynergyNode;
@@ -37,7 +39,7 @@ public class ProjectXContent {
     public static Block xycroniumStructure;
     public static Block xycroniumShield;
     //public static Block xycroniumLadder;
-    //public static Block engineeringFrame;
+    public static Block engineeringBricks;
     public static Block tankValve;
     public static Block engineeringTable;
     public static Block xynergyNode;
@@ -77,7 +79,7 @@ public class ProjectXContent {
         xycroniumStructure = new BlockXycroniumStructure();
         xycroniumShield = new BlockXycroniumShield();
         //xycroniumLadder = new BlockXycroniumLadder();
-        //engineeringFrame = new BlockEngineeringBricks();
+        engineeringBricks = new BlockEngineeringBricks();
         tankValve = new BlockTankValve();
         engineeringTable = new BlockEngineeringTable();
         xynergyNode = new BlockXynergyNode();
@@ -105,7 +107,7 @@ public class ProjectXContent {
         //registerTileEntity(TileEntityXycroniumLadder.class, xycroniumLadder);
         registerTileEntity(TileEntityTankValve.class, tankValve);
         registerTileEntity(TileEntityEngineeringTable.class, engineeringTable);
-        //registerTileEntity(TileEntityEngineeringFrame.class, engineeringFrame);
+        registerTileEntity(TileEntityEngineeringBricks.class, engineeringBricks);
         registerTileEntity(TileEntityXynergyNode.class, xynergyNode);
     }
 

@@ -7,7 +7,7 @@ import keri.projectx.ProjectX;
 import keri.projectx.block.base.BlockSimpleGlow;
 import keri.projectx.property.EnumXycroniumColor;
 import keri.projectx.property.ProjectXProperties;
-import keri.projectx.tile.TileEntityEngineeringFrame;
+import keri.projectx.tile.TileEntityEngineeringBricks;
 import keri.projectx.util.ModPrefs;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -19,7 +19,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockEngineeringBricks extends BlockSimpleGlow<TileEntityEngineeringFrame> implements IMetaBlock {
+public class BlockEngineeringBricks extends BlockSimpleGlow<TileEntityEngineeringBricks> implements IMetaBlock {
 
     @SideOnly(Side.CLIENT)
     private TextureAtlasSprite texture;
@@ -52,8 +52,8 @@ public class BlockEngineeringBricks extends BlockSimpleGlow<TileEntityEngineerin
     }
 
     @Override
-    public TileEntityEngineeringFrame createNewTileEntity(World world, int meta) {
-        return new TileEntityEngineeringFrame();
+    public TileEntityEngineeringBricks createNewTileEntity(World world, int meta) {
+        return new TileEntityEngineeringBricks();
     }
 
     @Override

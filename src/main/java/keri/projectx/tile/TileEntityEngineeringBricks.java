@@ -3,7 +3,7 @@ package keri.projectx.tile;
 import keri.projectx.multiblock.IMultiblock;
 import keri.projectx.multiblock.MultiblockDummy;
 
-public class TileEntityEngineeringFrame extends TileEntityMultiblock {
+public class TileEntityEngineeringBricks extends TileEntityMultiblock {
 
     @Override
     public IMultiblock getMultiblock() {

@@ -7,7 +7,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 /**
- * Do this so we can have TileEntityEngineeringFrame as an
+ * Do this so we can have TileEntityEngineeringBricks as an
  * instance of TileEntityMultiblock
  */
 public class MultiblockDummy implements IMultiblock {
