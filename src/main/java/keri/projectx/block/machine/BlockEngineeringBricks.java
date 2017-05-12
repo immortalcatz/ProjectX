@@ -2,13 +2,9 @@ package keri.projectx.block.machine;
 
 import codechicken.lib.colour.ColourRGBA;
 import keri.ninetaillib.block.IMetaBlock;
-import keri.ninetaillib.property.CommonProperties;
-import keri.ninetaillib.render.registry.IBlockRenderingHandler;
 import keri.ninetaillib.texture.IIconRegistrar;
 import keri.projectx.ProjectX;
-import keri.projectx.block.base.BlockProjectX;
-import keri.projectx.client.render.IAnimationSideHandler;
-import keri.projectx.client.render.RenderSimpleGlow;
+import keri.projectx.block.base.BlockSimpleGlow;
 import keri.projectx.property.EnumXycroniumColor;
 import keri.projectx.property.ProjectXProperties;
 import keri.projectx.tile.TileEntityEngineeringFrame;
@@ -19,31 +15,24 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.property.ExtendedBlockState;
-import net.minecraftforge.common.property.IExtendedBlockState;
-import net.minecraftforge.common.property.IUnlistedProperty;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockEngineeringFrame extends BlockProjectX<TileEntityEngineeringFrame> implements IMetaBlock, IAnimationSideHandler {
+public class BlockEngineeringBricks extends BlockSimpleGlow<TileEntityEngineeringFrame> implements IMetaBlock {
 
     @SideOnly(Side.CLIENT)
-    private TextureAtlasSprite[] texture;
+    private TextureAtlasSprite texture;
 
-    public BlockEngineeringFrame(){
-        super("engineering_frame", Material.IRON);
+    public BlockEngineeringBricks(){
+        super("engineering_bricks", Material.ROCK);
         this.setHardness(1.5F);
         this.setDefaultState(this.blockState.getBaseState().withProperty(ProjectXProperties.XYCRONIUM_COLOR, EnumXycroniumColor.BLUE));
     }
 
     @Override
     protected BlockStateContainer createBlockState() {
-        return new ExtendedBlockState(this, new IProperty[]{ProjectXProperties.XYCRONIUM_COLOR}, new IUnlistedProperty[]{CommonProperties.NBT_TAG_PROPERTY});
+        return new BlockStateContainer(this, new IProperty[]{ProjectXProperties.XYCRONIUM_COLOR});
     }
 
     @Override
@@ -68,27 +57,15 @@ public class BlockEngineeringFrame extends BlockProjectX<TileEntityEngineeringFr
     }
 
     @Override
-    public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
-        TileEntityEngineeringFrame tile = (TileEntityEngineeringFrame)world.getTileEntity(pos);
-
-        if(tile != null){
-            return ((IExtendedBlockState)state).withProperty(CommonProperties.NBT_TAG_PROPERTY, tile.writeToNBT(new NBTTagCompound()));
-        }
-
-        return state;
+    @SideOnly(Side.CLIENT)
+    public void registerBlockIcons(IIconRegistrar registrar) {
+        this.texture = registrar.registerIcon(ModPrefs.MODID + ":blocks/engineering_bricks");
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegistrar registrar) {
-        this.texture = new TextureAtlasSprite[2];
-        this.texture[0] = registrar.registerIcon(ModPrefs.MODID + ":blocks/machine/engineering_frame_frame");
-        this.texture[1] = registrar.registerIcon(ModPrefs.MODID + ":blocks/machine/engineering_frame_base");
-    }
-
-    @Override
     public TextureAtlasSprite getIcon(int meta, int side) {
-        return this.texture[side];
+        return this.texture;
     }
 
     @Override
@@ -125,32 +102,6 @@ public class BlockEngineeringFrame extends BlockProjectX<TileEntityEngineeringFr
     @SideOnly(Side.CLIENT)
     public ColourRGBA getAnimationColor(ItemStack stack, int side) {
         return EnumXycroniumColor.values()[stack.getMetadata()].getColor();
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    @SuppressWarnings("deprecation")
-    public boolean isOpaqueCube(IBlockState state) {
-        return false;
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    @SuppressWarnings("deprecation")
-    public boolean isFullCube(IBlockState state) {
-        return false;
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public IBlockRenderingHandler getRenderingHandler() {
-        return new RenderSimpleGlow();
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public boolean canRenderInLayer(IBlockState state, BlockRenderLayer layer) {
-        return layer == BlockRenderLayer.SOLID || layer == BlockRenderLayer.CUTOUT_MIPPED;
     }
 
 }

@@ -1,8 +1,10 @@
 package keri.projectx.client.render;
 
+import codechicken.lib.colour.Colour;
 import codechicken.lib.colour.ColourRGBA;
 import codechicken.lib.render.CCModel;
 import codechicken.lib.render.CCRenderState;
+import codechicken.lib.util.ClientUtils;
 import codechicken.lib.vec.Translation;
 import codechicken.lib.vec.Vector3;
 import codechicken.lib.vec.uv.IconTransformation;
@@ -10,10 +12,12 @@ import keri.ninetaillib.render.fms.FMSModel;
 import keri.ninetaillib.render.registry.IBlockRenderingHandler;
 import keri.ninetaillib.render.util.VertexUtils;
 import keri.ninetaillib.texture.IIconBlock;
+import keri.ninetaillib.util.CommonUtils;
 import keri.projectx.client.ProjectXModels;
 import keri.projectx.tile.TileEntityEngineeringTable;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
@@ -27,6 +31,8 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
+
+import java.awt.*;
 
 @SideOnly(Side.CLIENT)
 public class RenderEngineeringTable extends TileEntitySpecialRenderer<TileEntityEngineeringTable> implements IBlockRenderingHandler {
@@ -104,11 +110,26 @@ public class RenderEngineeringTable extends TileEntitySpecialRenderer<TileEntity
         }
 
         Tessellator.getInstance().getBuffer().begin(GL11.GL_QUADS, VertexUtils.getFormatWithLightMap(DefaultVertexFormats.ITEM));
+        GlStateManager.pushMatrix();
+        GlStateManager.translate(0.5D, 0.58D, 0.5D);
+        GlStateManager.rotate((float) ClientUtils.getRenderTime() * 2.6F, 0F, 1F, 0F);
+        RenderTruncatedIcosahedron renderer = new RenderTruncatedIcosahedron();
+        Colour colourHex = CommonUtils.fromAWT(Color.getHSBColor((float)ClientUtils.getRenderTime() / 255F, 1F, 1F));
+        Colour colorPent = colourHex.copy().multiplyC(0.48D);
+        renderer.render(0.82D, colorPent, colourHex, RenderTruncatedIcosahedron.EnumHedrontexture.SPACE);
+        GlStateManager.popMatrix();
     }
 
     @Override
     public void renderTileEntityAt(TileEntityEngineeringTable tile, double x, double y, double z, float partialTicks, int destroyStage) {
-
+        GlStateManager.pushMatrix();
+        GlStateManager.translate(x + 0.5D, y + 0.58D, z + 0.5D);
+        GlStateManager.rotate((float) ClientUtils.getRenderTime() * 2.6F, 0F, 1F, 0F);
+        RenderTruncatedIcosahedron renderer = new RenderTruncatedIcosahedron();
+        Colour colourHex = CommonUtils.fromAWT(Color.getHSBColor((float)ClientUtils.getRenderTime() / 255F, 1F, 1F));
+        Colour colorPent = colourHex.copy().multiplyC(0.48D);
+        renderer.render(0.82D, colorPent, colourHex, RenderTruncatedIcosahedron.EnumHedrontexture.SPACE);
+        GlStateManager.popMatrix();
     }
 
 }

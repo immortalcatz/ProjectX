@@ -77,7 +77,7 @@ public class ProjectXContent {
         xycroniumStructure = new BlockXycroniumStructure();
         xycroniumShield = new BlockXycroniumShield();
         //xycroniumLadder = new BlockXycroniumLadder();
-        //engineeringFrame = new BlockEngineeringFrame();
+        //engineeringFrame = new BlockEngineeringBricks();
         tankValve = new BlockTankValve();
         engineeringTable = new BlockEngineeringTable();
         xynergyNode = new BlockXynergyNode();
