@@ -13,11 +13,17 @@ import keri.projectx.util.ModPrefs;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.annotation.Nullable;
 
 public class BlockTankValve extends BlockProjectX<TileEntityTankValve> implements IAnimationSideHandler {
 
@@ -32,6 +38,24 @@ public class BlockTankValve extends BlockProjectX<TileEntityTankValve> implement
     @Override
     public TileEntityTankValve createNewTileEntity(World world, int meta) {
         return new TileEntityTankValve();
+    }
+
+    @Override
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+        TileEntityTankValve tile = (TileEntityTankValve)world.getTileEntity(pos);
+
+        if(tile != null){
+            if(!tile.getIsMaster() && !tile.getIsSlave()){
+                tile.checkMultiblock(player, side);
+            }
+            else{
+                //open gui here
+            }
+
+            return true;
+        }
+
+        return false;
     }
 
     @Override

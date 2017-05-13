@@ -10,9 +10,4 @@ public class TileEntityTankValve extends TileEntityMultiblock {
         return new MultiblockTank();
     }
 
-    @Override
-    public void invalidate() {
-        super.invalidate();
-    }
-
 }

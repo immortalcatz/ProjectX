@@ -4,7 +4,6 @@ import keri.projectx.block.decorative.*;
 import keri.projectx.block.machine.BlockEngineeringBricks;
 import keri.projectx.block.machine.BlockEngineeringTable;
 import keri.projectx.block.machine.BlockTankValve;
-import keri.projectx.block.machine.BlockXynergyNode;
 import keri.projectx.block.resource.BlockXycroniumOre;
 import keri.projectx.block.resource.BlockXycroniumStorage;
 import keri.projectx.integration.IntegrationLoader;
@@ -18,8 +17,8 @@ import keri.projectx.item.resource.ItemXycroniumIngot;
 import keri.projectx.item.resource.ItemXycroniumNugget;
 import keri.projectx.tile.TileEntityEngineeringBricks;
 import keri.projectx.tile.TileEntityEngineeringTable;
+import keri.projectx.tile.TileEntityGlassViewer;
 import keri.projectx.tile.TileEntityTankValve;
-import keri.projectx.tile.TileEntityXynergyNode;
 import keri.projectx.util.ModPrefs;
 import net.minecraft.block.Block;
 import net.minecraft.init.SoundEvents;
@@ -33,7 +32,7 @@ public class ProjectXContent {
     public static Block xycroniumOre;
     public static Block xycroniumBlock;
     public static Block xycroniumBricks;
-    //public static Block glassViewer;
+    public static Block glassViewer;
     public static Block xycroniumPlatform;
     public static Block xycroniumPlate;
     public static Block xycroniumStructure;
@@ -73,7 +72,7 @@ public class ProjectXContent {
         xycroniumOre = new BlockXycroniumOre();
         xycroniumBlock = new BlockXycroniumStorage();
         xycroniumBricks = new BlockXycroniumBricks();
-        //glassViewer = new BlockGlassViewer();
+        glassViewer = new BlockGlassViewer();
         xycroniumPlatform = new BlockXycroniumPlatform();
         xycroniumPlate = new BlockXycroniumPlate();
         xycroniumStructure = new BlockXycroniumStructure();
@@ -82,7 +81,7 @@ public class ProjectXContent {
         engineeringBricks = new BlockEngineeringBricks();
         tankValve = new BlockTankValve();
         engineeringTable = new BlockEngineeringTable();
-        xynergyNode = new BlockXynergyNode();
+        //xynergyNode = new BlockXynergyNode();
 
         xycroniumCrystal = new ItemXycroniumCrystal();
         xycroniumIngot = new ItemXycroniumIngot();
@@ -104,11 +103,12 @@ public class ProjectXContent {
     }
 
     public static void init(){
+        registerTileEntity(TileEntityGlassViewer.class, glassViewer);
         //registerTileEntity(TileEntityXycroniumLadder.class, xycroniumLadder);
         registerTileEntity(TileEntityTankValve.class, tankValve);
         registerTileEntity(TileEntityEngineeringTable.class, engineeringTable);
         registerTileEntity(TileEntityEngineeringBricks.class, engineeringBricks);
-        registerTileEntity(TileEntityXynergyNode.class, xynergyNode);
+        //registerTileEntity(TileEntityXynergyNode.class, xynergyNode);
     }
 
     private static void registerTileEntity(Class<? extends TileEntity> tileClass, Block owner){

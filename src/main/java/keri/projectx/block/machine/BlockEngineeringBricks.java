@@ -2,9 +2,12 @@ package keri.projectx.block.machine;
 
 import codechicken.lib.colour.ColourRGBA;
 import keri.ninetaillib.block.IMetaBlock;
+import keri.ninetaillib.render.registry.IBlockRenderingHandler;
 import keri.ninetaillib.texture.IIconRegistrar;
 import keri.projectx.ProjectX;
-import keri.projectx.block.base.BlockSimpleGlow;
+import keri.projectx.block.base.BlockProjectX;
+import keri.projectx.client.render.IAnimationSideHandler;
+import keri.projectx.client.render.RenderEngineeringBricks;
 import keri.projectx.property.EnumXycroniumColor;
 import keri.projectx.property.ProjectXProperties;
 import keri.projectx.tile.TileEntityEngineeringBricks;
@@ -15,11 +18,12 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockEngineeringBricks extends BlockSimpleGlow<TileEntityEngineeringBricks> implements IMetaBlock {
+public class BlockEngineeringBricks extends BlockProjectX<TileEntityEngineeringBricks> implements IMetaBlock, IAnimationSideHandler {
 
     @SideOnly(Side.CLIENT)
     private TextureAtlasSprite texture;
@@ -102,6 +106,18 @@ public class BlockEngineeringBricks extends BlockSimpleGlow<TileEntityEngineerin
     @SideOnly(Side.CLIENT)
     public ColourRGBA getAnimationColor(ItemStack stack, int side) {
         return EnumXycroniumColor.values()[stack.getMetadata()].getColor();
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean canRenderInLayer(IBlockState state, BlockRenderLayer layer) {
+        return layer == BlockRenderLayer.SOLID || layer == BlockRenderLayer.CUTOUT_MIPPED;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public IBlockRenderingHandler getRenderingHandler() {
+        return new RenderEngineeringBricks();
     }
 
 }
