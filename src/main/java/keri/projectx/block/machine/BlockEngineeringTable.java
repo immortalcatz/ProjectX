@@ -43,7 +43,7 @@ public class BlockEngineeringTable extends BlockProjectX<TileEntityEngineeringTa
 
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
-        if(!player.isSneaking() && world.isRemote){
+        if(!player.isSneaking()){
             player.openGui(ProjectX.INSTANCE, ProjectXGuiHandler.GUIID_ENGINEERING_TABLE, world, pos.getX(), pos.getY(), pos.getZ());
             return true;
         }

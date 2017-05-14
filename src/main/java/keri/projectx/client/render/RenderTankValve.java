@@ -12,6 +12,7 @@ import keri.ninetaillib.texture.IIconBlock;
 import keri.projectx.client.ProjectXModels;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
@@ -75,6 +76,7 @@ public class RenderTankValve extends RenderMultiblock {
     public void renderItem(CCRenderState renderState, ItemStack stack) {
         CCModel[] model = externalModel.getModel();
         Tessellator.getInstance().draw();
+        GlStateManager.disableBlend();
         IAnimationSideHandler handler = (IAnimationSideHandler)Block.getBlockFromItem(stack.getItem());
         IIconBlock iconProvider = (IIconBlock)Block.getBlockFromItem(stack.getItem());
         int meta = stack.getMetadata();
@@ -100,6 +102,7 @@ public class RenderTankValve extends RenderMultiblock {
             Tessellator.getInstance().draw();
         }
 
+        GlStateManager.enableBlend();
         Tessellator.getInstance().getBuffer().begin(GL11.GL_QUADS, VertexUtils.getFormatWithLightMap(DefaultVertexFormats.ITEM));
     }
 

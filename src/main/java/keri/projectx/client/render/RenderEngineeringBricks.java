@@ -36,7 +36,8 @@ public class RenderEngineeringBricks extends RenderMultiblock {
         IAnimationSideHandler handler = (IAnimationSideHandler)state.getBlock();
         IIconBlock iconProvider = (IIconBlock)state.getBlock();
         int meta = state.getBlock().getMetaFromState(state);
-        int lastBrightness = (int) OpenGlHelper.lastBrightnessY << 16 | (int)OpenGlHelper.lastBrightnessX;
+        //int lastBrightness = (int)OpenGlHelper.lastBrightnessY << 16 | (int)OpenGlHelper.lastBrightnessX;
+        int lastBrightness = (int)OpenGlHelper.lastBrightnessY << 16 | (int)OpenGlHelper.lastBrightnessX;
 
         for(int pass = 0; pass < 2; pass++){
             renderState.reset();
@@ -93,6 +94,7 @@ public class RenderEngineeringBricks extends RenderMultiblock {
             Tessellator.getInstance().draw();
         }
 
+        renderState.computeLighting = true;
         GlStateManager.enableBlend();
         Tessellator.getInstance().getBuffer().begin(GL11.GL_QUADS, VertexUtils.getFormatWithLightMap(DefaultVertexFormats.ITEM));
     }

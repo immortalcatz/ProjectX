@@ -1,9 +1,17 @@
 package keri.projectx.multiblock;
 
+import codechicken.lib.render.CCModel;
 import codechicken.lib.render.CCRenderState;
+import codechicken.lib.texture.TextureUtils;
+import codechicken.lib.vec.Cuboid6;
+import codechicken.lib.vec.Translation;
+import codechicken.lib.vec.Vector3;
+import codechicken.lib.vec.uv.IconTransformation;
 import keri.ninetaillib.multiblock.MultiblockPattern;
+import keri.projectx.init.ProjectXContent;
 import keri.projectx.tile.TileEntityMultiblock;
 import keri.projectx.tile.TileEntityTankValve;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -87,6 +95,41 @@ public class MultiblockTank implements IMultiblock {
     @Override
     @SideOnly(Side.CLIENT)
     public boolean renderMultiblock(CCRenderState renderState, IBlockAccess world, BlockPos pos, BlockRenderLayer layer){
+        TileEntityTankValve tile = (TileEntityTankValve)world.getTileEntity(pos);
+
+        if(tile != null){
+            if(tile.getIsMaster()){
+                CCModel masterModel = CCModel.quadModel(24).generateBlock(0, new Cuboid6(0D, 0D, 0D, 1D, 1D, 1D)).computeNormals();
+                masterModel.apply(new Translation(Vector3.fromBlockPos(pos)));
+                masterModel.render(renderState, new IconTransformation(TextureUtils.getTexture("minecraft:blocks/diamond_block")));
+
+                for(BlockPos slavePos : tile.getSlaveBlocks()){
+                    CCModel slaveModel = CCModel.quadModel(24).generateBlock(0, new Cuboid6(0D, 0D, 0D, 1D, 1D, 1D)).computeNormals();
+                    slaveModel.apply(new Translation(Vector3.fromBlockPos(slavePos)));
+                    TextureAtlasSprite texture = null;
+
+                    if(world.getBlockState(slavePos) == ProjectXContent.glassViewer.getDefaultState()){
+                        texture = TextureUtils.getTexture("minecraft:blocks/glass");
+                    }
+                    else if(world.getBlockState(slavePos) == ProjectXContent.tankValve.getDefaultState()){
+                        texture = TextureUtils.getTexture("minecraft:blocks/gold_block");
+                    }
+                    else{
+                        texture = TextureUtils.getTexture("minecraft:blocks/iron_block");
+                    }
+
+                    if(world.getBlockState(slavePos) == ProjectXContent.glassViewer.getDefaultState()){
+                        if(layer == BlockRenderLayer.CUTOUT_MIPPED){
+                            slaveModel.render(renderState, new IconTransformation(texture));
+                        }
+                    }
+                    else{
+                        slaveModel.render(renderState, new IconTransformation(texture));
+                    }
+                }
+            }
+        }
+
         return false;
     }
 

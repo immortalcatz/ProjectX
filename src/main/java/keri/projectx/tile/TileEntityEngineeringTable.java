@@ -7,7 +7,7 @@ import net.minecraft.util.EnumFacing;
 
 public class TileEntityEngineeringTable extends TileEntityInventory {
 
-    private InternalInventory internalInventory = new InternalInventory(this, 9);
+    private InternalInventory internalInventory = new InternalInventory(this, 10);
 
     @Override
     public InternalInventory getInternalInventory() {

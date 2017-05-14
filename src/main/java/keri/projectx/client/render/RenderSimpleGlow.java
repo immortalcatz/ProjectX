@@ -54,6 +54,8 @@ public class RenderSimpleGlow implements IBlockRenderingHandler {
             }
         }
 
+        renderState.lightMatrix.locate(world, pos);
+        renderState.setBrightness(world, pos);
         return true;
     }
 
