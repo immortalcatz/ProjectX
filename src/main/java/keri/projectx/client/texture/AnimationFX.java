@@ -1,4 +1,4 @@
-package keri.projectx.client.render;
+package keri.projectx.client.texture;
 
 import codechicken.lib.texture.TextureFX;
 import net.minecraft.util.math.MathHelper;

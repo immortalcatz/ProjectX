@@ -17,7 +17,6 @@ public class ProjectXModels {
         modelLoader.registerModel("tool_forge", new ResourceLocation(ModPrefs.MODID, "models/tool_forge"));
         modelLoader.registerModel("tank_valve", new ResourceLocation(ModPrefs.MODID, "models/tank_valve"));
         modelLoader.registerModel("engineering_table", new ResourceLocation(ModPrefs.MODID, "models/engineering_table"));
-        modelLoader.registerModel("multiblock_tank_tier_1", new ResourceLocation(ModPrefs.MODID, "models/multiblock_tank_tier_1"));
         modelLoader.loadModels(event);
     }
 

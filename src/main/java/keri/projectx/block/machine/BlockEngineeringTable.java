@@ -7,17 +7,24 @@ import keri.projectx.ProjectX;
 import keri.projectx.block.base.BlockProjectX;
 import keri.projectx.client.render.IAnimationSideHandler;
 import keri.projectx.client.render.RenderEngineeringTable;
+import keri.projectx.network.ProjectXGuiHandler;
 import keri.projectx.property.EnumXycroniumColor;
 import keri.projectx.tile.TileEntityEngineeringTable;
 import keri.projectx.util.ModPrefs;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.annotation.Nullable;
 
 public class BlockEngineeringTable extends BlockProjectX<TileEntityEngineeringTable> implements IAnimationSideHandler {
 
@@ -32,6 +39,16 @@ public class BlockEngineeringTable extends BlockProjectX<TileEntityEngineeringTa
     @Override
     public TileEntityEngineeringTable createNewTileEntity(World world, int meta) {
         return new TileEntityEngineeringTable();
+    }
+
+    @Override
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+        if(!player.isSneaking() && world.isRemote){
+            player.openGui(ProjectX.INSTANCE, ProjectXGuiHandler.GUIID_ENGINEERING_TABLE, world, pos.getX(), pos.getY(), pos.getZ());
+            return true;
+        }
+
+        return false;
     }
 
     @Override

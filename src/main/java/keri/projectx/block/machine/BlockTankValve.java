@@ -7,6 +7,7 @@ import keri.projectx.ProjectX;
 import keri.projectx.block.base.BlockProjectX;
 import keri.projectx.client.render.IAnimationSideHandler;
 import keri.projectx.client.render.RenderTankValve;
+import keri.projectx.network.ProjectXGuiHandler;
 import keri.projectx.property.EnumXycroniumColor;
 import keri.projectx.tile.TileEntityTankValve;
 import keri.projectx.util.ModPrefs;
@@ -28,7 +29,7 @@ import javax.annotation.Nullable;
 public class BlockTankValve extends BlockProjectX<TileEntityTankValve> implements IAnimationSideHandler {
 
     @SideOnly(Side.CLIENT)
-    private TextureAtlasSprite texture;
+    private TextureAtlasSprite[] texture;
 
     public BlockTankValve() {
         super("tank_valve", Material.ROCK);
@@ -49,7 +50,7 @@ public class BlockTankValve extends BlockProjectX<TileEntityTankValve> implement
                 tile.checkMultiblock(player, side);
             }
             else{
-                //open gui here
+                player.openGui(ProjectX.INSTANCE, ProjectXGuiHandler.GUIID_TANK, world, pos.getX(), pos.getY(), pos.getZ());
             }
 
             return true;
@@ -61,13 +62,14 @@ public class BlockTankValve extends BlockProjectX<TileEntityTankValve> implement
     @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegistrar registrar) {
-        this.texture = registrar.registerIcon(ModPrefs.MODID + ":blocks/tank_valve");
+        this.texture = new TextureAtlasSprite[4];
+        this.texture[0] = registrar.registerIcon(ModPrefs.MODID + ":blocks/tank_valve");
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public TextureAtlasSprite getIcon(int meta, int side) {
-        return this.texture;
+    public TextureAtlasSprite getIcon(int meta, int side){
+        return this.texture[side];
     }
 
     @Override
