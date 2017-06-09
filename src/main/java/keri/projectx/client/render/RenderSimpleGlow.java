@@ -1,25 +1,26 @@
 package keri.projectx.client.render;
 
-import codechicken.lib.colour.ColourRGBA;
 import codechicken.lib.render.CCModel;
 import codechicken.lib.render.CCRenderState;
+import codechicken.lib.render.buffer.BakingVertexBuffer;
 import codechicken.lib.vec.Cuboid6;
 import codechicken.lib.vec.Translation;
 import codechicken.lib.vec.Vector3;
 import codechicken.lib.vec.uv.IconTransformation;
-import keri.ninetaillib.render.registry.IBlockRenderingHandler;
-import keri.ninetaillib.render.util.VertexUtils;
-import keri.ninetaillib.texture.IIconBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.Tessellator;
+import keri.ninetaillib.lib.render.IBlockRenderingHandler;
+import keri.ninetaillib.lib.render.RenderingConstants;
+import keri.ninetaillib.lib.render.RenderingRegistry;
+import keri.ninetaillib.lib.texture.IIconBlock;
+import keri.ninetaillib.lib.util.BlockAccessUtils;
+import keri.ninetaillib.lib.util.RenderUtils;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.EnumBlockRenderType;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
@@ -27,77 +28,81 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
-public class RenderSimpleGlow implements IBlockRenderingHandler {
+public class RenderSimpleGlow extends RenderHelper implements IBlockRenderingHandler {
 
-    @Override
-    public boolean renderBlock(CCRenderState renderState, IBlockAccess world, BlockPos pos, BlockRenderLayer layer){
-        CCModel model = CCModel.quadModel(24).generateBlock(0, new Cuboid6(0D, 0D, 0D, 1D, 1D, 1D)).computeNormals();
-        model.apply(new Translation(Vector3.fromBlockPos(pos)));
-        IBlockState state = world.getBlockState(pos).getActualState(world, pos);
-        IAnimationSideHandler handler = (IAnimationSideHandler)state.getBlock();
-        IIconBlock iconProvider = (IIconBlock)state.getBlock();
-        int meta = state.getBlock().getMetaFromState(state);
-        int lastBrightness = (int)OpenGlHelper.lastBrightnessY << 16 | (int)OpenGlHelper.lastBrightnessX;
+    public static EnumBlockRenderType RENDER_TYPE;
+    private static CCModel BLOCK_MODEL;
 
-        for(int pass = 0; pass < 2; pass++){
-            renderState.reset();
-
-            for(int side = 0; side < 6; side++){
-                TextureAtlasSprite textureBlock = iconProvider.getIcon(meta, side);
-                TextureAtlasSprite textureAnimation = handler.getAnimationIcon(state, side);
-                int animationBrightness = handler.getAnimationBrightness(state, side);
-                ColourRGBA animationColor = handler.getAnimationColor(state, side);
-                ColourRGBA colorMultiplier = handler.getColorMultiplier(state, side);
-                renderState.brightness = pass == 0 ? animationBrightness : lastBrightness;
-                model.setColour(pass == 0 ? animationColor.rgba() : colorMultiplier.rgba());
-                model.render(renderState, 0 + (4 * side), 4 + (4 * side), new IconTransformation(pass == 0 ? textureAnimation : textureBlock));
-            }
-        }
-
-        renderState.lightMatrix.locate(world, pos);
-        renderState.setBrightness(world, pos);
-        return true;
+    static{
+        RENDER_TYPE = RenderingRegistry.getNextAvailableType();
+        RenderingRegistry.registerRenderingHandler(new RenderSimpleGlow());
+        BLOCK_MODEL = CCModel.quadModel(24).generateBlock(0, new Cuboid6(0D, 0D, 0D, 1D, 1D, 1D)).computeNormals();
     }
 
     @Override
-    public void renderBlockDamage(CCRenderState renderState, IBlockAccess world, BlockPos pos, TextureAtlasSprite texture) {
-        CCModel model = CCModel.quadModel(24).generateBlock(0, new Cuboid6(0D, 0D, 0D, 1D, 1D, 1D)).computeNormals();
+    public boolean renderWorld(IBlockAccess world, BlockPos pos, VertexBuffer buffer, BlockRenderLayer layer){
+        CCRenderState renderState = RenderingConstants.getRenderState();
+        IIconBlock iconProvider = (IIconBlock)world.getBlockState(pos).getBlock();
+        IAnimationHandler animationHandler = (IAnimationHandler)world.getBlockState(pos).getBlock();
+        CCModel modelAnimation = BLOCK_MODEL.copy();
+        modelAnimation.apply(new Translation(Vector3.fromBlockPos(pos)));
+        renderState.reset();
+        renderState.bind(buffer);
+
+        for(EnumFacing side : EnumFacing.VALUES){
+            TextureAtlasSprite texture = animationHandler.getAnimationIcon(world, pos, side.getIndex());
+            int color = animationHandler.getAnimationColor(world, pos, side.getIndex());
+            int brightness = animationHandler.getAnimationBrightness(world, pos, side.getIndex());
+            renderState.brightness = brightness;
+            modelAnimation.setColour(color);
+            modelAnimation.render(renderState, 4 * side.getIndex(), 4 + (4 * side.getIndex()), new IconTransformation(texture));
+        }
+
+        CCModel modelOverlay = BLOCK_MODEL.copy();
+        BakingVertexBuffer parent = BakingVertexBuffer.create();
+        parent.begin(GL11.GL_QUADS, DefaultVertexFormats.ITEM);
+        renderState.reset();
+        renderState.bind(parent);
+
+        for(EnumFacing side : EnumFacing.VALUES){
+            TextureAtlasSprite texture = null;
+
+            if(iconProvider.getIcon(world, pos, side.getIndex()) != null){
+                texture = iconProvider.getIcon(world, pos, side.getIndex());
+            }
+            else{
+                texture = iconProvider.getIcon(BlockAccessUtils.getBlockMetadata(world, pos), side.getIndex());
+            }
+
+            int colorMultiplier = iconProvider.getColorMultiplier(BlockAccessUtils.getBlockMetadata(world, pos), side.getIndex());
+            modelOverlay.setColour(colorMultiplier);
+            modelOverlay.render(renderState, 4 * side.getIndex(), 4 + (4 * side.getIndex()), new IconTransformation(texture));
+        }
+
+        parent.finishDrawing();
+        return RenderUtils.renderQuads(buffer, world, pos, parent.bake());
+    }
+
+    @Override
+    public void renderDamage(IBlockAccess world, BlockPos pos, VertexBuffer buffer, TextureAtlasSprite texture) {
+        CCModel model = BLOCK_MODEL.copy();
         model.apply(new Translation(Vector3.fromBlockPos(pos)));
+        CCRenderState renderState = RenderingConstants.getRenderState();
+        renderState.reset();
+        renderState.bind(buffer);
         model.render(renderState, new IconTransformation(texture));
     }
 
     @Override
-    public void renderItem(CCRenderState renderState, ItemStack stack) {
-        Tessellator.getInstance().draw();
-        GlStateManager.disableBlend();
-        CCModel model = CCModel.quadModel(24).generateBlock(0, new Cuboid6(0D, 0D, 0D, 1D, 1D, 1D)).computeNormals();
-        IAnimationSideHandler handler = (IAnimationSideHandler)Block.getBlockFromItem(stack.getItem());
-        IIconBlock iconProvider = (IIconBlock)Block.getBlockFromItem(stack.getItem());
-        int meta = stack.getMetadata();
-        int lastBrightness = (int)OpenGlHelper.lastBrightnessY << 16 | (int)OpenGlHelper.lastBrightnessX;
+    public void renderInventory(ItemStack stack, VertexBuffer buffer) {
+        /**
+         * Implement actual item rendering you lazy shit!
+         */
+    }
 
-        for(int pass = 0; pass < 2; pass++){
-            VertexBuffer buffer = Tessellator.getInstance().getBuffer();
-            buffer.begin(GL11.GL_QUADS, VertexUtils.getFormatWithLightMap(DefaultVertexFormats.ITEM));
-            renderState.reset();
-            renderState.bind(buffer);
-
-            for(int side = 0; side < 6; side++){
-                TextureAtlasSprite textureBlock = iconProvider.getIcon(meta, side);
-                TextureAtlasSprite textureAnimation = handler.getAnimationIcon(stack, side);
-                int animationBrightness = handler.getAnimationBrightness(stack, side);
-                ColourRGBA animationColor = handler.getAnimationColor(stack, side);
-                ColourRGBA colorMultiplier = handler.getColorMultiplier(stack, side);
-                renderState.brightness = pass == 0 ? animationBrightness : lastBrightness;
-                model.setColour(pass == 0 ? animationColor.rgba() : colorMultiplier.rgba());
-                model.render(renderState, 0 + (4 * side), 4 + (4 * side), new IconTransformation(pass == 0 ? textureAnimation : textureBlock));
-            }
-
-            Tessellator.getInstance().draw();
-        }
-
-        GlStateManager.enableBlend();
-        Tessellator.getInstance().getBuffer().begin(GL11.GL_QUADS, VertexUtils.getFormatWithLightMap(DefaultVertexFormats.ITEM));
+    @Override
+    public EnumBlockRenderType getRenderType() {
+        return RENDER_TYPE;
     }
 
 }

@@ -1,15 +1,15 @@
 [
 {
-  "modid": "projectx",
-  "name": "ProjectX 2",
-  "description": "XyCraft inspired mod for 1.10.2+",
+  "modid": "examplemod",
+  "name": "Example Mod",
+  "description": "Example placeholder mod.",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "url": "http://github.com/TeamMD5/ProjectX",
+  "url": "",
   "updateUrl": "",
-  "authorList": ["KitsuneAlex"],
-  "credits": "Soaryn for XyCraft which inspired this mod.",
-  "logoFile": "/assets/projectx/textures/logo.png",
+  "authorList": ["ExampleDude"],
+  "credits": "The Forge and FML guys, for making this example",
+  "logoFile": "",
   "screenshots": [],
   "dependencies": []
 }

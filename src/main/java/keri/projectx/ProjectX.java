@@ -1,24 +1,16 @@
 package keri.projectx;
 
-import keri.projectx.init.ProjectXConfig;
-import keri.projectx.init.ProjectXContent;
-import keri.projectx.init.ProjectXCrafting;
-import keri.projectx.init.ProjectXOreDictionary;
-import keri.projectx.integration.IntegrationLoader;
-import keri.projectx.multiblock.ProjectXMultiblocks;
-import keri.projectx.network.ProjectXGuiHandler;
-import keri.projectx.proxy.IProjectXProxy;
-import keri.projectx.world.WorldGenOres;
-import net.minecraftforge.fml.common.FMLCommonHandler;
+import keri.ninetaillib.lib.config.IModConfig;
+import keri.ninetaillib.lib.config.ModConfig;
+import keri.ninetaillib.lib.logger.IModLogger;
+import keri.ninetaillib.lib.logger.ModLogger;
+import keri.ninetaillib.lib.mod.ModHandler;
+import keri.projectx.proxy.IProxy;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import static keri.projectx.util.ModPrefs.*;
 
@@ -28,34 +20,28 @@ public class ProjectX {
     @Mod.Instance(value = MODID)
     public static ProjectX INSTANCE = new ProjectX();
     @SidedProxy(clientSide = CSIDE, serverSide = SSIDE)
-    public static IProjectXProxy PROXY;
-    public static Logger LOGGER = LogManager.getLogger(NAME);
-    public static ProjectXConfig CONFIG;
+    public static IProxy PROXY;
+    public static ModHandler MOD_HANDLER = new ModHandler(INSTANCE);
+    @ModLogger
+    public static IModLogger LOGGER;
+    @ModConfig
+    public static IModConfig CONFIG;
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event){
-        CONFIG = new ProjectXConfig(event);
-        PROXY.loadModels(event);
-        ProjectXContent.preInit();
-        ProjectXMultiblocks.preInit(event);
-        IntegrationLoader.INSTANCE.preInit(event, FMLCommonHandler.instance().getEffectiveSide());
+        MOD_HANDLER.handlePreInit(event);
         PROXY.preInit(event);
     }
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event){
-        ProjectXContent.init();
-        ProjectXCrafting.init();
-        ProjectXOreDictionary.init();
-        IntegrationLoader.INSTANCE.init(event, FMLCommonHandler.instance().getEffectiveSide());
-        GameRegistry.registerWorldGenerator(new WorldGenOres(), 1);
-        NetworkRegistry.INSTANCE.registerGuiHandler(INSTANCE, new ProjectXGuiHandler());
+        MOD_HANDLER.handleInit(event);
         PROXY.init(event);
     }
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event){
-        IntegrationLoader.INSTANCE.postInit(event, FMLCommonHandler.instance().getEffectiveSide());
+        MOD_HANDLER.handlePostInit(event);
         PROXY.postInit(event);
     }
 

@@ -1,65 +1,35 @@
 package keri.projectx.proxy;
 
-import keri.ninetaillib.render.registry.IRenderingRegistry;
-import keri.ninetaillib.texture.DefaultIconRegistrar;
-import keri.ninetaillib.texture.IIconRegistrar;
 import keri.projectx.ProjectX;
-import keri.projectx.client.ProjectXModels;
-import keri.projectx.client.RenderingRegistryProjectX;
-import keri.projectx.client.handler.BoundingBoxHandler;
-import keri.projectx.client.render.RenderEngineeringTable;
-import keri.projectx.client.texture.AnimationFX;
-import keri.projectx.tile.TileEntityEngineeringTable;
+import keri.projectx.client.render.AnimatedTextureFX;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-public class ClientProxy implements IProjectXProxy {
+public class ClientProxy implements IProxy {
 
-    private static final DefaultIconRegistrar iconRegistrar = new DefaultIconRegistrar();
-    private static final RenderingRegistryProjectX renderingRegistry = new RenderingRegistryProjectX();
-    private static AnimationFX animationFX;
+    private static AnimatedTextureFX ANIMATED_TEXTURE;
 
     @Override
-    public void loadModels(FMLPreInitializationEvent event) {
-        ProjectXModels.preInit(event);
-    }
-
-    @Override
-    public void preInit(FMLPreInitializationEvent event){
-        MinecraftForge.EVENT_BUS.register(new BoundingBoxHandler());
-        this.animationFX = new AnimationFX(ProjectX.CONFIG.animationResolution.getValue());
-        this.iconRegistrar.preInit();
-        this.renderingRegistry.preInit();
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityEngineeringTable.class, new RenderEngineeringTable());
+    public void preInit(FMLPreInitializationEvent event) {
+        ANIMATED_TEXTURE = new AnimatedTextureFX(64);
+        ProjectX.MOD_HANDLER.handleClientPreInit(event);
     }
 
     @Override
     public void init(FMLInitializationEvent event) {
-        this.renderingRegistry.init();
+        ProjectX.MOD_HANDLER.handleClientInit(event);
     }
 
     @Override
     public void postInit(FMLPostInitializationEvent event) {
-        this.renderingRegistry.postInit();
+        ProjectX.MOD_HANDLER.handlePostInit(event);
     }
 
     @Override
-    public IRenderingRegistry getRenderingRegistry() {
-        return this.renderingRegistry;
-    }
-
-    @Override
-    public IIconRegistrar getIconRegistrar() {
-        return this.iconRegistrar;
-    }
-
-    @Override
-    public TextureAtlasSprite getAnimationIcon() {
-        return this.animationFX.texture;
+    public TextureAtlasSprite getAnimatedTexture() {
+        return ANIMATED_TEXTURE.texture;
     }
 
 }
