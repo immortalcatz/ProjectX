@@ -13,7 +13,10 @@ import keri.ninetaillib.lib.render.RenderingRegistry;
 import keri.ninetaillib.lib.texture.IIconBlock;
 import keri.ninetaillib.lib.util.BlockAccessUtils;
 import keri.ninetaillib.lib.util.RenderUtils;
+import net.minecraft.block.Block;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -95,9 +98,49 @@ public class RenderSimpleGlow extends RenderHelper implements IBlockRenderingHan
 
     @Override
     public void renderInventory(ItemStack stack, VertexBuffer buffer) {
-        /**
-         * Implement actual item rendering you lazy shit!
-         */
+        Tessellator.getInstance().draw();
+        GlStateManager.pushMatrix();
+        GlStateManager.disableLighting();
+        int minFilter = GL11.glGetTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER);
+        int magFilter = GL11.glGetTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER);
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST);
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
+        buffer.begin(GL11.GL_QUADS, RenderUtils.getFormatWithLightMap(DefaultVertexFormats.ITEM));
+        CCRenderState renderState = RenderingConstants.getRenderState();
+        IIconBlock iconProvider = (IIconBlock)Block.getBlockFromItem(stack.getItem());
+        IAnimationHandler animationHandler = (IAnimationHandler)Block.getBlockFromItem(stack.getItem());
+        renderState.reset();
+        renderState.bind(buffer);
+        CCModel modelAnimation = BLOCK_MODEL.copy();
+
+        for(EnumFacing side : EnumFacing.VALUES){
+            TextureAtlasSprite texture = animationHandler.getAnimationIcon(stack, side.getIndex());
+            int color = animationHandler.getAnimationColor(stack, side.getIndex());
+            int brightness = animationHandler.getAnimationBrightness(stack, side.getIndex());
+            renderState.brightness = brightness;
+            modelAnimation.setColour(color);
+            modelAnimation.render(renderState, 4 * side.getIndex(), 4 + (4 * side.getIndex()), new IconTransformation(texture));
+        }
+
+        Tessellator.getInstance().draw();
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, minFilter);
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, magFilter);
+        GlStateManager.enableLighting();
+        GlStateManager.popMatrix();
+        buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.ITEM);
+        renderState.reset();
+        renderState.bind(buffer);
+        CCModel modelOverlay = BLOCK_MODEL.copy();
+
+        for(EnumFacing side : EnumFacing.VALUES){
+            TextureAtlasSprite texture = iconProvider.getIcon(stack.getMetadata(), side.getIndex());
+            int colorMultiplier = iconProvider.getColorMultiplier(stack.getMetadata(), side.getIndex());
+            modelOverlay.setColour(colorMultiplier);
+            modelOverlay.render(renderState, 4 * side.getIndex(), 4 + (4 * side.getIndex()), new IconTransformation(texture));
+        }
+
+        Tessellator.getInstance().draw();
+        Tessellator.getInstance().getBuffer().begin(GL11.GL_QUADS, RenderUtils.getFormatWithLightMap(DefaultVertexFormats.ITEM));
     }
 
     @Override
