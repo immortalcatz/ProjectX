@@ -4,6 +4,7 @@ import keri.projectx.tile.TileEntityFabricator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
 
 public class ContainerFabricator extends ContainerBase {
 
@@ -28,6 +29,11 @@ public class ContainerFabricator extends ContainerBase {
     @Override
     public boolean canInteractWith(EntityPlayer player) {
         return this.tile.isUsableByPlayer(player);
+    }
+
+    @Override
+    public ItemStack transferStackInSlot(EntityPlayer player, int index) {
+        return this.transferStack(player, index);
     }
 
 }
