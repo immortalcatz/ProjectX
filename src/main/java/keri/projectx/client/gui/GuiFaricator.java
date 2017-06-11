@@ -4,6 +4,7 @@ import codechicken.lib.colour.ColourRGBA;
 import codechicken.lib.texture.TextureUtils;
 import keri.ninetaillib.lib.math.Point2i;
 import keri.projectx.ProjectX;
+import keri.projectx.client.IconHandler;
 import keri.projectx.container.ContainerFabricator;
 import keri.projectx.tile.TileEntityFabricator;
 import keri.projectx.util.EnumXycroniumColor;
@@ -25,7 +26,7 @@ public class GuiFaricator extends GuiContainer {
     private InventoryPlayer inventoryPlayer;
     private TileEntityFabricator tile;
     private ContainerFabricator container;
-    private GuiTab tabInfo = new GuiTab(null, null);
+    private GuiTab tabInfo = new GuiTab();
 
     public GuiFaricator(InventoryPlayer inventoryPlayer, TileEntityFabricator tile) {
         super(new ContainerFabricator(inventoryPlayer, tile));
@@ -52,14 +53,17 @@ public class GuiFaricator extends GuiContainer {
 
         this.tabInfo.setPosition(new Point2i(this.guiLeft - 22, this.guiTop + 10));
         this.tabInfo.setSize(new Point2i(22, 20));
+        this.tabInfo.setSizeExpanded(new Point2i(52, 50));
         this.tabInfo.setColorUnselected(new ColourRGBA(140, 140, 140, 255));
-        this.tabInfo.setColorSelected(EnumXycroniumColor.BLUE.getColor());
+        this.tabInfo.setColorSelected(new ColourRGBA(200, 200, 200, 255));
+        this.tabInfo.setIcon(IconHandler.INSTANCE.getIcon("gui_icon_info"));
         this.tabInfo.renderBackground(this, mouseX, mouseY);
     }
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
+        this.tabInfo.renderForeground(this, mouseX, mouseY);
     }
 
     @Override

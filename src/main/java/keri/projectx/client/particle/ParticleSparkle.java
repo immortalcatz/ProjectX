@@ -1,5 +1,6 @@
 package keri.projectx.client.particle;
 
+import keri.projectx.client.IconHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.renderer.VertexBuffer;
@@ -19,7 +20,7 @@ public class ParticleSparkle extends Particle {
         super.motionX = super.motionY = super.motionZ = 0.0D;
         super.particleScale *= scale;
         super.particleMaxAge = 4 * multiplier;
-        this.setParticleTexture(ParticleManager.INSTANCE.getParticleTexture("sparkle"));
+        this.setParticleTexture(IconHandler.INSTANCE.getIcon("particle_sparkle"));
     }
 
     @Override

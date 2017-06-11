@@ -2,13 +2,12 @@ package keri.projectx.proxy;
 
 import codechicken.lib.packet.PacketCustom;
 import keri.projectx.ProjectX;
-import keri.projectx.client.particle.ParticleManager;
+import keri.projectx.client.IconHandler;
 import keri.projectx.client.render.AnimatedTextureFX;
 import keri.projectx.client.render.tesr.TESRFabricator;
 import keri.projectx.network.ProjectXCPH;
 import keri.projectx.tile.TileEntityFabricator;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -24,8 +23,7 @@ public class ClientProxy implements IProxy {
         ANIMATED_TEXTURE = new AnimatedTextureFX(animatinResolution);
         ProjectX.MOD_HANDLER.handleClientPreInit(event);
         this.registerRenderers();
-        ParticleManager.INSTANCE.preInit();
-        MinecraftForge.EVENT_BUS.register(ParticleManager.INSTANCE);
+        IconHandler.INSTANCE.preInit();
     }
 
     @Override
