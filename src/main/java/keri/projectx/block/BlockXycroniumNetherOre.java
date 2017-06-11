@@ -18,13 +18,13 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockXycroniumOre extends BlockProjectX implements IAnimationHandler {
+public class BlockXycroniumNetherOre extends BlockProjectX implements IAnimationHandler {
 
     @SideOnly(Side.CLIENT)
     private TextureAtlasSprite[] texture;
 
-    public BlockXycroniumOre() {
-        super("xycronium_ore", Material.ROCK, EnumXycroniumColor.toStringArray());
+    public BlockXycroniumNetherOre() {
+        super("xycronium_nether_ore", Material.ROCK, EnumXycroniumColor.toStringArray());
         this.setHardness(1.4F);
     }
 
@@ -46,7 +46,7 @@ public class BlockXycroniumOre extends BlockProjectX implements IAnimationHandle
         this.texture = new TextureAtlasSprite[6];
 
         for(int i = 0; i < this.getSubNames().length; i++){
-            this.texture[i] = register.registerIcon(ModPrefs.MODID + ":blocks/xycronium_ore/xycronium_ore_" + this.getSubNames()[i]);
+            this.texture[i] = register.registerIcon(ModPrefs.MODID + ":blocks/xycronium_ore/xycronium_nether_ore_" + this.getSubNames()[i]);
         }
 
         this.texture[5] = register.registerIcon(ModPrefs.MODID + ":blocks/xycronium_ore/xycronium_ore_effect");
@@ -61,7 +61,7 @@ public class BlockXycroniumOre extends BlockProjectX implements IAnimationHandle
     @Override
     @SideOnly(Side.CLIENT)
     public TextureAtlasSprite getAnimationIcon(ItemStack stack, int side) {
-        boolean animatedOres = (Boolean)ProjectX.CONFIG.getProperty("animatedOres").getValue();
+        boolean animatedOres = (Boolean) ProjectX.CONFIG.getProperty("animatedOres").getValue();
         return animatedOres ? ProjectX.PROXY.getAnimatedTexture() : this.texture[5];
     }
 

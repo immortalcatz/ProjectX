@@ -18,58 +18,38 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockXycroniumOre extends BlockProjectX implements IAnimationHandler {
+public class BlockXycroniumStorage extends BlockProjectX implements IAnimationHandler {
 
     @SideOnly(Side.CLIENT)
-    private TextureAtlasSprite[] texture;
+    private TextureAtlasSprite texture;
 
-    public BlockXycroniumOre() {
-        super("xycronium_ore", Material.ROCK, EnumXycroniumColor.toStringArray());
+    public BlockXycroniumStorage() {
+        super("xycronium_storage", Material.ROCK, EnumXycroniumColor.toStringArray());
         this.setHardness(1.4F);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public EnumBlockRenderType getRenderType(IBlockState state) {
-        return RenderSimpleGlow.RENDER_TYPE;
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public boolean canRenderInLayer(IBlockState state, BlockRenderLayer layer) {
-        return layer == BlockRenderLayer.SOLID || layer == BlockRenderLayer.CUTOUT_MIPPED;
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister register) {
-        this.texture = new TextureAtlasSprite[6];
-
-        for(int i = 0; i < this.getSubNames().length; i++){
-            this.texture[i] = register.registerIcon(ModPrefs.MODID + ":blocks/xycronium_ore/xycronium_ore_" + this.getSubNames()[i]);
-        }
-
-        this.texture[5] = register.registerIcon(ModPrefs.MODID + ":blocks/xycronium_ore/xycronium_ore_effect");
+        this.texture = register.registerIcon(ModPrefs.MODID + ":blocks/xycronium_block");
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public TextureAtlasSprite getIcon(int meta, int side) {
-        return this.texture[meta];
+        return this.texture;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public TextureAtlasSprite getAnimationIcon(ItemStack stack, int side) {
-        boolean animatedOres = (Boolean)ProjectX.CONFIG.getProperty("animatedOres").getValue();
-        return animatedOres ? ProjectX.PROXY.getAnimatedTexture() : this.texture[5];
+        return ProjectX.PROXY.getAnimatedTexture();
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public TextureAtlasSprite getAnimationIcon(IBlockAccess world, BlockPos pos, int side) {
-        boolean animatedOres = (Boolean)ProjectX.CONFIG.getProperty("animatedOres").getValue();
-        return animatedOres ? ProjectX.PROXY.getAnimatedTexture() : this.texture[5];
+        return ProjectX.PROXY.getAnimatedTexture();
     }
 
     @Override
@@ -94,6 +74,18 @@ public class BlockXycroniumOre extends BlockProjectX implements IAnimationHandle
     @SideOnly(Side.CLIENT)
     public int getAnimationBrightness(IBlockAccess world, BlockPos pos, int side) {
         return 0x00F000F0;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public EnumBlockRenderType getRenderType(IBlockState state) {
+        return RenderSimpleGlow.RENDER_TYPE;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean canRenderInLayer(IBlockState state, BlockRenderLayer layer) {
+        return layer == BlockRenderLayer.SOLID || layer == BlockRenderLayer.CUTOUT_MIPPED;
     }
 
 }

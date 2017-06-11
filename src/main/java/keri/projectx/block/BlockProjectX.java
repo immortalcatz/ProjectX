@@ -1,7 +1,7 @@
 package keri.projectx.block;
 
 import keri.ninetaillib.lib.block.BlockBase;
-import keri.projectx.ProjectXTab;
+import keri.projectx.client.ProjectXTab;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;

@@ -1,8 +1,13 @@
 package keri.projectx.proxy;
 
+import codechicken.lib.packet.PacketCustom;
 import keri.projectx.ProjectX;
 import keri.projectx.client.render.AnimatedTextureFX;
+import keri.projectx.client.render.tesr.TESRFabricator;
+import keri.projectx.network.ProjectXCPH;
+import keri.projectx.tile.TileEntityFabricator;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -13,13 +18,16 @@ public class ClientProxy implements IProxy {
 
     @Override
     public void preInit(FMLPreInitializationEvent event) {
-        ANIMATED_TEXTURE = new AnimatedTextureFX(64);
+        int animatinResolution = (Integer)ProjectX.CONFIG.getProperty("animationResolution").getValue();
+        ANIMATED_TEXTURE = new AnimatedTextureFX(animatinResolution);
         ProjectX.MOD_HANDLER.handleClientPreInit(event);
+        this.registerRenderers();
     }
 
     @Override
     public void init(FMLInitializationEvent event) {
         ProjectX.MOD_HANDLER.handleClientInit(event);
+        PacketCustom.assignHandler(ProjectX.INSTANCE, new ProjectXCPH());
     }
 
     @Override
@@ -30,6 +38,10 @@ public class ClientProxy implements IProxy {
     @Override
     public TextureAtlasSprite getAnimatedTexture() {
         return ANIMATED_TEXTURE.texture;
+    }
+
+    private void registerRenderers(){
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFabricator.class, new TESRFabricator());
     }
 
 }

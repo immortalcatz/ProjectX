@@ -1,7 +1,7 @@
-package keri.projectx;
+package keri.projectx.client;
 
+import keri.projectx.init.ProjectXContent;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 
 public class ProjectXTab extends CreativeTabs {
@@ -14,7 +14,7 @@ public class ProjectXTab extends CreativeTabs {
 
     @Override
     public ItemStack getTabIconItem() {
-        return new ItemStack(Blocks.DIAMOND_BLOCK, 1, 0);
+        return new ItemStack(ProjectXContent.fabricator, 1, 0);
     }
 
 }
