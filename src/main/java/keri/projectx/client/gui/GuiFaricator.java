@@ -54,9 +54,11 @@ public class GuiFaricator extends GuiContainer {
         this.tabInfo.setPosition(new Point2i(this.guiLeft - 22, this.guiTop + 10));
         this.tabInfo.setSize(new Point2i(22, 20));
         this.tabInfo.setSizeExpanded(new Point2i(52, 50));
-        this.tabInfo.setColorUnselected(new ColourRGBA(140, 140, 140, 255));
-        this.tabInfo.setColorSelected(new ColourRGBA(200, 200, 200, 255));
+        this.tabInfo.setColorUnselected(new ColourRGBA(80, 80, 80, 255));
+        this.tabInfo.setColorSelected(new ColourRGBA(220, 220, 80, 255));
         this.tabInfo.setIcon(IconHandler.INSTANCE.getIcon("gui_icon_info"));
+        this.tabInfo.setTooltip("Information");
+
         this.tabInfo.renderBackground(this, mouseX, mouseY);
     }
 

@@ -2,9 +2,12 @@ package keri.projectx.client.gui;
 
 import codechicken.lib.colour.Colour;
 import codechicken.lib.texture.TextureUtils;
+import com.google.common.collect.Lists;
 import keri.ninetaillib.lib.math.Point2i;
 import keri.projectx.util.GuiUtils;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 
 import java.util.List;
@@ -15,6 +18,7 @@ public class GuiTab {
     private Point2i size;
     private Point2i sizeExpanded;
     private TextureAtlasSprite icon;
+    private String tooltip;
     private List<String> text;
     private Colour colorUnselected;
     private Colour colorSelected;
@@ -26,36 +30,21 @@ public class GuiTab {
     public void renderBackground(GuiScreen gui, int mouseX, int mouseY){
         if(!this.isExpanded){
             if(this.expandTicksX > 0){
-                if(this.expandTicksX < 14){
-                    this.expandTicksX--;
-                }
-                else{
-                    this.expandTicksX -= 14;
-                }
+                this.expandTicksX -= 16;
             }
             else{
                 if(this.expandTicksY > 0){
-                    if(this.expandTicksY < 16){
-                        this.expandTicksY--;
-                    }
-                    else{
-                        this.expandTicksY -= 16;
-                    }
+                    this.expandTicksY -= 16;
                 }
                 else{
                     if(this.isInBounds(mouseX, mouseY)){
-                        if(this.hoverTicks < 20){
+                        if(this.hoverTicks < 24){
                             this.hoverTicks += 4;
                         }
                     }
                     else{
                         if(this.hoverTicks > 0){
-                            if(this.hoverTicks < 6){
-                                this.hoverTicks--;
-                            }
-                            else{
-                                this.hoverTicks -= 6;
-                            }
+                            this.hoverTicks -= 6;
                         }
                     }
                 }
@@ -63,12 +52,7 @@ public class GuiTab {
         }
         else{
             if(this.hoverTicks > 0){
-                if(this.hoverTicks < 6){
-                    this.hoverTicks--;
-                }
-                else{
-                    this.hoverTicks -= 6;
-                }
+                this.hoverTicks -= 6;
             }
             else{
                 if(this.expandTicksX < (this.sizeExpanded.getX() * 4)){
@@ -91,6 +75,7 @@ public class GuiTab {
         int sizeY = this.size.getY() + expandOffsetY;
         Colour color = this.isExpanded || this.isInBounds(mouseX, mouseY) ? this.colorSelected : this.colorUnselected;
         GuiUtils.drawBackground(gui, new Point2i(positionX, positionY), new Point2i(sizeX, sizeY), GuiUtils.ALIGNMENT_LEFT, color);
+        GlStateManager.color(1F, 1F, 1F, 1F);
 
         if(this.icon != null){
             TextureUtils.bindBlockTexture();
@@ -99,7 +84,19 @@ public class GuiTab {
     }
 
     public void renderForeground(GuiScreen gui, int mouseX, int mouseY){
+        FontRenderer fontRenderer = gui.mc.fontRendererObj;
 
+        if(!this.isExpanded){
+            if(this.isInBounds(mouseX, mouseY)){
+                int positionX = mouseX - (this.position.getX() - this.size.getX());
+                int positionY = mouseY - (this.position.getY() - this.size.getY());
+
+                if(this.tooltip != null){
+                    List<String> text = Lists.newArrayList(this.tooltip);
+                    net.minecraftforge.fml.client.config.GuiUtils.drawHoveringText(text, positionX - 45, positionY, gui.width, gui.height, 200, fontRenderer);
+                }
+            }
+        }
     }
 
     public boolean onMouseClicked(int mouseX, int mouseY){
@@ -147,6 +144,10 @@ public class GuiTab {
 
     public void setIcon(TextureAtlasSprite icon){
         this.icon = icon;
+    }
+
+    public void setTooltip(String tooltip){
+        this.tooltip = tooltip;
     }
 
     private boolean isInBounds(int mouseX, int mouseY){
