@@ -15,7 +15,7 @@ import java.util.List;
 public class GuiTab {
 
     private Point2i position;
-    private Point2i size;
+    private Point2i size = new Point2i(22, 20);
     private Point2i sizeExpanded;
     private TextureAtlasSprite icon;
     private String tooltip;
@@ -23,12 +23,15 @@ public class GuiTab {
     private Colour colorUnselected;
     private Colour colorSelected;
     private boolean isExpanded = false;
+    private boolean isFullyExpanded = false;
     private int hoverTicks = 0;
     private int expandTicksX = 0;
     private int expandTicksY = 0;
 
     public void renderBackground(GuiScreen gui, int mouseX, int mouseY){
         if(!this.isExpanded){
+            this.isFullyExpanded = false;
+
             if(this.expandTicksX > 0){
                 this.expandTicksX -= 16;
             }
@@ -62,6 +65,9 @@ public class GuiTab {
                     if(this.expandTicksY < (this.sizeExpanded.getY() * 4)){
                         this.expandTicksY += 16;
                     }
+                    else{
+                        this.isFullyExpanded = true;
+                    }
                 }
             }
         }
@@ -93,7 +99,7 @@ public class GuiTab {
 
                 if(this.tooltip != null){
                     List<String> text = Lists.newArrayList(this.tooltip);
-                    net.minecraftforge.fml.client.config.GuiUtils.drawHoveringText(text, positionX - 45, positionY, gui.width, gui.height, 200, fontRenderer);
+                    net.minecraftforge.fml.client.config.GuiUtils.drawHoveringText(text, positionX - 48, positionY + 8, gui.width, gui.height, 200, fontRenderer);
                 }
             }
         }
@@ -114,12 +120,18 @@ public class GuiTab {
         return false;
     }
 
-    public void setPosition(Point2i position){
-        this.position = position;
+    private boolean isInBounds(int mouseX, int mouseY){
+        if(mouseX >= this.position.getX() && mouseX <= (this.position.getX() + size.getX() - 1)) {
+            if (mouseY >= this.position.getY() && mouseY <= (this.position.getY() + size.getY() + 2)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
-    public void setSize(Point2i size){
-        this.size = size;
+    public void setPosition(Point2i position){
+        this.position = position;
     }
 
     public void setSizeExpanded(Point2i sizeExpanded){
@@ -150,14 +162,8 @@ public class GuiTab {
         this.tooltip = tooltip;
     }
 
-    private boolean isInBounds(int mouseX, int mouseY){
-        if(mouseX >= this.position.getX() && mouseX <= (this.position.getX() + size.getX() - 1)) {
-            if (mouseY >= this.position.getY() && mouseY <= (this.position.getY() + size.getY() + 2)) {
-                return true;
-            }
-        }
-
-        return false;
+    public boolean getIsFullyExpanded(){
+        return this.isFullyExpanded;
     }
 
 }
