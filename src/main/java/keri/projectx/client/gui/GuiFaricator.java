@@ -1,6 +1,8 @@
 package keri.projectx.client.gui;
 
+import codechicken.lib.colour.ColourRGBA;
 import codechicken.lib.texture.TextureUtils;
+import keri.ninetaillib.lib.math.Point2i;
 import keri.projectx.ProjectX;
 import keri.projectx.container.ContainerFabricator;
 import keri.projectx.tile.TileEntityFabricator;
@@ -14,6 +16,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.io.IOException;
+
 @SideOnly(Side.CLIENT)
 public class GuiFaricator extends GuiContainer {
 
@@ -21,6 +25,7 @@ public class GuiFaricator extends GuiContainer {
     private InventoryPlayer inventoryPlayer;
     private TileEntityFabricator tile;
     private ContainerFabricator container;
+    private GuiTab tabInfo = new GuiTab(null, null);
 
     public GuiFaricator(InventoryPlayer inventoryPlayer, TileEntityFabricator tile) {
         super(new ContainerFabricator(inventoryPlayer, tile));
@@ -44,11 +49,23 @@ public class GuiFaricator extends GuiContainer {
         GlStateManager.color(1F, 1F, 1F, 1F);
         this.mc.getTextureManager().bindTexture(this.texture);
         this.drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
+
+        this.tabInfo.setPosition(new Point2i(this.guiLeft - 22, this.guiTop + 10));
+        this.tabInfo.setSize(new Point2i(22, 20));
+        this.tabInfo.setColorUnselected(new ColourRGBA(140, 140, 140, 255));
+        this.tabInfo.setColorSelected(EnumXycroniumColor.BLUE.getColor());
+        this.tabInfo.renderBackground(this, mouseX, mouseY);
     }
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
+    }
+
+    @Override
+    protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+        super.mouseClicked(mouseX, mouseY, mouseButton);
+        this.tabInfo.onMouseClicked(mouseX, mouseY);
     }
 
 }

@@ -1,9 +1,8 @@
-package keri.projectx.client.gui;
+package keri.projectx.util;
 
 import codechicken.lib.colour.Colour;
 import codechicken.lib.colour.ColourRGBA;
 import keri.ninetaillib.lib.math.Point2i;
-import keri.projectx.util.ModPrefs;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
@@ -12,7 +11,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class GuiPanel {
+public class GuiUtils {
 
     private static final ResourceLocation TEXTURE = new ResourceLocation(ModPrefs.MODID, "textures/gui/misc.png");
     public static final int ALIGNMENT_LEFT = 0;
