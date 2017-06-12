@@ -4,6 +4,8 @@ import codechicken.lib.colour.Colour;
 import codechicken.lib.texture.TextureUtils;
 import keri.ninetaillib.lib.math.Point2i;
 import keri.projectx.util.GuiUtils;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -12,6 +14,7 @@ import java.util.List;
 
 public class GuiTab {
 
+    private Point2i guiSize;
     private Point2i position;
     private Point2i size;
     private TextureAtlasSprite icon;
@@ -25,6 +28,10 @@ public class GuiTab {
     private int expandTicksX = 0;
     private int expandTicksY = 0;
 
+    public GuiTab(Point2i guiSize){
+        this.guiSize = guiSize;
+    }
+
     public void renderBackground(GuiScreen gui, int mouseX, int mouseY){
         if(!this.isExpanded){
             this.isFullyExpanded = false;
@@ -37,7 +44,7 @@ public class GuiTab {
                     this.expandTicksY -= 16;
                 }
                 else{
-                    if(this.isInBounds(mouseX, mouseY)){
+                    if(this.isInBounds(gui, mouseX, mouseY)){
                         if(this.hoverTicks < 24){
                             this.hoverTicks += 4;
                         }
@@ -69,14 +76,16 @@ public class GuiTab {
             }
         }
 
+        int basePosX = (gui.width - this.guiSize.getX()) / 2;
+        int basePosY = (gui.height - this.guiSize.getY()) / 2;
         int hoverOffset = this.hoverTicks / 4;
         int expandOffsetX = this.expandTicksX / 4;
         int expandOffsetY = this.expandTicksY / 4;
-        int positionX = (this.position.getX() - hoverOffset) - expandOffsetX;
-        int positionY = this.position.getY();
+        int positionX = (basePosX + (this.position.getX() - hoverOffset)) - expandOffsetX;
+        int positionY = basePosY + this.position.getY();
         int sizeX = (22 + hoverOffset) + expandOffsetX;
         int sizeY = 20 + expandOffsetY;
-        Colour color = this.isExpanded || this.isInBounds(mouseX, mouseY) ? this.colorSelected : this.colorUnselected;
+        Colour color = this.isExpanded || this.isInBounds(gui, mouseX, mouseY) ? this.colorSelected : this.colorUnselected;
         GuiUtils.drawBackground(gui, new Point2i(positionX, positionY), new Point2i(sizeX, sizeY), GuiUtils.ALIGNMENT_LEFT, color);
         GlStateManager.color(1F, 1F, 1F, 1F);
 
@@ -86,8 +95,35 @@ public class GuiTab {
         }
     }
 
-    public boolean onMouseClicked(int mouseX, int mouseY){
-        if(this.isInBounds(mouseX, mouseY)){
+    public void renderForeground(GuiScreen gui, int mouseX, int mouseY){
+        FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
+
+        if(this.isFullyExpanded){
+
+            GlStateManager.pushMatrix();
+
+            if(this.text != null){
+                int iconOffset = this.icon != null ? 24 : 5;
+                int positionX = this.position.getX() - this.size.getX() + 6;
+                int positionY = this.position.getY() + iconOffset;
+
+                for(int i = 0; i < this.text.size(); i++){
+                    String line = this.text.get(i);
+                    int lineOffset = 8 * i;
+                    GlStateManager.translate(positionX, positionY + lineOffset, 0D);
+                    GlStateManager.scale(0.75D, 0.75D, 0.75D);
+                    fontRenderer.drawString(line, 0, 0, 0xFFFFFFFF, false);
+                    GlStateManager.scale(1D / 0.75D, 1D / 0.75D, 1D / 0.75D);
+                    GlStateManager.translate(-positionX, -(positionY + lineOffset), 0D);
+                }
+            }
+
+            GlStateManager.popMatrix();
+        }
+    }
+
+    public boolean onMouseClicked(GuiScreen gui, int mouseX, int mouseY){
+        if(this.isInBounds(gui, mouseX, mouseY)){
             if(!this.isExpanded){
                 this.isExpanded = true;
             }
@@ -101,9 +137,12 @@ public class GuiTab {
         return false;
     }
 
-    private boolean isInBounds(int mouseX, int mouseY){
-        if(mouseX >= this.position.getX() && mouseX <= (this.position.getX() + 21)) {
-            if (mouseY >= this.position.getY() && mouseY <= (this.position.getY() + 22)) {
+    private boolean isInBounds(GuiScreen gui, int mouseX, int mouseY){
+        int positionX = (gui.width - this.guiSize.getX()) / 2 + this.position.getX();
+        int positionY = (gui.height - this.guiSize.getY()) / 2 + this.position.getY();
+
+        if(mouseX >= positionX && mouseX <= (positionX + 22)) {
+            if (mouseY >= positionY && mouseY <= (positionY + 22)) {
                 return true;
             }
         }
