@@ -52,7 +52,7 @@ public class GuiFaricator extends GuiContainer {
         this.drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
 
         this.tabInfo.setPosition(new Point2i(this.guiLeft - 22, this.guiTop + 10));
-        this.tabInfo.setSizeExpanded(new Point2i(102, 50));
+        this.tabInfo.setSize(new Point2i(76, 76));
         this.tabInfo.setColorUnselected(new ColourRGBA(80, 80, 80, 255));
         this.tabInfo.setColorSelected(new ColourRGBA(220, 220, 80, 255));
         this.tabInfo.setIcon(IconHandler.INSTANCE.getIcon("gui_icon_info"));
@@ -63,7 +63,6 @@ public class GuiFaricator extends GuiContainer {
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
-        this.tabInfo.renderForeground(this, mouseX, mouseY);
     }
 
     @Override

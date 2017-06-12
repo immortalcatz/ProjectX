@@ -1,16 +1,18 @@
 package keri.projectx.client.render;
 
+import codechicken.lib.colour.Colour;
+import codechicken.lib.colour.ColourRGBA;
+import codechicken.lib.math.MathHelper;
 import codechicken.lib.render.CCModel;
 import codechicken.lib.render.CCRenderState;
-import codechicken.lib.vec.Scale;
-import codechicken.lib.vec.Translation;
-import codechicken.lib.vec.Vector3;
-import codechicken.lib.vec.Vertex5;
+import codechicken.lib.vec.*;
 import keri.ninetaillib.lib.render.IBlockRenderingHandler;
 import keri.ninetaillib.lib.render.RenderingConstants;
 import keri.ninetaillib.lib.render.RenderingRegistry;
+import keri.ninetaillib.lib.util.BlockAccessUtils;
 import keri.ninetaillib.lib.util.RenderUtils;
 import net.minecraft.block.Block;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
@@ -19,6 +21,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumBlockRenderType;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
@@ -36,13 +39,29 @@ public class RenderQuartzCrystal implements IBlockRenderingHandler {
     }
 
     @Override
-    public boolean renderWorld(IBlockAccess world, BlockPos pos, VertexBuffer buffer, BlockRenderLayer layer) {
-        return false;
+    public boolean renderWorld(IBlockAccess world, BlockPos pos, VertexBuffer buffer, BlockRenderLayer layer){
+        IAnimationHandler animationHandler = (IAnimationHandler)world.getBlockState(pos).getBlock();
+        CCRenderState renderState = RenderingConstants.getRenderState();
+        renderState.reset();
+        renderState.bind(buffer);
+        renderState.brightness = animationHandler.getAnimationBrightness(world, pos, 0);
+        TextureAtlasSprite texture = animationHandler.getAnimationIcon(world, pos, 0);
+        Colour color = new ColourRGBA(animationHandler.getAnimationColor(world, pos, 0));
+        CCModel model = this.getModel(texture, EnumFacing.getFront(BlockAccessUtils.getBlockMetadata(world, pos)), Vector3.fromBlockPos(pos));
+        model.setColour(color.rgba());
+        model.render(renderState);
+        return true;
     }
 
     @Override
     public void renderDamage(IBlockAccess world, BlockPos pos, VertexBuffer buffer, TextureAtlasSprite texture) {
-
+        CCRenderState renderState = RenderingConstants.getRenderState();
+        renderState.reset();
+        renderState.bind(buffer);
+        Colour color = new ColourRGBA(255, 255, 255, 255);
+        CCModel model = this.getModel(texture, EnumFacing.getFront(BlockAccessUtils.getBlockMetadata(world, pos)), Vector3.fromBlockPos(pos));
+        model.setColour(color.rgba());
+        model.render(renderState);
     }
 
     @Override
@@ -50,17 +69,26 @@ public class RenderQuartzCrystal implements IBlockRenderingHandler {
         int lastBrightness = (int) OpenGlHelper.lastBrightnessY << 16 | (int)OpenGlHelper.lastBrightnessX;
         IAnimationHandler animationHandler = (IAnimationHandler)Block.getBlockFromItem(stack.getItem());
         Tessellator.getInstance().draw();
+        GlStateManager.pushMatrix();
+        GlStateManager.disableLighting();
+        RenderUtils.MipmapFilterData mipmapFilterData = RenderUtils.disableMipmap();
         buffer.begin(GL11.GL_QUADS, RenderUtils.getFormatWithLightMap(DefaultVertexFormats.ITEM));
         CCRenderState renderState = RenderingConstants.getRenderState();
         renderState.reset();
         renderState.bind(buffer);
         renderState.brightness = animationHandler.getAnimationBrightness(stack, 0);
-        CCModel model = this.getModel(animationHandler.getAnimationIcon(stack, 0)).copy();
+        TextureAtlasSprite texture = animationHandler.getAnimationIcon(stack, 0);
+        CCModel model = this.getModel(texture, null, Vector3.zero);
+        model.setColour(animationHandler.getAnimationColor(stack, 0));
+        model.apply(new Translation(new Vector3(-0.5D, -0.5D, -0.5D)));
         model.apply(new Scale(new Vector3(2D, 2D, 2D)));
         model.apply(new Translation(new Vector3(0.5D, 0.5D, 0.5D)));
         model.render(renderState);
         renderState.brightness = lastBrightness;
         Tessellator.getInstance().draw();
+        RenderUtils.enableMipmap(mipmapFilterData);
+        GlStateManager.enableLighting();
+        GlStateManager.popMatrix();
         buffer.begin(GL11.GL_QUADS, RenderUtils.getFormatWithLightMap(DefaultVertexFormats.ITEM));
     }
 
@@ -69,7 +97,41 @@ public class RenderQuartzCrystal implements IBlockRenderingHandler {
         return RENDER_TYPE;
     }
 
-    private CCModel getModel(TextureAtlasSprite texture){
+    private CCModel getModel(TextureAtlasSprite texture, EnumFacing side, Vector3 pos){
+        double modX = 0D;
+        double modY = 0D;
+        double modZ = 0D;
+        Rotation rotation = new Rotation(0D, Vector3.zero);
+
+        if(side != null){
+            switch(side.getOpposite().getIndex()) {
+                case 0:
+                    modY = 0.3D;
+                    break;
+                case 1:
+                    modY = -0.3D;
+                    break;
+                case 2:
+                    rotation = new Rotation(90D * MathHelper.torad, new Vector3(1D, 0D, 0D));
+                    modZ = 0.3D;
+                    break;
+                case 3:
+                    rotation = new Rotation(-90D * MathHelper.torad, new Vector3(1D, 0D, 0D));
+                    modZ = -0.3D;
+                    break;
+                case 4:
+                    rotation = new Rotation(90D * MathHelper.torad, new Vector3(0D, 0D, 1D));
+                    modX = 0.3D;
+                    break;
+                case 5:
+                    rotation = new Rotation(-90D * MathHelper.torad, new Vector3(0D, 0D, 1D));
+                    modX = -0.3D;
+                    break;
+            }
+        }
+
+        Vector3 position = pos.copy();
+        position.add(0.5D + modX, 0.5D + modY, 0.5D + modZ);
         CCModel model = CCModel.quadModel(24);
         float u = texture.getMinU();
         float v = texture.getMinV();
@@ -99,7 +161,7 @@ public class RenderQuartzCrystal implements IBlockRenderingHandler {
         model.verts[21] = new Vertex5(0.04704D, -0.121D, -0.08485D, u, V);
         model.verts[22] = new Vertex5(-0.00395D, -0.364D, 0.0D, U, V);
         model.verts[23] = new Vertex5(-0.09995D, -0.121D, -0.0D, U, v);
-        return model.computeNormals();
+        return model.computeNormals().apply(rotation).apply(new Translation(position));
     }
 
 }
