@@ -50,7 +50,6 @@ public class GuiFaricator extends GuiContainer {
         GlStateManager.color(1F, 1F, 1F, 1F);
         this.mc.getTextureManager().bindTexture(this.texture);
         this.drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
-
         this.tabInfo.setPosition(new Point2i(this.guiLeft - 22, this.guiTop + 10));
         this.tabInfo.setSize(new Point2i(76, 76));
         this.tabInfo.setColorUnselected(new ColourRGBA(80, 80, 80, 255));

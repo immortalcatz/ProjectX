@@ -1,5 +1,9 @@
 package keri.projectx.tile;
 
+import codechicken.lib.inventory.InventoryRange;
+import codechicken.lib.inventory.InventoryUtils;
+import codechicken.lib.util.ItemUtils;
+import com.google.common.collect.Lists;
 import keri.ninetaillib.lib.tile.IInventoryAction;
 import keri.ninetaillib.lib.tile.InventoryAction;
 import keri.ninetaillib.lib.tile.TileEntityInventoryBase;
@@ -10,6 +14,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ITickable;
+
+import java.util.List;
 
 public class TileEntityFabricator extends TileEntityInventoryBase implements ITickable, IInventoryAction {
 
@@ -27,7 +33,63 @@ public class TileEntityFabricator extends TileEntityInventoryBase implements ITi
                 this.loadRecipe();
                 this.needsUpdate = false;
             }
+
+            if(this.currentRecipe != null){
+                if(this.areIngredientsValid()){
+                    this.craft();
+                }
+            }
         }
+    }
+
+    private void craft(){
+        List<ItemStack> ingredients = Lists.newArrayList();
+
+        for(int i = 0; i < 9; i++){
+            if(!this.getStackInSlot(i).isEmpty()){
+                ItemStack stack = this.getStackInSlot(i).copy();
+                stack.setCount(1);
+                ingredients.add(stack);
+            }
+        }
+
+        for(ItemStack ingredient : ingredients){
+            for(int i = 0; i < 9; i++){
+                ItemStack stack = this.getStackInSlot(i + 10).copy();
+
+                if(ItemUtils.areStacksSameType(stack, ingredient)){
+                    this.decrStackSize(i + 10, 1);
+                }
+            }
+        }
+
+        InventoryUtils.insertItem(new InventoryRange(this, 10, 19), this.currentRecipe.getRecipeOutput().copy(), false);
+    }
+
+    private boolean areIngredientsValid(){
+        List<ItemStack> ingredients = Lists.newArrayList();
+        int validIngredients = 0;
+
+        for(int i = 0; i < 9; i++){
+            if(!this.getStackInSlot(i).isEmpty()){
+                ItemStack stack = this.getStackInSlot(i).copy();
+                stack.setCount(1);
+                ingredients.add(stack);
+            }
+        }
+
+        for(ItemStack ingredient : ingredients){
+            for(int i = 0; i < 9; i++){
+                ItemStack stack = this.getStackInSlot(i + 10).copy();
+
+                if(ItemUtils.areStacksSameType(stack, ingredient)){
+                    validIngredients++;
+                    break;
+                }
+            }
+        }
+
+        return validIngredients == ingredients.size();
     }
 
     private void loadRecipe(){
@@ -52,7 +114,11 @@ public class TileEntityFabricator extends TileEntityInventoryBase implements ITi
 
     @Override
     public void onInventoryAction(EntityPlayer player, int index, int count, ItemStack stack, InventoryAction action) {
-        this.needsUpdate = true;
+        if(action == InventoryAction.SET_SLOT_CONTENT){
+            if(index < 9){
+                this.needsUpdate = true;
+            }
+        }
     }
 
     private InventoryCrafting getCraftMatrix(){
