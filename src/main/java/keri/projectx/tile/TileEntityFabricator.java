@@ -35,7 +35,7 @@ public class TileEntityFabricator extends TileEntityInventoryBase implements ITi
             }
 
             if(this.currentRecipe != null){
-                if(this.areIngredientsValid()){
+                if(this.areIngredientsValid() && this.canCraft()){
                     this.craft();
                 }
             }
@@ -92,6 +92,27 @@ public class TileEntityFabricator extends TileEntityInventoryBase implements ITi
         return validIngredients == ingredients.size();
     }
 
+    private boolean canCraft(){
+        int freeSpace = 0;
+
+        for(int i = 0; i < 9; i++){
+            ItemStack stack = this.getStackInSlot(i + 10).copy();
+
+            if(stack.isEmpty()){
+                freeSpace++;
+            }
+            else{
+                if(ItemUtils.areStacksSameType(stack, this.currentRecipe.getRecipeOutput().copy())){
+                    if(stack.getCount() < stack.getMaxStackSize()){
+                        freeSpace++;
+                    }
+                }
+            }
+        }
+
+        return freeSpace > 0;
+    }
+
     private void loadRecipe(){
         CraftingManager craftingManager = CraftingManager.getInstance();
         InventoryCrafting craftingMatrix = this.getCraftMatrix();
@@ -129,7 +150,7 @@ public class TileEntityFabricator extends TileEntityInventoryBase implements ITi
         for(int x = 0; x < 3; x++){
             for(int y = 0; y < 3; y++){
                 int index = y + 3 * x;
-                stacks[li] = this.getStackInSlot(index);
+                stacks[li] = this.getStackInSlot(index).copy();
                 li++;
             }
         }

@@ -2,6 +2,7 @@ package keri.projectx.client.gui;
 
 import codechicken.lib.colour.Colour;
 import codechicken.lib.texture.TextureUtils;
+import com.google.common.collect.Lists;
 import keri.ninetaillib.lib.math.Point2i;
 import keri.projectx.util.GuiUtils;
 import net.minecraft.client.Minecraft;
@@ -14,6 +15,8 @@ import java.util.List;
 
 public class GuiTab {
 
+    //TODO Implement proper GuiTabList behaviour you twat!!!
+
     private Point2i guiSize;
     private Point2i position;
     private Point2i size;
@@ -24,6 +27,7 @@ public class GuiTab {
     private Colour colorSelected;
     private boolean isExpanded = false;
     private boolean isFullyExpanded = false;
+    private boolean isVisible = true;
     private int hoverTicks = 0;
     private int expandTicksX = 0;
     private int expandTicksY = 0;
@@ -86,12 +90,16 @@ public class GuiTab {
         int sizeX = (22 + hoverOffset) + expandOffsetX;
         int sizeY = 20 + expandOffsetY;
         Colour color = this.isExpanded || this.isInBounds(gui, mouseX, mouseY) ? this.colorSelected : this.colorUnselected;
-        GuiUtils.drawBackground(gui, new Point2i(positionX, positionY), new Point2i(sizeX, sizeY), GuiUtils.ALIGNMENT_LEFT, color);
-        GlStateManager.color(1F, 1F, 1F, 1F);
 
-        if(this.icon != null){
-            TextureUtils.bindBlockTexture();
-            gui.drawTexturedModalRect(positionX + 4, positionY + 4, this.icon, 16, 16);
+        if(this.isVisible){
+            GlStateManager.color(1F, 1F, 1F, 1F);
+            GuiUtils.drawBackground(gui, new Point2i(positionX, positionY), new Point2i(sizeX, sizeY), GuiUtils.ALIGNMENT_LEFT, color);
+            GlStateManager.color(1F, 1F, 1F, 1F);
+
+            if(this.icon != null){
+                TextureUtils.bindBlockTexture();
+                gui.drawTexturedModalRect(positionX + 4, positionY + 4, this.icon, 16, 16);
+            }
         }
     }
 
@@ -99,7 +107,6 @@ public class GuiTab {
         FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
 
         if(this.isFullyExpanded){
-
             GlStateManager.pushMatrix();
 
             if(this.text != null){
@@ -123,7 +130,7 @@ public class GuiTab {
     }
 
     public boolean onMouseClicked(GuiScreen gui, int mouseX, int mouseY){
-        if(this.isInBounds(gui, mouseX, mouseY)){
+        if(this.isInBounds(gui, mouseX, mouseY) && this.isVisible){
             if(!this.isExpanded){
                 this.isExpanded = true;
             }
@@ -178,12 +185,63 @@ public class GuiTab {
         this.icon = icon;
     }
 
+    public void setIsVisible(boolean isVisible){
+        this.isVisible = isVisible;
+    }
+
     public void setTooltip(String tooltip){
         this.tooltip = tooltip;
     }
 
+    public boolean getIsExpanded(){
+        return this.isExpanded;
+    }
+
     public boolean getIsFullyExpanded(){
         return this.isFullyExpanded;
+    }
+
+    public static class GuiTabList {
+
+        private List<GuiTab> tabs = Lists.newArrayList();
+        private int activeTab = -1;
+
+        public void addTab(GuiTab tab){
+            this.tabs.add(tab);
+        }
+
+        public void renderBackground(GuiScreen gui, int mouseX, int mouseY){
+            for(int i = 0; i < this.tabs.size(); i++){
+                GuiTab tab = this.tabs.get(i);
+
+                if(tab.getIsExpanded()){
+                    this.activeTab = i;
+                    break;
+                }
+                else{
+                    this.activeTab = -1;
+                    continue;
+                }
+            }
+
+            for(int i = 0; i < this.tabs.size(); i++){
+                GuiTab tab = this.tabs.get(i);
+                tab.renderBackground(gui, mouseX, mouseY);
+            }
+        }
+
+        public void renderForeground(GuiScreen gui, int mouseX, int mouseY){
+            for(int i = 0; i < this.tabs.size(); i++){
+                this.tabs.get(i).renderForeground(gui, mouseX, mouseY);
+            }
+        }
+
+        public void onMouseClicked(GuiScreen gui, int mouseX, int mouseY){
+            for(int i = 0; i < this.tabs.size(); i++){
+                this.tabs.get(i).onMouseClicked(gui, mouseX, mouseY);
+            }
+        }
+
     }
 
 }

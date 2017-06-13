@@ -1,13 +1,12 @@
 package keri.projectx.container;
 
-import codechicken.lib.inventory.container.ContainerExtended;
 import codechicken.lib.inventory.container.SlotDummy;
 import keri.projectx.tile.TileEntityFabricator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 
-public class ContainerFabricator extends ContainerExtended {
+public class ContainerFabricator extends ContainerBase {
 
     private InventoryPlayer inventoryPlayer;
     private TileEntityFabricator tile;

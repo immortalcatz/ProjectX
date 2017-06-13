@@ -110,7 +110,7 @@ public class BlockQuartzCrystal extends BlockProjectX implements IAnimationHandl
 
     @Override
     @SuppressWarnings("deprecation")
-    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess world, BlockPos pos) {
+    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess world, BlockPos pos){
         int quantity = 1;
         int meta = BlockAccessUtils.getBlockMetadata(state);
         float hMin = 0F;
@@ -121,21 +121,20 @@ public class BlockQuartzCrystal extends BlockProjectX implements IAnimationHandl
         wMax += quantity == 1 ? 0F : 0.1F;
 
         switch(EnumFacing.getFront(meta).getOpposite().getIndex()){
-            case 0:
-                return new AxisAlignedBB(wMin, 1F - hMax, wMin, wMax, 1F, wMax);
-            case 1:
-                return new AxisAlignedBB(wMin, hMin, wMin, wMax, hMax, wMax);
-            case 2:
-                return new AxisAlignedBB(wMin, wMin, 1F - hMax, wMax, wMax, 1F);
-            case 3:
-                return new AxisAlignedBB(wMin, wMin, 0F, wMax, wMax, hMax);
-            case 4:
-                return new AxisAlignedBB(1F - hMax, wMin, wMin, 1F, wMax, wMax);
-            case 5:
-                return new AxisAlignedBB(hMin, wMin, wMin, hMax, wMax, wMax);
-            default:
-                return new AxisAlignedBB(0D, 0D, 0D, 1D, 1D, 1D);
+            case 0: return new AxisAlignedBB(wMin, 1F - hMax, wMin, wMax, 1F, wMax);
+            case 1: return new AxisAlignedBB(wMin, hMin, wMin, wMax, hMax, wMax);
+            case 2: return new AxisAlignedBB(wMin, wMin, 1F - hMax, wMax, wMax, 1F);
+            case 3: return new AxisAlignedBB(wMin, wMin, 0F, wMax, wMax, hMax);
+            case 4: return new AxisAlignedBB(1F - hMax, wMin, wMin, 1F, wMax, wMax);
+            case 5: return new AxisAlignedBB(hMin, wMin, wMin, hMax, wMax, wMax);
+            default: return new AxisAlignedBB(0D, 0D, 0D, 1D, 1D, 1D);
         }
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public TextureAtlasSprite getIcon(int meta, int side) {
+        return ProjectX.PROXY.getAnimatedTexture();
     }
 
     @Override

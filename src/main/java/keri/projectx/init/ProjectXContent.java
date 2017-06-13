@@ -14,5 +14,6 @@ public class ProjectXContent {
     public static Block xycroniumBricks = new BlockXycroniumBricks();
     public static Block quartzCrystal = new BlockQuartzCrystal();
     public static Block fabricator = new BlockFabricator();
+    public static Block xynergyGenerator = new BlockXynergyGenerator();
 
 }

@@ -1,5 +1,6 @@
 package keri.projectx.block;
 
+import codechicken.lib.util.ItemUtils;
 import keri.ninetaillib.lib.texture.IIconRegister;
 import keri.projectx.ProjectX;
 import keri.projectx.client.render.IAnimationHandler;
@@ -51,6 +52,23 @@ public class BlockFabricator extends BlockProjectX<TileEntityFabricator> impleme
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         player.openGui(ProjectX.INSTANCE, ProjectXGuiHandler.GUIID_FABRICATOR, world, pos.getX(), pos.getY(), pos.getZ());
         return true;
+    }
+
+    @Override
+    public void breakBlock(World world, BlockPos pos, IBlockState state) {
+        TileEntityFabricator tile = (TileEntityFabricator)world.getTileEntity(pos);
+
+        if(tile != null){
+            for(int i = 0; i < 9; i++){
+                ItemStack stack = tile.getStackInSlot(i + 10).copy();
+
+                if(stack != null && !stack.isEmpty()){
+                    ItemUtils.dropItem(world, pos, stack);
+                }
+            }
+        }
+
+        super.breakBlock(world, pos, state);
     }
 
     @Override
