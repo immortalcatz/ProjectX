@@ -30,18 +30,6 @@ public class BlockXycroniumOre extends BlockProjectX implements IAnimationHandle
 
     @Override
     @SideOnly(Side.CLIENT)
-    public EnumBlockRenderType getRenderType(IBlockState state) {
-        return RenderSimpleGlow.RENDER_TYPE;
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public boolean canRenderInLayer(IBlockState state, BlockRenderLayer layer) {
-        return layer == BlockRenderLayer.SOLID || layer == BlockRenderLayer.CUTOUT_MIPPED;
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister register) {
         this.texture = new TextureAtlasSprite[6];
 
@@ -94,6 +82,18 @@ public class BlockXycroniumOre extends BlockProjectX implements IAnimationHandle
     @SideOnly(Side.CLIENT)
     public int getAnimationBrightness(IBlockAccess world, BlockPos pos, int side) {
         return 0x00F000F0;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public EnumBlockRenderType getRenderType(IBlockState state) {
+        return RenderSimpleGlow.RENDER_TYPE;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean canRenderInLayer(IBlockState state, BlockRenderLayer layer) {
+        return layer == BlockRenderLayer.SOLID || layer == BlockRenderLayer.CUTOUT_MIPPED;
     }
 
 }

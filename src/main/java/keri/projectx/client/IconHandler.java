@@ -22,7 +22,6 @@ public class IconHandler {
     public void preInit(){
         MinecraftForge.EVENT_BUS.register(INSTANCE);
         this.registerIcon("particle_sparkle", new ResourceLocation(ModPrefs.MODID, "particle/sparkle"));
-        this.registerIcon("gui_icon_info", new ResourceLocation(ModPrefs.MODID, "gui/icons/info"));
     }
 
     @SubscribeEvent

@@ -6,6 +6,7 @@ import keri.projectx.container.ContainerFabricator;
 import keri.projectx.tile.TileEntityFabricator;
 import keri.projectx.util.EnumXycroniumColor;
 import keri.projectx.util.ModPrefs;
+import keri.projectx.util.Translations;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -19,6 +20,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class GuiFaricator extends GuiContainer {
 
     private final ResourceLocation texture = new ResourceLocation(ModPrefs.MODID, "textures/gui/fabricator.png");
+    private final String nameContainerInventory = I18n.format("container.inventory");
+    private final String nameContainerFabricator = Translations.translate("container", "fabricator");
     private InventoryPlayer inventoryPlayer;
     private TileEntityFabricator tile;
     private ContainerFabricator container;
@@ -50,8 +53,8 @@ public class GuiFaricator extends GuiContainer {
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
-        this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 92, 0xFF101010);
-        this.fontRendererObj.drawString("Fabricator", 8, this.ySize - 162, 0xFF101010);
+        this.fontRendererObj.drawString(this.nameContainerInventory, 8, this.ySize - 92, 0xFF101010);
+        this.fontRendererObj.drawString(this.nameContainerFabricator, 8, this.ySize - 162, 0xFF101010);
     }
 
 }

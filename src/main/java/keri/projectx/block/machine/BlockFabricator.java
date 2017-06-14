@@ -1,8 +1,9 @@
-package keri.projectx.block;
+package keri.projectx.block.machine;
 
 import codechicken.lib.util.ItemUtils;
 import keri.ninetaillib.lib.texture.IIconRegister;
 import keri.projectx.ProjectX;
+import keri.projectx.block.BlockProjectX;
 import keri.projectx.client.render.IAnimationHandler;
 import keri.projectx.client.render.RenderSimpleGlow;
 import keri.projectx.network.ProjectXGuiHandler;
@@ -45,7 +46,7 @@ public class BlockFabricator extends BlockProjectX<TileEntityFabricator> impleme
 
     @Override
     public void registerTileEntities() {
-        GameRegistry.registerTileEntity(TileEntityFabricator.class, ModPrefs.MODID + ".tileentity.fabricator");
+        GameRegistry.registerTileEntity(TileEntityFabricator.class, ModPrefs.MODID + ".tileentity.machine");
     }
 
     @Override
@@ -75,9 +76,9 @@ public class BlockFabricator extends BlockProjectX<TileEntityFabricator> impleme
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister register) {
         this.texture = new TextureAtlasSprite[3];
-        this.texture[0] = register.registerIcon(ModPrefs.MODID + ":blocks/fabricator/fabricator_side");
-        this.texture[1] = register.registerIcon(ModPrefs.MODID + ":blocks/fabricator/fabricator_top");
-        this.texture[2] = register.registerIcon(ModPrefs.MODID + ":blocks/fabricator/fabricator_bottom");
+        this.texture[0] = register.registerIcon(ModPrefs.MODID + ":blocks/machine/fabricator_side");
+        this.texture[1] = register.registerIcon(ModPrefs.MODID + ":blocks/machine/fabricator_top");
+        this.texture[2] = register.registerIcon(ModPrefs.MODID + ":blocks/machine/fabricator_bottom");
     }
 
     @Override

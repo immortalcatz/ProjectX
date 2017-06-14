@@ -1,13 +1,13 @@
-package keri.projectx.container;
+package keri.projectx.container.slot;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class SlotCraftingResult extends Slot {
+public class SlotDisabled extends Slot {
 
-    public SlotCraftingResult(IInventory inventory, int index, int x, int y) {
+    public SlotDisabled(IInventory inventory, int index, int x, int y) {
         super(inventory, index, x, y);
     }
 

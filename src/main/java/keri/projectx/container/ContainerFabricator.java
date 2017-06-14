@@ -1,6 +1,8 @@
 package keri.projectx.container;
 
-import codechicken.lib.inventory.container.SlotDummy;
+import keri.ninetaillib.lib.container.ContainerBase;
+import keri.ninetaillib.lib.container.slot.SlotFalseCopy;
+import keri.projectx.container.slot.SlotDisabled;
 import keri.projectx.tile.TileEntityFabricator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -21,11 +23,11 @@ public class ContainerFabricator extends ContainerBase {
                 int index = x + 3 * y;
                 int posX = 16 + 18 * x;
                 int posY = 17 + 18 * y;
-                this.addSlotToContainer(new SlotDummy(tile, index, posX, posY));
+                this.addSlotToContainer(new SlotFalseCopy(tile, index, posX, posY));
             }
         }
 
-        this.addSlotToContainer(new SlotCraftingResult(tile, 9, 88, 34));
+        this.addSlotToContainer(new SlotDisabled(tile, 9, 88, 34));
 
         for(int x = 0; x < 3; x++){
             for(int y = 0; y < 3; y++){
@@ -38,8 +40,18 @@ public class ContainerFabricator extends ContainerBase {
     }
 
     @Override
+    public boolean supportsShiftClick(EntityPlayer player, int slot) {
+        return slot > 9;
+    }
+
+    @Override
     public boolean canInteractWith(EntityPlayer player) {
         return this.tile.isUsableByPlayer(player);
+    }
+
+    @Override
+    public int getSizeInventory() {
+        return this.tile.getSizeInventory();
     }
 
 }

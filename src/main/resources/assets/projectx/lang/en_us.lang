@@ -1,0 +1,26 @@
+itemGroup.projectx.name=ProjectX 2
+
+tile.projectx.xycronium_ore.blue.name=Blue Xycronium Ore
+tile.projectx.xycronium_ore.green.name=Green Xycronium Ore
+tile.projectx.xycronium_ore.red.name=Red Xycronium Ore
+tile.projectx.xycronium_ore.dark.name=Dark Xycronium Ore
+tile.projectx.xycronium_ore.light.name=Light Xycronium Ore
+tile.projectx.xycronium_nether_ore.blue.name=Blue Xycronium Nether Ore
+tile.projectx.xycronium_nether_ore.green.name=Green Xycronium Nether Ore
+tile.projectx.xycronium_nether_ore.red.name=Red Xycronium Nether Ore
+tile.projectx.xycronium_nether_ore.dark.name=Dark Xycronium Nether Ore
+tile.projectx.xycronium_nether_ore.light.name=Light Xycronium Nether Ore
+tile.projectx.xycronium_block.blue.name=Blue Xycronium Block
+tile.projectx.xycronium_block.green.name=Green Xycronium Block
+tile.projectx.xycronium_block.red.name=Red Xycronium Block
+tile.projectx.xycronium_block.dark.name=Dark Xycronium Block
+tile.projectx.xycronium_block.light.name=Light Xycronium Block
+tile.projectx.xycronium_bricks.blue.name=Blue Xycronium Bricks
+tile.projectx.xycronium_bricks.green.name=Green Xycronium Bricks
+tile.projectx.xycronium_bricks.red.name=Red Xycronium Bricks
+tile.projectx.xycronium_bricks.dark.name=Dark Xycronium Bricks
+tile.projectx.xycronium_bricks.light.name=Light Xycronium Bricks
+tile.projectx.quartz_crystal.name=Quartz Crystal
+tile.projectx.fabricator.name=Fabricator
+
+container.projectx.fabricator.name=Fabricator
