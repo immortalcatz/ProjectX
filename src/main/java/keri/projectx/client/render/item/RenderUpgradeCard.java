@@ -2,18 +2,28 @@ package keri.projectx.client.render.item;
 
 import codechicken.lib.colour.Colour;
 import codechicken.lib.render.CCModel;
+import codechicken.lib.render.CCRenderState;
 import codechicken.lib.vec.Cuboid6;
 import codechicken.lib.vec.Vector3;
+import codechicken.lib.vec.uv.IconTransformation;
 import keri.ninetaillib.lib.render.EnumItemRenderType;
 import keri.ninetaillib.lib.render.IItemRenderingHandler;
+import keri.ninetaillib.lib.render.RenderingConstants;
 import keri.ninetaillib.lib.render.RenderingRegistry;
 import keri.ninetaillib.lib.texture.IIconItem;
+import keri.ninetaillib.lib.util.RenderUtils;
+import keri.projectx.ProjectX;
 import keri.projectx.util.EnumUpgradeType;
 import keri.projectx.util.ModelUtils;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class RenderUpgradeCard implements IItemRenderingHandler {
@@ -42,8 +52,46 @@ public class RenderUpgradeCard implements IItemRenderingHandler {
 
     @Override
     public void renderItem(ItemStack stack, VertexBuffer buffer) {
+        Tessellator.getInstance().draw();
         IIconItem iconProvider = (IIconItem)stack.getItem();
         Colour color = EnumUpgradeType.VALUES[stack.getMetadata()].getColor();
+        TextureAtlasSprite texture = iconProvider.getIcon(stack.getMetadata());
+        TextureAtlasSprite textureBack = iconProvider.getIcon(EnumUpgradeType.VALUES.length);
+        CCRenderState renderState = RenderingConstants.getRenderState();
+        buffer.begin(GL11.GL_QUADS, RenderUtils.getFormatWithLightMap(DefaultVertexFormats.ITEM));
+        renderState.reset();
+        renderState.bind(buffer);
+        renderState.brightness = 0x00F000F0;
+        ITEM_MODEL[1].setColour(color.rgba());
+        GlStateManager.pushMatrix();
+        GlStateManager.disableLighting();
+        RenderUtils.MipmapFilterData mipmapFilterData = RenderUtils.disableMipmap();
+        ITEM_MODEL[1].render(renderState, new IconTransformation(ProjectX.PROXY.getAnimatedTexture()));
+        RenderUtils.enableMipmap(mipmapFilterData);
+        GlStateManager.enableLighting();
+        GlStateManager.popMatrix();
+        Tessellator.getInstance().draw();
+        buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.ITEM);
+        renderState.reset();
+        renderState.bind(buffer);
+        ITEM_MODEL[0].render(renderState, new IconTransformation(textureBack));
+        ITEM_MODEL[1].setColour(0xFFFFFFFF);
+
+        for(int i = 0; i < 6; i++){
+            IconTransformation icon = new IconTransformation(i == 3 ? texture : textureBack);
+            ITEM_MODEL[1].render(renderState, (4 * i), 4 + (4 * i), icon);
+        }
+
+        ITEM_MODEL[2].render(renderState, new IconTransformation(textureBack));
+        ITEM_MODEL[3].render(renderState, new IconTransformation(textureBack));
+        ITEM_MODEL[4].render(renderState, new IconTransformation(texture));
+        ITEM_MODEL[5].render(renderState, new IconTransformation(texture));
+        ITEM_MODEL[6].render(renderState, new IconTransformation(texture));
+        ITEM_MODEL[7].render(renderState, new IconTransformation(texture));
+        ITEM_MODEL[8].render(renderState, new IconTransformation(textureBack));
+        ITEM_MODEL[9].render(renderState, new IconTransformation(textureBack));
+        Tessellator.getInstance().draw();
+        buffer.begin(GL11.GL_QUADS, RenderUtils.getFormatWithLightMap(DefaultVertexFormats.ITEM));
     }
 
     @Override

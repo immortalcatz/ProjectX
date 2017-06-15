@@ -4,12 +4,19 @@ import keri.ninetaillib.lib.render.EnumItemRenderType;
 import keri.ninetaillib.lib.texture.IIconRegister;
 import keri.projectx.client.render.item.RenderUpgradeCard;
 import keri.projectx.util.EnumUpgradeType;
+import keri.projectx.util.IShiftDescription;
 import keri.projectx.util.ModPrefs;
+import keri.projectx.util.Translations;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemUpgradeCard extends ItemProjectX {
+import java.util.List;
+
+public class ItemUpgradeCard extends ItemProjectX implements IShiftDescription {
 
     @SideOnly(Side.CLIENT)
     private TextureAtlasSprite[] texture;
@@ -20,14 +27,36 @@ public class ItemUpgradeCard extends ItemProjectX {
 
     @Override
     @SideOnly(Side.CLIENT)
+    public String getUnlocalizedName(ItemStack stack) {
+        return this.getUnlocalizedName();
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean shouldAddTooltip(ItemStack stack, EntityPlayer player) {
+        return stack.getMetadata() > 0;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void addDescription(List<String> list, ItemStack stack, EntityPlayer player){
+        String key = EnumUpgradeType.VALUES[stack.getMetadata()].getName();
+        String upgrade = Translations.translate("upgrade", key);
+        String upgradeType = Translations.translate("tooltip", "upgrade_type");
+        list.add(TextFormatting.AQUA + upgradeType + ": " + upgrade);
+        list.add(Translations.translate("tooltip", this.getItemName() + "." + key));
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister register){
         this.texture = new TextureAtlasSprite[EnumUpgradeType.VALUES.length + 1];
 
-        for(EnumUpgradeType type : EnumUpgradeType.VALUES){
-            this.texture[type.getIndex()] = register.registerIcon(type.getTexture());
+        for(int i = 0; i < EnumUpgradeType.VALUES.length; i++){
+            this.texture[i] = register.registerIcon(EnumUpgradeType.VALUES[i].getTexture());
         }
 
-        this.texture[EnumUpgradeType.VALUES.length + 1] = register.registerIcon(ModPrefs.MODID + "items/upgrade/upgrade_back");
+        this.texture[EnumUpgradeType.VALUES.length] = register.registerIcon(ModPrefs.MODID + ":items/upgrade/upgrade_back");
     }
 
     @Override

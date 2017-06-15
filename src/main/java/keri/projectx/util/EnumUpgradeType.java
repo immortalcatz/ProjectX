@@ -6,10 +6,15 @@ import codechicken.lib.colour.ColourRGBA;
 public enum EnumUpgradeType {
 
     BLANK(0, "blank", new ColourRGBA(255, 255, 255, 255), "blank"),
-    MACHINE_IO(1, "machine_io", EnumXycroniumColor.GREEN.getColor(), "machine_io");
+    MACHINE_IO(1, "machine_io", EnumXycroniumColor.GREEN.getColor(), "machine_io"),
+    SPEED(2, "speed", EnumXycroniumColor.RED.getColor(), "speed"),
+    CAPACITY(3, "capacity", EnumXycroniumColor.LIGHT.getColor(), "capacity");
 
     public static final EnumUpgradeType[] VALUES = new EnumUpgradeType[]{
-            MACHINE_IO
+            BLANK,
+            MACHINE_IO,
+            SPEED,
+            CAPACITY
     };
     private int index;
     private String name;

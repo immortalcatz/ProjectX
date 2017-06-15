@@ -23,4 +23,18 @@ tile.projectx.xycronium_bricks.light.name=Light Xycronium Bricks
 tile.projectx.quartz_crystal.name=Quartz Crystal
 tile.projectx.fabricator.name=Fabricator
 
+item.projectx.upgrade_card.name=Upgrade Card
+
 container.projectx.fabricator.name=Fabricator
+
+upgrade.projectx.machine_io.name=Machine I/O
+upgrade.projectx.speed.name=Speed
+upgrade.projectx.capacity.name=Capacity
+
+tooltip.projectx.shift.name=SHIFT
+tooltip.projectx.press.name=Press
+tooltip.projectx.info.name=to show information
+tooltip.projectx.upgrade_type.name=Upgrade Type
+tooltip.projectx.upgrade_card.machine_io.name=This upgrade allows machines to automatically push or pull items to touching inventories
+tooltip.projectx.upgrade_card.speed.name=This upgrade will make machines run faster in exchange for more power
+tooltip.projectx.upgrade_card.capacity.name=This upgrade will expand the internal energy buffer of any machine
