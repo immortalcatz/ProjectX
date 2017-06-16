@@ -22,8 +22,8 @@ public class ItemBlockProjectX extends ItemBlockBase {
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced) {
-        if(this instanceof IShiftDescription){
-            IShiftDescription iface = (IShiftDescription)this;
+        if(this.block instanceof IShiftDescription){
+            IShiftDescription iface = (IShiftDescription)this.block;
 
             if(iface.shouldAddTooltip(stack, player)){
                 if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)){

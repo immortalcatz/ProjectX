@@ -15,6 +15,10 @@ public class ProjectXContent {
     public static Block xycroniumNetherOre = new BlockXycroniumNetherOre();
     public static Block xycroniumStorage = new BlockXycroniumStorage();
     public static Block xycroniumBricks = new BlockXycroniumBricks();
+    public static Block xycroniumStructure = new BlockXycroniumStructure();
+    public static Block xycroniumPlate = new BlockXycroniumPlate();
+    public static Block xycroniumPlatform = new BlockXycroniumPlatform();
+    public static Block xycroniumShield = new BlockXycroniumShield();
     public static Block quartzCrystal = new BlockQuartzCrystal();
     public static Block fabricator = new BlockFabricator();
 

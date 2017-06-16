@@ -2,8 +2,8 @@ package keri.projectx.block;
 
 import keri.ninetaillib.lib.texture.IIconRegister;
 import keri.ninetaillib.lib.util.BlockAccessUtils;
+import keri.ninetaillib.lib.util.EnumDyeColor;
 import keri.projectx.ProjectX;
-import keri.projectx.util.EnumXycroniumColor;
 import keri.projectx.util.ModPrefs;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -13,58 +13,50 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockXycroniumOre extends BlockAnimationHandler {
+public class BlockXycroniumStructure extends BlockAnimationHandler {
 
     @SideOnly(Side.CLIENT)
-    private TextureAtlasSprite[] texture;
+    private TextureAtlasSprite texture;
 
-    public BlockXycroniumOre() {
-        super("xycronium_ore", Material.ROCK, EnumXycroniumColor.toStringArray());
+    public BlockXycroniumStructure() {
+        super("xycronium_structure", Material.ROCK, EnumDyeColor.toStringArray());
         this.setHardness(1.4F);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister register) {
-        this.texture = new TextureAtlasSprite[6];
-
-        for(int i = 0; i < this.getSubNames().length; i++){
-            this.texture[i] = register.registerIcon(ModPrefs.MODID + ":blocks/xycronium_ore/xycronium_ore_" + this.getSubNames()[i]);
-        }
-
-        this.texture[5] = register.registerIcon(ModPrefs.MODID + ":blocks/xycronium_ore/xycronium_ore_effect");
+        this.texture = register.registerIcon(ModPrefs.MODID + ":blocks/xycronium_structure");
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public TextureAtlasSprite getIcon(int meta, int side) {
-        return this.texture[meta];
+        return this.texture;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public TextureAtlasSprite getAnimationIcon(ItemStack stack, int side) {
-        boolean animatedOres = (Boolean)ProjectX.CONFIG.getProperty("animatedOres").getValue();
-        return animatedOres ? ProjectX.PROXY.getAnimatedTexture() : this.texture[5];
+        return ProjectX.PROXY.getAnimatedTexture();
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public TextureAtlasSprite getAnimationIcon(IBlockAccess world, BlockPos pos, int side) {
-        boolean animatedOres = (Boolean)ProjectX.CONFIG.getProperty("animatedOres").getValue();
-        return animatedOres ? ProjectX.PROXY.getAnimatedTexture() : this.texture[5];
+        return ProjectX.PROXY.getAnimatedTexture();
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public int getAnimationColor(ItemStack stack, int side) {
-        return EnumXycroniumColor.VALUES[stack.getMetadata()].getColor().rgba();
+        return EnumDyeColor.VALUES[stack.getMetadata()].getColor().rgba();
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public int getAnimationColor(IBlockAccess world, BlockPos pos, int side) {
-        return EnumXycroniumColor.VALUES[BlockAccessUtils.getBlockMetadata(world, pos)].getColor().rgba();
+        return EnumDyeColor.VALUES[BlockAccessUtils.getBlockMetadata(world, pos)].getColor().rgba();
     }
 
     @Override

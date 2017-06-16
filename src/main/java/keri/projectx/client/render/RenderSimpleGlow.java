@@ -58,7 +58,7 @@ public class RenderSimpleGlow implements IBlockRenderingHandler {
             int brightness = animationHandler.getAnimationBrightness(world, pos, side.getIndex());
             renderState.brightness = brightness;
             modelAnimation.setColour(color);
-            modelAnimation.render(renderState, 0 + (4 * side.getIndex()), 4 + (4 * side.getIndex()), new IconTransformation(texture));
+            modelAnimation.render(renderState, (4 * side.getIndex()), 4 + (4 * side.getIndex()), new IconTransformation(texture));
         }
 
         CCModel modelOverlay = BLOCK_MODEL.copy();

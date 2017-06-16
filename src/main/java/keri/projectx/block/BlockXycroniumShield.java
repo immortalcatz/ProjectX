@@ -2,69 +2,86 @@ package keri.projectx.block;
 
 import keri.ninetaillib.lib.texture.IIconRegister;
 import keri.ninetaillib.lib.util.BlockAccessUtils;
+import keri.ninetaillib.lib.util.EnumDyeColor;
 import keri.projectx.ProjectX;
-import keri.projectx.util.EnumXycroniumColor;
+import keri.projectx.util.IShiftDescription;
 import keri.projectx.util.ModPrefs;
+import keri.projectx.util.Translations;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockXycroniumOre extends BlockAnimationHandler {
+import java.util.List;
+
+public class BlockXycroniumShield extends BlockAnimationHandler implements IShiftDescription {
 
     @SideOnly(Side.CLIENT)
-    private TextureAtlasSprite[] texture;
+    private TextureAtlasSprite texture;
 
-    public BlockXycroniumOre() {
-        super("xycronium_ore", Material.ROCK, EnumXycroniumColor.toStringArray());
+    public BlockXycroniumShield() {
+        super("xycronium_shield", Material.ROCK, EnumDyeColor.toStringArray());
         this.setHardness(1.4F);
+        this.setResistance(Float.MAX_VALUE);
+    }
+
+    @Override
+    public boolean canEntityDestroy(IBlockState state, IBlockAccess world, BlockPos pos, Entity entity) {
+        return false;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean shouldAddTooltip(ItemStack stack, EntityPlayer player) {
+        return true;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void addDescription(List<String> list, ItemStack stack, EntityPlayer player) {
+        list.add(Translations.translate("tooltip", "wither_proof"));
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister register) {
-        this.texture = new TextureAtlasSprite[6];
-
-        for(int i = 0; i < this.getSubNames().length; i++){
-            this.texture[i] = register.registerIcon(ModPrefs.MODID + ":blocks/xycronium_ore/xycronium_ore_" + this.getSubNames()[i]);
-        }
-
-        this.texture[5] = register.registerIcon(ModPrefs.MODID + ":blocks/xycronium_ore/xycronium_ore_effect");
+        this.texture = register.registerIcon(ModPrefs.MODID + ":blocks/xycronium_shield");
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public TextureAtlasSprite getIcon(int meta, int side) {
-        return this.texture[meta];
+        return this.texture;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public TextureAtlasSprite getAnimationIcon(ItemStack stack, int side) {
-        boolean animatedOres = (Boolean)ProjectX.CONFIG.getProperty("animatedOres").getValue();
-        return animatedOres ? ProjectX.PROXY.getAnimatedTexture() : this.texture[5];
+        return ProjectX.PROXY.getAnimatedTexture();
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public TextureAtlasSprite getAnimationIcon(IBlockAccess world, BlockPos pos, int side) {
-        boolean animatedOres = (Boolean)ProjectX.CONFIG.getProperty("animatedOres").getValue();
-        return animatedOres ? ProjectX.PROXY.getAnimatedTexture() : this.texture[5];
+        return ProjectX.PROXY.getAnimatedTexture();
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public int getAnimationColor(ItemStack stack, int side) {
-        return EnumXycroniumColor.VALUES[stack.getMetadata()].getColor().rgba();
+        return EnumDyeColor.VALUES[stack.getMetadata()].getColor().rgba();
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public int getAnimationColor(IBlockAccess world, BlockPos pos, int side) {
-        return EnumXycroniumColor.VALUES[BlockAccessUtils.getBlockMetadata(world, pos)].getColor().rgba();
+        return EnumDyeColor.VALUES[BlockAccessUtils.getBlockMetadata(world, pos)].getColor().rgba();
     }
 
     @Override
