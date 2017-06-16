@@ -21,7 +21,6 @@ public class GuiFaricator extends GuiContainer {
 
     private final ResourceLocation texture = new ResourceLocation(ModPrefs.MODID, "textures/gui/fabricator.png");
     private final String nameContainerInventory = I18n.format("container.inventory");
-    private final String nameContainerFabricator = Translations.translate("container", "fabricator");
     private InventoryPlayer inventoryPlayer;
     private TileEntityFabricator tile;
     private ContainerFabricator container;
@@ -54,7 +53,7 @@ public class GuiFaricator extends GuiContainer {
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
         this.fontRendererObj.drawString(this.nameContainerInventory, 8, this.ySize - 92, 0xFF101010);
-        this.fontRendererObj.drawString(this.nameContainerFabricator, 8, this.ySize - 162, 0xFF101010);
+        this.fontRendererObj.drawString(Translations.CONTAINER_FABRICATOR, 8, this.ySize - 162, 0xFF101010);
     }
 
 }

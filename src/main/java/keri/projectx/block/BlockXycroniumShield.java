@@ -45,7 +45,7 @@ public class BlockXycroniumShield extends BlockAnimationHandler implements IShif
     @Override
     @SideOnly(Side.CLIENT)
     public void addDescription(List<String> list, ItemStack stack, EntityPlayer player) {
-        list.add(Translations.translate("tooltip", "wither_proof"));
+        list.add(Translations.TOOLTIP_WITHER_PROOF);
     }
 
     @Override

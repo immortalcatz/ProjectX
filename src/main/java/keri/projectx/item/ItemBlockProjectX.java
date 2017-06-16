@@ -30,9 +30,9 @@ public class ItemBlockProjectX extends ItemBlockBase {
                     iface.addDescription(tooltip, stack, player);
                 }
                 else{
-                    String key = TextFormatting.YELLOW + Translations.translate("tooltip", "shift");
-                    String press = TextFormatting.GRAY + Translations.translate("tooltip", "press");
-                    String info = TextFormatting.GRAY + Translations.translate("tooltip", "info");
+                    String key = TextFormatting.YELLOW + Translations.TOOLTIP_SHIFT;
+                    String press = TextFormatting.GRAY + Translations.TOOLTIP_PRESS;
+                    String info = TextFormatting.GRAY + Translations.TOOLTIP_INFO;
                     tooltip.add(press + " " + key + " " + info);
                 }
             }
