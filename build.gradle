@@ -21,7 +21,7 @@ repositories {
 
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-version = "1.11.2-2.1.9"
+version = "1.11.2-2.1.10"
 group = "keri.projectx" 
 archivesBaseName = "ProjectX"
 

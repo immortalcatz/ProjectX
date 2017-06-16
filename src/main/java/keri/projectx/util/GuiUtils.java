@@ -13,6 +13,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class GuiUtils {
 
+    //TODO: move this over to NTL you lazy arse -_-
     private static final ResourceLocation TEXTURE = new ResourceLocation(ModPrefs.MODID, "textures/gui/misc.png");
     public static final int ALIGNMENT_LEFT = 0;
     public static final int ALIGNMENT_RIGHT = 1;
