@@ -10,18 +10,30 @@ buildscript {
 
 repositories {
     maven {
-        name "CB's Maven"
+        name "ChickenBone's Maven"
         url "http://chickenbones.net/maven"
     }
     maven {
         name "KitsuneAlex' Maven"
         url "http://maven.k-4u.nl"
     }
+	maven {
+		name "TehNut's Mven"
+		url "http://tehnut.info/maven"
+	}
+	maven {
+		name "progwlm6's Maven"
+		url "http://dvs1.progwml6.com/files/maven"
+	}
+	maven {
+		name "covers1624's Maven"
+		url "http://maven.covers1624.net"
+	}
 }
 
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-version = "1.11.2-2.1.10"
+version = "1.11.2-2.1.11"
 group = "keri.projectx" 
 archivesBaseName = "ProjectX"
 
@@ -39,6 +51,13 @@ minecraft {
 dependencies {
     deobfCompile "codechicken:CodeChickenLib:1.11.2-2.7.0.268:deobf"
     deobfCompile "keri.ninetaillib:NineTailLib:1.11.2-1.5.125:deobf"
+	deobfCompile "mcp.mobius.waila:Hwyla:1.8.15-B29_1.11"
+	deobfCompile "mezz.jei:jei_1.11.2:4.5.0.287"
+	deobfCompile "slimeknights.mantle:Mantle:1.11.2-1.2.0.27:deobf"
+	deobfCompile "slimeknights:TConstruct:1.11.2-2.7.0.30:deobf"
+	deobfCompile "cofh:CoFHCore:1.11.2-4.2.0.4:deobf"
+	deobfCompile "cofh:ThermalFoundation:1.11.2-2.2.0.2:deobf"
+	deobfCompile "cofh:ThermalExpansion:1.11.2-5.2.0.1:deobf"
 }
 
 processResources {
