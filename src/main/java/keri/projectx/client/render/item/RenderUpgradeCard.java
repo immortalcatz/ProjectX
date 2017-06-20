@@ -11,11 +11,12 @@ import keri.ninetaillib.lib.render.IItemRenderingHandler;
 import keri.ninetaillib.lib.render.RenderingConstants;
 import keri.ninetaillib.lib.render.RenderingRegistry;
 import keri.ninetaillib.lib.texture.IIconItem;
+import keri.ninetaillib.lib.util.ModelUtils;
 import keri.ninetaillib.lib.util.RenderUtils;
 import keri.projectx.ProjectX;
 import keri.projectx.util.EnumUpgradeType;
-import keri.projectx.util.ModelUtils;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -52,6 +53,7 @@ public class RenderUpgradeCard implements IItemRenderingHandler {
 
     @Override
     public void renderItem(ItemStack stack, VertexBuffer buffer) {
+        int lastBrightness = (int) OpenGlHelper.lastBrightnessY << 16 | (int)OpenGlHelper.lastBrightnessX;
         Tessellator.getInstance().draw();
         IIconItem iconProvider = (IIconItem)stack.getItem();
         Colour color = EnumUpgradeType.VALUES[stack.getMetadata()].getColor();
@@ -67,6 +69,7 @@ public class RenderUpgradeCard implements IItemRenderingHandler {
         GlStateManager.disableLighting();
         RenderUtils.MipmapFilterData mipmapFilterData = RenderUtils.disableMipmap();
         ITEM_MODEL[1].render(renderState, new IconTransformation(ProjectX.PROXY.getAnimatedTexture()));
+        renderState.brightness = lastBrightness;
         RenderUtils.enableMipmap(mipmapFilterData);
         GlStateManager.enableLighting();
         GlStateManager.popMatrix();
