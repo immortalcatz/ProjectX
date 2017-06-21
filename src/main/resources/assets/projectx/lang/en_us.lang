@@ -86,6 +86,7 @@ tile.projectx.xycronium_shield.orange.name=Orange Xycronium Shield
 tile.projectx.xycronium_shield.white.name=White Xycronium Shield
 tile.projectx.quartz_crystal.name=Quartz Crystal
 tile.projectx.fabricator.name=Fabricator
+tile.projectx.tank.name=Tank
 
 item.projectx.upgrade_card.name=Upgrade Card
 

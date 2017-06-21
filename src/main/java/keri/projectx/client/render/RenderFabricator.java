@@ -1,4 +1,4 @@
-package keri.projectx.client.render.tesr;
+package keri.projectx.client.render;
 
 import codechicken.lib.render.RenderUtils;
 import codechicken.lib.render.item.IItemRenderer;
@@ -9,7 +9,9 @@ import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
 
-public class TESRFabricator extends TileEntitySpecialRenderer<TileEntityFabricator> {
+public class RenderFabricator extends TileEntitySpecialRenderer<TileEntityFabricator> {
+
+    public static final RenderFabricator INSTANCE = new RenderFabricator();
 
     @Override
     public void renderTileEntityAt(TileEntityFabricator tile, double x, double y, double z, float partialTicks, int destroyStage) {

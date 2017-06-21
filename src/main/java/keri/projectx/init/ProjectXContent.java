@@ -3,7 +3,7 @@ package keri.projectx.init;
 import keri.ninetaillib.lib.mod.ContentLoader;
 import keri.projectx.block.*;
 import keri.projectx.block.machine.BlockFabricator;
-import keri.projectx.block.machine.BlockHydrogenicSeperator;
+import keri.projectx.block.machine.BlockTank;
 import keri.projectx.item.ItemUpgradeCard;
 import keri.projectx.util.ModPrefs;
 import net.minecraft.block.Block;
@@ -22,7 +22,7 @@ public class ProjectXContent {
     public static Block xycroniumShield = new BlockXycroniumShield();
     public static Block quartzCrystal = new BlockQuartzCrystal();
     public static Block fabricator = new BlockFabricator();
-    public static Block hydrogenicSeperator = new BlockHydrogenicSeperator();
+    public static Block tank = new BlockTank();
 
     public static Item upgradeCard = new ItemUpgradeCard();
 
