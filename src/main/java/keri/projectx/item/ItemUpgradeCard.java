@@ -2,9 +2,9 @@ package keri.projectx.item;
 
 import keri.ninetaillib.lib.render.EnumItemRenderType;
 import keri.ninetaillib.lib.texture.IIconRegister;
+import keri.ninetaillib.lib.util.IShiftDescription;
 import keri.projectx.client.render.item.RenderUpgradeCard;
 import keri.projectx.util.EnumUpgradeType;
-import keri.projectx.util.IShiftDescription;
 import keri.projectx.util.ModPrefs;
 import keri.projectx.util.Translations;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -33,17 +33,11 @@ public class ItemUpgradeCard extends ItemProjectX implements IShiftDescription {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean shouldAddTooltip(ItemStack stack, EntityPlayer player) {
-        return stack.getMetadata() > 0;
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void addDescription(List<String> list, ItemStack stack, EntityPlayer player){
+    public void addShiftDescription(ItemStack stack, EntityPlayer player, List<String> tooltip) {
         EnumUpgradeType type = EnumUpgradeType.VALUES[stack.getMetadata()];
         String upgradeName = Translations.getUpgradeName(type);
-        list.add(TextFormatting.AQUA + Translations.TOOLTIP_UPGRADE_TYPE + ": " + upgradeName);
-        list.add(Translations.getUpgradeDescription(type));
+        tooltip.add(TextFormatting.AQUA + Translations.TOOLTIP_UPGRADE_TYPE + ": " + upgradeName);
+        tooltip.add(Translations.getUpgradeDescription(type));
     }
 
     @Override

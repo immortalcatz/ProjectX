@@ -3,8 +3,8 @@ package keri.projectx.block;
 import keri.ninetaillib.lib.texture.IIconRegister;
 import keri.ninetaillib.lib.util.BlockAccessUtils;
 import keri.ninetaillib.lib.util.EnumDyeColor;
+import keri.ninetaillib.lib.util.IShiftDescription;
 import keri.projectx.ProjectX;
-import keri.projectx.util.IShiftDescription;
 import keri.projectx.util.ModPrefs;
 import keri.projectx.util.Translations;
 import net.minecraft.block.material.Material;
@@ -38,14 +38,8 @@ public class BlockXycroniumShield extends BlockAnimationHandler implements IShif
 
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean shouldAddTooltip(ItemStack stack, EntityPlayer player) {
-        return true;
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void addDescription(List<String> list, ItemStack stack, EntityPlayer player) {
-        list.add(Translations.TOOLTIP_WITHER_PROOF);
+    public void addShiftDescription(ItemStack stack, EntityPlayer player, List<String> tooltip) {
+        tooltip.add(Translations.TOOLTIP_WITHER_PROOF);
     }
 
     @Override
