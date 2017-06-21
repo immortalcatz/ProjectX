@@ -6,12 +6,14 @@ import keri.projectx.container.slot.SlotDisabled;
 import keri.projectx.tile.TileEntityFabricator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.IContainerListener;
 import net.minecraft.inventory.Slot;
 
 public class ContainerFabricator extends ContainerBase {
 
     private InventoryPlayer inventoryPlayer;
     private TileEntityFabricator tile;
+    private int energyStored = 0;
 
     public ContainerFabricator(InventoryPlayer inventoryPlayer, TileEntityFabricator tile) {
         this.inventoryPlayer = inventoryPlayer;
@@ -52,6 +54,36 @@ public class ContainerFabricator extends ContainerBase {
     @Override
     public int getSizeInventory() {
         return this.tile.getSizeInventory();
+    }
+
+    @Override
+    public void addListener(IContainerListener listener) {
+        super.addListener(listener);
+        listener.sendProgressBarUpdate(this, 0, this.tile.getEnergyStored(null));
+    }
+
+    @Override
+    public void updateProgressBar(int id, int data) {
+        switch(id){
+            case 0:
+                this.energyStored = data;
+                break;
+        }
+    }
+
+    @Override
+    public void detectAndSendChanges() {
+        super.detectAndSendChanges();
+
+        for(IContainerListener listener : this.listeners){
+            if(this.energyStored != this.tile.getEnergyStored(null)){
+                listener.sendProgressBarUpdate(this, 0, this.tile.getEnergyStored(null));
+            }
+        }
+    }
+
+    public int getEnergyStored(){
+        return this.energyStored;
     }
 
 }

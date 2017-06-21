@@ -3,6 +3,8 @@ package keri.projectx.tile;
 import codechicken.lib.inventory.InventoryRange;
 import codechicken.lib.inventory.InventoryUtils;
 import codechicken.lib.util.ItemUtils;
+import cofh.api.energy.EnergyStorage;
+import cofh.api.energy.IEnergyReceiver;
 import com.google.common.collect.Lists;
 import keri.ninetaillib.lib.tile.IInventoryAction;
 import keri.ninetaillib.lib.tile.InventoryAction;
@@ -13,17 +15,33 @@ import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 
 import java.util.List;
 
-public class TileEntityFabricator extends TileEntityInventoryBase implements ITickable, IInventoryAction {
+public class TileEntityFabricator extends TileEntityInventoryBase implements ITickable, IInventoryAction, IEnergyReceiver {
 
     private boolean needsUpdate = false;
     private IRecipe currentRecipe;
+    private EnergyStorage energyStorage = new EnergyStorage(1000, 100);
 
     public TileEntityFabricator() {
         super(19);
+    }
+
+    @Override
+    public void readFromNBT(NBTTagCompound tag) {
+        super.readFromNBT(tag);
+        this.energyStorage.readFromNBT(tag);
+    }
+
+    @Override
+    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
+        super.writeToNBT(tag);
+        this.energyStorage.writeToNBT(tag);
+        return tag;
     }
 
     @Override
@@ -35,11 +53,41 @@ public class TileEntityFabricator extends TileEntityInventoryBase implements ITi
             }
 
             if(this.currentRecipe != null){
-                if(this.areIngredientsValid() && this.canCraft()){
+                if(this.areIngredientsValid() && this.canCraft() && this.energyStorage.getEnergyStored() >= 100){
                     this.craft();
+                    this.energyStorage.extractEnergy(100, false);
                 }
             }
         }
+    }
+
+    @Override
+    public void onInventoryAction(EntityPlayer player, int index, int count, ItemStack stack, InventoryAction action) {
+        if(action == InventoryAction.SET_SLOT_CONTENT){
+            if(index < 9){
+                this.needsUpdate = true;
+            }
+        }
+    }
+
+    @Override
+    public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
+        return this.energyStorage.receiveEnergy(maxReceive, simulate);
+    }
+
+    @Override
+    public int getEnergyStored(EnumFacing from) {
+        return this.energyStorage.getEnergyStored();
+    }
+
+    @Override
+    public int getMaxEnergyStored(EnumFacing from) {
+        return this.energyStorage.getMaxEnergyStored();
+    }
+
+    @Override
+    public boolean canConnectEnergy(EnumFacing from) {
+        return from != EnumFacing.UP;
     }
 
     private void craft(){
@@ -130,15 +178,6 @@ public class TileEntityFabricator extends TileEntityInventoryBase implements ITi
         }
         else{
             this.removeStackFromSlot(9);
-        }
-    }
-
-    @Override
-    public void onInventoryAction(EntityPlayer player, int index, int count, ItemStack stack, InventoryAction action) {
-        if(action == InventoryAction.SET_SLOT_CONTENT){
-            if(index < 9){
-                this.needsUpdate = true;
-            }
         }
     }
 

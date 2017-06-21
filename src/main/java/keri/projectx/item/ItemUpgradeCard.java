@@ -33,7 +33,13 @@ public class ItemUpgradeCard extends ItemProjectX implements IShiftDescription {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void addShiftDescription(ItemStack stack, EntityPlayer player, List<String> tooltip) {
+    public boolean shouldAddDescription(ItemStack stack, EntityPlayer player) {
+        return stack.getMetadata() > 0;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void addDescription(ItemStack stack, EntityPlayer player, List<String> tooltip) {
         EnumUpgradeType type = EnumUpgradeType.VALUES[stack.getMetadata()];
         String upgradeName = Translations.getUpgradeName(type);
         tooltip.add(TextFormatting.AQUA + Translations.TOOLTIP_UPGRADE_TYPE + ": " + upgradeName);

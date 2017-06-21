@@ -1,33 +1,29 @@
 package keri.projectx.client.gui;
 
 import codechicken.lib.texture.TextureUtils;
+import keri.ninetaillib.lib.gui.GuiContainerBase;
 import keri.projectx.ProjectX;
 import keri.projectx.container.ContainerFabricator;
 import keri.projectx.tile.TileEntityFabricator;
 import keri.projectx.util.EnumXycroniumColor;
 import keri.projectx.util.ModPrefs;
 import keri.projectx.util.Translations;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class GuiFaricator extends GuiContainer {
+public class GuiFaricator extends GuiContainerBase {
 
     private final ResourceLocation texture = new ResourceLocation(ModPrefs.MODID, "textures/gui/fabricator.png");
-    private final String nameContainerInventory = I18n.format("container.inventory");
-    private InventoryPlayer inventoryPlayer;
     private TileEntityFabricator tile;
     private ContainerFabricator container;
 
     public GuiFaricator(InventoryPlayer inventoryPlayer, TileEntityFabricator tile) {
         super(new ContainerFabricator(inventoryPlayer, tile));
-        this.inventoryPlayer = inventoryPlayer;
         this.tile = tile;
         this.container = (ContainerFabricator)this.inventorySlots;
         super.xSize = 192;
@@ -52,7 +48,7 @@ public class GuiFaricator extends GuiContainer {
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
-        this.fontRendererObj.drawString(this.nameContainerInventory, 8, this.ySize - 92, 0xFF101010);
+        this.fontRendererObj.drawString(Translations.CONTAINER_INVENTORY, 8, this.ySize - 92, 0xFF101010);
         this.fontRendererObj.drawString(Translations.CONTAINER_FABRICATOR, 8, this.ySize - 162, 0xFF101010);
     }
 
