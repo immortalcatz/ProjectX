@@ -31,6 +31,7 @@ public class ProjectXContent {
     public static Block xycroniumLightInverted = new BlockXycroniumLightInverted();
     public static Block fabricator = new BlockFabricator();
     public static Block reinforcer = new BlockReinforcer();
+    public static Block reinforcedBlock = new BlockReinforcedBlock();
 
     public static Item xycroniumCrystal = new ItemXycroniumCrystal();
     public static Item xycroniumIngot = new ItemXycroniumIngot();
