@@ -5,7 +5,6 @@ import keri.ninetaillib.lib.config.ModConfig;
 import keri.ninetaillib.lib.logger.IModLogger;
 import keri.ninetaillib.lib.logger.ModLogger;
 import keri.ninetaillib.lib.mod.ModHandler;
-import keri.projectx.init.ProjectXMultiblocks;
 import keri.projectx.network.ProjectXGuiHandler;
 import keri.projectx.proxy.IProxy;
 import net.minecraftforge.fml.common.Mod;
@@ -33,7 +32,6 @@ public class ProjectX {
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event){
         MOD_HANDLER.handlePreInit(event);
-        ProjectXMultiblocks.preInit();
         PROXY.preInit(event);
     }
 

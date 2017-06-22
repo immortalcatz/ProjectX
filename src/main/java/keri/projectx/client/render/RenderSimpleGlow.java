@@ -134,7 +134,7 @@ public class RenderSimpleGlow implements IBlockRenderingHandler {
             TextureAtlasSprite texture = iconProvider.getIcon(stack.getMetadata(), side.getIndex());
             int colorMultiplier = iconProvider.getColorMultiplier(stack.getMetadata(), side.getIndex());
             modelOverlay.setColour(colorMultiplier);
-            modelOverlay.render(renderState, 0 + (4 * side.getIndex()), 4 + (4 * side.getIndex()), new IconTransformation(texture));
+            modelOverlay.render(renderState, (4 * side.getIndex()), 4 + (4 * side.getIndex()), new IconTransformation(texture));
         }
 
         Tessellator.getInstance().draw();

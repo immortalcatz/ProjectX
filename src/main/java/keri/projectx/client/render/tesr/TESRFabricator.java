@@ -1,4 +1,4 @@
-package keri.projectx.client.render;
+package keri.projectx.client.render.tesr;
 
 import codechicken.lib.render.RenderUtils;
 import codechicken.lib.render.item.IItemRenderer;
@@ -8,10 +8,11 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class RenderFabricator extends TileEntitySpecialRenderer<TileEntityFabricator> {
-
-    public static final RenderFabricator INSTANCE = new RenderFabricator();
+@SideOnly(Side.CLIENT)
+public class TESRFabricator extends TileEntitySpecialRenderer<TileEntityFabricator> {
 
     @Override
     public void renderTileEntityAt(TileEntityFabricator tile, double x, double y, double z, float partialTicks, int destroyStage) {
