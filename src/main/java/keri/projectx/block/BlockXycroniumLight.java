@@ -2,10 +2,12 @@ package keri.projectx.block;
 
 import codechicken.lib.colour.ColourRGBA;
 import keri.ninetaillib.lib.texture.IIconRegister;
+import keri.ninetaillib.lib.util.BlockAccessUtils;
 import keri.ninetaillib.lib.util.EnumDyeColor;
 import keri.projectx.ProjectX;
 import keri.projectx.tile.TileEntityXycroniumLight;
 import keri.projectx.util.ModPrefs;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -34,7 +36,7 @@ public class BlockXycroniumLight extends BlockAnimationHandler<TileEntityXycroni
     }
 
     @Override
-    public void registerTileEntities() {
+    public void registerTileEntities(){
         GameRegistry.registerTileEntity(TileEntityXycroniumLight.class, "tile." + ModPrefs.MODID + ".xycronium_light");
     }
 
@@ -53,6 +55,7 @@ public class BlockXycroniumLight extends BlockAnimationHandler<TileEntityXycroni
             if(heldItem.getItem() == Items.DYE){
                 if(tile != null){
                     tile.setColor(EnumDyeColor.VALUES[heldItem.getMetadata()].getColor());
+                    tile.markDirty();
                     return true;
                 }
             }
@@ -62,13 +65,19 @@ public class BlockXycroniumLight extends BlockAnimationHandler<TileEntityXycroni
     }
 
     @Override
-    public boolean canConnectRedstone(IBlockState state, IBlockAccess world, BlockPos pos, @Nullable EnumFacing side) {
-        return true;
+    @SuppressWarnings("deprecation")
+    public void neighborChanged(IBlockState state, World world, BlockPos pos, Block block, BlockPos fromPos) {
+
+    }
+
+    @Override
+    public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
+        return BlockAccessUtils.getBlockMetadata(world, pos) == 1 ? 255 : 0;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister register) {
+    public void registerIcons(IIconRegister register){
         this.texture = register.registerIcon(ModPrefs.MODID + ":blocks/xycronium_light");
     }
 
@@ -118,7 +127,7 @@ public class BlockXycroniumLight extends BlockAnimationHandler<TileEntityXycroni
     @Override
     @SideOnly(Side.CLIENT)
     public int getAnimationBrightness(IBlockAccess world, BlockPos pos, int side){
-        return 0x00B0000F;
+        return BlockAccessUtils.getBlockMetadata(world, pos) == 1 ? 0x00F000F0 : 0x00B0000F;
     }
 
 }

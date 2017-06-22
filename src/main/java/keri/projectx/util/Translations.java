@@ -6,6 +6,7 @@ public class Translations {
 
     public static final String CONTAINER_INVENTORY = I18n.format("container.inventory");
     public static final String CONTAINER_FABRICATOR = translate("container", "fabricator");
+    public static final String CONTAINER_UPGRADES = translate("container", "upgrades");
     public static final String TOOLTIP_PRESS = translate("tooltip", "press");
     public static final String TOOLTIP_INFO = translate("tooltip", "info");
     public static final String TOOLTIP_SHIFT = translate("tooltip", "shift");

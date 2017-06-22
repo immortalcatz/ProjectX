@@ -31,11 +31,12 @@ import org.lwjgl.opengl.GL11;
 @SideOnly(Side.CLIENT)
 public class RenderQuartzCrystal implements IBlockRenderingHandler {
 
+    public static final RenderQuartzCrystal INSTANCE = new RenderQuartzCrystal();
     public static EnumBlockRenderType RENDER_TYPE;
 
     static{
         RENDER_TYPE = RenderingRegistry.getNextAvailableType();
-        RenderingRegistry.registerRenderingHandler(new RenderQuartzCrystal());
+        RenderingRegistry.registerRenderingHandler(INSTANCE);
     }
 
     @Override
@@ -97,7 +98,7 @@ public class RenderQuartzCrystal implements IBlockRenderingHandler {
         return RENDER_TYPE;
     }
 
-    private CCModel getModel(TextureAtlasSprite texture, EnumFacing side, Vector3 pos){
+    public CCModel getModel(TextureAtlasSprite texture, EnumFacing side, Vector3 pos){
         double modX = 0D;
         double modY = 0D;
         double modZ = 0D;

@@ -24,7 +24,6 @@ public class TileEntityXycroniumLight extends TileEntityBase {
 
     public void setColor(Colour color){
         this.color = color;
-        this.markDirty();
     }
 
     public Colour getColor(){

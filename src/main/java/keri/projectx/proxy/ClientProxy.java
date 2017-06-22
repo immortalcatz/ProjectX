@@ -3,6 +3,7 @@ package keri.projectx.proxy;
 import codechicken.lib.packet.PacketCustom;
 import keri.projectx.ProjectX;
 import keri.projectx.client.IconHandler;
+import keri.projectx.client.playereffect.PlayerEffects;
 import keri.projectx.client.render.AnimatedTextureFX;
 import keri.projectx.client.render.tesr.TESRFabricator;
 import keri.projectx.network.ProjectXCPH;
@@ -24,6 +25,7 @@ public class ClientProxy implements IProxy {
         ProjectX.MOD_HANDLER.handleClientPreInit(event);
         this.registerRenderers();
         IconHandler.INSTANCE.preInit();
+        PlayerEffects.preInit();
     }
 
     @Override
