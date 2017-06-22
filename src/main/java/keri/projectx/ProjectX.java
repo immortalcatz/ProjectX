@@ -11,8 +11,10 @@ import keri.ninetaillib.lib.config.ModConfig;
 import keri.ninetaillib.lib.logger.IModLogger;
 import keri.ninetaillib.lib.logger.ModLogger;
 import keri.ninetaillib.lib.mod.ModHandler;
+import keri.projectx.event.CommonEventHandler;
 import keri.projectx.network.ProjectXGuiHandler;
 import keri.projectx.proxy.IProxy;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -39,6 +41,7 @@ public class ProjectX {
     public void preInit(FMLPreInitializationEvent event){
         MOD_HANDLER.handlePreInit(event);
         PROXY.preInit(event);
+        MinecraftForge.EVENT_BUS.register(CommonEventHandler.INSTANCE);
     }
 
     @Mod.EventHandler

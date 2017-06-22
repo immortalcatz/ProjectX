@@ -88,6 +88,26 @@ tile.projectx.quartz_crystal.name=Quartz Crystal
 tile.projectx.fabricator.name=Fabricator
 tile.projectx.xycronium_light.name=Xycronium Light
 
+item.projectx.xycronium_crystal.blue.name=Blue Xycronium Crystal
+item.projectx.xycronium_crystal.green.name=Green Xycronium Crystal
+item.projectx.xycronium_crystal.red.name=Red Xycronium Crystal
+item.projectx.xycronium_crystal.dark.name=Dark Xycronium Crystal
+item.projectx.xycronium_crystal.ligth.name=Light Xycronium Crystal
+item.projectx.xycronium_ingot.blue.name=Blue Xycronium Ingot
+item.projectx.xycronium_ingot.green.name=Green Xycronium Ingot
+item.projectx.xycronium_ingot.red.name=Red Xycronium Ingot
+item.projectx.xycronium_ingot.dark.name=Dark Xycronium Ingot
+item.projectx.xycronium_ingot.ligth.name=Light Xycronium Ingot
+item.projectx.xycronium_nugget.blue.name=Blue Xycronium Nugget
+item.projectx.xycronium_nugget.green.name=Green Xycronium Nugget
+item.projectx.xycronium_nugget.red.name=Red Xycronium Nugget
+item.projectx.xycronium_nugget.dark.name=Dark Xycronium Nugget
+item.projectx.xycronium_nugget.ligth.name=Light Xycronium Nugget
+item.projectx.xycronium_dust.blue.name=Pulverized Blue Xycronium
+item.projectx.xycronium_dust.green.name=Pulverized Green Xycronium
+item.projectx.xycronium_dust.red.name=Pulverized Red Xycronium
+item.projectx.xycronium_dust.dark.name=Pulverized Dark Xycronium
+item.projectx.xycronium_dust.ligth.name=Pulverized Light Xycronium
 item.projectx.upgrade_card.name=Upgrade Card
 
 container.projectx.fabricator.name=Fabricator
