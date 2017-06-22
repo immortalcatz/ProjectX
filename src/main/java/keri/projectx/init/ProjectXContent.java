@@ -28,6 +28,7 @@ public class ProjectXContent {
     public static Block quartzCrystal = new BlockQuartzCrystal();
     public static Block fabricator = new BlockFabricator();
     public static Block xycroniumLight = new BlockXycroniumLight();
+    public static Block xycroniumLightInverted = new BlockXycroniumLightInverted();
 
     public static Item xycroniumCrystal = new ItemXycroniumCrystal();
     public static Item xycroniumIngot = new ItemXycroniumIngot();

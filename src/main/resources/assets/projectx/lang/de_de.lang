@@ -87,6 +87,7 @@ tile.projectx.xycronium_shield.white.name=Weißes Xycronium Schild
 tile.projectx.quartz_crystal.name=Quartz Kristall
 tile.projectx.fabricator.name=Fabrikator
 tile.projectx.xycronium_light.name=Xycronium Lampe
+tile.projectx.xycronium_light_inverted.name=Invertierte Xycronium Lampe
 
 item.projectx.xycronium_crystal.blue.name=Blauer Xycronium Kristall
 item.projectx.xycronium_crystal.green.name=Grüner Xycronium Kristall

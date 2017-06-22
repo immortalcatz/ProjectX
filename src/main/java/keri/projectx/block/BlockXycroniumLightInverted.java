@@ -37,27 +37,21 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class BlockXycroniumLight extends BlockAnimationHandler<TileEntityXycroniumLight> implements IShiftDescription {
+public class BlockXycroniumLightInverted extends BlockAnimationHandler<TileEntityXycroniumLight> implements IShiftDescription {
 
     @SideOnly(Side.CLIENT)
     private TextureAtlasSprite texture;
 
-    public BlockXycroniumLight() {
-        super("xycronium_light", Material.GLASS);
+    public BlockXycroniumLightInverted() {
+        super("xycronium_light_inverted", Material.GLASS);
         this.setHardness(1.2F);
         CommonEventHandler.INSTANCE.registerSneakBypass(this);
-    }
-
-    @Override
-    public void registerTileEntities(){
-        GameRegistry.registerTileEntity(TileEntityXycroniumLight.class, "tile." + ModPrefs.MODID + ".xycronium_light");
     }
 
     @Nullable
@@ -143,12 +137,12 @@ public class BlockXycroniumLight extends BlockAnimationHandler<TileEntityXycroni
     public void neighborChanged(IBlockState state, World world, BlockPos pos, Block block, BlockPos fromPos) {
         if(BlockAccessUtils.getBlockMetadata(world, pos) == 0){
             if(world.isBlockPowered(pos)){
-                BlockAccessUtils.setBlockMetadata(world, pos, 1, 3);
+                BlockAccessUtils.setBlockMetadata(world, pos, 0, 3);
             }
         }
         else{
             if(!world.isBlockPowered(pos)){
-                BlockAccessUtils.setBlockMetadata(world, pos, 0, 3);
+                BlockAccessUtils.setBlockMetadata(world, pos, 1, 3);
             }
         }
     }
@@ -164,12 +158,12 @@ public class BlockXycroniumLight extends BlockAnimationHandler<TileEntityXycroni
 
         if(BlockAccessUtils.getBlockMetadata(world, pos) == 0){
             if(world.isBlockPowered(pos)){
-                BlockAccessUtils.setBlockMetadata(world, pos, 1, 3);
+                BlockAccessUtils.setBlockMetadata(world, pos, 0, 3);
             }
         }
         else{
             if(!world.isBlockPowered(pos)){
-                BlockAccessUtils.setBlockMetadata(world, pos, 0, 3);
+                BlockAccessUtils.setBlockMetadata(world, pos, 1, 3);
             }
         }
     }
