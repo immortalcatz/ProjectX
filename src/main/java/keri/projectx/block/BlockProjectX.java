@@ -1,12 +1,16 @@
+/*
+ * Copyright (c) 2017 KitsuneAlex. All rights reserved!
+ * Do not destribute or redistribute this software without the
+ * explicit permission of the developer!
+ */
+
 package keri.projectx.block;
 
 import keri.ninetaillib.lib.block.BlockBase;
 import keri.projectx.client.ProjectXTab;
-import keri.projectx.item.ItemBlockProjectX;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
 
 public class BlockProjectX<T extends TileEntity> extends BlockBase<T> {
@@ -25,11 +29,6 @@ public class BlockProjectX<T extends TileEntity> extends BlockBase<T> {
 
     public BlockProjectX(String blockName, Material material, String... subNames) {
         super(blockName, material, subNames);
-    }
-
-    @Override
-    public ItemBlock getItemBlock() {
-        return new ItemBlockProjectX(this);
     }
 
     @Override
