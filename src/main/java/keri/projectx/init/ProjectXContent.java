@@ -9,6 +9,7 @@ package keri.projectx.init;
 import keri.ninetaillib.lib.mod.ContentLoader;
 import keri.projectx.block.*;
 import keri.projectx.block.machine.BlockFabricator;
+import keri.projectx.block.machine.BlockReinforcer;
 import keri.projectx.item.*;
 import keri.projectx.util.ModPrefs;
 import net.minecraft.block.Block;
@@ -26,9 +27,10 @@ public class ProjectXContent {
     public static Block xycroniumPlatform = new BlockXycroniumPlatform();
     public static Block xycroniumShield = new BlockXycroniumShield();
     public static Block quartzCrystal = new BlockQuartzCrystal();
-    public static Block fabricator = new BlockFabricator();
     public static Block xycroniumLight = new BlockXycroniumLight();
     public static Block xycroniumLightInverted = new BlockXycroniumLightInverted();
+    public static Block fabricator = new BlockFabricator();
+    public static Block reinforcer = new BlockReinforcer();
 
     public static Item xycroniumCrystal = new ItemXycroniumCrystal();
     public static Item xycroniumIngot = new ItemXycroniumIngot();

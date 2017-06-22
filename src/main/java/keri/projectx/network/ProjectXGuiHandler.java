@@ -7,8 +7,11 @@
 package keri.projectx.network;
 
 import keri.projectx.client.gui.GuiFaricator;
+import keri.projectx.client.gui.GuiReinforcer;
 import keri.projectx.container.ContainerFabricator;
+import keri.projectx.container.ContainerReinforcer;
 import keri.projectx.tile.TileEntityFabricator;
+import keri.projectx.tile.TileEntityReinforcer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -20,6 +23,7 @@ public class ProjectXGuiHandler implements IGuiHandler {
 
     public static final int GUIID_BASE = 0;
     public static final int GUIID_FABRICATOR = GUIID_BASE + 0;
+    public static final int GUIID_REINFORCER = GUIID_BASE + 1;
 
     @Nullable
     @Override
@@ -27,6 +31,10 @@ public class ProjectXGuiHandler implements IGuiHandler {
         if(ID == GUIID_FABRICATOR){
             TileEntityFabricator tile = (TileEntityFabricator)world.getTileEntity(new BlockPos(x, y, z));
             return new ContainerFabricator(player.inventory, tile);
+        }
+        else if(ID == GUIID_REINFORCER){
+            TileEntityReinforcer tile = (TileEntityReinforcer)world.getTileEntity(new BlockPos(x, y, z));
+            return new ContainerReinforcer(player.inventory, tile);
         }
 
         return null;
@@ -38,6 +46,10 @@ public class ProjectXGuiHandler implements IGuiHandler {
         if(ID == GUIID_FABRICATOR){
             TileEntityFabricator tile = (TileEntityFabricator)world.getTileEntity(new BlockPos(x, y, z));
             return new GuiFaricator(player.inventory, tile);
+        }
+        else if(ID == GUIID_REINFORCER){
+            TileEntityReinforcer tile = (TileEntityReinforcer)world.getTileEntity(new BlockPos(x, y, z));
+            return new GuiReinforcer(player.inventory, tile);
         }
 
         return null;
