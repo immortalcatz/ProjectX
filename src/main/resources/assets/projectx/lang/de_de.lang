@@ -84,11 +84,12 @@ tile.projectx.xycronium_shield.light_blue.name=Hellblaues Xycronium Schild
 tile.projectx.xycronium_shield.magenta.name=Magenta Xycronium Schild
 tile.projectx.xycronium_shield.orange.name=Orangenes Xycronium Schild
 tile.projectx.xycronium_shield.white.name=Weißes Xycronium Schild
-tile.projectx.quartz_crystal.name=Quartz Kristall
+tile.projectx.quartz_crystal.name=Quartz Kristall [WIP]
 tile.projectx.xycronium_light.name=Xycronium Lampe
 tile.projectx.xycronium_light_inverted.name=Invertierte Xycronium Lampe
 tile.projectx.fabricator.name=Fabrikator
-tile.projectx.reinforcer.name=Stabilisierer
+tile.projectx.reinforcer.name=Stabilisierer [WIP]
+tile.projectx.reinforced_block.name=Stabilisierter Block [WIP]
 
 item.projectx.xycronium_crystal.blue.name=Blauer Xycronium Kristall
 item.projectx.xycronium_crystal.green.name=Grüner Xycronium Kristall
