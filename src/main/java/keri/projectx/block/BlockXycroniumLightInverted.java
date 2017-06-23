@@ -41,6 +41,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.input.Keyboard;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -88,43 +89,101 @@ public class BlockXycroniumLightInverted extends BlockAnimationHandler<TileEntit
 
                     if(heldItem.getMetadata() == 0){
                         if(player.isSneaking()){
-                            if(b > 0){
-                                b--;
+                            if(Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL)){
+                                if(b > 4){
+                                    b -= 5;
+                                }
+                            }
+                            else{
+                                if(b > 0){
+                                    b--;
+                                }
                             }
                         }
                         else{
-                            if(b < 255){
-                                b++;
+                            if(Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL)){
+                                if(b < 255){
+                                    b += 5;
+                                }
+                            }
+                            else{
+                                if(b < 255){
+                                    b++;
+                                }
                             }
                         }
                     }
                     else if(heldItem.getMetadata() == 1){
                         if(player.isSneaking()){
-                            if(g > 0){
-                                g--;
+                            if(Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL)){
+                                if(g > 4){
+                                    g -= 5;
+                                }
+                            }
+                            else{
+                                if(g > 0){
+                                    g--;
+                                }
                             }
                         }
                         else{
-                            if(g < 255){
-                                g++;
+                            if(Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL)){
+                                if(g < 255){
+                                    g += 5;
+                                }
+                            }
+                            else{
+                                if(g < 255){
+                                    g++;
+                                }
                             }
                         }
                     }
                     else if(heldItem.getMetadata() == 2){
                         if(player.isSneaking()){
-                            if(r > 0){
-                                r--;
+                            if(Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL)){
+                                if(r > 4){
+                                    r -= 5;
+                                }
+                            }
+                            else{
+                                if(r > 0){
+                                    r--;
+                                }
                             }
                         }
                         else{
-                            if(r < 255){
-                                r++;
+                            if(Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL)){
+                                if(r < 255){
+                                    r += 5;
+                                }
+                            }
+                            else{
+                                if(r < 255){
+                                    r++;
+                                }
                             }
                         }
                     }
 
                     tile.setColor(new ColourRGBA(r, g, b, 255));
                     tile.markDirty();
+                }
+
+                return true;
+            }
+            else if(heldItem.getItem() == ProjectXContent.colorScanner){
+                if(tile != null){
+                    if(player.isSneaking()){
+                        ItemNBTUtils.validateTagExists(heldItem);
+                        heldItem.getTagCompound().setInteger("color", tile.getColor().rgba());
+                    }
+                    else{
+                        if(heldItem.getTagCompound() != null){
+                            tile.setColor(new ColourRGBA(heldItem.getTagCompound().getInteger("color")));
+                            tile.markDirty();
+                        }
+                    }
                 }
 
                 return true;
@@ -301,7 +360,7 @@ public class BlockXycroniumLightInverted extends BlockAnimationHandler<TileEntit
     @Override
     @SideOnly(Side.CLIENT)
     public int getAnimationBrightness(ItemStack stack, int side) {
-        return 0x00B0000F;
+        return 0x00F000F0;
     }
 
     @Override

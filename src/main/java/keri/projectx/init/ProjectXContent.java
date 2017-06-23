@@ -38,5 +38,6 @@ public class ProjectXContent {
     public static Item xycroniumNugget = new ItemXycroniumNugget();
     public static Item xycroniumDust = new ItemXycroniumDust();
     public static Item upgradeCard = new ItemUpgradeCard();
+    public static Item colorScanner = new ItemColorScanner();
 
 }
