@@ -12,6 +12,7 @@ import keri.projectx.client.IconHandler;
 import keri.projectx.client.playereffect.PlayerEffects;
 import keri.projectx.client.render.AnimatedTextureFX;
 import keri.projectx.client.render.tesr.TESRFabricator;
+import keri.projectx.integration.IntegrationHandler;
 import keri.projectx.network.ProjectXCPH;
 import keri.projectx.tile.TileEntityFabricator;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -32,17 +33,20 @@ public class ClientProxy implements IProxy {
         this.registerRenderers();
         IconHandler.INSTANCE.preInit();
         PlayerEffects.preInit();
+        IntegrationHandler.INSTANCE.preInitClient(event);
     }
 
     @Override
     public void init(FMLInitializationEvent event) {
         ProjectX.MOD_HANDLER.handleClientInit(event);
         PacketCustom.assignHandler(ProjectX.INSTANCE, new ProjectXCPH());
+        IntegrationHandler.INSTANCE.initClient(event);
     }
 
     @Override
     public void postInit(FMLPostInitializationEvent event) {
         ProjectX.MOD_HANDLER.handlePostInit(event);
+        IntegrationHandler.INSTANCE.postInitClient(event);
     }
 
     @Override
