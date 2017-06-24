@@ -23,7 +23,6 @@ import keri.projectx.util.ModPrefs;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
@@ -241,9 +240,7 @@ public class BlockXycroniumLight extends BlockAnimationHandler<TileEntityXycroni
     }
 
     @Override
-    public void breakBlock(World world, BlockPos pos, IBlockState state) {
-        EntityPlayer player = Minecraft.getMinecraft().player;
-
+    public void onBlockHarvested(World world, BlockPos pos, IBlockState state, EntityPlayer player) {
         if(!player.capabilities.isCreativeMode){
             TileEntityXycroniumLight tile = (TileEntityXycroniumLight)world.getTileEntity(pos);
 
@@ -258,7 +255,7 @@ public class BlockXycroniumLight extends BlockAnimationHandler<TileEntityXycroni
             }
         }
 
-        super.breakBlock(world, pos, state);
+        super.onBlockHarvested(world, pos, state, player);
     }
 
     @Override

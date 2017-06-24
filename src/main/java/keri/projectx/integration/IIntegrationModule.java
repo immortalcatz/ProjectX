@@ -14,8 +14,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public interface IIntegrationModule {
 
-    String getModid();
-
     String getName();
 
     boolean isEnabled();

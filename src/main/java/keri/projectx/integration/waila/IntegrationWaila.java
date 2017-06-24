@@ -19,11 +19,6 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 public class IntegrationWaila implements IIntegrationModule {
 
     @Override
-    public String getModid() {
-        return "waila";
-    }
-
-    @Override
     public String getName() {
         return "Waila";
     }

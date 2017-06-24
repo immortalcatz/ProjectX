@@ -8,9 +8,6 @@ package keri.projectx.integration;
 
 import com.google.common.collect.Lists;
 import keri.projectx.ProjectX;
-import keri.projectx.integration.thermalexpansion.IntegrationThermalExpansion;
-import keri.projectx.integration.waila.IntegrationWaila;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -25,11 +22,8 @@ public class IntegrationHandler {
     private static List<IIntegrationModule> MODULES = Lists.newArrayList();
 
     public void preInit(FMLPreInitializationEvent event){
-        this.registerModule(new IntegrationWaila());
-        this.registerModule(new IntegrationThermalExpansion());
-
         for(IIntegrationModule module : MODULES){
-            if(Loader.isModLoaded(module.getModid()) && module.isEnabled()){
+            if(module.isEnabled()){
                 module.preInit(event);
                 ProjectX.LOGGER.logInfo(String.format("Loading integration for [%s]", module.getName()));
             }
@@ -38,7 +32,7 @@ public class IntegrationHandler {
 
     public void init(FMLInitializationEvent event){
         for(IIntegrationModule module : MODULES){
-            if(Loader.isModLoaded(module.getModid()) && module.isEnabled()){
+            if(module.isEnabled()){
                 module.init(event);
             }
         }
@@ -46,7 +40,7 @@ public class IntegrationHandler {
 
     public void postInit(FMLPostInitializationEvent event){
         for(IIntegrationModule module : MODULES){
-            if(Loader.isModLoaded(module.getModid()) && module.isEnabled()){
+            if(module.isEnabled()){
                 module.postInit(event);
                 ProjectX.LOGGER.logInfo(String.format("Done loading integration for [%s]", module.getName()));
             }
@@ -56,7 +50,7 @@ public class IntegrationHandler {
     @SideOnly(Side.CLIENT)
     public void preInitClient(FMLPreInitializationEvent event){
         for(IIntegrationModule module : MODULES){
-            if(Loader.isModLoaded(module.getModid()) && module.isEnabled()){
+            if(module.isEnabled()){
                 module.preInitClient(event);
             }
         }
@@ -65,7 +59,7 @@ public class IntegrationHandler {
     @SideOnly(Side.CLIENT)
     public void initClient(FMLInitializationEvent event){
         for(IIntegrationModule module : MODULES){
-            if(Loader.isModLoaded(module.getModid()) && module.isEnabled()){
+            if(module.isEnabled()){
                 module.initClient(event);
             }
         }
@@ -74,7 +68,7 @@ public class IntegrationHandler {
     @SideOnly(Side.CLIENT)
     public void postInitClient(FMLPostInitializationEvent event){
         for(IIntegrationModule module : MODULES){
-            if(Loader.isModLoaded(module.getModid()) && module.isEnabled()){
+            if(module.isEnabled()){
                 module.postInitClient(event);
             }
         }

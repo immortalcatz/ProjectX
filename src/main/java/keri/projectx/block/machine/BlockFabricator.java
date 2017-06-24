@@ -58,7 +58,7 @@ public class BlockFabricator extends BlockAnimationHandler<TileEntityFabricator>
     }
 
     @Override
-    public void breakBlock(World world, BlockPos pos, IBlockState state) {
+    public void onBlockHarvested(World world, BlockPos pos, IBlockState state, EntityPlayer player) {
         TileEntityFabricator tile = (TileEntityFabricator)world.getTileEntity(pos);
 
         if(tile != null){
@@ -71,7 +71,7 @@ public class BlockFabricator extends BlockAnimationHandler<TileEntityFabricator>
             }
         }
 
-        super.breakBlock(world, pos, state);
+        super.onBlockHarvested(world, pos, state, player);
     }
 
     @Override

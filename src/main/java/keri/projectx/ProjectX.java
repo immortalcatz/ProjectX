@@ -16,6 +16,7 @@ import keri.projectx.init.ProjectXCrafting;
 import keri.projectx.init.ProjectXOreDictionary;
 import keri.projectx.init.ProjectXWorldGen;
 import keri.projectx.integration.IntegrationHandler;
+import keri.projectx.integration.ProjectXIntegrations;
 import keri.projectx.network.ProjectXGuiHandler;
 import keri.projectx.proxy.IProxy;
 import net.minecraftforge.common.MinecraftForge;
@@ -46,6 +47,7 @@ public class ProjectX {
         MOD_HANDLER.handlePreInit(event);
         PROXY.preInit(event);
         MinecraftForge.EVENT_BUS.register(CommonEventHandler.INSTANCE);
+        ProjectXIntegrations.preInit();
         IntegrationHandler.INSTANCE.preInit(event);
     }
 

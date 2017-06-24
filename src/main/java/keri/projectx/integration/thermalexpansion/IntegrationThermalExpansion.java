@@ -23,11 +23,6 @@ import net.minecraftforge.oredict.OreDictionary;
 public class IntegrationThermalExpansion implements IIntegrationModule {
 
     @Override
-    public String getModid() {
-        return "thermalexpansion";
-    }
-
-    @Override
     public String getName() {
         return "Thermal Expansion";
     }
