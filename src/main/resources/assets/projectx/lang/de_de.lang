@@ -84,10 +84,10 @@ tile.projectx.xycronium_shield.light_blue.name=Hellblaues Xycronium Schild
 tile.projectx.xycronium_shield.magenta.name=Magenta Xycronium Schild
 tile.projectx.xycronium_shield.orange.name=Orangenes Xycronium Schild
 tile.projectx.xycronium_shield.white.name=Weißes Xycronium Schild
-tile.projectx.quartz_crystal.name=Quartz Kristall [WIP]
+tile.projectx.quartz_crystal.name=Quartz Kristall
 tile.projectx.xycronium_light.name=Xycronium Lampe
 tile.projectx.xycronium_light_inverted.name=Invertierte Xycronium Lampe
-tile.projectx.fabricator.name=Fabrikator
+tile.projectx.fabricator.name=Fabrikator [WIP]
 tile.projectx.reinforcer.name=Stabilisierer [WIP]
 tile.projectx.reinforced_block.name=Stabilisierter Block [WIP]
 
@@ -112,6 +112,7 @@ item.projectx.xycronium_dust.red.name=Pulverisiertes Rotes Xycronium
 item.projectx.xycronium_dust.dark.name=Pulverisiertes Dunkles Xycronium
 item.projectx.xycronium_dust.ligth.name=Pulverisiertes Helles Xycronium
 item.projectx.upgrade_card.name=Upgrade Karte
+item.projectx.color_scanner.name=Farb-Scanner
 
 container.projectx.fabricator.name=Fabrikator
 

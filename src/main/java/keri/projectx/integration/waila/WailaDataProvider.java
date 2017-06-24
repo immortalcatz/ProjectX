@@ -7,6 +7,8 @@
 package keri.projectx.integration.waila;
 
 import codechicken.lib.util.ItemNBTUtils;
+import keri.projectx.block.BlockXycroniumLight;
+import keri.projectx.block.BlockXycroniumLightInverted;
 import keri.projectx.init.ProjectXContent;
 import keri.projectx.tile.TileEntityXycroniumLight;
 import mcp.mobius.waila.api.IWailaConfigHandler;
@@ -30,7 +32,15 @@ public class WailaDataProvider implements IWailaDataProvider {
     public ItemStack getWailaStack(IWailaDataAccessor accessor, IWailaConfigHandler config) {
         if(accessor.getTileEntity() instanceof TileEntityXycroniumLight){
             TileEntityXycroniumLight tile = (TileEntityXycroniumLight)accessor.getTileEntity();
-            ItemStack stack = new ItemStack(ProjectXContent.xycroniumLight, 1, 0);
+            ItemStack stack = null;
+
+            if(accessor.getBlock() instanceof BlockXycroniumLight){
+                stack = new ItemStack(ProjectXContent.XYCRONIUM_LIGHT, 1, 0);
+            }
+            else if(accessor.getBlock() instanceof BlockXycroniumLightInverted){
+                stack = new ItemStack(ProjectXContent.XYCRONIUM_LIGHT_INVERTED, 1, 0);
+            }
+
             ItemNBTUtils.validateTagExists(stack);
             stack.getTagCompound().setInteger("color", tile.getColor().rgba());
             return stack;

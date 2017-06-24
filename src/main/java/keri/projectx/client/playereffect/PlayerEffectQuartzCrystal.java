@@ -49,7 +49,6 @@ public class PlayerEffectQuartzCrystal implements IPlayerEffect {
         VertexBuffer buffer = Tessellator.getInstance().getBuffer();
         buffer.begin(GL11.GL_QUADS, RenderUtils.getFormatWithLightMap(DefaultVertexFormats.ITEM));
         CCRenderState renderState = RenderingConstants.getRenderState();
-        renderState.reset();
         renderState.bind(buffer);
         renderState.brightness = 0x00F000F0;
         GlStateManager.rotate(yawOffset, 0F, -1F, 0F);

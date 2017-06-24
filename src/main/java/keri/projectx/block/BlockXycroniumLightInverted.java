@@ -81,7 +81,7 @@ public class BlockXycroniumLightInverted extends BlockAnimationHandler<TileEntit
                     return true;
                 }
             }
-            else if(heldItem.getItem() == ProjectXContent.xycroniumCrystal){
+            else if(heldItem.getItem() == ProjectXContent.XYCRONIUM_CRYSTAL){
                 if(tile != null){
                     int r = tile.getColor().r & 0xFF;
                     int g = tile.getColor().g & 0xFF;
@@ -172,7 +172,7 @@ public class BlockXycroniumLightInverted extends BlockAnimationHandler<TileEntit
 
                 return true;
             }
-            else if(heldItem.getItem() == ProjectXContent.colorScanner){
+            else if(heldItem.getItem() == ProjectXContent.COLOR_SCANNER){
                 if(tile != null){
                     if(player.isSneaking()){
                         ItemNBTUtils.validateTagExists(heldItem);
@@ -196,7 +196,7 @@ public class BlockXycroniumLightInverted extends BlockAnimationHandler<TileEntit
     @Override
     @SuppressWarnings("deprecation")
     public void neighborChanged(IBlockState state, World world, BlockPos pos, Block block, BlockPos fromPos) {
-        if(BlockAccessUtils.getBlockMetadata(world, pos) == 1){
+        if(this.getMetaFromState(state) == 1){
             if(world.isBlockPowered(pos)){
                 BlockAccessUtils.setBlockMetadata(world, pos, 0, 3);
             }
@@ -217,7 +217,7 @@ public class BlockXycroniumLightInverted extends BlockAnimationHandler<TileEntit
             tile.markDirty();
         }
 
-        if(BlockAccessUtils.getBlockMetadata(world, pos) == 1){
+        if(this.getMetaFromState(state) == 1){
             if(world.isBlockPowered(pos)){
                 BlockAccessUtils.setBlockMetadata(world, pos, 0, 3);
             }
@@ -257,7 +257,7 @@ public class BlockXycroniumLightInverted extends BlockAnimationHandler<TileEntit
 
     @Override
     public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
-        return BlockAccessUtils.getBlockMetadata(world, pos) == 1 ? 255 : 0;
+        return this.getMetaFromState(state) == 1 ? 255 : 0;
     }
 
     @Override

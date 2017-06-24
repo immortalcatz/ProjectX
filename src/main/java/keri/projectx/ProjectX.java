@@ -12,6 +12,9 @@ import keri.ninetaillib.lib.logger.IModLogger;
 import keri.ninetaillib.lib.logger.ModLogger;
 import keri.ninetaillib.lib.mod.ModHandler;
 import keri.projectx.event.CommonEventHandler;
+import keri.projectx.init.ProjectXCrafting;
+import keri.projectx.init.ProjectXOreDictionary;
+import keri.projectx.init.ProjectXWorldGen;
 import keri.projectx.integration.IntegrationHandler;
 import keri.projectx.network.ProjectXGuiHandler;
 import keri.projectx.proxy.IProxy;
@@ -50,6 +53,9 @@ public class ProjectX {
     public void init(FMLInitializationEvent event){
         MOD_HANDLER.handleInit(event);
         PROXY.init(event);
+        ProjectXCrafting.init();
+        ProjectXWorldGen.init();
+        ProjectXOreDictionary.init();
         NetworkRegistry.INSTANCE.registerGuiHandler(INSTANCE, new ProjectXGuiHandler());
         IntegrationHandler.INSTANCE.init(event);
     }

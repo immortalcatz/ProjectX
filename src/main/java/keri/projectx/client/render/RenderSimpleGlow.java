@@ -14,7 +14,6 @@ import codechicken.lib.vec.Translation;
 import codechicken.lib.vec.Vector3;
 import codechicken.lib.vec.uv.IconTransformation;
 import keri.ninetaillib.lib.render.IBlockRenderingHandler;
-import keri.ninetaillib.lib.render.RenderingConstants;
 import keri.ninetaillib.lib.render.RenderingRegistry;
 import keri.ninetaillib.lib.texture.IIconBlock;
 import keri.ninetaillib.lib.util.BlockAccessUtils;
@@ -29,7 +28,6 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumBlockRenderType;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
@@ -50,21 +48,20 @@ public class RenderSimpleGlow implements IBlockRenderingHandler {
 
     @Override
     public boolean renderWorld(IBlockAccess world, BlockPos pos, VertexBuffer buffer, BlockRenderLayer layer){
-        CCRenderState renderState = RenderingConstants.getRenderState();
+        CCRenderState renderState = CCRenderState.instance();
         IIconBlock iconProvider = (IIconBlock)world.getBlockState(pos).getBlock();
         IAnimationHandler animationHandler = (IAnimationHandler)world.getBlockState(pos).getBlock();
         CCModel modelAnimation = BLOCK_MODEL.copy();
         modelAnimation.apply(new Translation(Vector3.fromBlockPos(pos)));
-        renderState.reset();
         renderState.bind(buffer);
 
-        for(EnumFacing side : EnumFacing.VALUES){
-            TextureAtlasSprite texture = animationHandler.getAnimationIcon(world, pos, side.getIndex());
-            int color = animationHandler.getAnimationColor(world, pos, side.getIndex());
-            int brightness = animationHandler.getAnimationBrightness(world, pos, side.getIndex());
+        for(int side = 0; side < 6; side++){
+            TextureAtlasSprite texture = animationHandler.getAnimationIcon(world, pos, side) ;
+            int color = animationHandler.getAnimationColor(world, pos, side);
+            int brightness = animationHandler.getAnimationBrightness(world, pos, side);
             renderState.brightness = brightness;
             modelAnimation.setColour(color);
-            modelAnimation.render(renderState, (4 * side.getIndex()), 4 + (4 * side.getIndex()), new IconTransformation(texture));
+            modelAnimation.render(renderState, 4 * side, 4 + (4 * side), new IconTransformation(texture));
         }
 
         CCModel modelOverlay = BLOCK_MODEL.copy();
@@ -73,19 +70,19 @@ public class RenderSimpleGlow implements IBlockRenderingHandler {
         renderState.reset();
         renderState.bind(parent);
 
-        for(EnumFacing side : EnumFacing.VALUES){
+        for(int side = 0; side < 6; side++){
             TextureAtlasSprite texture = null;
 
-            if(iconProvider.getIcon(world, pos, side.getIndex()) != null){
-                texture = iconProvider.getIcon(world, pos, side.getIndex());
+            if(iconProvider.getIcon(world, pos, side) != null){
+                texture = iconProvider.getIcon(world, pos, side);
             }
             else{
-                texture = iconProvider.getIcon(BlockAccessUtils.getBlockMetadata(world, pos), side.getIndex());
+                texture = iconProvider.getIcon(BlockAccessUtils.getBlockMetadata(world, pos), side);
             }
 
-            int colorMultiplier = iconProvider.getColorMultiplier(BlockAccessUtils.getBlockMetadata(world, pos), side.getIndex());
+            int colorMultiplier = iconProvider.getColorMultiplier(BlockAccessUtils.getBlockMetadata(world, pos), side);
             modelOverlay.setColour(colorMultiplier);
-            modelOverlay.render(renderState, 0 + (4 * side.getIndex()), 4 + (4 * side.getIndex()), new IconTransformation(texture));
+            modelOverlay.render(renderState, 4 * side, 4 + (4 * side), new IconTransformation(texture));
         }
 
         parent.finishDrawing();
@@ -96,8 +93,7 @@ public class RenderSimpleGlow implements IBlockRenderingHandler {
     public void renderDamage(IBlockAccess world, BlockPos pos, VertexBuffer buffer, TextureAtlasSprite texture) {
         CCModel model = BLOCK_MODEL.copy();
         model.apply(new Translation(Vector3.fromBlockPos(pos)));
-        CCRenderState renderState = RenderingConstants.getRenderState();
-        renderState.reset();
+        CCRenderState renderState = CCRenderState.instance();
         renderState.bind(buffer);
         model.render(renderState, new IconTransformation(texture));
     }
@@ -110,20 +106,19 @@ public class RenderSimpleGlow implements IBlockRenderingHandler {
         GlStateManager.disableLighting();
         RenderUtils.MipmapFilterData mipmapFilterData = RenderUtils.disableMipmap();
         buffer.begin(GL11.GL_QUADS, RenderUtils.getFormatWithLightMap(DefaultVertexFormats.ITEM));
-        CCRenderState renderState = RenderingConstants.getRenderState();
+        CCRenderState renderState = CCRenderState.instance();
         IIconBlock iconProvider = (IIconBlock)Block.getBlockFromItem(stack.getItem());
         IAnimationHandler animationHandler = (IAnimationHandler)Block.getBlockFromItem(stack.getItem());
-        renderState.reset();
         renderState.bind(buffer);
         CCModel modelAnimation = BLOCK_MODEL.copy();
 
-        for(EnumFacing side : EnumFacing.VALUES){
-            TextureAtlasSprite texture = animationHandler.getAnimationIcon(stack, side.getIndex());
-            int color = animationHandler.getAnimationColor(stack, side.getIndex());
-            int brightness = animationHandler.getAnimationBrightness(stack, side.getIndex());
+        for(int side = 0; side < 6; side++){
+            TextureAtlasSprite texture = animationHandler.getAnimationIcon(stack, side);
+            int color = animationHandler.getAnimationColor(stack, side);
+            int brightness = animationHandler.getAnimationBrightness(stack, side);
             renderState.brightness = brightness;
             modelAnimation.setColour(color);
-            modelAnimation.render(renderState, 0 + (4 * side.getIndex()), 4 + (4 * side.getIndex()), new IconTransformation(texture));
+            modelAnimation.render(renderState, 4 * side, 4 + (4 * side), new IconTransformation(texture));
         }
 
         Tessellator.getInstance().draw();
@@ -136,11 +131,11 @@ public class RenderSimpleGlow implements IBlockRenderingHandler {
         renderState.brightness = lastBrightness;
         CCModel modelOverlay = BLOCK_MODEL.copy();
 
-        for(EnumFacing side : EnumFacing.VALUES){
-            TextureAtlasSprite texture = iconProvider.getIcon(stack.getMetadata(), side.getIndex());
-            int colorMultiplier = iconProvider.getColorMultiplier(stack.getMetadata(), side.getIndex());
+        for(int side = 0; side < 6; side++){
+            TextureAtlasSprite texture = iconProvider.getIcon(stack.getMetadata(), side);
+            int colorMultiplier = iconProvider.getColorMultiplier(stack.getMetadata(), side);
             modelOverlay.setColour(colorMultiplier);
-            modelOverlay.render(renderState, (4 * side.getIndex()), 4 + (4 * side.getIndex()), new IconTransformation(texture));
+            modelOverlay.render(renderState, 4 * side, 4 + (4 * side), new IconTransformation(texture));
         }
 
         Tessellator.getInstance().draw();

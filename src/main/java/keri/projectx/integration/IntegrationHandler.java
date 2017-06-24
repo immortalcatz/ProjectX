@@ -8,6 +8,7 @@ package keri.projectx.integration;
 
 import com.google.common.collect.Lists;
 import keri.projectx.ProjectX;
+import keri.projectx.integration.thermalexpansion.IntegrationThermalExpansion;
 import keri.projectx.integration.waila.IntegrationWaila;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -25,6 +26,7 @@ public class IntegrationHandler {
 
     public void preInit(FMLPreInitializationEvent event){
         this.registerModule(new IntegrationWaila());
+        this.registerModule(new IntegrationThermalExpansion());
 
         for(IIntegrationModule module : MODULES){
             if(Loader.isModLoaded(module.getModid()) && module.isEnabled()){

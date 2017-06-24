@@ -6,18 +6,23 @@
 
 package keri.projectx.block;
 
+import com.google.common.collect.Lists;
 import keri.ninetaillib.lib.texture.IIconRegister;
 import keri.ninetaillib.lib.util.BlockAccessUtils;
 import keri.projectx.ProjectX;
+import keri.projectx.init.ProjectXContent;
 import keri.projectx.util.EnumXycroniumColor;
 import keri.projectx.util.ModPrefs;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.List;
 
 public class BlockXycroniumNetherOre extends BlockAnimationHandler {
 
@@ -27,6 +32,17 @@ public class BlockXycroniumNetherOre extends BlockAnimationHandler {
     public BlockXycroniumNetherOre() {
         super("xycronium_nether_ore", Material.ROCK, EnumXycroniumColor.toStringArray());
         this.setHardness(1.4F);
+    }
+
+    @Override
+    public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
+        return Lists.newArrayList(new ItemStack(ProjectXContent.XYCRONIUM_CRYSTAL, 4 + fortune, this.getMetaFromState(state)));
+    }
+
+    @Override
+    @SuppressWarnings("deprecation")
+    protected boolean canSilkHarvest() {
+        return false;
     }
 
     @Override

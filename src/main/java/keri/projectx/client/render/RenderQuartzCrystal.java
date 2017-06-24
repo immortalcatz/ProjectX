@@ -13,7 +13,6 @@ import codechicken.lib.render.CCModel;
 import codechicken.lib.render.CCRenderState;
 import codechicken.lib.vec.*;
 import keri.ninetaillib.lib.render.IBlockRenderingHandler;
-import keri.ninetaillib.lib.render.RenderingConstants;
 import keri.ninetaillib.lib.render.RenderingRegistry;
 import keri.ninetaillib.lib.util.BlockAccessUtils;
 import keri.ninetaillib.lib.util.RenderUtils;
@@ -48,22 +47,21 @@ public class RenderQuartzCrystal implements IBlockRenderingHandler {
     @Override
     public boolean renderWorld(IBlockAccess world, BlockPos pos, VertexBuffer buffer, BlockRenderLayer layer){
         IAnimationHandler animationHandler = (IAnimationHandler)world.getBlockState(pos).getBlock();
-        CCRenderState renderState = RenderingConstants.getRenderState();
-        renderState.reset();
+        CCRenderState renderState = CCRenderState.instance();
         renderState.bind(buffer);
-        renderState.brightness = animationHandler.getAnimationBrightness(world, pos, 0);
         TextureAtlasSprite texture = animationHandler.getAnimationIcon(world, pos, 0);
-        Colour color = new ColourRGBA(animationHandler.getAnimationColor(world, pos, 0));
+        int animationColor = animationHandler.getAnimationColor(world, pos, 0);
+        int animationBrightness = animationHandler.getAnimationBrightness(world, pos, 0);
+        renderState.brightness = animationBrightness;
         CCModel model = this.getModel(texture, EnumFacing.getFront(BlockAccessUtils.getBlockMetadata(world, pos)), Vector3.fromBlockPos(pos));
-        model.setColour(color.rgba());
+        model.setColour(animationColor);
         model.render(renderState);
         return true;
     }
 
     @Override
     public void renderDamage(IBlockAccess world, BlockPos pos, VertexBuffer buffer, TextureAtlasSprite texture) {
-        CCRenderState renderState = RenderingConstants.getRenderState();
-        renderState.reset();
+        CCRenderState renderState = CCRenderState.instance();
         renderState.bind(buffer);
         Colour color = new ColourRGBA(255, 255, 255, 255);
         CCModel model = this.getModel(texture, EnumFacing.getFront(BlockAccessUtils.getBlockMetadata(world, pos)), Vector3.fromBlockPos(pos));
@@ -80,13 +78,14 @@ public class RenderQuartzCrystal implements IBlockRenderingHandler {
         GlStateManager.disableLighting();
         RenderUtils.MipmapFilterData mipmapFilterData = RenderUtils.disableMipmap();
         buffer.begin(GL11.GL_QUADS, RenderUtils.getFormatWithLightMap(DefaultVertexFormats.ITEM));
-        CCRenderState renderState = RenderingConstants.getRenderState();
-        renderState.reset();
-        renderState.bind(buffer);
-        renderState.brightness = animationHandler.getAnimationBrightness(stack, 0);
+        CCRenderState renderState = CCRenderState.instance();
         TextureAtlasSprite texture = animationHandler.getAnimationIcon(stack, 0);
+        int animationBrightness = animationHandler.getAnimationBrightness(stack, 0);
+        int animationColor = animationHandler.getAnimationColor(stack, 0);
+        renderState.bind(buffer);
+        renderState.brightness = animationBrightness;
         CCModel model = this.getModel(texture, null, Vector3.zero);
-        model.setColour(animationHandler.getAnimationColor(stack, 0));
+        model.setColour(animationColor);
         model.apply(new Translation(new Vector3(-0.5D, -0.5D, -0.5D)));
         model.apply(new Scale(new Vector3(2D, 2D, 2D)));
         model.apply(new Translation(new Vector3(0.5D, 0.5D, 0.5D)));

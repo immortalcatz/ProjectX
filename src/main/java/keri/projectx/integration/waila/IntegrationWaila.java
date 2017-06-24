@@ -6,6 +6,7 @@
 
 package keri.projectx.integration.waila;
 
+import keri.projectx.ProjectX;
 import keri.projectx.block.BlockXycroniumLight;
 import keri.projectx.block.BlockXycroniumLightInverted;
 import keri.projectx.integration.IIntegrationModule;
@@ -29,7 +30,7 @@ public class IntegrationWaila implements IIntegrationModule {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return (Boolean)ProjectX.CONFIG.getProperty("integrationWaila").getValue();
     }
 
     @Override
