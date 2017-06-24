@@ -8,7 +8,9 @@ package keri.projectx.tile;
 
 import codechicken.lib.colour.Colour;
 import codechicken.lib.colour.ColourRGBA;
+import codechicken.lib.packet.PacketCustom;
 import keri.ninetaillib.lib.tile.TileEntityBase;
+import keri.projectx.ProjectX;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
@@ -34,6 +36,12 @@ public class TileEntityXycroniumLight extends TileEntityBase {
     @Override
     public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate) {
         return oldState.getBlock() != newSate.getBlock();
+    }
+
+    public void sendUpdatePacket(BlockPos pos){
+        PacketCustom packet = new PacketCustom(ProjectX.INSTANCE, 1);
+        packet.writePos(pos);
+        packet.sendToClients();
     }
 
     public void setColor(Colour color){
