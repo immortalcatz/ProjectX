@@ -49,15 +49,15 @@ minecraft {
 }
 
 dependencies {
-    deobfCompile "codechicken:CodeChickenLib:1.11.2-2.7.0.268:deobf"
-    deobfCompile "keri.ninetaillib:NineTailLib:1.11.2-1.6.132:deobf"
+    deobfCompile "codechicken:CodeChickenLib:1.11.2-3.0.0.272:deobf"
+    deobfCompile "keri.ninetaillib:NineTailLib:1.11.2-1.6.135:deobf"
 	deobfCompile "mcp.mobius.waila:Hwyla:1.8.15-B29_1.11"
 	deobfCompile "mezz.jei:jei_1.11.2:4.5.0.287"
 	deobfCompile "slimeknights.mantle:Mantle:1.11.2-1.2.0.27:deobf"
-	deobfCompile "slimeknights:TConstruct:1.11.2-2.7.0.30:deobf"
-	deobfCompile "cofh:CoFHCore:1.11.2-4.2.2.7:deobf"
-	deobfCompile "cofh:ThermalFoundation:1.11.2-2.2.2.4:deobf"
-	deobfCompile "cofh:ThermalExpansion:1.11.2-5.2.3.6:deobf"
+	deobfCompile "slimeknights:TConstruct:1.11.2-2.7.0.31:deobf"
+	deobfCompile "cofh:CoFHCore:1.11.2-4.2.4.9:deobf"
+	deobfCompile "cofh:ThermalFoundation:1.11.2-2.2.3.5:deobf"
+	deobfCompile "cofh:ThermalExpansion:1.11.2-5.2.4.8:deobf"
 }
 
 processResources {

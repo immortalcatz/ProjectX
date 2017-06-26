@@ -14,7 +14,6 @@ import codechicken.lib.vec.Vector3;
 import codechicken.lib.vec.uv.IconTransformation;
 import keri.ninetaillib.lib.render.EnumItemRenderType;
 import keri.ninetaillib.lib.render.IItemRenderingHandler;
-import keri.ninetaillib.lib.render.RenderingConstants;
 import keri.ninetaillib.lib.render.RenderingRegistry;
 import keri.ninetaillib.lib.texture.IIconItem;
 import keri.ninetaillib.lib.util.ModelUtils;
@@ -65,7 +64,7 @@ public class RenderUpgradeCard implements IItemRenderingHandler {
         Colour color = EnumUpgradeType.VALUES[stack.getMetadata()].getColor();
         TextureAtlasSprite texture = iconProvider.getIcon(stack.getMetadata());
         TextureAtlasSprite textureBack = iconProvider.getIcon(EnumUpgradeType.VALUES.length);
-        CCRenderState renderState = RenderingConstants.getRenderState();
+        CCRenderState renderState = CCRenderState.instance();
         buffer.begin(GL11.GL_QUADS, RenderUtils.getFormatWithLightMap(DefaultVertexFormats.ITEM));
         renderState.reset();
         renderState.bind(buffer);

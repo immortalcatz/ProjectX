@@ -16,7 +16,6 @@ import codechicken.lib.vec.Rotation;
 import codechicken.lib.vec.Scale;
 import codechicken.lib.vec.Translation;
 import codechicken.lib.vec.Vector3;
-import keri.ninetaillib.lib.render.RenderingConstants;
 import keri.ninetaillib.lib.util.RenderUtils;
 import keri.ninetaillib.mod.playereffect.IPlayerEffect;
 import keri.projectx.ProjectX;
@@ -48,7 +47,7 @@ public class PlayerEffectQuartzCrystal implements IPlayerEffect {
         RenderUtils.MipmapFilterData mipmapFilterData = RenderUtils.disableMipmap();
         VertexBuffer buffer = Tessellator.getInstance().getBuffer();
         buffer.begin(GL11.GL_QUADS, RenderUtils.getFormatWithLightMap(DefaultVertexFormats.ITEM));
-        CCRenderState renderState = RenderingConstants.getRenderState();
+        CCRenderState renderState = CCRenderState.instance();
         renderState.bind(buffer);
         renderState.brightness = 0x00F000F0;
         GlStateManager.rotate(yawOffset, 0F, -1F, 0F);
