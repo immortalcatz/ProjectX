@@ -13,6 +13,7 @@ import keri.ninetaillib.lib.texture.IIconRegister;
 import keri.ninetaillib.lib.util.BlockAccessUtils;
 import keri.projectx.ProjectX;
 import keri.projectx.block.BlockAnimationHandler;
+import keri.projectx.network.ProjectXGuiHandler;
 import keri.projectx.tile.TileEntityReinforcer;
 import keri.projectx.util.EnumXycroniumColor;
 import keri.projectx.util.ModPrefs;
@@ -59,7 +60,7 @@ public class BlockReinforcer extends BlockAnimationHandler<TileEntityReinforcer>
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if(!world.isRemote){
-            player.openGui(ProjectX.INSTANCE, 0, world, pos.getX(), pos.getY(), pos.getZ());
+            player.openGui(ProjectX.INSTANCE, ProjectXGuiHandler.GUIID_REINFORCER, world, pos.getX(), pos.getY(), pos.getZ());
         }
 
         return true;
@@ -83,7 +84,7 @@ public class BlockReinforcer extends BlockAnimationHandler<TileEntityReinforcer>
     }
 
     @Override
-    public void breakBlock(World world, BlockPos pos, IBlockState state) {
+    public void onBlockHarvested(World world, BlockPos pos, IBlockState state, EntityPlayer player) {
         TileEntityReinforcer tile = (TileEntityReinforcer)world.getTileEntity(pos);
 
         if(tile != null){
@@ -91,12 +92,14 @@ public class BlockReinforcer extends BlockAnimationHandler<TileEntityReinforcer>
             ItemNBTUtils.validateTagExists(stack);
             stack.getTagCompound().setInteger("energy_stored", tile.getEnergyStored(null));
 
-            if(!world.isRemote){
-                ItemUtils.dropItem(world, pos, stack);
+            if(!player.capabilities.isCreativeMode){
+                if(!world.isRemote){
+                    ItemUtils.dropItem(world, pos, stack);
+                }
             }
         }
 
-        super.breakBlock(world, pos, state);
+        super.onBlockHarvested(world, pos, state, player);
     }
 
     @Override

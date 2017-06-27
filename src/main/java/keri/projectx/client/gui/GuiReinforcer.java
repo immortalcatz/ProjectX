@@ -19,9 +19,13 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class GuiReinforcer extends GuiContainerBase {
 
     private final ResourceLocation texture = new ResourceLocation(ModPrefs.MODID, "textures/gui/reinforcer.png");
+    private TileEntityReinforcer tile;
 
     public GuiReinforcer(InventoryPlayer inventoryPlayer, TileEntityReinforcer tile) {
         super(new ContainerReinforcer(inventoryPlayer, tile));
+        this.tile = tile;
+        this.xSize = 176;
+        this.ySize = 166;
     }
 
     @Override

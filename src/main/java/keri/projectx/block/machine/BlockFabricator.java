@@ -66,7 +66,9 @@ public class BlockFabricator extends BlockAnimationHandler<TileEntityFabricator>
                 ItemStack stack = tile.getStackInSlot(i + 10).copy();
 
                 if(stack != null && !stack.isEmpty()){
-                    ItemUtils.dropItem(world, pos, stack);
+                    if(!world.isRemote){
+                        ItemUtils.dropItem(world, pos, stack);
+                    }
                 }
             }
         }

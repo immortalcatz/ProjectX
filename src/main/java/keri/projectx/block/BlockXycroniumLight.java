@@ -76,12 +76,14 @@ public class BlockXycroniumLight extends BlockAnimationHandler<TileEntityXycroni
         if(!heldItem.isEmpty()){
             if(heldItem.getItem() == Items.DYE){
                 if(tile != null){
-                    tile.setColor(EnumDyeColor.VALUES[heldItem.getMetadata()].getColor());
-                    tile.markDirty();
-                    //tile.sendUpdatePacket(pos);
+                    if(!world.isRemote){
+                        tile.setColor(EnumDyeColor.VALUES[heldItem.getMetadata()].getColor());
+                        tile.markDirty();
+                        tile.sendUpdatePacket(pos);
 
-                    if(!player.capabilities.isCreativeMode){
-                        heldItem.setCount(heldItem.getCount() - 1);
+                        if(!player.capabilities.isCreativeMode){
+                            heldItem.setCount(heldItem.getCount() - 1);
+                        }
                     }
 
                     return true;
@@ -172,9 +174,11 @@ public class BlockXycroniumLight extends BlockAnimationHandler<TileEntityXycroni
                         }
                     }
 
-                    tile.setColor(new ColourRGBA(r, g, b, 255));
-                    tile.markDirty();
-                    //tile.sendUpdatePacket(pos);
+                    if(!world.isRemote){
+                        tile.setColor(new ColourRGBA(r, g, b, 255));
+                        tile.markDirty();
+                        tile.sendUpdatePacket(pos);
+                    }
                 }
 
                 return true;
@@ -187,9 +191,11 @@ public class BlockXycroniumLight extends BlockAnimationHandler<TileEntityXycroni
                     }
                     else{
                         if(heldItem.getTagCompound() != null){
-                            tile.setColor(new ColourRGBA(heldItem.getTagCompound().getInteger("color")));
-                            tile.markDirty();
-                            //tile.sendUpdatePacket(pos);
+                            if(!world.isRemote){
+                                tile.setColor(new ColourRGBA(heldItem.getTagCompound().getInteger("color")));
+                                tile.markDirty();
+                                tile.sendUpdatePacket(pos);
+                            }
                         }
                     }
                 }
@@ -223,7 +229,7 @@ public class BlockXycroniumLight extends BlockAnimationHandler<TileEntityXycroni
         if(tile != null && stack.getTagCompound() != null){
             tile.setColor(new ColourRGBA(stack.getTagCompound().getInteger("color")));
             tile.markDirty();
-            //tile.sendUpdatePacket(pos);
+            tile.sendUpdatePacket(pos);
         }
 
         if(this.getMetaFromState(state) == 0){

@@ -8,8 +8,8 @@ package keri.projectx.tile;
 
 import codechicken.lib.colour.Colour;
 import codechicken.lib.colour.ColourRGBA;
-import codechicken.lib.packet.PacketCustom;
 import keri.ninetaillib.lib.network.INetworkTile;
+import keri.ninetaillib.lib.network.Packet;
 import keri.ninetaillib.lib.tile.TileEntityBase;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
@@ -35,12 +35,18 @@ public class TileEntityXycroniumLight extends TileEntityBase implements INetwork
     }
 
     @Override
-    public void onUpdatePacket(PacketCustom packet, Side side) {
+    public void onUpdatePacket(Packet packet, Side side) {
         if(side == Side.CLIENT){
             if(packet.getType() == 1){
                 this.markDirty();
             }
         }
+    }
+
+    public void sendUpdatePacket(BlockPos pos){
+        Packet packet = new Packet(1);
+        packet.writeBlockPos(pos);
+        packet.sendToClients();
     }
 
     @Override

@@ -7,9 +7,11 @@
 package keri.projectx.container;
 
 import keri.ninetaillib.lib.container.ContainerBase;
+import keri.ninetaillib.lib.container.slot.SlotOutput;
 import keri.projectx.tile.TileEntityReinforcer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Slot;
 
 public class ContainerReinforcer extends ContainerBase {
 
@@ -17,6 +19,13 @@ public class ContainerReinforcer extends ContainerBase {
 
     public ContainerReinforcer(InventoryPlayer inventoryPlayer, TileEntityReinforcer tile) {
         this.tile = tile;
+        this.bindPlayerInventory(inventoryPlayer, 8, 84);
+        //input slot left
+        this.addSlotToContainer(new Slot(tile, 0, 34, 35));
+        //right slot left
+        this.addSlotToContainer(new Slot(tile, 1, 56, 35));
+        //output slot
+        this.addSlotToContainer(new SlotOutput(tile, 2, 118, 35));
     }
 
     @Override
