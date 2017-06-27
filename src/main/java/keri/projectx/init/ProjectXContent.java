@@ -45,5 +45,6 @@ public class ProjectXContent {
     public static Item XYCRONIUM_DUST = new ItemXycroniumDust();
     public static Item UPGRADE_CARD = new ItemUpgradeCard();
     public static Item COLOR_SCANNER = new ItemColorScanner();
+    public static Item POWER_CORE = new ItemPowerCore();
 
 }

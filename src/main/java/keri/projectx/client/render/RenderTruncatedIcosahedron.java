@@ -12,24 +12,26 @@ import codechicken.lib.math.MathHelper;
 import codechicken.lib.vec.Vector3;
 import keri.projectx.util.ModPrefs;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GLSync;
 
 @SideOnly(Side.CLIENT)
 public class RenderTruncatedIcosahedron {
 
     private static Vector3[] VERTS = new Vector3[60];
     private static int LIST_INDEX;
-    private static ThreadLocal<RenderTruncatedIcosahedron> INSTANCES = ThreadLocal.withInitial(() -> new RenderTruncatedIcosahedron());
+    private static final ThreadLocal<RenderTruncatedIcosahedron> INSTANCES = ThreadLocal.withInitial(RenderTruncatedIcosahedron::new);
 
     public static RenderTruncatedIcosahedron getInstance(){
         return INSTANCES.get();
     }
 
     private RenderTruncatedIcosahedron(){
-        generate();
+        this.generate();
     }
 
     public void render(double size, int colourPent, int colourHex, EnumHedrontexture type) {
@@ -37,6 +39,8 @@ public class RenderTruncatedIcosahedron {
     }
 
     public void render(double size, Colour colourPent, Colour colourHex, EnumHedrontexture type) {
+        GlStateManager.pushMatrix();
+        GlStateManager.pushAttrib();
         GL11.glDepthMask(false);
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_LIGHT0);
@@ -56,6 +60,8 @@ public class RenderTruncatedIcosahedron {
         GL11.glDisable(GL11.GL_BLEND);
         GL11.glDepthMask(true);
         GL11.glColor4f(1F, 1F, 1F, 1F);
+        GlStateManager.popAttrib();
+        GlStateManager.popMatrix();
     }
 
     private void generate() {

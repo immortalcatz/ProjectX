@@ -6,10 +6,22 @@
 
 package keri.projectx.item;
 
+import keri.ninetaillib.lib.render.EnumItemRenderType;
+import keri.projectx.api.energy.EnumCoreType;
+import keri.projectx.client.render.item.RenderPowerCore;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 public class ItemPowerCore extends ItemProjectX {
 
     public ItemPowerCore() {
-        super("power_core");
+        super("power_core", EnumCoreType.toStringArray());
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public EnumItemRenderType getRenderType() {
+        return RenderPowerCore.RENDER_TYPE;
     }
 
 }
