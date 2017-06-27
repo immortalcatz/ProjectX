@@ -72,7 +72,6 @@ public class BlockXycroniumLightInverted extends BlockAnimationHandler<TileEntit
                 if(tile != null){
                     if(!world.isRemote){
                         tile.setColor(EnumDyeColor.VALUES[heldItem.getMetadata()].getColor());
-                        tile.markDirty();
                         tile.sendUpdatePacket(pos);
 
                         if(!player.capabilities.isCreativeMode){
@@ -80,6 +79,7 @@ public class BlockXycroniumLightInverted extends BlockAnimationHandler<TileEntit
                         }
                     }
 
+                    tile.markDirty();
                     return true;
                 }
             }
@@ -170,9 +170,10 @@ public class BlockXycroniumLightInverted extends BlockAnimationHandler<TileEntit
 
                     if(!world.isRemote){
                         tile.setColor(new ColourRGBA(r, g, b, 255));
-                        tile.markDirty();
                         tile.sendUpdatePacket(pos);
                     }
+
+                    tile.markDirty();
                 }
 
                 return true;
@@ -187,9 +188,10 @@ public class BlockXycroniumLightInverted extends BlockAnimationHandler<TileEntit
                         if(heldItem.getTagCompound() != null){
                             if(!world.isRemote){
                                 tile.setColor(new ColourRGBA(heldItem.getTagCompound().getInteger("color")));
-                                tile.markDirty();
                                 tile.sendUpdatePacket(pos);
                             }
+
+                            tile.markDirty();
                         }
                     }
                 }
@@ -221,9 +223,12 @@ public class BlockXycroniumLightInverted extends BlockAnimationHandler<TileEntit
         TileEntityXycroniumLight tile = (TileEntityXycroniumLight)world.getTileEntity(pos);
 
         if(tile != null && stack.getTagCompound() != null){
-            tile.setColor(new ColourRGBA(stack.getTagCompound().getInteger("color")));
+            if(!world.isRemote){
+                tile.setColor(new ColourRGBA(stack.getTagCompound().getInteger("color")));
+                tile.sendUpdatePacket(pos);
+            }
+
             tile.markDirty();
-            tile.sendUpdatePacket(pos);
         }
 
         if(this.getMetaFromState(state) == 1){

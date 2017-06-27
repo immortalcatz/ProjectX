@@ -11,9 +11,9 @@ import codechicken.lib.colour.ColourRGBA;
 
 public enum EnumXynergyClass {
 
-    LOW(0, "low", 10000, 200, new ColourRGBA(255, 255, 255, 255)),
-    MEDIUM(1, "medium", 50000, 500, new ColourRGBA(255, 255, 255, 255)),
-    OMNIPOTENT(2, "omnipotent", 100000, 1000, new ColourRGBA(255, 255, 255, 255));
+    LOW(0, "low", 10000, 200, new ColourRGBA(70, 70, 255, 255)),
+    MEDIUM(1, "medium", 50000, 500, new ColourRGBA(30, 255, 30, 255)),
+    OMNIPOTENT(2, "omnipotent", 100000, 1000, new ColourRGBA(220, 110, 20, 255));
 
     public static final EnumXynergyClass[] VALUES = new EnumXynergyClass[]{
             LOW,

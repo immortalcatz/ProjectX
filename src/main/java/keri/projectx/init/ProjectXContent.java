@@ -28,6 +28,8 @@ public class ProjectXContent {
     public static Block XYCRONIUM_NETHER_ORE = new BlockXycroniumNetherOre();
     public static Block XYCRONIUM_BLOCK = new BlockXycroniumStorage();
     public static Block XYCRONIUM_BRICKS = new BlockXycroniumBricks();
+    public static Block XYCRONIUM_BRICKS_SMALL = new BlockXycroniumBricksSmall();
+    public static Block XYCRONIUM_BRICKS_CHISELED = new BlockXycroniumBricksChiseled();
     public static Block XYCRONIUM_STRUCTURE = new BlockXycroniumStructure();
     public static Block XYCRONIUM_PLATE = new BlockXycroniumPlate();
     public static Block XYCRONIUM_PLATFORM = new BlockXycroniumPlatform();

@@ -41,6 +41,9 @@ public class ProjectXCrafting {
             GameRegistry.addShapelessRecipe(new ItemStack(ProjectXContent.XYCRONIUM_NUGGET, 9, meta), new ItemStack(ProjectXContent.XYCRONIUM_INGOT, 1, meta));
             GameRegistry.addSmelting(new ItemStack(ProjectXContent.XYCRONIUM_CRYSTAL, 1, meta), new ItemStack(ProjectXContent.XYCRONIUM_INGOT, 1, meta), 1F);
             GameRegistry.addSmelting(new ItemStack(ProjectXContent.XYCRONIUM_DUST, 1, meta), new ItemStack(ProjectXContent.XYCRONIUM_INGOT, 1, meta), 1F);
+            GameRegistry.addShapelessRecipe(new ItemStack(ProjectXContent.XYCRONIUM_BRICKS_SMALL, 1, meta), new ItemStack(ProjectXContent.XYCRONIUM_BRICKS, 1, meta));
+            GameRegistry.addShapelessRecipe(new ItemStack(ProjectXContent.XYCRONIUM_BRICKS_CHISELED, 1, meta), new ItemStack(ProjectXContent.XYCRONIUM_BRICKS_SMALL, 1, meta));
+            GameRegistry.addShapelessRecipe(new ItemStack(ProjectXContent.XYCRONIUM_BRICKS, 1, meta), new ItemStack(ProjectXContent.XYCRONIUM_BRICKS_CHISELED, 1, meta));
             GameRegistry.addRecipe(new ItemStack(ProjectXContent.XYCRONIUM_BLOCK, 1, meta),
                     "XXX",
                     "XXX",

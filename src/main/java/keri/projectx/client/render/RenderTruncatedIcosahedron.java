@@ -17,7 +17,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GLSync;
 
 @SideOnly(Side.CLIENT)
 public class RenderTruncatedIcosahedron {
@@ -41,7 +40,6 @@ public class RenderTruncatedIcosahedron {
     public void render(double size, Colour colourPent, Colour colourHex, EnumHedrontexture type) {
         GlStateManager.pushMatrix();
         GlStateManager.pushAttrib();
-        GL11.glDepthMask(false);
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_LIGHT0);
         GL11.glDisable(GL11.GL_LIGHT1);
@@ -58,7 +56,6 @@ public class RenderTruncatedIcosahedron {
         GL11.glEnable(GL11.GL_LIGHT1);
         GL11.glEnable(GL11.GL_LIGHT0);
         GL11.glDisable(GL11.GL_BLEND);
-        GL11.glDepthMask(true);
         GL11.glColor4f(1F, 1F, 1F, 1F);
         GlStateManager.popAttrib();
         GlStateManager.popMatrix();

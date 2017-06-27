@@ -44,6 +44,29 @@ public class IntegrationThermalExpansion implements IIntegrationModule {
 
     @Override
     public void postInit(FMLPostInitializationEvent event) {
+        this.removeRecipes();
+        this.addRecipes();
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void preInitClient(FMLPreInitializationEvent event) {
+
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void initClient(FMLInitializationEvent event) {
+
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void postInitClient(FMLPostInitializationEvent event) {
+
+    }
+
+    private void removeRecipes(){
         for(int meta = 0; meta < 5; meta++){
             ThermalExpansionHelper.removePulverizerRecipe(new ItemStack(ProjectXContent.XYCRONIUM_ORE, 1, meta));
             ThermalExpansionHelper.removePulverizerRecipe(new ItemStack(ProjectXContent.XYCRONIUM_NETHER_ORE, 1, meta));
@@ -71,6 +94,11 @@ public class IntegrationThermalExpansion implements IIntegrationModule {
                     new ItemStack(ProjectXContent.XYCRONIUM_NETHER_ORE, 1, meta),
                     new ItemStack(TFItems.itemMaterial, 1, 866)
             );
+        }
+    }
+
+    private void addRecipes(){
+        for(int meta = 0; meta < 5; meta++){
             ThermalExpansionHelper.addSmelterRecipe(800,
                     new ItemStack(ProjectXContent.XYCRONIUM_CRYSTAL, 2, meta),
                     new ItemStack(Blocks.SAND, 1, OreDictionary.WILDCARD_VALUE),
@@ -82,24 +110,6 @@ public class IntegrationThermalExpansion implements IIntegrationModule {
                     new ItemStack(ProjectXContent.XYCRONIUM_DUST, 2, meta)
             );
         }
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void preInitClient(FMLPreInitializationEvent event) {
-
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void initClient(FMLInitializationEvent event) {
-
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void postInitClient(FMLPostInitializationEvent event) {
-
     }
 
 }

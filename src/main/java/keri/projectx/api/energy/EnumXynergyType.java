@@ -12,7 +12,7 @@ import codechicken.lib.colour.ColourRGBA;
 public enum EnumXynergyType {
 
     STRAIGHT(0, "straight", 12, false, new ColourRGBA(255, 255, 255, 255)),
-    RADIAL(1, "radial", 12, true, new ColourRGBA(255, 255, 255, 255));
+    RADIAL(1, "radial", 12, true, new ColourRGBA(255, 20, 200, 255));
 
     public static final EnumXynergyType[] VALUES = new EnumXynergyType[]{
             STRAIGHT,

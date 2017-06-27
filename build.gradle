@@ -29,11 +29,15 @@ repositories {
 		name "covers1624's Maven"
 		url "http://maven.covers1624.net"
 	}
+    maven {
+        name "tterag's Maven"
+        url "http://maven.tterrag.com"
+    }
 }
 
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-version = "1.11.2-2.1.15"
+version = "1.11.2-2.1.16"
 group = "keri.projectx" 
 archivesBaseName = "ProjectX"
 
@@ -58,6 +62,8 @@ dependencies {
 	deobfCompile "cofh:CoFHCore:1.11.2-4.2.4.9:deobf"
 	deobfCompile "cofh:ThermalFoundation:1.11.2-2.2.3.5:deobf"
 	deobfCompile "cofh:ThermalExpansion:1.11.2-5.2.4.8:deobf"
+    deobfCompile "team.chisel.ctm:CTM:MC1.11.2-0.1.1.7"
+    deobfCompile "team.chisel:Chisel:MC1.11.2-0.0.11.18"
 }
 
 processResources {

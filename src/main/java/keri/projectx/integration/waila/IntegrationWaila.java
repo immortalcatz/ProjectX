@@ -35,7 +35,7 @@ public class IntegrationWaila implements IIntegrationModule {
 
     @Override
     public void init(FMLInitializationEvent event) {
-        FMLInterModComms.sendMessage("waila", "register", "keri.projectx.integration.waila.IntegrationWaila.callbackRegister");
+        this.registerCallback();
     }
 
     @Override
@@ -56,6 +56,10 @@ public class IntegrationWaila implements IIntegrationModule {
     @Override
     public void postInitClient(FMLPostInitializationEvent event) {
 
+    }
+
+    private void registerCallback(){
+        FMLInterModComms.sendMessage("waila", "register", "keri.projectx.integration.waila.IntegrationWaila.callbackRegister");
     }
 
     public static void callbackRegister(IWailaRegistrar registrar){

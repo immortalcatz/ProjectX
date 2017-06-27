@@ -51,10 +51,10 @@ public class BlockXycroniumOre extends BlockAnimationHandler {
         this.texture = new TextureAtlasSprite[6];
 
         for(int i = 0; i < this.getSubNames().length; i++){
-            this.texture[i] = register.registerIcon(ModPrefs.MODID + ":blocks/xycronium_ore/xycronium_ore_" + this.getSubNames()[i]);
+            this.texture[i] = register.registerIcon(ModPrefs.MODID + ":blocks/xycronium_ore_" + this.getSubNames()[i]);
         }
 
-        this.texture[5] = register.registerIcon(ModPrefs.MODID + ":blocks/xycronium_ore/xycronium_ore_effect");
+        this.texture[5] = register.registerIcon(ModPrefs.MODID + ":blocks/xycronium_ore_effect");
     }
 
     @Override
