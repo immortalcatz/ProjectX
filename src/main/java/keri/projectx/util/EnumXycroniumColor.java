@@ -47,10 +47,10 @@ public enum EnumXycroniumColor {
     }
 
     public static String[] toStringArray(){
-        String[] names = new String[values().length];
+        String[] names = new String[VALUES.length];
 
-        for(int i = 0; i < values().length; i++){
-            names[i] = values()[i].getName();
+        for(int i = 0; i < VALUES.length; i++){
+            names[i] = VALUES[i].getName();
         }
 
         return names;

@@ -19,7 +19,7 @@ import keri.ninetaillib.lib.texture.IIconItem;
 import keri.ninetaillib.lib.util.ModelUtils;
 import keri.ninetaillib.lib.util.RenderUtils;
 import keri.projectx.ProjectX;
-import keri.projectx.util.EnumUpgradeType;
+import keri.projectx.api.upgrade.EnumUpgradeType;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;

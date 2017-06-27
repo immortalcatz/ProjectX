@@ -6,6 +6,7 @@
 
 package keri.projectx.util;
 
+import keri.projectx.api.upgrade.EnumUpgradeType;
 import net.minecraft.client.resources.I18n;
 
 public class Translations {

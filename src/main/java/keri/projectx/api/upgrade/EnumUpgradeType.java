@@ -4,10 +4,12 @@
  * explicit permission of the developer!
  */
 
-package keri.projectx.util;
+package keri.projectx.api.upgrade;
 
 import codechicken.lib.colour.Colour;
 import codechicken.lib.colour.ColourRGBA;
+import keri.projectx.util.EnumXycroniumColor;
+import keri.projectx.util.ModPrefs;
 
 public enum EnumUpgradeType {
 
@@ -51,10 +53,10 @@ public enum EnumUpgradeType {
     }
 
     public static String[] toStringArray(){
-        String[] names = new String[values().length];
+        String[] names = new String[VALUES.length];
 
-        for(int i = 0; i < values().length; i++){
-            names[i] = values()[i].getName();
+        for(int i = 0; i < VALUES.length; i++){
+            names[i] = VALUES[i].getName();
         }
 
         return names;
