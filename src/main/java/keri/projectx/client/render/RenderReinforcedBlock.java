@@ -48,6 +48,7 @@ public class RenderReinforcedBlock implements IBlockRenderingHandler {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public void renderInventory(ItemStack stack, VertexBuffer buffer) {
         GlStateManager.pushMatrix();
         GlStateManager.enableLighting();
