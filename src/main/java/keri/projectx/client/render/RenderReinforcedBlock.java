@@ -13,6 +13,7 @@ import codechicken.lib.vec.Cuboid6;
 import codechicken.lib.vec.uv.IconTransformation;
 import keri.ninetaillib.lib.render.IBlockRenderingHandler;
 import keri.ninetaillib.lib.render.RenderingRegistry;
+import keri.ninetaillib.lib.texture.IIconBlock;
 import keri.ninetaillib.lib.util.ModelUtils;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.GlStateManager;
@@ -31,6 +32,7 @@ public class RenderReinforcedBlock implements IBlockRenderingHandler {
 
     public static final RenderReinforcedBlock INSTANCE = new RenderReinforcedBlock();
     public static EnumBlockRenderType RENDER_TYPE;
+    private static CCModel BLOCK_MODEL = ModelUtils.getNormalized(new Cuboid6(0D, 0D, 0D, 16D, 16D, 16D));
 
     static{
         RENDER_TYPE = RenderingRegistry.getNextAvailableType();
@@ -50,6 +52,9 @@ public class RenderReinforcedBlock implements IBlockRenderingHandler {
     @Override
     @SuppressWarnings("deprecation")
     public void renderInventory(ItemStack stack, VertexBuffer buffer) {
+        IIconBlock iconProvider = (IIconBlock)Block.getBlockFromItem(stack.getItem());
+        CCRenderState renderState = CCRenderState.instance();
+        renderState.bind(buffer);
         GlStateManager.pushMatrix();
         GlStateManager.enableLighting();
 
@@ -57,18 +62,17 @@ public class RenderReinforcedBlock implements IBlockRenderingHandler {
             ItemStack blockStack = new ItemStack(stack.getTagCompound().getCompoundTag("block"));
 
             if(blockStack != null){
-                CCRenderState renderState = CCRenderState.instance();
-                renderState.bind(buffer);
-                CCModel model = ModelUtils.getNormalized(new Cuboid6(0D, 0D, 0D, 16D, 16D, 16D));
                 Block block = Block.getBlockFromItem(blockStack.getItem());
 
                 for(int side = 0; side < 6; side++){
                     TextureAtlasSprite texture = TextureUtils.getIconsForBlock(block.getStateFromMeta(blockStack.getMetadata()), side)[0];
-                    model.render(renderState, new IconTransformation(texture));
+                    BLOCK_MODEL.render(renderState, new IconTransformation(texture));
                 }
             }
         }
 
+        TextureAtlasSprite texture = iconProvider.getIcon(0, 0);
+        BLOCK_MODEL.render(renderState, new IconTransformation(texture));
         GlStateManager.popMatrix();
     }
 

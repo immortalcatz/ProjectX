@@ -8,12 +8,15 @@ package keri.projectx.block;
 
 import codechicken.lib.util.ItemNBTUtils;
 import codechicken.lib.util.ItemUtils;
+import keri.ninetaillib.lib.texture.IIconRegister;
 import keri.projectx.client.render.RenderReinforcedBlock;
 import keri.projectx.tile.TileEntityReinforcedBlock;
 import keri.projectx.util.ModPrefs;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumBlockRenderType;
@@ -26,6 +29,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nullable;
 
 public class BlockReinforcedBlock extends BlockProjectX<TileEntityReinforcedBlock> {
+
+    @SideOnly(Side.CLIENT)
+    private TextureAtlasSprite texture;
 
     public BlockReinforcedBlock() {
         super("reinforced_block", Material.ROCK);
@@ -55,21 +61,35 @@ public class BlockReinforcedBlock extends BlockProjectX<TileEntityReinforcedBloc
     }
 
     @Override
-    public void breakBlock(World world, BlockPos pos, IBlockState state) {
+    public void onBlockHarvested(World world, BlockPos pos, IBlockState state, EntityPlayer player) {
         TileEntityReinforcedBlock tile = (TileEntityReinforcedBlock)world.getTileEntity(pos);
 
         if(tile != null){
-            ItemStack stack = new ItemStack(this, 1, 0);
-            ItemNBTUtils.validateTagExists(stack);
-            NBTTagCompound blockTag = tile.getBlock().writeToNBT(new NBTTagCompound());
-            stack.getTagCompound().setTag("block", blockTag);
+            if(!player.capabilities.isCreativeMode){
+                ItemStack stack = new ItemStack(this, 1, 0);
+                ItemNBTUtils.validateTagExists(stack);
+                NBTTagCompound blockTag = tile.getBlock().writeToNBT(new NBTTagCompound());
+                stack.getTagCompound().setTag("block", blockTag);
 
-            if(!world.isRemote){
-                ItemUtils.dropItem(world, pos, stack);
+                if(!world.isRemote){
+                    ItemUtils.dropItem(world, pos, stack);
+                }
             }
         }
 
-        super.breakBlock(world, pos, state);
+        super.onBlockHarvested(world, pos, state, player);
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(IIconRegister register) {
+        this.texture = register.registerIcon(ModPrefs.MODID + ":blocks/reinforced_block");
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public TextureAtlasSprite getIcon(int meta, int side) {
+        return this.texture;
     }
 
     @Override

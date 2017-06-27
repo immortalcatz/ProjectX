@@ -67,6 +67,14 @@ public enum EnumCoreType {
         return this.xynergyClass.getColor();
     }
 
+    public EnumXynergyType getXynergyType(){
+        return this.xynergyType;
+    }
+
+    public EnumXynergyClass getXynergyClass(){
+        return this.xynergyClass;
+    }
+
     public static String[] toStringArray(){
         String[] names = new String[VALUES.length];
 
