@@ -65,6 +65,13 @@ public class IntegrationChisel implements IIntegrationModule {
             this.addChiselVariation(ProjectXContent.XYCRONIUM_BRICKS_SMALL.getStateFromMeta(meta), "projectx_xycronium_bricks");
             this.addChiselVariation(ProjectXContent.XYCRONIUM_BRICKS_CHISELED.getStateFromMeta(meta), "projectx_xycronium_bricks");
         }
+
+        for(int meta = 0; meta < 16; meta++){
+            this.addChiselVariation(ProjectXContent.XYCRONIUM_STRUCTURE.getStateFromMeta(meta), "projectx_xycronium_structure");
+            this.addChiselVariation(ProjectXContent.XYCRONIUM_PLATE.getStateFromMeta(meta), "projectx_xycronium_plate");
+            this.addChiselVariation(ProjectXContent.XYCRONIUM_PLATFORM.getStateFromMeta(meta), "projectx_xycronium_platform");
+            this.addChiselVariation(ProjectXContent.XYCRONIUM_SHIELD.getStateFromMeta(meta), "projectx_xycronium_shield");
+        }
     }
 
     private void addChiselVariation(IBlockState state, String groupName){
