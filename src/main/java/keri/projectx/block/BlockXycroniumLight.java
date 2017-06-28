@@ -77,8 +77,8 @@ public class BlockXycroniumLight extends BlockAnimationHandler<TileEntityXycroni
             if(heldItem.getItem() == Items.DYE){
                 if(tile != null){
                     tile.setColor(EnumDyeColor.VALUES[heldItem.getMetadata()].getColor());
-                    tile.sendUpdatePacket(pos);
                     tile.markDirty();
+                    tile.sendUpdatePacket(pos);
 
                     if(!world.isRemote){
                         if(!player.capabilities.isCreativeMode){
@@ -175,8 +175,8 @@ public class BlockXycroniumLight extends BlockAnimationHandler<TileEntityXycroni
                     }
 
                     tile.setColor(new ColourRGBA(r, g, b, 255));
-                    tile.sendUpdatePacket(pos);
                     tile.markDirty();
+                    tile.sendUpdatePacket(pos);
                 }
 
                 return true;
@@ -190,8 +190,8 @@ public class BlockXycroniumLight extends BlockAnimationHandler<TileEntityXycroni
                     else{
                         if(heldItem.getTagCompound() != null){
                             tile.setColor(new ColourRGBA(heldItem.getTagCompound().getInteger("color")));
-                            tile.sendUpdatePacket(pos);
                             tile.markDirty();
+                            tile.sendUpdatePacket(pos);
                         }
                     }
                 }

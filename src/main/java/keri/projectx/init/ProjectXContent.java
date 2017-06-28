@@ -17,12 +17,14 @@ import keri.projectx.item.*;
 import keri.projectx.util.ModPrefs;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraftforge.common.util.EnumHelper;
 
 @ContentLoader(modid = ModPrefs.MODID)
 public class ProjectXContent {
 
     private static final ItemToolHelper ITEM_TOOL_HELPER = new ItemToolHelper(ProjectXTab.PROJECTX);
     private static final ItemArmorHelper ITEM_ARMOR_HELPER = new ItemArmorHelper(ProjectXTab.PROJECTX);
+    private static Item.ToolMaterial TM_XYCRONIUM = EnumHelper.addToolMaterial("XYCRONIUM", 3, 1100, 4.2F, 4F, 30);
 
     public static Block XYCRONIUM_ORE = new BlockXycroniumOre();
     public static Block XYCRONIUM_NETHER_ORE = new BlockXycroniumNetherOre();
@@ -45,6 +47,9 @@ public class ProjectXContent {
     public static Item XYCRONIUM_INGOT = new ItemXycroniumIngot();
     public static Item XYCRONIUM_NUGGET = new ItemXycroniumNugget();
     public static Item XYCRONIUM_DUST = new ItemXycroniumDust();
+
+    public static Item XYCRONIUM_SWORD_BLUE = ITEM_TOOL_HELPER.createSword(TM_XYCRONIUM);
+
     public static Item UPGRADE_CARD = new ItemUpgradeCard();
     public static Item COLOR_SCANNER = new ItemColorScanner();
     public static Item POWER_CORE = new ItemPowerCore();

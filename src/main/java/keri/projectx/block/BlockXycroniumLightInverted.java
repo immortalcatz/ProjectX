@@ -70,16 +70,16 @@ public class BlockXycroniumLightInverted extends BlockAnimationHandler<TileEntit
         if(!heldItem.isEmpty()){
             if(heldItem.getItem() == Items.DYE){
                 if(tile != null){
-                    if(!world.isRemote){
-                        tile.setColor(EnumDyeColor.VALUES[heldItem.getMetadata()].getColor());
-                        tile.sendUpdatePacket(pos);
+                    tile.setColor(EnumDyeColor.VALUES[heldItem.getMetadata()].getColor());
+                    tile.markDirty();
+                    tile.sendUpdatePacket(pos);
 
+                    if(!world.isRemote){
                         if(!player.capabilities.isCreativeMode){
                             heldItem.setCount(heldItem.getCount() - 1);
                         }
                     }
 
-                    tile.markDirty();
                     return true;
                 }
             }
@@ -168,12 +168,9 @@ public class BlockXycroniumLightInverted extends BlockAnimationHandler<TileEntit
                         }
                     }
 
-                    if(!world.isRemote){
-                        tile.setColor(new ColourRGBA(r, g, b, 255));
-                        tile.sendUpdatePacket(pos);
-                    }
-
+                    tile.setColor(new ColourRGBA(r, g, b, 255));
                     tile.markDirty();
+                    tile.sendUpdatePacket(pos);
                 }
 
                 return true;
@@ -186,12 +183,9 @@ public class BlockXycroniumLightInverted extends BlockAnimationHandler<TileEntit
                     }
                     else{
                         if(heldItem.getTagCompound() != null){
-                            if(!world.isRemote){
-                                tile.setColor(new ColourRGBA(heldItem.getTagCompound().getInteger("color")));
-                                tile.sendUpdatePacket(pos);
-                            }
-
+                            tile.setColor(new ColourRGBA(heldItem.getTagCompound().getInteger("color")));
                             tile.markDirty();
+                            tile.sendUpdatePacket(pos);
                         }
                     }
                 }
@@ -223,12 +217,9 @@ public class BlockXycroniumLightInverted extends BlockAnimationHandler<TileEntit
         TileEntityXycroniumLight tile = (TileEntityXycroniumLight)world.getTileEntity(pos);
 
         if(tile != null && stack.getTagCompound() != null){
-            if(!world.isRemote){
-                tile.setColor(new ColourRGBA(stack.getTagCompound().getInteger("color")));
-                tile.sendUpdatePacket(pos);
-            }
-
+            tile.setColor(new ColourRGBA(stack.getTagCompound().getInteger("color")));
             tile.markDirty();
+            tile.sendUpdatePacket(pos);
         }
 
         if(this.getMetaFromState(state) == 1){
