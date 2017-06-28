@@ -8,14 +8,31 @@ package keri.projectx.network;
 
 import codechicken.lib.packet.ICustomPacketHandler;
 import codechicken.lib.packet.PacketCustom;
+import keri.projectx.tile.TileEntityXycroniumLight;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.network.play.INetHandlerPlayClient;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
 
 public class ProjectXCPH implements ICustomPacketHandler.IClientPacketHandler {
 
     @Override
-    public void handlePacket(PacketCustom packet, Minecraft mc, INetHandlerPlayClient handler) {
+    public void handlePacket(PacketCustom packet, Minecraft minecraft, INetHandlerPlayClient handler) {
+        switch(packet.getType()){
+            case 1:
+                this.handleLampPacket(packet, minecraft.world);
+                break;
+        }
+    }
 
+    private void handleLampPacket(PacketCustom packet, WorldClient world){
+        final BlockPos pos = packet.readPos();
+        TileEntity tile = world.getTileEntity(pos);
+
+        if(tile != null && tile instanceof TileEntityXycroniumLight){
+            ((TileEntityXycroniumLight)tile).onUpdatePacket(packet);
+        }
     }
 
 }

@@ -8,16 +8,15 @@ package keri.projectx.tile;
 
 import codechicken.lib.colour.Colour;
 import codechicken.lib.colour.ColourRGBA;
-import keri.ninetaillib.lib.network.INetworkTile;
-import keri.ninetaillib.lib.network.Packet;
+import codechicken.lib.packet.PacketCustom;
 import keri.ninetaillib.lib.tile.TileEntityBase;
+import keri.projectx.ProjectX;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
 
-public class TileEntityXycroniumLight extends TileEntityBase implements INetworkTile {
+public class TileEntityXycroniumLight extends TileEntityBase {
 
     private Colour color = new ColourRGBA(255, 255, 255, 255);
 
@@ -34,18 +33,13 @@ public class TileEntityXycroniumLight extends TileEntityBase implements INetwork
         return tag;
     }
 
-    @Override
-    public void onUpdatePacket(Packet packet, Side side) {
-        if(side == Side.CLIENT){
-            if(packet.getType() == 1){
-                this.markDirty();
-            }
-        }
+    public void onUpdatePacket(PacketCustom packet){
+        this.markDirty();
     }
 
     public void sendUpdatePacket(BlockPos pos){
-        Packet packet = new Packet(1);
-        packet.writeBlockPos(pos);
+        PacketCustom packet = new PacketCustom(ProjectX.INSTANCE, 1);
+        packet.writePos(pos);
         packet.sendToClients();
     }
 
