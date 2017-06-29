@@ -12,6 +12,7 @@ import keri.ninetaillib.lib.mod.ContentLoader;
 import keri.projectx.block.*;
 import keri.projectx.block.machine.BlockFabricator;
 import keri.projectx.block.machine.BlockReinforcer;
+import keri.projectx.block.machine.BlockXycroniumWater;
 import keri.projectx.client.ProjectXTab;
 import keri.projectx.item.*;
 import keri.projectx.util.ModPrefs;
@@ -50,6 +51,10 @@ public class ProjectXContent {
     public static Block QUARTZ_CRYSTAL = new BlockQuartzCrystal();
     public static Block XYCRONIUM_LIGHT = new BlockXycroniumLight();
     public static Block XYCRONIUM_LIGHT_INVERTED = new BlockXycroniumLightInverted();
+
+    //WIP list of machines:
+    public static Block XYCRONIUM_WATER = new BlockXycroniumWater();
+
     public static Block FABRICATOR = new BlockFabricator();
     public static Block REINFORCER = new BlockReinforcer();
     public static Block REINFORCED_BLOCK = new BlockReinforcedBlock();

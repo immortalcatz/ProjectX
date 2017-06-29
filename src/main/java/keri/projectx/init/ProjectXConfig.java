@@ -36,7 +36,9 @@ public class ProjectXConfig {
     private static final String INTEGRATION_TF_K = "integrationThermalFoundation";
     private static final String INTEGRATION_TF_D = "Enable or disable Thermal Foundation integration";
     private static final String INTEGRATION_CHISEL_K = "integrationChisel";
-    private static final String INTEGRATION_CHISEL_D = "Enable or disable chisel integration";
+    private static final String INTEGRATION_CHISEL_D = "Enable or disable Chisel integration";
+    private static final String INTEGRATION_TIC_K = "integrationTConstruct";
+    private static final String INTEGRATION_TIC_D = "Enable or disable Tinkers Construct integration";
     private static final String ORE_GEN_WEIGHT_K = "oreGenerationWeight";
     private static final String ORE_GEN_WEIGHT_C = "Change the ore generation weight (only modify when you know what you're doing!)";
     private static final String XYCRONIUM_ORE_BLUE_K = "xycroniumOreBlue";
@@ -76,6 +78,7 @@ public class ProjectXConfig {
         properties.addProperty(INTEGRATION_TE_K, new ConfigBoolean(INTEGRATION_TE_K, INTEGRATION_TE_D, CATEGORY_INTEGRATION_N, true));
         properties.addProperty(INTEGRATION_TF_K, new ConfigBoolean(INTEGRATION_TF_K, INTEGRATION_TF_D, CATEGORY_INTEGRATION_N, true));
         properties.addProperty(INTEGRATION_CHISEL_K, new ConfigBoolean(INTEGRATION_CHISEL_K, INTEGRATION_CHISEL_D, CATEGORY_INTEGRATION_N, true));
+        properties.addProperty(INTEGRATION_TIC_K, new ConfigBoolean(INTEGRATION_TIC_K, INTEGRATION_TIC_D, CATEGORY_INTEGRATION_N, true));
         properties.addProperty(ORE_GEN_WEIGHT_K, new ConfigInteger(ORE_GEN_WEIGHT_K, ORE_GEN_WEIGHT_C, CATEGORY_WORLD_N, 1, 0, 10));
         properties.addProperty(XYCRONIUM_ORE_BLUE_K, new ConfigIntArray(XYCRONIUM_ORE_BLUE_K, CATEGORY_WORLD_N, XYCRONIUM_ORE_BLUE_C, new int[]{3, 20, 52, 4, 8}));
         properties.addProperty(XYCRONIUM_ORE_GREEN_K, new ConfigIntArray(XYCRONIUM_ORE_GREEN_K, CATEGORY_WORLD_N, XYCRONIUM_ORE_GREEN_C, new int[]{3, 20, 52, 4, 8}));

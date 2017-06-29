@@ -20,7 +20,7 @@ public class ProjectXTab extends CreativeTabs {
 
     @Override
     public ItemStack getTabIconItem() {
-        return new ItemStack(ProjectXContent.FABRICATOR, 1, 0);
+        return new ItemStack(ProjectXContent.POWER_CORE, 1, 0);
     }
 
 }

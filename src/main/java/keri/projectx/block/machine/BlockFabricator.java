@@ -80,9 +80,9 @@ public class BlockFabricator extends BlockAnimationHandler<TileEntityFabricator>
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister register) {
         this.texture = new TextureAtlasSprite[3];
-        this.texture[0] = register.registerIcon(ModPrefs.MODID + ":blocks/fabricator_side");
-        this.texture[1] = register.registerIcon(ModPrefs.MODID + ":blocks/fabricator_top");
-        this.texture[2] = register.registerIcon(ModPrefs.MODID + ":blocks/fabricator_bottom");
+        this.texture[0] = register.registerIcon(ModPrefs.MODID + ":blocks/machine_side");
+        this.texture[1] = register.registerIcon(ModPrefs.MODID + ":blocks/fabricator");
+        this.texture[2] = register.registerIcon(ModPrefs.MODID + ":blocks/machine_bottom");
     }
 
     @Override
