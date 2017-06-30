@@ -14,9 +14,15 @@ import codechicken.lib.vec.Vector3;
 import codechicken.lib.vec.uv.IconTransformation;
 import keri.ninetaillib.lib.render.IBlockRenderingHandler;
 import keri.ninetaillib.lib.render.RenderingRegistry;
+import keri.ninetaillib.lib.texture.IIconBlock;
 import keri.ninetaillib.lib.util.ModelUtils;
+import keri.ninetaillib.lib.util.RenderUtils;
+import net.minecraft.block.Block;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumBlockRenderType;
@@ -24,6 +30,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class RenderConnectedTexture implements IBlockRenderingHandler {
@@ -31,36 +38,16 @@ public class RenderConnectedTexture implements IBlockRenderingHandler {
     public static final RenderConnectedTexture INSTANCE = new RenderConnectedTexture();
     public static EnumBlockRenderType RENDER_TYPE;
     private static CCModel DEFAULT_MODEL;
-    private static CCModel[] BLOCK_MODEL;
 
     static{
         RENDER_TYPE = RenderingRegistry.getNextAvailableType();
         RenderingRegistry.registerRenderingHandler(INSTANCE);
         DEFAULT_MODEL = ModelUtils.getNormalized(new Cuboid6(0D, 0D, 0D, 16D, 16D, 16D));
-        Cuboid6[] BOUNDS = new Cuboid6[]{
-                //bottom, top left
-                new Cuboid6(0D, 0D, 0D, 8D, 8D, 8D),
-                //bottom, top right
-                new Cuboid6(8D, 0D, 0D, 16D, 8D, 8D),
-                //bottom, bottom left
-                new Cuboid6(0D, 0D, 8D, 8D, 8D, 16D),
-                //bottom, bottom right
-                new Cuboid6(8D, 0D, 8D, 16D, 8D, 16D),
-                //top, top left
-                new Cuboid6(0D, 8D, 0D, 8D, 16D, 8D),
-                //top, top right
-                new Cuboid6(8D, 8D, 0D, 16D, 16D, 8D),
-                //top, bottom left
-                new Cuboid6(0D, 8D, 8D, 8D, 16D, 16D),
-                //top, bottom right
-                new Cuboid6(8D, 8D, 8D, 16D, 16D, 16D)
-        };
-        BLOCK_MODEL = ModelUtils.getNormalized(BOUNDS);
     }
 
     @Override
     public boolean renderWorld(IBlockAccess world, BlockPos pos, VertexBuffer buffer, BlockRenderLayer layer){
-        return false;
+        return this.renderConnectedTexture(world, pos, buffer);
     }
 
     @Override
@@ -74,7 +61,18 @@ public class RenderConnectedTexture implements IBlockRenderingHandler {
 
     @Override
     public void renderInventory(ItemStack stack, VertexBuffer buffer) {
-
+        Tessellator.getInstance().draw();
+        buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.ITEM);
+        IIconBlock iconProvider = (IIconBlock)Block.getBlockFromItem(stack.getItem());
+        CCRenderState renderState = CCRenderState.instance();
+        renderState.bind(buffer);
+        CCModel model = DEFAULT_MODEL.copy();
+        GlStateManager.pushMatrix();
+        GlStateManager.enableLighting();
+        model.render(renderState, new IconTransformation(iconProvider.getIcon(0, 0)));
+        GlStateManager.popMatrix();
+        Tessellator.getInstance().draw();
+        buffer.begin(GL11.GL_QUADS, RenderUtils.getFormatWithLightMap(DefaultVertexFormats.ITEM));
     }
 
     @Override
@@ -82,9 +80,8 @@ public class RenderConnectedTexture implements IBlockRenderingHandler {
         return RENDER_TYPE;
     }
 
-    public void renderConnectedTexture(IBlockAccess world, BlockPos pos, CCRenderState renderState){
-        ICTMBlock block = (ICTMBlock)world.getBlockState(pos).getBlock();
-        TextureHandlerCTM textureHandler = block.getTextureHandler(world, pos);
+    public boolean renderConnectedTexture(IBlockAccess world, BlockPos pos, VertexBuffer buffer){
+        return false;
     }
 
 }
