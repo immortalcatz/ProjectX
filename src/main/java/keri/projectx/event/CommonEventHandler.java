@@ -22,7 +22,7 @@ import java.util.List;
 public class CommonEventHandler {
 
     public static final CommonEventHandler INSTANCE = new CommonEventHandler();
-    private static List<Block> bypassedBlocks = Lists.newArrayList();
+    private static List<Block> BYPASSED_BLOCKS = Lists.newArrayList();
 
     @SubscribeEvent
     public void onBlockRightClick(PlayerInteractEvent.RightClickBlock event){
@@ -34,7 +34,7 @@ public class CommonEventHandler {
         if(player != null && world != null && this.isStackValid(stack) && pos != null){
             IBlockState state = world.getBlockState(pos);
 
-            for(Block block : bypassedBlocks){
+            for(Block block : BYPASSED_BLOCKS){
                 if(state != null && state.getBlock() == block){
                     if(player.isSneaking()){
                         event.setUseBlock(Event.Result.ALLOW);
@@ -45,7 +45,7 @@ public class CommonEventHandler {
     }
 
     public void registerSneakBypass(Block block){
-        bypassedBlocks.add(block);
+        BYPASSED_BLOCKS.add(block);
     }
 
     private boolean isStackValid(ItemStack stack){

@@ -45,7 +45,7 @@ public class BlockXycroniumBricks extends BlockAnimationHandler {
     @SideOnly(Side.CLIENT)
     public int getColorMultiplier(int meta, int side) {
         boolean coloredBricks = (Boolean)ProjectX.CONFIG.getProperty("coloredBricks").getValue();
-        return coloredBricks ? EnumXycroniumColor.VALUES[meta].getColor().copy().multiplyC(0.8D).rgba() : 0xFFFFFFFF;
+        return coloredBricks ? EnumXycroniumColor.VALUES[meta].getColor().copy().multiplyC(0.5D).rgba() : 0xFFFFFFFF;
     }
 
     @Override

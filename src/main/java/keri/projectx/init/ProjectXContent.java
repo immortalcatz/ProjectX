@@ -49,6 +49,7 @@ public class ProjectXContent {
     public static Block XYCRONIUM_PLATFORM = new BlockXycroniumPlatform();
     public static Block XYCRONIUM_SHIELD = new BlockXycroniumShield();
     public static Block QUARTZ_CRYSTAL = new BlockQuartzCrystal();
+    public static Block GLASS_VIEWER = new BlockGlassViewer();
     public static Block XYCRONIUM_LIGHT = new BlockXycroniumLight();
     public static Block XYCRONIUM_LIGHT_INVERTED = new BlockXycroniumLightInverted();
 
