@@ -17,6 +17,7 @@ public class IconConnectedTexture extends TextureAtlasSprite {
     private String textureName;
     public final TextureAtlasSprite[] icons = new TextureAtlasSprite[5];
     private int type;
+    private boolean isFlipped = false;
 
     public IconConnectedTexture(String textureName) {
         super(textureName);
@@ -29,6 +30,11 @@ public class IconConnectedTexture extends TextureAtlasSprite {
         this.icons[2] = register.registerIcon(this.textureName + "_h");
         this.icons[3] = register.registerIcon(this.textureName);
         this.icons[4] = register.registerIcon(this.textureName + "_a");
+        return this;
+    }
+
+    public IconConnectedTexture flip(){
+        this.isFlipped = true;
         return this;
     }
 
@@ -58,12 +64,12 @@ public class IconConnectedTexture extends TextureAtlasSprite {
 
     @Override
     public float getMinV() {
-        return this.icons[this.type].getMinV();
+        return this.isFlipped ? this.icons[this.type].getMaxV() : this.icons[this.type].getMinV();
     }
 
     @Override
     public float getMaxV() {
-        return this.icons[this.type].getMaxV();
+        return this.isFlipped ? this.icons[this.type].getMinV() : this.icons[this.type].getMaxV();
     }
 
     @Override

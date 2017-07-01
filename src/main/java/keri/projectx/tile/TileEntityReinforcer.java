@@ -74,6 +74,7 @@ public class TileEntityReinforcer extends TileEntityInventoryBase implements IEn
         return false;
     }
 
+    @SuppressWarnings("deprecation")
     private boolean isReinforceable(ItemStack stack){
         if(stack != null && !stack.isEmpty()){
             if(Block.getBlockFromItem(stack.getItem()) != null){
