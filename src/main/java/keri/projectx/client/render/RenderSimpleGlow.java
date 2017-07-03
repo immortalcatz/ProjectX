@@ -13,16 +13,20 @@ import codechicken.lib.vec.Cuboid6;
 import codechicken.lib.vec.Translation;
 import codechicken.lib.vec.Vector3;
 import codechicken.lib.vec.uv.IconTransformation;
+import com.google.common.collect.Lists;
 import keri.ninetaillib.lib.render.IBlockRenderingHandler;
 import keri.ninetaillib.lib.render.RenderingRegistry;
 import keri.ninetaillib.lib.texture.IIconBlock;
 import keri.ninetaillib.lib.util.BlockAccessUtils;
 import keri.ninetaillib.lib.util.RenderUtils;
+import keri.projectx.client.render.connected.BlockRenderContext;
+import keri.projectx.client.render.connected.ICTMBlock;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.ItemStack;
@@ -33,6 +37,8 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
+
+import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class RenderSimpleGlow implements IBlockRenderingHandler {
@@ -64,29 +70,60 @@ public class RenderSimpleGlow implements IBlockRenderingHandler {
             modelAnimation.render(renderState, 4 * side, 4 + (4 * side), new IconTransformation(texture));
         }
 
-        CCModel modelOverlay = BLOCK_MODEL.copy();
-        BakingVertexBuffer parent = BakingVertexBuffer.create();
-        parent.begin(GL11.GL_QUADS, DefaultVertexFormats.ITEM);
-        renderState.reset();
-        renderState.bind(parent);
+        List<BakedQuad> overlayQuads = Lists.newArrayList();
 
-        for(int side = 0; side < 6; side++){
-            TextureAtlasSprite texture = null;
+        if(layer == BlockRenderLayer.CUTOUT_MIPPED){
+            if(world.getBlockState(pos).getBlock() instanceof ICTMBlock){
+                TextureAtlasSprite texture = null;
 
-            if(iconProvider.getIcon(world, pos, side) != null){
-                texture = iconProvider.getIcon(world, pos, side);
+                if(iconProvider.getIcon(world, pos, 0) != null){
+                    texture = iconProvider.getIcon(world, pos, 0);
+                }
+                else{
+                    texture = iconProvider.getIcon(BlockAccessUtils.getBlockMetadata(world, pos), 0);
+                }
+
+                BlockRenderContext renderContext = new BlockRenderContext();
+                renderContext.setBlockAccess(world);
+                renderContext.setCurrentBlockState(world.getBlockState(pos));
+                renderContext.setChangeBounds(true);
+                renderContext.renderStandardBlock(pos, texture);
+                BakingVertexBuffer parent = BakingVertexBuffer.create();
+                parent.begin(GL11.GL_QUADS, DefaultVertexFormats.ITEM);
+                renderState.reset();
+                renderState.bind(parent);
+                renderContext.getModel().render(renderState);
+                parent.finishDrawing();
+                overlayQuads.addAll(parent.bake());
             }
             else{
-                texture = iconProvider.getIcon(BlockAccessUtils.getBlockMetadata(world, pos), side);
-            }
+                CCModel modelOverlay = BLOCK_MODEL.copy();
+                BakingVertexBuffer parent = BakingVertexBuffer.create();
+                parent.begin(GL11.GL_QUADS, DefaultVertexFormats.ITEM);
+                renderState.reset();
+                renderState.bind(parent);
 
-            int colorMultiplier = iconProvider.getColorMultiplier(BlockAccessUtils.getBlockMetadata(world, pos), side);
-            modelOverlay.setColour(colorMultiplier);
-            modelOverlay.render(renderState, 4 * side, 4 + (4 * side), new IconTransformation(texture));
+                for(int side = 0; side < 6; side++){
+                    TextureAtlasSprite texture = null;
+
+                    if(iconProvider.getIcon(world, pos, side) != null){
+                        texture = iconProvider.getIcon(world, pos, side);
+                    }
+                    else{
+                        texture = iconProvider.getIcon(BlockAccessUtils.getBlockMetadata(world, pos), side);
+                    }
+
+                    int colorMultiplier = iconProvider.getColorMultiplier(BlockAccessUtils.getBlockMetadata(world, pos), side);
+                    modelOverlay.setColour(colorMultiplier);
+                    modelOverlay.render(renderState, 4 * side, 4 + (4 * side), new IconTransformation(texture));
+                }
+
+                parent.finishDrawing();
+                overlayQuads.addAll(parent.bake());
+            }
         }
 
-        parent.finishDrawing();
-        return RenderUtils.renderQuads(buffer, world, pos, parent.bake());
+        return RenderUtils.renderQuads(buffer, world, pos, overlayQuads);
     }
 
     @Override

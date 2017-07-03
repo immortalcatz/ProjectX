@@ -10,8 +10,8 @@ import com.google.common.collect.Lists;
 import keri.ninetaillib.lib.texture.IIconRegister;
 import keri.ninetaillib.lib.util.BlockAccessUtils;
 import keri.projectx.ProjectX;
+import keri.projectx.api.color.EnumXycroniumColor;
 import keri.projectx.init.ProjectXContent;
-import keri.projectx.util.EnumXycroniumColor;
 import keri.projectx.util.ModPrefs;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -51,10 +51,10 @@ public class BlockXycroniumNetherOre extends BlockAnimationHandler {
         this.texture = new TextureAtlasSprite[6];
 
         for(int i = 0; i < this.getSubNames().length; i++){
-            this.texture[i] = register.registerIcon(ModPrefs.MODID + ":blocks/xycronium_nether_ore_" + this.getSubNames()[i]);
+            this.texture[i] = register.registerIcon(ModPrefs.MODID + ":blocks/xycronium_ore/xycronium_nether_ore_" + this.getSubNames()[i]);
         }
 
-        this.texture[5] = register.registerIcon(ModPrefs.MODID + ":blocks/xycronium_ore_effect");
+        this.texture[5] = register.registerIcon(ModPrefs.MODID + ":blocks/xycronium_ore/xycronium_ore_effect");
     }
 
     @Override

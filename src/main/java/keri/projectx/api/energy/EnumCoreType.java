@@ -85,4 +85,16 @@ public enum EnumCoreType {
         return names;
     }
 
+    public static EnumCoreType getFromClassAndType(EnumXynergyClass xynergyClass, EnumXynergyType xynergyType){
+        for(EnumCoreType type : VALUES){
+            if(type.getXynergyClass() == xynergyClass){
+                if(type.getXynergyType() == xynergyType){
+                    return type;
+                }
+            }
+        }
+
+        return null;
+    }
+
 }

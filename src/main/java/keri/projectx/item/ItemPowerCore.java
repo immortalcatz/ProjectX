@@ -7,6 +7,7 @@
 package keri.projectx.item;
 
 import keri.ninetaillib.lib.render.EnumItemRenderType;
+import keri.ninetaillib.lib.texture.IIconRegister;
 import keri.ninetaillib.lib.util.IShiftDescription;
 import keri.projectx.api.energy.EnumCoreType;
 import keri.projectx.client.render.item.RenderPowerCore;
@@ -26,8 +27,12 @@ public class ItemPowerCore extends ItemProjectX implements IShiftDescription {
 
     @Override
     @SideOnly(Side.CLIENT)
+    public void registerIcons(IIconRegister register){}
+
+    @Override
+    @SideOnly(Side.CLIENT)
     public String getUnlocalizedName(ItemStack stack) {
-        return this.getItemName();
+        return this.getUnlocalizedName();
     }
 
     @Override

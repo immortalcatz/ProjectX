@@ -6,7 +6,7 @@
 
 package keri.projectx.init;
 
-import keri.projectx.util.EnumXycroniumColor;
+import keri.projectx.api.color.EnumXycroniumColor;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import org.apache.commons.lang3.StringUtils;

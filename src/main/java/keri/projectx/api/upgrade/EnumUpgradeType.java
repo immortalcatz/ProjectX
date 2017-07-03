@@ -8,15 +8,15 @@ package keri.projectx.api.upgrade;
 
 import codechicken.lib.colour.Colour;
 import codechicken.lib.colour.ColourRGBA;
-import keri.projectx.util.EnumXycroniumColor;
-import keri.projectx.util.ModPrefs;
+import keri.projectx.api.ProjectXAPI;
+import keri.projectx.api.color.EnumXycroniumColor;
 
 public enum EnumUpgradeType {
 
     BLANK(0, "blank", new ColourRGBA(255, 255, 255, 255), "blank"),
-    MACHINE_IO(1, "machine_io", EnumXycroniumColor.GREEN.getColor(), "machine_io"),
+    MACHINE_IO(1, "machine_io", EnumXycroniumColor.BLUE.getColor(), "machine_io"),
     SPEED(2, "speed", EnumXycroniumColor.RED.getColor(), "speed"),
-    CAPACITY(3, "capacity", EnumXycroniumColor.LIGHT.getColor(), "capacity");
+    CAPACITY(3, "capacity", EnumXycroniumColor.GREEN.getColor(), "capacity");
 
     public static final EnumUpgradeType[] VALUES = new EnumUpgradeType[]{
             BLANK,
@@ -49,7 +49,7 @@ public enum EnumUpgradeType {
     }
 
     public String getTexture(){
-        return ModPrefs.MODID + ":items/upgrade/upgrade_" + this.texture;
+        return ProjectXAPI.MODID + ":items/upgrade/upgrade_" + this.texture;
     }
 
     public static String[] toStringArray(){

@@ -9,20 +9,24 @@ package keri.projectx.block;
 import keri.ninetaillib.lib.texture.IIconRegister;
 import keri.ninetaillib.lib.util.BlockAccessUtils;
 import keri.projectx.ProjectX;
-import keri.projectx.util.EnumXycroniumColor;
+import keri.projectx.api.color.EnumXycroniumColor;
+import keri.projectx.client.render.connected.ICTMBlock;
+import keri.projectx.client.render.connected.TextureConnected;
 import keri.projectx.util.ModPrefs;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockXycroniumStorage extends BlockAnimationHandler {
+public class BlockXycroniumStorage extends BlockAnimationHandler implements ICTMBlock {
 
     @SideOnly(Side.CLIENT)
-    private TextureAtlasSprite texture;
+    private TextureConnected texture;
 
     public BlockXycroniumStorage() {
         super("xycronium_block", Material.ROCK, EnumXycroniumColor.toStringArray());
@@ -32,7 +36,7 @@ public class BlockXycroniumStorage extends BlockAnimationHandler {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister register) {
-        this.texture = register.registerIcon(ModPrefs.MODID + ":blocks/xycronium_block");
+        this.texture = new TextureConnected(ModPrefs.MODID + ":blocks/xycronium_block/xycronium_block").register(register);
     }
 
     @Override
@@ -75,6 +79,13 @@ public class BlockXycroniumStorage extends BlockAnimationHandler {
     @SideOnly(Side.CLIENT)
     public int getAnimationBrightness(IBlockAccess world, BlockPos pos, int side) {
         return 0x00F000F0;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    @SuppressWarnings("deprecation")
+    public boolean shouldSideBeRendered(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
+        return world.getBlockState(pos.offset(side)).getBlock() != this;
     }
 
 }

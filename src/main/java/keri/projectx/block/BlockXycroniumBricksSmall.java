@@ -9,7 +9,7 @@ package keri.projectx.block;
 import keri.ninetaillib.lib.texture.IIconRegister;
 import keri.ninetaillib.lib.util.BlockAccessUtils;
 import keri.projectx.ProjectX;
-import keri.projectx.util.EnumXycroniumColor;
+import keri.projectx.api.color.EnumXycroniumColor;
 import keri.projectx.util.ModPrefs;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;

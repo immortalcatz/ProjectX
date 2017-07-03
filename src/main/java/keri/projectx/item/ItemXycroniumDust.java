@@ -6,7 +6,7 @@
 
 package keri.projectx.item;
 
-import keri.projectx.util.EnumXycroniumColor;
+import keri.projectx.api.color.EnumXycroniumColor;
 
 public class ItemXycroniumDust extends ItemProjectX {
 

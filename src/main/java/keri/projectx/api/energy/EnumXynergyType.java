@@ -8,6 +8,7 @@ package keri.projectx.api.energy;
 
 import codechicken.lib.colour.Colour;
 import codechicken.lib.colour.ColourRGBA;
+import net.minecraft.nbt.NBTTagCompound;
 
 public enum EnumXynergyType {
 
@@ -60,6 +61,15 @@ public enum EnumXynergyType {
         }
 
         return names;
+    }
+
+    public static EnumXynergyType readFromNBT(NBTTagCompound tag){
+        return VALUES[tag.getInteger("xynergy_type")];
+    }
+
+    public static NBTTagCompound writeToNBT(NBTTagCompound tag, EnumXynergyType xynergyType){
+        tag.setInteger("xynergy_type", xynergyType.getIndex());
+        return tag;
     }
 
 }

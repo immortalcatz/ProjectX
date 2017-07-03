@@ -58,6 +58,9 @@ public class RenderUpgradeCard implements IItemRenderingHandler {
 
     @Override
     public void renderItem(ItemStack stack, VertexBuffer buffer) {
+        GlStateManager.translate(0.5D, 0.5D, 0.5D);
+        GlStateManager.scale(0.75D, 0.75D, 0.75D);
+        GlStateManager.translate(-0.5D, -0.5D, -0.5D);
         int lastBrightness = (int) OpenGlHelper.lastBrightnessY << 16 | (int)OpenGlHelper.lastBrightnessX;
         Tessellator.getInstance().draw();
         IIconItem iconProvider = (IIconItem)stack.getItem();
@@ -87,7 +90,7 @@ public class RenderUpgradeCard implements IItemRenderingHandler {
 
         for(int i = 0; i < 6; i++){
             IconTransformation icon = new IconTransformation(i == 3 ? texture : textureBack);
-            ITEM_MODEL[1].render(renderState, (4 * i), 4 + (4 * i), icon);
+            ITEM_MODEL[1].render(renderState, 4 * i, 4 + (4 * i), icon);
         }
 
         ITEM_MODEL[2].render(renderState, new IconTransformation(textureBack));

@@ -6,13 +6,14 @@
 
 package keri.projectx.api;
 
-import keri.projectx.util.ModPrefs;
 import net.minecraftforge.fml.common.Loader;
 
 public class ProjectXAPI {
 
+    public static final String MODID = "projectx";
+
     public static boolean isModLoaded(){
-        return Loader.isModLoaded(ModPrefs.MODID);
+        return Loader.isModLoaded(MODID);
     }
 
 }

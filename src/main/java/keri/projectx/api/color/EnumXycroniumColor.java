@@ -4,7 +4,7 @@
  * explicit permission of the developer!
  */
 
-package keri.projectx.util;
+package keri.projectx.api.color;
 
 import codechicken.lib.colour.Colour;
 import codechicken.lib.colour.ColourRGBA;

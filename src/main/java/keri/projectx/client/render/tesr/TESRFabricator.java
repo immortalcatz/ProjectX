@@ -30,7 +30,7 @@ public class TESRFabricator extends TileEntitySpecialRenderer<TileEntityFabricat
             ItemStack stack = tile.getStackInSlot(i).copy();
             stack.setCount(1);
             IBakedModel model = Minecraft.getMinecraft().getRenderItem().getItemModelMesher().getItemModel(stack);
-            double offset = model != null && model instanceof IItemRenderer ? -0.0925D : 0D;
+            double offset = model != null && model instanceof IItemRenderer ? -0D : 0D;
             int offsetX = i / 3;
             int offsetZ = i % 3;
             double translateX = -spacing + offsetX * spacing;

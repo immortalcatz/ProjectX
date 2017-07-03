@@ -10,9 +10,7 @@ import keri.ninetaillib.lib.item.ItemArmorHelper;
 import keri.ninetaillib.lib.item.ItemToolHelper;
 import keri.ninetaillib.lib.mod.ContentLoader;
 import keri.projectx.block.*;
-import keri.projectx.block.machine.BlockFabricator;
-import keri.projectx.block.machine.BlockReinforcer;
-import keri.projectx.block.machine.BlockXycroniumWater;
+import keri.projectx.block.machine.*;
 import keri.projectx.client.ProjectXTab;
 import keri.projectx.item.*;
 import keri.projectx.util.ModPrefs;
@@ -52,13 +50,14 @@ public class ProjectXContent {
     public static Block GLASS_VIEWER = new BlockGlassViewer();
     public static Block XYCRONIUM_LIGHT = new BlockXycroniumLight();
     public static Block XYCRONIUM_LIGHT_INVERTED = new BlockXycroniumLightInverted();
-
-    //WIP list of machines:
+    public static Block ENGINEERING_BRICKS = new BlockEngineeringBricks();
     public static Block XYCRONIUM_WATER = new BlockXycroniumWater();
-
+    public static Block XYCRONIUM_SOIL = new BlockXycroniumSoil();
+    public static Block FIRE_BASIN = new BlockFireBasin();
+    public static Block LIQUID_VOID = new BlockLiquidVoid();
+    public static Block XYCRONIUM_ICE = new BlockXycroniumIce();
     public static Block FABRICATOR = new BlockFabricator();
-    public static Block REINFORCER = new BlockReinforcer();
-    public static Block REINFORCED_BLOCK = new BlockReinforcedBlock();
+    public static Block XYNERGY_NODE = new BlockXynergyNode();
 
     public static Item XYCRONIUM_CRYSTAL = new ItemXycroniumCrystal();
     public static Item XYCRONIUM_INGOT = new ItemXycroniumIngot();
@@ -112,5 +111,7 @@ public class ProjectXContent {
     public static Item UPGRADE_CARD = new ItemUpgradeCard();
     public static Item COLOR_SCANNER = new ItemColorScanner();
     public static Item POWER_CORE = new ItemPowerCore();
+    public static Item XYNERGY_TOOL = new ItemXynergyTool();
+    public static Item MANUAL = new ItemManual();
 
 }

@@ -9,7 +9,12 @@ package keri.projectx.item;
 import codechicken.lib.colour.Colour;
 import codechicken.lib.colour.ColourRGBA;
 import codechicken.lib.util.ItemNBTUtils;
+import keri.ninetaillib.lib.render.EnumItemRenderType;
+import keri.ninetaillib.lib.texture.IIconRegister;
 import keri.ninetaillib.lib.util.IShiftDescription;
+import keri.projectx.client.render.item.RenderColorScanner;
+import keri.projectx.util.ModPrefs;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
@@ -23,6 +28,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import java.util.List;
 
 public class ItemColorScanner extends ItemProjectX implements IShiftDescription {
+
+    @SideOnly(Side.CLIENT)
+    private TextureAtlasSprite[] texture;
 
     public ItemColorScanner() {
         super("color_scanner");
@@ -67,6 +75,27 @@ public class ItemColorScanner extends ItemProjectX implements IShiftDescription 
             tooltip.add(TextFormatting.GREEN + "G: 0");
             tooltip.add(TextFormatting.BLUE + "B: 0");
         }
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(IIconRegister register){
+        this.texture = new TextureAtlasSprite[3];
+        this.texture[0] = register.registerIcon(ModPrefs.MODID + ":items/color_scanner/color_scanner_back");
+        this.texture[1] = register.registerIcon(ModPrefs.MODID + ":items/color_scanner/color_scanner_front");
+        this.texture[2] = register.registerIcon(ModPrefs.MODID + ":items/color_scanner/color_scanner_side");
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public TextureAtlasSprite getIcon(int meta) {
+        return this.texture[meta];
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public EnumItemRenderType getRenderType() {
+        return RenderColorScanner.RENDER_TYPE;
     }
 
 }

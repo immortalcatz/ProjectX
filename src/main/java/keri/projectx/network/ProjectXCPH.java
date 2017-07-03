@@ -9,6 +9,7 @@ package keri.projectx.network;
 import codechicken.lib.packet.ICustomPacketHandler;
 import codechicken.lib.packet.PacketCustom;
 import keri.projectx.tile.TileEntityXycroniumLight;
+import keri.projectx.tile.TileEntityXynergyNode;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.network.play.INetHandlerPlayClient;
@@ -23,6 +24,9 @@ public class ProjectXCPH implements ICustomPacketHandler.IClientPacketHandler {
             case 1:
                 this.handleLampPacket(packet, minecraft.world);
                 break;
+            case 2:
+                this.handleXynergyNodePacket(packet, minecraft.world);
+                break;
         }
     }
 
@@ -32,6 +36,15 @@ public class ProjectXCPH implements ICustomPacketHandler.IClientPacketHandler {
 
         if(tile != null && tile instanceof TileEntityXycroniumLight){
             ((TileEntityXycroniumLight)tile).onUpdatePacket(packet);
+        }
+    }
+
+    private void handleXynergyNodePacket(PacketCustom packet, WorldClient world){
+        final BlockPos pos = packet.readPos();
+        TileEntity tile = world.getTileEntity(pos);
+
+        if(tile != null && tile instanceof TileEntityXynergyNode){
+            ((TileEntityXynergyNode)tile).onUpdatePacket(packet);
         }
     }
 

@@ -7,6 +7,7 @@
 package keri.projectx.block;
 
 import codechicken.lib.colour.ColourRGBA;
+import keri.ninetaillib.lib.texture.IIconRegister;
 import keri.ninetaillib.lib.util.BlockAccessUtils;
 import keri.projectx.ProjectX;
 import keri.projectx.client.render.IAnimationHandler;
@@ -29,8 +30,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockQuartzCrystal extends BlockProjectX implements IAnimationHandler {
-
-    //TODO: Implement crystal quantity and rendering!
 
     public BlockQuartzCrystal() {
         super("quartz_crystal", Material.GLASS);
@@ -136,6 +135,10 @@ public class BlockQuartzCrystal extends BlockProjectX implements IAnimationHandl
             default: return new AxisAlignedBB(0D, 0D, 0D, 1D, 1D, 1D);
         }
     }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(IIconRegister register){}
 
     @Override
     @SideOnly(Side.CLIENT)

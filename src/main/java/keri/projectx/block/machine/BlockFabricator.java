@@ -9,10 +9,10 @@ package keri.projectx.block.machine;
 import codechicken.lib.util.ItemUtils;
 import keri.ninetaillib.lib.texture.IIconRegister;
 import keri.projectx.ProjectX;
+import keri.projectx.api.color.EnumXycroniumColor;
 import keri.projectx.block.BlockAnimationHandler;
 import keri.projectx.network.ProjectXGuiHandler;
 import keri.projectx.tile.TileEntityFabricator;
-import keri.projectx.util.EnumXycroniumColor;
 import keri.projectx.util.ModPrefs;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -31,6 +31,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nullable;
 
 public class BlockFabricator extends BlockAnimationHandler<TileEntityFabricator> {
+
+    //TODO: move over to the xynergy API once done
 
     @SideOnly(Side.CLIENT)
     private TextureAtlasSprite[] texture;
@@ -80,9 +82,9 @@ public class BlockFabricator extends BlockAnimationHandler<TileEntityFabricator>
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister register) {
         this.texture = new TextureAtlasSprite[3];
-        this.texture[0] = register.registerIcon(ModPrefs.MODID + ":blocks/machine_side");
-        this.texture[1] = register.registerIcon(ModPrefs.MODID + ":blocks/fabricator");
-        this.texture[2] = register.registerIcon(ModPrefs.MODID + ":blocks/machine_bottom");
+        this.texture[0] = register.registerIcon(ModPrefs.MODID + ":blocks/machine/machine_side");
+        this.texture[1] = register.registerIcon(ModPrefs.MODID + ":blocks/machine/fabricator_top");
+        this.texture[2] = register.registerIcon(ModPrefs.MODID + ":blocks/machine/machine_bottom");
     }
 
     @Override

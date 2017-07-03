@@ -7,6 +7,7 @@
 package keri.projectx.integration.chisel;
 
 import keri.projectx.ProjectX;
+import keri.projectx.api.color.EnumXycroniumColor;
 import keri.projectx.init.ProjectXContent;
 import keri.projectx.integration.IIntegrationModule;
 import net.minecraft.block.Block;
@@ -61,9 +62,10 @@ public class IntegrationChisel implements IIntegrationModule {
     @SuppressWarnings("deprecation")
     private void addVariations(){
         for(int meta = 0; meta < 5; meta++){
-            this.addChiselVariation(ProjectXContent.XYCRONIUM_BRICKS.getStateFromMeta(meta), "projectx_xycronium_bricks");
-            this.addChiselVariation(ProjectXContent.XYCRONIUM_BRICKS_SMALL.getStateFromMeta(meta), "projectx_xycronium_bricks");
-            this.addChiselVariation(ProjectXContent.XYCRONIUM_BRICKS_CHISELED.getStateFromMeta(meta), "projectx_xycronium_bricks");
+            String colorName = EnumXycroniumColor.VALUES[meta].getName();
+            this.addChiselVariation(ProjectXContent.XYCRONIUM_BRICKS.getStateFromMeta(meta), "projectx_xycronium_bricks_" + colorName);
+            this.addChiselVariation(ProjectXContent.XYCRONIUM_BRICKS_SMALL.getStateFromMeta(meta), "projectx_xycronium_bricks_" + colorName);
+            this.addChiselVariation(ProjectXContent.XYCRONIUM_BRICKS_CHISELED.getStateFromMeta(meta), "projectx_xycronium_bricks_" + colorName);
         }
 
         for(int meta = 0; meta < 16; meta++){

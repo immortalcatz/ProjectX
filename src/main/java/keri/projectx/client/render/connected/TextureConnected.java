@@ -12,29 +12,26 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class IconConnectedTexture extends TextureAtlasSprite {
+public class TextureConnected extends TextureAtlasSprite {
+
+    //TODO: get rid of this class so we can use normal TAS's for the textures
+    //TODO: move anything ctm related to NineTailLib once cleaned up
 
     private String textureName;
     public final TextureAtlasSprite[] icons = new TextureAtlasSprite[5];
     private int type;
-    private boolean isFlipped = false;
 
-    public IconConnectedTexture(String textureName) {
+    public TextureConnected(String textureName) {
         super(textureName);
         this.textureName = textureName;
     }
 
-    public IconConnectedTexture register(IIconRegister register){
+    public TextureConnected register(IIconRegister register){
         this.icons[0] = register.registerIcon(this.textureName + "_c");
         this.icons[1] = register.registerIcon(this.textureName + "_v");
         this.icons[2] = register.registerIcon(this.textureName + "_h");
         this.icons[3] = register.registerIcon(this.textureName);
         this.icons[4] = register.registerIcon(this.textureName + "_a");
-        return this;
-    }
-
-    public IconConnectedTexture flip(){
-        this.isFlipped = true;
         return this;
     }
 
@@ -64,12 +61,12 @@ public class IconConnectedTexture extends TextureAtlasSprite {
 
     @Override
     public float getMinV() {
-        return this.isFlipped ? this.icons[this.type].getMaxV() : this.icons[this.type].getMinV();
+        return this.icons[this.type].getMinV();
     }
 
     @Override
     public float getMaxV() {
-        return this.isFlipped ? this.icons[this.type].getMinV() : this.icons[this.type].getMaxV();
+        return this.icons[this.type].getMaxV();
     }
 
     @Override
