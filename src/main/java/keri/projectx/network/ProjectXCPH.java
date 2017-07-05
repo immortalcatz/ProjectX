@@ -8,10 +8,10 @@ package keri.projectx.network;
 
 import codechicken.lib.packet.ICustomPacketHandler;
 import codechicken.lib.packet.PacketCustom;
-import keri.projectx.tile.TileEntityXycroniumLight;
-import keri.projectx.tile.TileEntityXynergyNode;
+import keri.projectx.tile.TileEntityProjectX;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -22,29 +22,25 @@ public class ProjectXCPH implements ICustomPacketHandler.IClientPacketHandler {
     public void handlePacket(PacketCustom packet, Minecraft minecraft, INetHandlerPlayClient handler) {
         switch(packet.getType()){
             case 1:
-                this.handleLampPacket(packet, minecraft.world);
-                break;
-            case 2:
-                this.handleXynergyNodePacket(packet, minecraft.world);
+                this.handleTilePacket(packet, minecraft.world);
                 break;
         }
     }
 
-    private void handleLampPacket(PacketCustom packet, WorldClient world){
+    private void handleTilePacket(PacketCustom packet, WorldClient world){
         final BlockPos pos = packet.readPos();
-        TileEntity tile = world.getTileEntity(pos);
+        final NBTTagCompound tag = packet.readNBTTagCompound();
+        final boolean rerender = packet.readBoolean();
+        TileEntity tile = (TileEntity)world.getTileEntity(pos);
 
-        if(tile != null && tile instanceof TileEntityXycroniumLight){
-            ((TileEntityXycroniumLight)tile).onUpdatePacket(packet);
-        }
-    }
+        if(tile != null && tile instanceof TileEntityProjectX){
+            TileEntityProjectX tileUpdate = (TileEntityProjectX)tile;
+            tileUpdate.readFromNBT(tag);
+            tileUpdate.markDirty();
 
-    private void handleXynergyNodePacket(PacketCustom packet, WorldClient world){
-        final BlockPos pos = packet.readPos();
-        TileEntity tile = world.getTileEntity(pos);
-
-        if(tile != null && tile instanceof TileEntityXynergyNode){
-            ((TileEntityXynergyNode)tile).onUpdatePacket(packet);
+            if(rerender){
+                world.markBlockRangeForRenderUpdate(pos, pos);
+            }
         }
     }
 

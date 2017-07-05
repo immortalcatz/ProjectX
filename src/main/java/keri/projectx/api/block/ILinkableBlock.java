@@ -8,13 +8,14 @@ package keri.projectx.api.block;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public interface IWrenchable {
+public interface ILinkableBlock {
 
-    boolean canWrench(World world, BlockPos pos, EntityPlayer player, EnumFacing side);
+    boolean canLink(World world, BlockPos pos, EntityPlayer player, EnumFacing side, EnumHand hand);
 
-    void onWrenchUsed(World world, BlockPos pos, EntityPlayer player, EnumFacing side);
+    void onLinked(World world, BlockPos pos, EntityPlayer player, EnumFacing side, EnumHand hand);
 
 }

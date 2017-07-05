@@ -24,4 +24,7 @@ public class ModPrefs {
     public static final String CSIDE = "keri.projectx.proxy.ClientProxy";
     public static final String SSIDE = "keri.projectx.proxy.CommonProxy";
 
+    public static final int TOOLTIP_XYNERGY_TOOL = 0;
+    public static final int TOOLTIP_DIAGNOSTIC = 1;
+
 }

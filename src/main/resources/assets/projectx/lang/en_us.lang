@@ -104,6 +104,7 @@ tile.projectx.xycronium_soil.name=Xycronium Soil
 tile.projectx.fire_basin.name=Fire Basin
 tile.projectx.liquid_void.name=Liquid Void
 tile.projectx.xycronium_ice.name=Xycronium Ice
+tile.projectx.xynergy_node.name=Xynergy Node
 
 item.projectx.xycronium_crystal.blue.name=Blue Xycronium Crystal
 item.projectx.xycronium_crystal.green.name=Green Xycronium Crystal
@@ -173,6 +174,8 @@ item.projectx.helmet_xycronium_light.name=Light Xycronium Helmet
 item.projectx.chestplate_xycronium_light.name=Light Xycronium Chestplate
 item.projectx.leggings_xycronium_light.name=Light Xycronium Leggings
 item.projectx.boots_xycronium_light.name=Light Xycronium Boots
+item.projectx.xynergy_tool.name=Xynergy Tool
+item.projectx.manual.name=Manual
 
 container.projectx.fabricator.name=Fabricator
 
@@ -193,3 +196,10 @@ tooltip.projectx.upgrade_card.speed.name=This upgrade will make machines run fas
 tooltip.projectx.upgrade_card.capacity.name=This upgrade will expand the internal energy buffer of any machine
 tooltip.projectx.xynergy_type.name=Xynergy Type
 tooltip.projectx.xynergy_class.name=Xynergy Class
+tooltip.projectx.tool_mode.name=Mode
+tooltip.projectx.mode_wrench.name=Wrench
+tooltip.projectx.mode_link.name=Link
+tooltip.projectx.mode_diagnostic.name=Diagnostic
+tooltip.projectx.mode_swap.name=Swap
+tooltip.projectx.energy_stored.name=Energy Stored
+tooltip.projectx.no_core_installed.name=No core installed!

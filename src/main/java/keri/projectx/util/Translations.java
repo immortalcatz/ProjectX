@@ -20,6 +20,13 @@ public class Translations {
     public static final String TOOLTIP_WITHER_PROOF = translate("tooltip", "wither_proof");
     public static final String TOOLTIP_XYNERGY_TYPE = translate("tooltip", "xynergy_type");
     public static final String TOOLTIP_XYNERGY_CLASS = translate("tooltip", "xynergy_class");
+    public static final String TOOLTIP_TOOL_MODE = translate("tooltip", "tool_mode");
+    public static final String TOOLTIP_MODE_WRENCH = translate("tooltip", "mode_wrench");
+    public static final String TOOLTIP_MODE_LINK = translate("tooltip", "mode_link");
+    public static final String TOOLTIP_MODE_DIAGNOSTIC = translate("tooltip", "mode_diagnostic");
+    public static final String TOOLTIP_MODE_SWAP = translate("tooltip", "mode_swap");
+    public static final String TOOLTIP_ENERGY_STORED = translate("tooltip", "energy_stored");
+    public static final String TOOLTIP_NO_CORE_INSTALLED = translate("tooltip", "no_core_installed");
 
     public static final String getXynergyTypeName(EnumXynergyType xynergyType){
         return translate("xynergy", "type." + xynergyType.getName());

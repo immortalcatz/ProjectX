@@ -21,4 +21,6 @@ public interface IProxy {
 
     TextureAtlasSprite getAnimatedTexture();
 
+    void resetTooltip(int tooltip, Object... params);
+
 }

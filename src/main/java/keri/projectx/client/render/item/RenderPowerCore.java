@@ -27,6 +27,7 @@ import org.lwjgl.opengl.GL11;
 public class RenderPowerCore implements IItemRenderingHandler {
 
     public static final RenderPowerCore INSTANCE = new RenderPowerCore();
+    private static final RenderTruncatedIcosahedron ICOSA_RENDERER = RenderTruncatedIcosahedron.getInstance();
     public static EnumItemRenderType RENDER_TYPE;
 
     static{
@@ -37,7 +38,6 @@ public class RenderPowerCore implements IItemRenderingHandler {
     @Override
     public void renderItem(ItemStack stack, VertexBuffer buffer) {
         Tessellator.getInstance().draw();
-        RenderTruncatedIcosahedron renderer = RenderTruncatedIcosahedron.getInstance();
         Colour colorCore = EnumCoreType.VALUES[stack.getMetadata()].getCoreColor();
         Colour colorShell = EnumCoreType.VALUES[stack.getMetadata()].getShellColor();
         GlStateManager.pushMatrix();
@@ -45,14 +45,14 @@ public class RenderPowerCore implements IItemRenderingHandler {
         GlStateManager.rotate((float)(-ClientUtils.getRenderTime() * 20F) * 0.5F, 0F, 1F, 0F);
         GlStateManager.rotate((float)(-ClientUtils.getRenderTime() * 5F) * 0.5F, 0F, 0F, 1F);
         GlStateManager.rotate((float)(-ClientUtils.getRenderTime() * -2F) * 0.5F, 1F, 0F, 0F);
-        renderer.render(0.85D, colorShell.copy().multiplyC(0.7D), colorShell, RenderTruncatedIcosahedron.EnumHedrontexture.SPACE);
+        ICOSA_RENDERER.render(0.85D, colorShell.copy().multiplyC(0.7D), colorShell, RenderTruncatedIcosahedron.EnumHedrontexture.SPACE);
         GlStateManager.popMatrix();
         GlStateManager.pushMatrix();
         GlStateManager.translate(0.5D, 0.5D, 0.5D);
         GlStateManager.rotate((float)(ClientUtils.getRenderTime() * 20F) * 0.5F, 0F, 1F, 0F);
         GlStateManager.rotate((float)(ClientUtils.getRenderTime() * 5F) * 0.5F, 0F, 0F, 1F);
         GlStateManager.rotate((float)(ClientUtils.getRenderTime() * -2F) * 0.5F, 1F, 0F, 0F);
-        renderer.render(0.64D, colorCore.copy().multiplyC(0.7D), colorCore, RenderTruncatedIcosahedron.EnumHedrontexture.FILL);
+        ICOSA_RENDERER.render(0.64D, colorCore.copy().multiplyC(0.7D), colorCore, RenderTruncatedIcosahedron.EnumHedrontexture.FILL);
         GlStateManager.popMatrix();
         Tessellator.getInstance().getBuffer().begin(GL11.GL_QUADS, RenderUtils.getFormatWithLightMap(DefaultVertexFormats.ITEM));
     }

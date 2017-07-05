@@ -17,6 +17,7 @@ import codechicken.lib.vec.uv.MultiIconTransformation;
 import keri.ninetaillib.lib.render.IBlockRenderingHandler;
 import keri.ninetaillib.lib.render.RenderingRegistry;
 import keri.ninetaillib.lib.texture.IIconBlock;
+import keri.ninetaillib.lib.util.BlockAccessUtils;
 import keri.ninetaillib.lib.util.ModelUtils;
 import keri.ninetaillib.lib.util.RenderUtils;
 import net.minecraft.block.Block;
@@ -28,6 +29,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumBlockRenderType;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
@@ -67,6 +69,7 @@ public class RenderXynergyNode implements IBlockRenderingHandler {
 
     @Override
     public boolean renderWorld(IBlockAccess world, BlockPos pos, VertexBuffer buffer, BlockRenderLayer layer) {
+        EnumFacing orientation = EnumFacing.getFront(BlockAccessUtils.getBlockMetadata(world, pos));
         IIconBlock iconProvider = (IIconBlock)world.getBlockState(pos).getBlock();
         TextureAtlasSprite textureTop = iconProvider.getIcon(0, 0);
         TextureAtlasSprite textureBottom = iconProvider.getIcon(0, 1);
@@ -80,6 +83,28 @@ public class RenderXynergyNode implements IBlockRenderingHandler {
         for(int part = 0; part < BLOCK_MODEL.length; part++){
             CCModel modelPart = BLOCK_MODEL[part].copy();
 
+            switch(orientation){
+                case DOWN:
+                    ModelUtils.rotate(modelPart, 180D, new Vector3(1D, 0D, 0D), new Vector3(0D, 8D, 8D));
+                    break;
+                case UP:
+                    break;
+                case NORTH:
+                    ModelUtils.rotate(modelPart, -90D, new Vector3(1D, 0D, 0D), new Vector3(0D, 8D, 8D));
+                    break;
+                case EAST:
+                    ModelUtils.rotate(modelPart, -90D, new Vector3(1D, 0D, 0D), new Vector3(0D, 8D, 8D));
+                    ModelUtils.rotate(modelPart, -90D, new Vector3(0D, 1D, 0D), new Vector3(8D, 0D, 8D));
+                    break;
+                case SOUTH:
+                    ModelUtils.rotate(modelPart, 90D, new Vector3(1D, 0D, 0D), new Vector3(0D, 8D, 8D));
+                    break;
+                case WEST:
+                    ModelUtils.rotate(modelPart, 90D, new Vector3(1D, 0D, 0D), new Vector3(0D, 8D, 8D));
+                    ModelUtils.rotate(modelPart, -90D, new Vector3(0D, 1D, 0D), new Vector3(8D, 0D, 8D));
+                    break;
+            }
+
             if(part < 4){
                 modelPart.render(renderState, new MultiIconTransformation(textureBottom, textureBottom, textureSide, textureSide, textureSide, textureSide));
             }
@@ -87,7 +112,8 @@ public class RenderXynergyNode implements IBlockRenderingHandler {
                 modelPart.render(renderState, new MultiIconTransformation(textureTop, textureTop, textureSide, textureSide, textureSide, textureSide));
             }
             else if(part > 7){
-                modelPart.zOffset(new Cuboid6(0D, 0D, 0D, 0D, 0.0004D, 0D));
+                double zOffset = 0.0004D;
+                modelPart.zOffset(new Cuboid6(zOffset, zOffset, zOffset, zOffset, zOffset, zOffset));
                 modelPart.render(renderState, new MultiIconTransformation(textureTop, textureTop, textureSide, textureSide, textureSide, textureSide));
             }
         }

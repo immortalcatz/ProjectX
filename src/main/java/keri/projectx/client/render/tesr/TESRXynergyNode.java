@@ -20,14 +20,14 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class TESRXynergyNode extends TileEntitySpecialRenderer<TileEntityXynergyNode> {
 
-    private static RenderTruncatedIcosahedron ICOSA_RENDERER = RenderTruncatedIcosahedron.getInstance();
+    private static final RenderTruncatedIcosahedron ICOSA_RENDERER = RenderTruncatedIcosahedron.getInstance();
 
     @Override
     public void renderTileEntityAt(TileEntityXynergyNode tile, double x, double y, double z, float partialTicks, int destroyStage) {
         GlStateManager.pushMatrix();
         GlStateManager.translate(x + 0.5D, y + 0.5D, z + 0.5D);
 
-        if(tile.getHasCore()){
+        if(tile.getHasCore() && tile.getXynergyClass() != null && tile.getXynergyType() != null){
             EnumXynergyClass xynergyClass = tile.getXynergyClass();
             EnumXynergyType xynergyType = tile.getXynergyType();
             Colour colorCore = xynergyClass.getColor();

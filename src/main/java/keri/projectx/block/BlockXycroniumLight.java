@@ -41,7 +41,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.input.Keyboard;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -76,11 +75,11 @@ public class BlockXycroniumLight extends BlockAnimationHandler<TileEntityXycroni
         if(!heldItem.isEmpty()){
             if(heldItem.getItem() == Items.DYE){
                 if(tile != null){
-                    tile.setColor(EnumDyeColor.VALUES[heldItem.getMetadata()].getColor());
-                    tile.markDirty();
-                    tile.sendUpdatePacket(pos);
-
                     if(!world.isRemote){
+                        tile.setColor(EnumDyeColor.VALUES[heldItem.getMetadata()].getColor());
+                        tile.markDirty();
+                        tile.sendUpdatePacket(pos, true);
+
                         if(!player.capabilities.isCreativeMode){
                             heldItem.setCount(heldItem.getCount() - 1);
                         }
@@ -91,107 +90,24 @@ public class BlockXycroniumLight extends BlockAnimationHandler<TileEntityXycroni
             }
             else if(heldItem.getItem() == ProjectXContent.XYCRONIUM_CRYSTAL){
                 if(tile != null){
-                    int r = tile.getColor().r & 0xFF;
-                    int g = tile.getColor().g & 0xFF;
-                    int b = tile.getColor().b & 0xFF;
-
-                    if(heldItem.getMetadata() == 0){
-                        if(player.isSneaking()){
-                            if(Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL)){
-                                if(b > 4){
-                                    b -= 5;
-                                }
-                            }
-                            else{
-                                if(b > 0){
-                                    b--;
-                                }
-                            }
-                        }
-                        else{
-                            if(Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL)){
-                                if(b < 255){
-                                    b += 5;
-                                }
-                            }
-                            else{
-                                if(b < 255){
-                                    b++;
-                                }
-                            }
-                        }
-                    }
-                    else if(heldItem.getMetadata() == 1){
-                        if(player.isSneaking()){
-                            if(Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL)){
-                                if(g > 4){
-                                    g -= 5;
-                                }
-                            }
-                            else{
-                                if(g > 0){
-                                    g--;
-                                }
-                            }
-                        }
-                        else{
-                            if(Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL)){
-                                if(g < 255){
-                                    g += 5;
-                                }
-                            }
-                            else{
-                                if(g < 255){
-                                    g++;
-                                }
-                            }
-                        }
-                    }
-                    else if(heldItem.getMetadata() == 2){
-                        if(player.isSneaking()){
-                            if(Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL)){
-                                if(r > 4){
-                                    r -= 5;
-                                }
-                            }
-                            else{
-                                if(r > 0){
-                                    r--;
-                                }
-                            }
-                        }
-                        else{
-                            if(Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL)){
-                                if(r < 255){
-                                    r += 5;
-                                }
-                            }
-                            else{
-                                if(r < 255){
-                                    r++;
-                                }
-                            }
-                        }
-                    }
-
-                    tile.setColor(new ColourRGBA(r, g, b, 255));
-                    tile.markDirty();
-                    tile.sendUpdatePacket(pos);
+                    //TODO: implement coloring!
                 }
 
                 return true;
             }
             else if(heldItem.getItem() == ProjectXContent.COLOR_SCANNER){
                 if(tile != null){
-                    if(player.isSneaking()){
-                        ItemNBTUtils.validateTagExists(heldItem);
-                        heldItem.getTagCompound().setInteger("color", tile.getColor().rgba());
-                    }
-                    else{
-                        if(heldItem.getTagCompound() != null){
-                            tile.setColor(new ColourRGBA(heldItem.getTagCompound().getInteger("color")));
-                            tile.markDirty();
-                            tile.sendUpdatePacket(pos);
+                    if(!world.isRemote){
+                        if(player.isSneaking()){
+                            ItemNBTUtils.validateTagExists(heldItem);
+                            heldItem.getTagCompound().setInteger("color", tile.getColor().rgba());
+                        }
+                        else{
+                            if(heldItem.getTagCompound() != null){
+                                tile.setColor(new ColourRGBA(heldItem.getTagCompound().getInteger("color")));
+                                tile.markDirty();
+                                tile.sendUpdatePacket(pos, true);
+                            }
                         }
                     }
                 }
@@ -223,9 +139,11 @@ public class BlockXycroniumLight extends BlockAnimationHandler<TileEntityXycroni
         TileEntityXycroniumLight tile = (TileEntityXycroniumLight)world.getTileEntity(pos);
 
         if(tile != null && stack.getTagCompound() != null){
-            tile.setColor(new ColourRGBA(stack.getTagCompound().getInteger("color")));
-            tile.sendUpdatePacket(pos);
-            tile.markDirty();
+            if(!world.isRemote){
+                tile.setColor(new ColourRGBA(stack.getTagCompound().getInteger("color")));
+                tile.markDirty();
+                tile.sendUpdatePacket(pos, true);
+            }
         }
 
         if(this.getMetaFromState(state) == 0){
@@ -247,16 +165,18 @@ public class BlockXycroniumLight extends BlockAnimationHandler<TileEntityXycroni
 
     @Override
     public void onBlockHarvested(World world, BlockPos pos, IBlockState state, EntityPlayer player) {
-        if(!player.capabilities.isCreativeMode){
-            TileEntityXycroniumLight tile = (TileEntityXycroniumLight)world.getTileEntity(pos);
+        if(!world.isRemote){
+            if(!player.capabilities.isCreativeMode){
+                TileEntityXycroniumLight tile = (TileEntityXycroniumLight)world.getTileEntity(pos);
 
-            if(tile != null){
-                ItemStack stack = new ItemStack(this, 1, 0);
-                ItemNBTUtils.validateTagExists(stack);
-                stack.getTagCompound().setInteger("color", tile.getColor().rgba());
+                if(tile != null){
+                    ItemStack stack = new ItemStack(this, 1, 0);
+                    ItemNBTUtils.validateTagExists(stack);
+                    stack.getTagCompound().setInteger("color", tile.getColor().rgba());
 
-                if(!world.isRemote){
-                    ItemUtils.dropItem(world, pos, stack);
+                    if(!world.isRemote){
+                        ItemUtils.dropItem(world, pos, stack);
+                    }
                 }
             }
         }
@@ -271,8 +191,8 @@ public class BlockXycroniumLight extends BlockAnimationHandler<TileEntityXycroni
 
     @Override
     public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
-        TileEntityXycroniumLight tile = (TileEntityXycroniumLight)world.getTileEntity(pos);
         ItemStack stack = new ItemStack(this, 1, 0);
+        TileEntityXycroniumLight tile = (TileEntityXycroniumLight)world.getTileEntity(pos);
         ItemNBTUtils.validateTagExists(stack);
 
         if(tile != null){

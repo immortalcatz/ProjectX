@@ -6,22 +6,21 @@
 
 package keri.projectx.tile;
 
-import codechicken.lib.packet.PacketCustom;
-import keri.ninetaillib.lib.tile.TileEntityBase;
-import keri.projectx.ProjectX;
-import keri.projectx.api.energy.EnumXynergyClass;
-import keri.projectx.api.energy.EnumXynergyType;
-import keri.projectx.api.energy.IXynergyHandler;
-import keri.projectx.api.energy.XynergyBuffer;
+import com.google.common.collect.Lists;
+import keri.projectx.api.energy.*;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 
-public class TileEntityXynergyNode extends TileEntityBase implements IXynergyHandler {
+import java.util.Collection;
+import java.util.List;
+
+public class TileEntityXynergyNode extends TileEntityProjectX implements IXynergyHandler, IXynergyConnector {
 
     private XynergyBuffer xynergyBuffer = new XynergyBuffer();
     private EnumXynergyClass xynergyClass = EnumXynergyClass.LOW;
     private EnumXynergyType xynergyType = EnumXynergyType.STRAIGHT;
     private boolean hasCore = false;
+    private List<BlockPos> connectedDevices = Lists.newArrayList();
 
     @Override
     public void readFromNBT(NBTTagCompound tag) {
@@ -30,6 +29,16 @@ public class TileEntityXynergyNode extends TileEntityBase implements IXynergyHan
         this.xynergyClass = EnumXynergyClass.readFromNBT(tag);
         this.xynergyType = EnumXynergyType.readFromNBT(tag);
         this.hasCore = tag.getBoolean("has_core");
+        int[] connectedDevicesX = tag.getIntArray("connected_devices_x");
+        int[] connectedDevicesY = tag.getIntArray("connected_devices_y");
+        int[] connectedDevicesZ = tag.getIntArray("connected_devices_z");
+
+        for(int index = 0; index < connectedDevicesX.length; index++){
+            int posX = connectedDevicesX[index];
+            int posY = connectedDevicesY[index];
+            int posZ = connectedDevicesZ[index];
+            this.connectedDevices.add(new BlockPos(posX, posY, posZ));
+        }
     }
 
     @Override
@@ -39,6 +48,20 @@ public class TileEntityXynergyNode extends TileEntityBase implements IXynergyHan
         EnumXynergyClass.writeToNBT(tag, this.xynergyClass);
         EnumXynergyType.writeToNBT(tag, this.xynergyType);
         tag.setBoolean("has_core", this.hasCore);
+        int[] connectedDevicesX = new int[this.connectedDevices.size()];
+        int[] connectedDevicesY = new int[this.connectedDevices.size()];
+        int[] connectedDevicesZ = new int[this.connectedDevices.size()];
+
+        for(int index = 0; index < this.connectedDevices.size(); index++){
+            BlockPos pos = this.connectedDevices.get(index);
+            connectedDevicesX[index] = pos.getX();
+            connectedDevicesY[index] = pos.getY();
+            connectedDevicesZ[index] = pos.getZ();
+        }
+
+        tag.setIntArray("connected_devices_x", connectedDevicesX);
+        tag.setIntArray("connected_devices_y", connectedDevicesY);
+        tag.setIntArray("connected_devices_z", connectedDevicesZ);
         return tag;
     }
 
@@ -66,8 +89,19 @@ public class TileEntityXynergyNode extends TileEntityBase implements IXynergyHan
         return this.xynergyBuffer.getXynergyClass().getCapacity();
     }
 
+    @Override
+    public boolean canConnectEnergy() {
+        return true;
+    }
+
+    @Override
+    public Collection<BlockPos> getConnectedDevices() {
+        return this.connectedDevices;
+    }
+
     public void setXynergyClass(EnumXynergyClass xynergyClass){
         this.xynergyClass = xynergyClass;
+        this.xynergyBuffer.setXynergyClass(xynergyClass);
     }
 
     public void setXynergyType(EnumXynergyType xynergyType){
@@ -88,16 +122,6 @@ public class TileEntityXynergyNode extends TileEntityBase implements IXynergyHan
 
     public boolean getHasCore(){
         return this.hasCore;
-    }
-
-    public void onUpdatePacket(PacketCustom packet){
-        this.markDirty();
-    }
-
-    public void sendUpdatePacket(BlockPos pos){
-        PacketCustom packet = new PacketCustom(ProjectX.INSTANCE, 2);
-        packet.writePos(this.pos);
-        packet.sendToClients();
     }
 
 }

@@ -104,6 +104,7 @@ tile.projectx.xycronium_soil.name=Xycronium Feld
 tile.projectx.fire_basin.name=Feuer Entzünder
 tile.projectx.liquid_void.name=Flüssigkeits Void
 tile.projectx.xycronium_ice.name=Xycronium Eis
+tile.projectx.xynergy_node.name=Xynergy Verteiler
 
 item.projectx.xycronium_crystal.blue.name=Blauer Xycronium Kristall
 item.projectx.xycronium_crystal.green.name=Grüner Xycronium Kristall
@@ -173,6 +174,8 @@ item.projectx.helmet_xycronium_light.name=Heller Xycronium Helm
 item.projectx.chestplate_xycronium_light.name=Heller Xycronium Brustpanzer
 item.projectx.leggings_xycronium_light.name=Helle Xycronium Hose
 item.projectx.boots_xycronium_light.name=Helle Xycronium Stiefel
+item.projectx.xynergy_tool.name=Xynergy Werkzeug
+item.projectx.manual.name=Handbuch
 
 container.projectx.fabricator.name=Fabrikator
 
@@ -193,3 +196,10 @@ tooltip.projectx.upgrade_card.speed.name=Dieses Upgrade beschleunigt Maschinen i
 tooltip.projectx.upgrade_card.capacity.name=Dieses Upgrade erhöt die Kapazität einer Maschine
 tooltip.projectx.xynergy_type.name=Xynergy Typ
 tooltip.projectx.xynergy_class.name=Xynergy Klasse
+tooltip.projectx.tool_mode.name=Modus
+tooltip.projectx.mode_wrench.name=Schraubenschlüssel
+tooltip.projectx.mode_link.name=Link
+tooltip.projectx.mode_diagnostic.name=Diagnose
+tooltip.projectx.mode_swap.name=Tauschen
+tooltip.projectx.energy_stored.name=Energie Gespeichert
+tooltip.projectx.no_core_installed.name=Kein Energie-Kern installiert!

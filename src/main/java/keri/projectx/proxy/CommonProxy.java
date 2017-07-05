@@ -36,4 +36,9 @@ public class CommonProxy implements IProxy {
         return null;
     }
 
+    @Override
+    public void resetTooltip(int tooltip, Object... params) {
+
+    }
+
 }
