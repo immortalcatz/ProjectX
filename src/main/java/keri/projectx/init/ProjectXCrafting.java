@@ -82,6 +82,15 @@ public class ProjectXCrafting {
                 'X', Items.IRON_INGOT,
                 'V', Items.REDSTONE
         );
+        GameRegistry.addRecipe(new ItemStack(ProjectXContent.GLASS_VIEWER, 5, 0),
+                "XCX",
+                "CXC",
+                "XCX",
+                'X', Blocks.GLASS,
+                'C', Items.IRON_INGOT
+        );
+
+        //TODO: add missing machine recipes you lazy twat
 
         for(int meta = 0; meta < 5; meta++){
             GameRegistry.addShapelessRecipe(new ItemStack(ProjectXContent.XYCRONIUM_CRYSTAL, 9, meta), new ItemStack(ProjectXContent.XYCRONIUM_BLOCK, 1, meta));
@@ -95,23 +104,35 @@ public class ProjectXCrafting {
                     "XXX",
                     "XXX",
                     "XXX",
-                    'X', new ItemStack(ProjectXContent.XYCRONIUM_CRYSTAL, 1, meta));
+                    'X', new ItemStack(ProjectXContent.XYCRONIUM_CRYSTAL, 1, meta)
+            );
             GameRegistry.addRecipe(new ItemStack(ProjectXContent.XYCRONIUM_BLOCK, 1, meta),
                     "XXX",
                     "XXX",
                     "XXX",
-                    'X', new ItemStack(ProjectXContent.XYCRONIUM_INGOT, 1, meta));
+                    'X', new ItemStack(ProjectXContent.XYCRONIUM_INGOT, 1, meta)
+            );
             GameRegistry.addRecipe(new ItemStack(ProjectXContent.XYCRONIUM_BRICKS, 5, meta),
                     "XVX",
                     "VXV",
                     "XVX",
                     'X', Blocks.STONEBRICK,
-                    'V', new ItemStack(ProjectXContent.XYCRONIUM_INGOT, 1, meta));
+                    'V', new ItemStack(ProjectXContent.XYCRONIUM_INGOT, 1, meta)
+            );
             GameRegistry.addRecipe(new ItemStack(ProjectXContent.XYCRONIUM_INGOT, 1, meta),
                     "XXX",
                     "XXX",
                     "XXX",
-                    'X', new ItemStack(ProjectXContent.XYCRONIUM_NUGGET, 1, meta));
+                    'X', new ItemStack(ProjectXContent.XYCRONIUM_NUGGET, 1, meta)
+            );
+            GameRegistry.addRecipe(new ItemStack(ProjectXContent.ENGINEERING_BRICKS, 1, meta),
+                    "XCX",
+                    "CVC",
+                    "XCX",
+                    'X', new ItemStack(ProjectXContent.XYCRONIUM_INGOT, 1, meta),
+                    'C', Blocks.STONEBRICK,
+                    'V', Items.REDSTONE
+            );
         }
 
         for(int meta = 0; meta < 16; meta++){
@@ -121,34 +142,39 @@ public class ProjectXCrafting {
                     "XVX",
                     'X', new ItemStack(ProjectXContent.XYCRONIUM_INGOT, 1, OreDictionary.WILDCARD_VALUE),
                     'V', Blocks.STONEBRICK,
-                    'B', new ItemStack(Items.DYE, 1, meta));
+                    'B', new ItemStack(Items.DYE, 1, meta)
+            );
             GameRegistry.addRecipe(new ItemStack(ProjectXContent.XYCRONIUM_PLATFORM, 4, meta),
                     "XVX",
                     "VBV",
                     "XVX",
                     'X', new ItemStack(ProjectXContent.XYCRONIUM_INGOT, 1, OreDictionary.WILDCARD_VALUE),
                     'V', Blocks.GLASS,
-                    'B', new ItemStack(Items.DYE, 1, meta));
+                    'B', new ItemStack(Items.DYE, 1, meta)
+            );
             GameRegistry.addRecipe(new ItemStack(ProjectXContent.XYCRONIUM_SHIELD, 1, meta),
                     "XVX",
                     "VBV",
                     "XVX",
                     'X', Items.IRON_INGOT,
                     'V', Blocks.OBSIDIAN,
-                    'B', new ItemStack(ProjectXContent.XYCRONIUM_PLATE, 1, meta));
+                    'B', new ItemStack(ProjectXContent.XYCRONIUM_PLATE, 1, meta)
+            );
             GameRegistry.addRecipe(new ItemStack(ProjectXContent.XYCRONIUM_STRUCTURE, 4, meta),
                     "XVX",
                     "VBV",
                     "XVX",
                     'X', new ItemStack(ProjectXContent.XYCRONIUM_CRYSTAL, 1, OreDictionary.WILDCARD_VALUE),
                     'V', Blocks.STONEBRICK,
-                    'B', new ItemStack(Items.DYE, 1, meta));
+                    'B', new ItemStack(Items.DYE, 1, meta)
+            );
             addColorRecipe(new ItemStack(ProjectXContent.XYCRONIUM_LIGHT, 1, 0), EnumDyeColor.VALUES[meta].getColor(),
                     "XVX",
                     "BNB",
                     "XVX",
                     'X', new ItemStack(ProjectXContent.XYCRONIUM_INGOT, 1, OreDictionary.WILDCARD_VALUE),
-                    'V', Items.REDSTONE, 'B', Items.GLOWSTONE_DUST, 'N', new ItemStack(Items.DYE, 1, meta));
+                    'V', Items.REDSTONE, 'B', Items.GLOWSTONE_DUST, 'N', new ItemStack(Items.DYE, 1, meta)
+            );
             addColorRecipe(new ItemStack(ProjectXContent.XYCRONIUM_LIGHT_INVERTED, 1, 0), EnumDyeColor.VALUES[meta].getColor(),
                     "XVX",
                     "BNB",
@@ -156,7 +182,8 @@ public class ProjectXCrafting {
                     'X', new ItemStack(ProjectXContent.XYCRONIUM_INGOT, 1, OreDictionary.WILDCARD_VALUE),
                     'V', Blocks.REDSTONE_TORCH,
                     'B', Items.GLOWSTONE_DUST,
-                    'N', new ItemStack(Items.DYE, 1, meta));
+                    'N', new ItemStack(Items.DYE, 1, meta)
+            );
         }
     }
 

@@ -19,6 +19,7 @@ import keri.projectx.ProjectX;
 import keri.projectx.event.CommonEventHandler;
 import keri.projectx.init.ProjectXContent;
 import keri.projectx.tile.TileEntityXycroniumLight;
+import keri.projectx.util.CommonUtils;
 import keri.projectx.util.ModPrefs;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -90,7 +91,13 @@ public class BlockXycroniumLight extends BlockAnimationHandler<TileEntityXycroni
             }
             else if(heldItem.getItem() == ProjectXContent.XYCRONIUM_CRYSTAL){
                 if(tile != null){
-                    //TODO: implement coloring!
+                    if(!world.isRemote){
+                        byte modify = (byte)(2 - heldItem.getMetadata());
+                        Colour color = CommonUtils.modifyColor(tile.getColor(), player, hand, modify);
+                        tile.setColor(color);
+                        tile.markDirty();
+                        tile.sendUpdatePacket(pos, true);
+                    }
                 }
 
                 return true;
