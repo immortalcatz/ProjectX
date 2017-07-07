@@ -42,6 +42,24 @@ public class RenderXynergyNet {
         }
     }
 
+    public void addDevice(BlockPos pos){
+        if(pos != null){
+            DEVICES.add(pos);
+        }
+        else{
+            throw new IllegalArgumentException("Position can't be null!");
+        }
+    }
+
+    public void removeDevice(BlockPos pos){
+        if(pos != null){
+            DEVICES.remove(DEVICES.indexOf(pos));
+        }
+        else{
+            throw new IllegalArgumentException("Position can't be null!");
+        }
+    }
+
     private void handleRender(World world, EntityPlayer player, BlockPos startPos, BlockPos targetPos, float partialTicks){
         GlStateManager.pushMatrix();
         GlStateManager.glTexParameterf(3553, 10242, 10497F);
@@ -52,12 +70,37 @@ public class RenderXynergyNet {
         VertexBuffer buffer = Tessellator.getInstance().getBuffer();
         buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_LMAP_COLOR);
 
-        //render shit here! :D
+
 
         Tessellator.getInstance().draw();
         GlStateManager.blendFunc(770, 771);
         GlStateManager.enableCull();
         GlStateManager.popMatrix();
+    }
+
+    @SideOnly(Side.CLIENT)
+    private class XynergyBeam {
+
+        private final double offset = 0D;
+        private double x = 0D;
+        private double y = 0D;
+        private double z = 0D;
+        private double prevX = 0D;
+        private double prevY = 0D;
+        private double prevZ = 0D;
+        private double targetX = 0D;
+        private double targetY = 0D;
+        private double targetZ = 0D;
+        private double prevTargetX = 0D;
+        private double prevTargetY = 0D;
+        private double prevTargetZ = 0D;
+        private double rotYaw = 0D;
+        private double rotPitch = 0D;
+        private double prevRotYaw = 0D;
+        private double prevRotPitch = 0D;
+
+        //TODO: lol
+
     }
 
 }
