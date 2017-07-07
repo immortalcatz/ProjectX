@@ -28,6 +28,7 @@ public class IconHandler {
     public void preInit(){
         MinecraftForge.EVENT_BUS.register(INSTANCE);
         this.registerIcon("particle_sparkle", new ResourceLocation(ModPrefs.MODID, "particle/sparkle"));
+        this.registerIcon("xynergy_beam", new ResourceLocation(ModPrefs.MODID, "particle/beam"));
     }
 
     @SubscribeEvent

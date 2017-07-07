@@ -96,6 +96,7 @@ public class ClientEventHandler {
         RayTraceResult rtr = Minecraft.getMinecraft().objectMouseOver;
         EntityPlayer player = Minecraft.getMinecraft().player;
         World world = Minecraft.getMinecraft().world;
+        RenderXynergyNet.INSTANCE.handleRender(world, player, event.getPartialTicks());
 
         if(rtr != null && rtr.typeOfHit == RayTraceResult.Type.BLOCK){
             BlockPos pos = rtr.getBlockPos();

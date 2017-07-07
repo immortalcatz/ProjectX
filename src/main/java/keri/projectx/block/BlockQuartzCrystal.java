@@ -10,11 +10,13 @@ import codechicken.lib.colour.ColourRGBA;
 import keri.ninetaillib.lib.texture.IIconRegister;
 import keri.ninetaillib.lib.util.BlockAccessUtils;
 import keri.projectx.ProjectX;
+import keri.projectx.client.particle.ParticleHandler;
 import keri.projectx.client.render.IAnimationHandler;
 import keri.projectx.client.render.RenderQuartzCrystal;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -28,6 +30,8 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.Random;
 
 public class BlockQuartzCrystal extends BlockProjectX implements IAnimationHandler {
 
@@ -134,6 +138,18 @@ public class BlockQuartzCrystal extends BlockProjectX implements IAnimationHandl
             case 5: return new AxisAlignedBB(hMin, wMin, wMin, hMax, wMax, wMax);
             default: return new AxisAlignedBB(0D, 0D, 0D, 1D, 1D, 1D);
         }
+    }
+
+    @Override
+    public boolean addDestroyEffects(World world, BlockPos pos, ParticleManager manager) {
+        ParticleHandler.handleQuartzCrystalHit(world, pos);
+        return true;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random rand) {
+        ParticleHandler.handleQuartzCrystal(world, pos, new ColourRGBA(50, 200, 200, 255));
     }
 
     @Override

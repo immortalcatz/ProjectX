@@ -87,11 +87,13 @@ public class BlockXycroniumLightInverted extends BlockAnimationHandler<TileEntit
             }
             else if(heldItem.getItem() == ProjectXContent.XYCRONIUM_CRYSTAL){
                 if(tile != null){
-                    byte modify = (byte)heldItem.getMetadata();
-                    Colour color = CommonUtils.modifyColor(tile.getColor(), player, hand, modify);
-                    tile.setColor(color);
-                    tile.markDirty();
-                    tile.sendUpdatePacket(pos, true);
+                    if(!world.isRemote){
+                        byte modify = (byte)(2 - heldItem.getMetadata());
+                        Colour color = CommonUtils.modifyColor(tile.getColor(), player, hand, modify);
+                        tile.setColor(color);
+                        tile.markDirty();
+                        tile.sendUpdatePacket(pos, true);
+                    }
                 }
 
                 return true;
