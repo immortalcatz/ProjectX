@@ -89,8 +89,72 @@ public class ProjectXCrafting {
                 'X', Blocks.GLASS,
                 'C', Items.IRON_INGOT
         );
-
-        //TODO: add missing machine recipes you lazy twat
+        GameRegistry.addRecipe(new ItemStack(ProjectXContent.XYCRONIUM_WATER, 2, 0),
+                "XCX",
+                "CVC",
+                "XCX",
+                'X', Items.IRON_INGOT,
+                'C', new ItemStack(ProjectXContent.ENGINEERING_BRICKS, 1, 0),
+                'V', Items.WATER_BUCKET
+        );
+        GameRegistry.addRecipe(new ItemStack(ProjectXContent.XYCRONIUM_SOIL, 2, 0),
+                "XCX",
+                "CVC",
+                "XCX",
+                'X', Items.IRON_INGOT,
+                'C', new ItemStack(ProjectXContent.ENGINEERING_BRICKS, 1, 1),
+                'V', new ItemStack(Blocks.SAPLING, 1, OreDictionary.WILDCARD_VALUE)
+        );
+        GameRegistry.addRecipe(new ItemStack(ProjectXContent.FIRE_BASIN, 2, 0),
+                "XBX",
+                "CVC",
+                "XCX",
+                'X', Items.IRON_INGOT,
+                'C', new ItemStack(ProjectXContent.ENGINEERING_BRICKS, 1, 2),
+                'V', Items.LAVA_BUCKET,
+                'B', Blocks.IRON_BARS
+        );
+        GameRegistry.addRecipe(new ItemStack(ProjectXContent.FIRE_BASIN, 2, 0),
+                "XBX",
+                "CVC",
+                "XCX",
+                'X', Items.IRON_INGOT,
+                'C', new ItemStack(ProjectXContent.ENGINEERING_BRICKS, 1, 2),
+                'V', Items.GUNPOWDER,
+                'B', Blocks.IRON_BARS
+        );
+        GameRegistry.addRecipe(new ItemStack(ProjectXContent.LIQUID_VOID, 2, 0),
+                "XCX",
+                "CVC",
+                "XCX",
+                'X', Items.IRON_INGOT,
+                'C', new ItemStack(ProjectXContent.ENGINEERING_BRICKS, 1, 3),
+                'V', Items.BUCKET
+        );
+        GameRegistry.addRecipe(new ItemStack(ProjectXContent.XYCRONIUM_ICE, 2, 0),
+                "XCX",
+                "CVC",
+                "XCX",
+                'X', Items.IRON_INGOT,
+                'C', new ItemStack(ProjectXContent.ENGINEERING_BRICKS, 1, 4),
+                'V', Items.SNOWBALL
+        );
+        GameRegistry.addRecipe(new ItemStack(ProjectXContent.XYCRONIUM_ICE, 2, 0),
+                "XCX",
+                "CVC",
+                "XCX",
+                'X', Items.IRON_INGOT,
+                'C', new ItemStack(ProjectXContent.ENGINEERING_BRICKS, 1, 4),
+                'V', Blocks.ICE
+        );
+        GameRegistry.addRecipe(new ItemStack(ProjectXContent.XYCRONIUM_ICE, 2, 0),
+                "XCX",
+                "CVC",
+                "XCX",
+                'X', Items.IRON_INGOT,
+                'C', new ItemStack(ProjectXContent.ENGINEERING_BRICKS, 1, 4),
+                'V', Blocks.PACKED_ICE
+        );
 
         for(int meta = 0; meta < 5; meta++){
             GameRegistry.addShapelessRecipe(new ItemStack(ProjectXContent.XYCRONIUM_CRYSTAL, 9, meta), new ItemStack(ProjectXContent.XYCRONIUM_BLOCK, 1, meta));

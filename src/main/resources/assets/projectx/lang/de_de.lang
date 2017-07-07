@@ -105,6 +105,11 @@ tile.projectx.fire_basin.name=Feuer Entzünder
 tile.projectx.liquid_void.name=Flüssigkeits Void
 tile.projectx.xycronium_ice.name=Xycronium Eis
 tile.projectx.xynergy_node.name=Xynergy Verteiler
+tile.projectx.engineering_bricks.blue.name=Blaue Konstruktions Ziegel
+tile.projectx.engineering_bricks.green.name=Grüne Konstruktions Ziegel
+tile.projectx.engineering_bricks.red.name=Rote Konstruktions Ziegel
+tile.projectx.engineering_bricks.dark.name=Dunkle Konstruktions Ziegel
+tile.projectx.engineering_bricks.light.name=Helle Konstruktions Ziegel
 
 item.projectx.xycronium_crystal.blue.name=Blauer Xycronium Kristall
 item.projectx.xycronium_crystal.green.name=Grüner Xycronium Kristall

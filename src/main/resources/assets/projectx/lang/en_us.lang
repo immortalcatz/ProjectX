@@ -105,6 +105,11 @@ tile.projectx.fire_basin.name=Fire Basin
 tile.projectx.liquid_void.name=Liquid Void
 tile.projectx.xycronium_ice.name=Xycronium Ice
 tile.projectx.xynergy_node.name=Xynergy Node
+tile.projectx.engineering_bricks.blue.name=Blue Engineering Bricks
+tile.projectx.engineering_bricks.green.name=Green Engineering Bricks
+tile.projectx.engineering_bricks.red.name=Red Engineering Bricks
+tile.projectx.engineering_bricks.dark.name=Dark Engineering Bricks
+tile.projectx.engineering_bricks.light.name=Light Engineering Bricks
 
 item.projectx.xycronium_crystal.blue.name=Blue Xycronium Crystal
 item.projectx.xycronium_crystal.green.name=Green Xycronium Crystal
