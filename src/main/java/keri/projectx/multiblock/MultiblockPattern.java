@@ -43,7 +43,7 @@ public class MultiblockPattern {
                     Character part = row.charAt(x);
 
                     if(!this.partDefinetions.containsKey(part)){
-                        throw new MultiblockPatternException(String.format("Part \'%s\' is undefined!", part));
+                        throw new MultiblockPatternException(String.format("Part '%s' is undefined!", part));
                     }
 
                     Vec3i position = new Vec3i(x, this.y, z);
@@ -56,11 +56,11 @@ public class MultiblockPattern {
 
         public void addPartDefinition(char part, IBlockState state){
             if(state == null){
-                throw new MultiblockPatternException(String.format("Definition for part \'%s\' is null!", part));
+                throw new MultiblockPatternException(String.format("Definition for part '%s' is null!", part));
             }
 
             if(this.partDefinetions.containsKey(part)){
-                throw new MultiblockPatternException(String.format("Definition for part \'%s\' was registered twice!", part));
+                throw new MultiblockPatternException(String.format("Definition for part '%s' was registered twice!", part));
             }
 
             this.partDefinetions.put(part, state);
