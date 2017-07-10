@@ -36,6 +36,7 @@ repositories {
 }
 
 apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'scala'
 
 version = "1.11.2-2.1.17"
 group = "keri.projectx" 
