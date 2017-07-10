@@ -158,7 +158,7 @@ public class ClientEventHandler {
                 if(tile != null && tile instanceof IXynergyConnector){
                     IXynergyConnector connector = (IXynergyConnector)tile;
                     Collection<BlockPos> connections = connector.getConnectedDevices();
-                    int alpha = (int)MathHelper.sin((double)this.boxTicks);
+                    int alpha = (int)MathHelper.sin((double)net.minecraft.util.math.MathHelper.clamp(this.boxTicks, 1, 40));
                     Colour colorMaster = new ColourRGBA(255, 40, 255, this.boxTicks);
                     Colour colorSlave = new ColourRGBA(40, 255, 255, this.boxTicks);
                     this.renderBox(pos, player, partialTicks, new Cuboid6(aabb), colorMaster);
