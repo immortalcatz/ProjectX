@@ -182,6 +182,8 @@ item.projectx.boots_xycronium_light.name=Light Xycronium Boots
 item.projectx.xynergy_tool.name=Xynergy Tool
 item.projectx.manual.name=Manual
 
+tile.projectx.valve.name=Valve
+
 container.projectx.fabricator.name=Fabricator
 
 upgrade.projectx.machine_io.name=Machine I/O

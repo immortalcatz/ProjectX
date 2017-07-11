@@ -182,6 +182,8 @@ item.projectx.boots_xycronium_light.name=Helle Xycronium Stiefel
 item.projectx.xynergy_tool.name=Xynergy Werkzeug
 item.projectx.manual.name=Handbuch
 
+tile.projectx.valve.name=Ventil
+
 container.projectx.fabricator.name=Fabrikator
 
 upgrade.projectx.machine_io.name=Maschinen I/O
