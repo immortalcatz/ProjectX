@@ -18,6 +18,7 @@ import java.util.Iterator;
  * Ways to define a volume using two BlockCoords
  * Was in CodeChickenLib previously
  */
+@SuppressWarnings("ALL")
 public class CuboidCoord implements Iterable<BlockCoord>, Copyable<CuboidCoord> {
     public BlockCoord min;
     public BlockCoord max;
