@@ -9,7 +9,7 @@ package keri.projectx.client.event
 import codechicken.lib.render
 import codechicken.lib.texture.TextureUtils
 import codechicken.lib.texture.TextureUtils.IIconRegister
-import keri.projectx.multiblock.tile.TileMultiBlock
+import keri.projectx.tile.TileMultiBlock
 import keri.projectx.util.ModPrefs
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.texture.{TextureAtlasSprite, TextureMap}

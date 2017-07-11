@@ -4,18 +4,20 @@ import codechicken.lib.packet.PacketCustom
 import codechicken.lib.texture.TextureUtils
 import codechicken.lib.world.WorldExtensionManager
 import keri.projectx.client.event.MultiBlockOverlayRenderer
+import keri.projectx.data.ProjectXWorldExtensionInstantiator
 import keri.projectx.featurehack.FeatureHack
 import keri.projectx.multiblock.network.MultiBlocksCPH
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.event.{FMLInitializationEvent, FMLPostInitializationEvent, FMLPreInitializationEvent}
 import net.minecraftforge.fml.relauncher.{Side, SideOnly}
 
+//TODO: move this to ClientProxy/CommonProxy/ServerProxy
 object MultiBlockCommonProxy {
   def preInit(event: FMLPreInitializationEvent) {
   }
 
   def init(event: FMLInitializationEvent): Unit = {
-    WorldExtensionManager.registerWorldExtension(XYWorldExtensionInstantiator)
+    WorldExtensionManager.registerWorldExtension(ProjectXWorldExtensionInstantiator)
     FeatureHack.enableUpdateHook()
   }
 

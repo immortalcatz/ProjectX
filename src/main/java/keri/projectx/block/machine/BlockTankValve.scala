@@ -11,7 +11,7 @@ import keri.projectx.ProjectX
 import keri.projectx.api.color.EnumXycroniumColor
 import keri.projectx.block.BlockAnimationHandler
 import keri.projectx.multiblock.MultiTankInitiator
-import keri.projectx.multiblock.tile.TileValve
+import keri.projectx.tile.TileValve
 import keri.projectx.util.ModPrefs
 import net.minecraft.block.material.Material
 import net.minecraft.block.state.IBlockState
@@ -23,7 +23,7 @@ import net.minecraft.util.{EnumFacing, EnumHand}
 import net.minecraft.world.{IBlockAccess, World}
 import net.minecraftforge.fml.common.registry.GameRegistry
 
-class BlockValve extends BlockAnimationHandler[TileValve]("valve", Material.IRON) with BlockMulti {
+class BlockTankValve extends BlockAnimationHandler[TileValve]("valve", Material.IRON) with BlockMulti {
   var texture: TextureAtlasSprite = _
 
   override def createNewTileEntity(world: World, meta: Int): TileValve = new TileValve

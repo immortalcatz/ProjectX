@@ -2,9 +2,10 @@ package keri.projectx.multiblock
 
 import codechicken.lib.data.{MCDataInput, MCDataOutput}
 import codechicken.lib.packet.PacketCustom
+import keri.projectx.data.{ProjectXChunkExtension, ProjectXWorldExtension, ProjectXWorldExtensionInstantiator}
 import keri.projectx.featurehack.{EntityRenderHook, EntityUpdateHook}
 import keri.projectx.multiblock.network.MultiBlocksCPH
-import keri.projectx.multiblock.tile.TileMultiBlock
+import keri.projectx.tile.TileMultiBlock
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.nbt.{NBTTagCompound, NBTTagList}
 import net.minecraft.util.math.BlockPos
@@ -15,7 +16,7 @@ import net.minecraftforge.fml.relauncher.{Side, SideOnly}
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 
-abstract class MultiBlock(worldExt: XYWorldExtension, chunkExt: XYChunkExtension) extends EntityUpdateHook.IUpdateCallback with EntityRenderHook.IRenderCallback {
+abstract class MultiBlock(worldExt: ProjectXWorldExtension, chunkExt: ProjectXChunkExtension) extends EntityUpdateHook.IUpdateCallback with EntityRenderHook.IRenderCallback {
   val world = worldExt.world
   val id = worldExt.nextAvailableMultiBlockId
   val inBlocks = new ArrayBuffer[BlockPos]()
@@ -24,7 +25,7 @@ abstract class MultiBlock(worldExt: XYWorldExtension, chunkExt: XYChunkExtension
   var requestsedUpdatePacket = false
 
   def this(worldObj: World, location: (Int, Int)) =
-    this(XYWorldExtensionInstantiator.getExtension(worldObj).asInstanceOf[XYWorldExtension], XYWorldExtensionInstantiator.getExtension(worldObj).getChunkExtension(location._1, location._2).asInstanceOf[XYChunkExtension])
+    this(ProjectXWorldExtensionInstantiator.getExtension(worldObj).asInstanceOf[ProjectXWorldExtension], ProjectXWorldExtensionInstantiator.getExtension(worldObj).getChunkExtension(location._1, location._2).asInstanceOf[ProjectXChunkExtension])
 
 
   /**
@@ -204,9 +205,9 @@ abstract class MultiBlock(worldExt: XYWorldExtension, chunkExt: XYChunkExtension
 
   def requestUpdate(): Unit = chunkExt.markMultiBlockForUpdate(this)
 
-  def getChunkExt: XYChunkExtension = chunkExt
+  def getChunkExt: ProjectXChunkExtension = chunkExt
 
-  def getWorldExt: XYWorldExtension = worldExt
+  def getWorldExt: ProjectXWorldExtension = worldExt
 
   @SideOnly(Side.CLIENT)
   override def shouldRenderInPass(i: Int): Boolean = i == 0

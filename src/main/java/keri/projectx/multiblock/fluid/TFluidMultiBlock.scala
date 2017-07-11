@@ -3,7 +3,7 @@ package keri.projectx.multiblock.fluid
 import codechicken.lib.data.{MCDataInput, MCDataOutput}
 import codechicken.lib.fluid.FluidUtils
 import keri.projectx.multiblock.MultiBlock
-import keri.projectx.multiblock.tile.TileValve
+import keri.projectx.tile.TileValve
 import keri.projectx.vec.CuboidCoord
 import net.minecraft.util.math.BlockPos
 import net.minecraftforge.fluids.{FluidStack, FluidTankInfo}

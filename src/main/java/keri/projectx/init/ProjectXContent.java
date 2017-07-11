@@ -13,8 +13,6 @@ import keri.projectx.block.*;
 import keri.projectx.block.machine.*;
 import keri.projectx.client.ProjectXTab;
 import keri.projectx.item.*;
-import keri.projectx.block.machine.BlockMultiShadow;
-import keri.projectx.block.machine.BlockValve;
 import keri.projectx.util.ModPrefs;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -68,7 +66,7 @@ public class ProjectXContent {
     public static Block SHADOW_GLASS = new BlockMultiShadow(Material.GLASS, "Glass");
     public static Block SHADOW_WOOD = new BlockMultiShadow(Material.WOOD, "Wood");
     public static Block SHADOW_GRASS = new BlockMultiShadow(Material.GROUND, "Grass");
-    public static Block VALVE = new BlockValve();
+    public static Block VALVE = new BlockTankValve();
 
     public static Item XYCRONIUM_CRYSTAL = new ItemXycroniumCrystal();
     public static Item XYCRONIUM_INGOT = new ItemXycroniumIngot();

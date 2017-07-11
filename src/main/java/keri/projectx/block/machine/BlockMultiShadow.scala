@@ -11,7 +11,7 @@ import java.util.Random
 
 import keri.projectx.block.BlockProjectX
 import keri.projectx.client.render.ShadowBlockRenderer
-import keri.projectx.multiblock.tile.{BlockDef, TileMultiShadow}
+import keri.projectx.tile.{BlockDef, TileMultiShadow}
 import keri.projectx.util.ModPrefs
 import net.minecraft.block.SoundType
 import net.minecraft.block.material.Material

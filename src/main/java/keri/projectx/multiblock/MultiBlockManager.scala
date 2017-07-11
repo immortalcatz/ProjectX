@@ -1,7 +1,8 @@
 package keri.projectx.multiblock
 
+import keri.projectx.data.{ProjectXChunkExtension, ProjectXWorldExtension}
 import keri.projectx.init.ProjectXContent
-import keri.projectx.multiblock.tile.{TileMultiBlock, TileMultiShadow}
+import keri.projectx.tile.{TileMultiBlock, TileMultiShadow}
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
@@ -31,7 +32,7 @@ object MultiBlockManager {
     Some(tile)
   }
 
-  def createMultiBlock(multiBlockId: MultiBlockTypes, worldEx: XYWorldExtension, chunkEx: XYChunkExtension): MultiBlock = {
+  def createMultiBlock(multiBlockId: MultiBlockTypes, worldEx: ProjectXWorldExtension, chunkEx: ProjectXChunkExtension): MultiBlock = {
     multiBlockId match {
       case MultiBlockTypes.TANK => new MultiTank(worldEx, chunkEx)
     }

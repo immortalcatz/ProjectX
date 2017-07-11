@@ -1,18 +1,25 @@
-package keri.projectx.multiblock
+/*
+ * Copyright (c) 2017 KitsuneAlex. All rights reserved!
+ * Do not destribute or redistribute this software without the
+ * explicit permission of the developer!
+ */
+
+package keri.projectx.data
 
 import codechicken.lib.packet.PacketCustom
 import codechicken.lib.world.{ChunkExtension, WorldExtension}
 import keri.projectx.multiblock.network.MultiBlocksCPH
+import keri.projectx.multiblock.{MultiBlock, MultiBlockManager, MultiBlockTypes}
 import net.minecraft.world.World
 import net.minecraftforge.fml.relauncher.{Side, SideOnly}
 
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 
-class XYWorldExtension(worldObj: World) extends WorldExtension(worldObj) {
+class ProjectXWorldExtension(worldObj: World) extends WorldExtension(worldObj) {
 
   val dim = world.provider.getDimension
-  val chunkPackets = new ArrayBuffer[XYChunkExtension]()
+  val chunkPackets = new ArrayBuffer[ProjectXChunkExtension]()
   private val multiBlocks = new mutable.HashMap[Int, MultiBlock]()
   private val unloadedMultiBlocks = new mutable.HashSet[MultiBlock]()
   private var multiBlockId = 1
@@ -76,7 +83,7 @@ class XYWorldExtension(worldObj: World) extends WorldExtension(worldObj) {
     val multiblock = MultiBlockManager.createMultiBlock(
       MultiBlockTypes.values()(packet.readInt()),
       this,
-      getChunkExtension(packet.readInt(), packet.readInt()).asInstanceOf[XYChunkExtension])
+      getChunkExtension(packet.readInt(), packet.readInt()).asInstanceOf[ProjectXChunkExtension])
     creatingClientSideMultiBlock = false
     multiblock.handleDescriptionPacket(packet)
     addMultiBlock(multiblock)
@@ -113,9 +120,9 @@ class XYWorldExtension(worldObj: World) extends WorldExtension(worldObj) {
     multiBlock.unload(remove)
   }
 
-  def getChunkExtension(chunkPos: (Int, Int)): XYChunkExtension = getChunkExtension(chunkPos._1, chunkPos._2).asInstanceOf[XYChunkExtension]
+  def getChunkExtension(chunkPos: (Int, Int)): ProjectXChunkExtension = getChunkExtension(chunkPos._1, chunkPos._2).asInstanceOf[ProjectXChunkExtension]
 
-  override def getChunkExtension(chunkXPos: Int, chunkZPos: Int): ChunkExtension = chunkMap.get(world.getChunkFromChunkCoords(chunkXPos, chunkZPos)).asInstanceOf[XYChunkExtension]
+  override def getChunkExtension(chunkXPos: Int, chunkZPos: Int): ChunkExtension = chunkMap.get(world.getChunkFromChunkCoords(chunkXPos, chunkZPos)).asInstanceOf[ProjectXChunkExtension]
 
   @SideOnly(Side.CLIENT)
   def handleMultiBlockUpdate(packet: PacketCustom): Unit = {

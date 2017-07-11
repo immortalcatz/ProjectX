@@ -6,10 +6,11 @@ import codechicken.lib.inventory.InventoryUtils
 import codechicken.lib.render.{CCRenderState, RenderUtils}
 import codechicken.lib.vec.Cuboid6
 import keri.projectx.ProjectX
+import keri.projectx.data.{ProjectXChunkExtension, ProjectXWorldExtension, ProjectXWorldExtensionInstantiator}
 import keri.projectx.multiblock.fluid.TFluidMultiBlock
-import keri.projectx.multiblock.tile.TileMultiBlock
 import keri.projectx.network.ProjectXGuiHandler
-import keri.projectx.util.XFluidUtil
+import keri.projectx.tile.TileMultiBlock
+import keri.projectx.util.FluidUtils
 import keri.projectx.vec.{BlockCoord, CuboidCoord}
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import net.minecraft.entity.player.EntityPlayer
@@ -27,14 +28,14 @@ import org.lwjgl.opengl.GL11
 /**
   * Created by Adam on 7/10/2017.
   */
-case class MultiTank(worldExt: XYWorldExtension, chunkExt: XYChunkExtension) extends MultiBlock(worldExt, chunkExt) with TFluidMultiBlock with IInventory {
+case class MultiTank(worldExt: ProjectXWorldExtension, chunkExt: ProjectXChunkExtension) extends MultiBlock(worldExt, chunkExt) with TFluidMultiBlock with IInventory {
   val inv = Array.fill[ItemStack](2)(ItemStack.EMPTY)
   var area: CuboidCoord = null
 
   def this(worldObj: World, location: (Int, Int), airArea: CuboidCoord) = {
     this(
-      XYWorldExtensionInstantiator.getExtension(worldObj).asInstanceOf[XYWorldExtension],
-      XYWorldExtensionInstantiator.getExtension(worldObj).getChunkExtension(location._1, location._2).asInstanceOf[XYChunkExtension])
+      ProjectXWorldExtensionInstantiator.getExtension(worldObj).asInstanceOf[ProjectXWorldExtension],
+      ProjectXWorldExtensionInstantiator.getExtension(worldObj).getChunkExtension(location._1, location._2).asInstanceOf[ProjectXChunkExtension])
     area = airArea
     initTank()
   }
@@ -145,7 +146,7 @@ case class MultiTank(worldExt: XYWorldExtension, chunkExt: XYChunkExtension) ext
       } else if (tank.getFluid != null) {
         val slotContent = inv(0).copy()
         slotContent.setCount(1)
-        val fill = XFluidUtil.tryFillContainer(slotContent, tank.getFluid)
+        val fill = FluidUtils.tryFillContainer(slotContent, tank.getFluid)
         if (fill.result.fluidStack == null) {
           return
         }

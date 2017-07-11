@@ -1,6 +1,13 @@
-package keri.projectx.multiblock
+/*
+ * Copyright (c) 2017 KitsuneAlex. All rights reserved!
+ * Do not destribute or redistribute this software without the
+ * explicit permission of the developer!
+ */
+
+package keri.projectx.data
 
 import codechicken.lib.world.ChunkExtension
+import keri.projectx.multiblock.{MultiBlock, MultiBlockManager, MultiBlockTypes}
 import net.minecraft.entity.player.EntityPlayerMP
 import net.minecraft.nbt.{NBTTagCompound, NBTTagList}
 import net.minecraft.world.chunk.Chunk
@@ -9,7 +16,7 @@ import net.minecraftforge.fml.common.network.internal.FMLProxyPacket
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 
-class XYChunkExtension(chunk: Chunk, worldExt: XYWorldExtension) extends ChunkExtension(chunk, worldExt) {
+class ProjectXChunkExtension(chunk: Chunk, worldExt: ProjectXWorldExtension) extends ChunkExtension(chunk, worldExt) {
   private val multiBlocks = new mutable.HashSet[MultiBlock]()
   private val updateMultiBlocks = new mutable.HashSet[MultiBlock]()
   private val packetQueue = new ArrayBuffer[FMLProxyPacket]()

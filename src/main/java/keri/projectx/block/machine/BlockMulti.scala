@@ -6,7 +6,7 @@
 
 package keri.projectx.block.machine
 
-import keri.projectx.multiblock.tile.TileMultiBlock
+import keri.projectx.tile.TileMultiBlock
 import net.minecraft.block.state.IBlockState
 import net.minecraft.block.{Block, ITileEntityProvider}
 import net.minecraft.entity.player.EntityPlayer
