@@ -209,3 +209,4 @@ tooltip.projectx.mode_diagnostic.name=Diagnose
 tooltip.projectx.mode_swap.name=Tauschen
 tooltip.projectx.energy_stored.name=Energie Gespeichert
 tooltip.projectx.no_core_installed.name=Kein Energie-Kern installiert!
+tooltip.projectx.diagnostic_error.name=Es gab einen Fehler beim analysieren dieses Blocks!

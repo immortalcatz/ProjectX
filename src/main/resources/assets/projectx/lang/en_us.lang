@@ -209,3 +209,4 @@ tooltip.projectx.mode_diagnostic.name=Diagnostic
 tooltip.projectx.mode_swap.name=Swap
 tooltip.projectx.energy_stored.name=Energy Stored
 tooltip.projectx.no_core_installed.name=No core installed!
+tooltip.projectx.diagnostic_error.name=There was an error diagnosing this block!
