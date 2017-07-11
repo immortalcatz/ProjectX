@@ -162,14 +162,15 @@ public class ClientEventHandler {
                     Colour colorMaster = new ColourRGBA(255, 40, 255, this.boxTicks);
                     Colour colorSlave = new ColourRGBA(40, 255, 255, this.boxTicks);
                     this.renderBox(pos, player, partialTicks, new Cuboid6(aabb), colorMaster);
-                    connections.forEach(connection -> {
+
+                    for(BlockPos connection : connections){
                         IBlockState deviceState = world.getBlockState(connection);
 
                         if(deviceState != null){
                             AxisAlignedBB deviceAabb = deviceState.getBoundingBox(world, pos);
-                            this.renderBox(pos, player, partialTicks, new Cuboid6(deviceAabb), colorSlave);
+                            this.renderBox(connection, player, partialTicks, new Cuboid6(deviceAabb), colorSlave);
                         }
-                    });
+                    }
                 }
             }
         }

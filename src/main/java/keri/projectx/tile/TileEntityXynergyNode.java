@@ -99,6 +99,16 @@ public class TileEntityXynergyNode extends TileEntityProjectX implements IXynerg
         return this.connectedDevices;
     }
 
+    @Override
+    public void addConnection(BlockPos pos) {
+        this.connectedDevices.add(pos);
+    }
+
+    @Override
+    public void removeConnection(BlockPos pos) {
+        this.connectedDevices.remove(pos);
+    }
+
     public void setXynergyClass(EnumXynergyClass xynergyClass){
         this.xynergyClass = xynergyClass;
         this.xynergyBuffer.setXynergyClass(xynergyClass);

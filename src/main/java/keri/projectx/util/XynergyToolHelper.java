@@ -12,6 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 
 public class XynergyToolHelper {
 
@@ -93,6 +94,77 @@ public class XynergyToolHelper {
         }
 
         return stack;
+    }
+
+    public static void prepareLink(EntityPlayer player, EnumHand hand, BlockPos toStore){
+        ItemStack heldItem = player.getHeldItem(hand);
+
+        if(!heldItem.isEmpty() && heldItem.getItem() == ProjectXContent.XYNERGY_TOOL){
+            if(heldItem.getTagCompound() != null && heldItem.getTagCompound().hasKey("mode")){
+                int currentMode = heldItem.getTagCompound().getInteger("mode");
+
+                if(currentMode == ItemXynergyTool.MODE_LINK){
+                    if(!heldItem.getTagCompound().hasKey("stored_position")){
+                        heldItem.getTagCompound().setIntArray("stored_position", new int[]{0, 0, 0});
+                    }
+                }
+            }
+        }
+    }
+
+    public static void storeLinkPosition(EntityPlayer player, EnumHand hand, BlockPos toStore){
+        ItemStack heldItem = player.getHeldItem(hand);
+
+        if(!heldItem.isEmpty() && heldItem.getItem() == ProjectXContent.XYNERGY_TOOL){
+            if(heldItem.getTagCompound() != null && heldItem.getTagCompound().hasKey("mode")){
+                int currentMode = heldItem.getTagCompound().getInteger("mode");
+
+                if(currentMode == ItemXynergyTool.MODE_LINK && heldItem.getTagCompound().hasKey("stored_position")){
+                    heldItem.getTagCompound().setIntArray("stored_position", new int[]{
+                            toStore.getX(),
+                            toStore.getY(),
+                            toStore.getZ()
+                    });
+                }
+            }
+        }
+    }
+
+    public static BlockPos disposeLinkPosition(EntityPlayer player, EnumHand hand){
+        BlockPos toDispose = BlockPos.ORIGIN;
+        ItemStack heldItem = player.getHeldItem(hand);
+
+        if(!heldItem.isEmpty() && heldItem.getItem() == ProjectXContent.XYNERGY_TOOL){
+            if(heldItem.getTagCompound() != null && heldItem.getTagCompound().hasKey("mode")){
+                int currentMode = heldItem.getTagCompound().getInteger("mode");
+
+                if(currentMode == ItemXynergyTool.MODE_LINK && heldItem.getTagCompound().hasKey("stored_position")){
+                    int[] stored = heldItem.getTagCompound().getIntArray("stored_position");
+                    toDispose = new BlockPos(stored[0], stored[1], stored[2]);
+                    heldItem.getTagCompound().setIntArray("stored_position", new int[]{0, 0, 0});
+                }
+            }
+        }
+
+        return toDispose;
+    }
+
+    public static BlockPos getLinkPosition(EntityPlayer player, EnumHand hand){
+        BlockPos toDispose = BlockPos.ORIGIN;
+        ItemStack heldItem = player.getHeldItem(hand);
+
+        if(!heldItem.isEmpty() && heldItem.getItem() == ProjectXContent.XYNERGY_TOOL){
+            if(heldItem.getTagCompound() != null && heldItem.getTagCompound().hasKey("mode")){
+                int currentMode = heldItem.getTagCompound().getInteger("mode");
+
+                if(currentMode == ItemXynergyTool.MODE_LINK && heldItem.getTagCompound().hasKey("stored_position")){
+                    int[] stored = heldItem.getTagCompound().getIntArray("stored_position");
+                    toDispose = new BlockPos(stored[0], stored[1], stored[2]);
+                }
+            }
+        }
+
+        return toDispose;
     }
 
 }

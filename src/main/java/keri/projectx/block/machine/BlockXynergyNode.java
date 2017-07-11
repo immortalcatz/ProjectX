@@ -177,7 +177,7 @@ public class BlockXynergyNode extends BlockProjectX implements IWrenchableBlock,
     }
 
     @Override
-    public boolean canLink(World world, BlockPos pos, EntityPlayer player, EnumFacing side, EnumHand hand) {
+    public boolean canLink(World world, BlockPos pos, EntityPlayer player, EnumFacing side, EnumHand hand){
         return false;
     }
 

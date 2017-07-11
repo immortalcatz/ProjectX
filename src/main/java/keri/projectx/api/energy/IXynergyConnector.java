@@ -14,6 +14,10 @@ public interface IXynergyConnector {
 
     boolean canConnectEnergy();
 
+    void addConnection(BlockPos pos);
+
+    void removeConnection(BlockPos pos);
+
     Collection<BlockPos> getConnectedDevices();
 
 }
