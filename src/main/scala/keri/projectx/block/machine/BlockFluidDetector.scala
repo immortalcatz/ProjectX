@@ -60,7 +60,7 @@ class BlockFluidDetector extends BlockAnimationHandler[TileEntityFluidDetector](
 
   override def getAnimationBrightness(world: IBlockAccess, pos: BlockPos, side: Int): Int = {
     world.getTileEntity(pos) match {
-      case fluidDetector: TileEntityFluidDetector => if (fluidDetector.power > 0) 220 else 70
+      case fluidDetector: TileEntityFluidDetector => if (fluidDetector.power > 0) 220 else 50
       case _ => 220
     }
   }
