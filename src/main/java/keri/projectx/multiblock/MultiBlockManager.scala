@@ -23,6 +23,7 @@ object MultiBlockManager {
     if (blockState.getBlock.hasTileEntity(blockState))
       return None
 
+    //TODO add more types
     MultiCategoryMatcher.getCategoryForBlock(blockState) match {
       case MultiShadowTypes.ROCK => world.setBlockState(pos, ProjectXContent.SHADOW_ROCK.getStateFromMeta(meta), 3)
       case MultiShadowTypes.WOOD => world.setBlockState(pos, ProjectXContent.SHADOW_WOOD.getStateFromMeta(meta), 3)

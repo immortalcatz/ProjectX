@@ -13,7 +13,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.tileentity.TileEntity;
 
-public class BlockProjectX<T extends TileEntity> extends BlockBase<T> {
+public abstract class BlockProjectX<T extends TileEntity> extends BlockBase<T> {
 
     public BlockProjectX(String blockName, Material material, MapColor mapColor) {
         super(blockName, material, mapColor);
@@ -35,5 +35,4 @@ public class BlockProjectX<T extends TileEntity> extends BlockBase<T> {
     public CreativeTabs getCreativeTab() {
         return ProjectXTab.PROJECTX;
     }
-
 }

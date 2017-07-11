@@ -17,6 +17,7 @@ import net.minecraft.util.math.MathHelper;
  * Used in CuboiodCoord
  */
 //Depracated only for internal use in CuboidCoord
+@SuppressWarnings("ALL")
 @Deprecated
 public class BlockCoord implements Comparable<BlockCoord>, Copyable<BlockCoord> {
     public static final BlockCoord[] sideOffsets = new BlockCoord[]{new BlockCoord(0, -1, 0), new BlockCoord(0, 1, 0), new BlockCoord(0, 0, -1), new BlockCoord(0, 0, 1), new BlockCoord(-1, 0, 0), new BlockCoord(1, 0, 0)};

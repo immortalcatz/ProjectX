@@ -13,7 +13,6 @@ import net.minecraft.world.chunk.Chunk
 /**
   * Created by Adam on 7/10/2017.
   */
-//XYWorldExtensionInstantiator renamed to be shorter
 object ProjectXWorldExtensionInstantiator extends WorldExtensionInstantiator {
   override def createWorldExtension(world: World): WorldExtension = new ProjectXWorldExtension(world)
 

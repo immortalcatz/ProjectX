@@ -10,7 +10,7 @@ import java.util
 import java.util.Random
 
 import keri.projectx.block.BlockProjectX
-import keri.projectx.client.render.ShadowBlockRenderer
+import keri.projectx.client.render.RenderShadowBlock
 import keri.projectx.tile.{BlockDef, TileMultiShadow}
 import keri.projectx.util.ModPrefs
 import net.minecraft.block.SoundType
@@ -37,7 +37,7 @@ class BlockMultiShadow(material: Material, suffix: String) extends BlockProjectX
 
   override def createNewTileEntity(world: World, meta: Int): TileMultiShadow = new TileMultiShadow
 
-  override def getRenderType(state: IBlockState): EnumBlockRenderType = ShadowBlockRenderer.RENDER_TYPE
+  override def getRenderType(state: IBlockState): EnumBlockRenderType = RenderShadowBlock.RENDER_TYPE
 
   override def canRenderInLayer(state: IBlockState, layer: BlockRenderLayer): Boolean = {
     if (blockMaterial == Material.GLASS) {

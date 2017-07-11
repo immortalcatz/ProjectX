@@ -21,14 +21,17 @@ import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import scala.Option;
-
-public class ShadowBlockRenderer implements IBlockRenderingHandler {
+//TODO make less cancerous
+@SideOnly(Side.CLIENT)
+public class RenderShadowBlock implements IBlockRenderingHandler {
     public static EnumBlockRenderType RENDER_TYPE;
 
     static {
         RENDER_TYPE = RenderingRegistry.getNextAvailableType();
-        RenderingRegistry.registerRenderingHandler(new ShadowBlockRenderer());
+        RenderingRegistry.registerRenderingHandler(new RenderShadowBlock());
     }
 
     @Override
@@ -37,12 +40,13 @@ public class ShadowBlockRenderer implements IBlockRenderingHandler {
         if (!(tile instanceof TileMultiShadow)) {
             return false;
         }
+
         Option<BlockDef> blockDef = ((TileMultiShadow) tile).getCurrBlockDef();
+
         if (!blockDef.isDefined())
             return false;
 
-        IBlockState shadow_state = blockDef.get().block().getStateFromMeta(ProjectXContent.SHADOW_WOOD.getMetaFromState(world.getBlockState(pos)));
-        return Minecraft.getMinecraft().getBlockRendererDispatcher().renderBlock(shadow_state, pos, world, buffer);
+        return Minecraft.getMinecraft().getBlockRendererDispatcher().renderBlock(blockDef.get().getBlockState(), pos, world, buffer);
     }
 
     @Override

@@ -4,9 +4,10 @@
  * explicit permission of the developer!
  */
 
-package keri.projectx.client.gui
+package keri.projectx.container
 
 import codechicken.lib.inventory.container.ContainerExtended
+import keri.projectx.client.gui.{SlotLiquidContainer, SlotOutput}
 import keri.projectx.multiblock.MultiTank
 import net.minecraft.entity.player.InventoryPlayer
 import net.minecraft.item.ItemStack

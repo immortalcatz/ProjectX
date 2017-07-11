@@ -6,7 +6,7 @@
 
 package keri.projectx.network;
 
-import keri.projectx.client.gui.ContainerMultitank;
+import keri.projectx.container.ContainerMultitank;
 import keri.projectx.client.gui.GuiFaricator;
 import keri.projectx.client.gui.GuiManual;
 import keri.projectx.client.gui.GuiMultiTank;

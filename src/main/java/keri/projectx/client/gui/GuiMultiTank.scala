@@ -8,6 +8,7 @@ package keri.projectx.client.gui
 
 import codechicken.lib.render.RenderUtils
 import codechicken.lib.vec.Vector3
+import keri.projectx.container.ContainerMultitank
 import keri.projectx.multiblock.MultiTank
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.Tessellator
