@@ -3,8 +3,8 @@ package keri.projectx.multiblock
 import codechicken.lib.data.{MCDataInput, MCDataOutput}
 import codechicken.lib.packet.PacketCustom
 import keri.projectx.featurehack.{EntityRenderHook, EntityUpdateHook}
-import keri.projectx.machine.multiblock.network.MultiBlocksCPH
-import keri.projectx.machine.multiblock.tile.TileMultiBlock
+import keri.projectx.multiblock.network.MultiBlocksCPH
+import keri.projectx.multiblock.tile.TileMultiBlock
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.nbt.{NBTTagCompound, NBTTagList}
 import net.minecraft.util.math.BlockPos

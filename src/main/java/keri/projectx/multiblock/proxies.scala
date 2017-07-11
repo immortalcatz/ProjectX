@@ -4,13 +4,13 @@ import codechicken.lib.packet.PacketCustom
 import codechicken.lib.texture.TextureUtils
 import codechicken.lib.world.WorldExtensionManager
 import keri.projectx.featurehack.FeatureHack
-import keri.projectx.machine.multiblock.client.MultiBlockOverlayRenderer
-import keri.projectx.machine.multiblock.network.MultiBlocksCPH
+import keri.projectx.multiblock.client.MultiBlockOverlayRenderer
+import keri.projectx.multiblock.network.MultiBlocksCPH
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.event.{FMLInitializationEvent, FMLPostInitializationEvent, FMLPreInitializationEvent}
 import net.minecraftforge.fml.relauncher.{Side, SideOnly}
 
-class MultiBlockCommonProxy {
+object MultiBlockCommonProxy {
   def preInit(event: FMLPreInitializationEvent) {
   }
 

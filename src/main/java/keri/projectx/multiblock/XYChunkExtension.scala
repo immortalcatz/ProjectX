@@ -15,10 +15,9 @@ class XYChunkExtension(chunk: Chunk, worldExt: XYWorldExtension) extends ChunkEx
   private val packetQueue = new ArrayBuffer[FMLProxyPacket]()
   var requestedUpdatePackets = false
 
-
   def addMultiBlock(multiBlock: MultiBlock): Unit = {
     multiBlocks += multiBlock
-    chunk.setModified(true)
+    chunk.setChunkModified()
   }
 
   def removeMultiBlock(multiBlock: MultiBlock): Unit = multiBlocks.remove(multiBlock)
@@ -92,6 +91,8 @@ class XYChunkExtension(chunk: Chunk, worldExt: XYWorldExtension) extends ChunkEx
         player.connection.sendPacket(multiBlock.getDescriptionPacket())
     }
   }
+
+  def getChunk(): Chunk = chunk
 
   def markMultiBlockForUpdate(multiBlock: MultiBlock): Unit = {
     if (multiBlock.requestsedUpdatePacket)

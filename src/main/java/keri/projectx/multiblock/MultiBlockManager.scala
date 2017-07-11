@@ -1,7 +1,7 @@
 package keri.projectx.multiblock
 
 import keri.projectx.init.ProjectXContent
-import keri.projectx.machine.multiblock.tile.{TileMultiBlock, TileMultiShadow}
+import keri.projectx.multiblock.tile.{TileMultiBlock, TileMultiShadow}
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 

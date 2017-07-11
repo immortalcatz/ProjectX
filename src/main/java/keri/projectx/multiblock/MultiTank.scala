@@ -6,8 +6,8 @@ import codechicken.lib.inventory.InventoryUtils
 import codechicken.lib.render.{CCRenderState, RenderUtils}
 import codechicken.lib.vec.Cuboid6
 import keri.projectx.ProjectX
-import keri.projectx.machine.multiblock.fluid.TFluidMultiBlock
-import keri.projectx.machine.multiblock.tile.TileMultiBlock
+import keri.projectx.multiblock.fluid.TFluidMultiBlock
+import keri.projectx.multiblock.tile.TileMultiBlock
 import keri.projectx.network.ProjectXGuiHandler
 import keri.projectx.util.XFluidUtil
 import keri.projectx.vec.{BlockCoord, CuboidCoord}
@@ -184,7 +184,7 @@ case class MultiTank(worldExt: XYWorldExtension, chunkExt: XYChunkExtension) ext
 
   override def clear(): Unit = {}
 
-  override def markDirty(): Unit = chunkExt.chunk.setModified(true)
+  override def markDirty(): Unit = chunkExt.getChunk().setChunkModified()
 
   override def isItemValidForSlot(index: Int, stack: ItemStack): Boolean = stack.getItem.isInstanceOf[ItemFluidContainer]
 

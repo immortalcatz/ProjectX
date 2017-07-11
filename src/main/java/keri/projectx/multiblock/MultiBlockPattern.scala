@@ -1,9 +1,11 @@
 package keri.projectx.multiblock
 
-import keri.projectx.machine.multiblock.tile.TileMultiBlock
+import keri.projectx.multiblock.tile.TileMultiBlock
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
+import keri.projectx.multiblock.MultiBlockPattern._
+
 
 import scala.collection.mutable.ArrayBuffer
 

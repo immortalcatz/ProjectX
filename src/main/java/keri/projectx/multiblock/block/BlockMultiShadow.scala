@@ -4,9 +4,11 @@ import java.util
 import java.util.Random
 
 import keri.ninetaillib.lib.block.BlockBase
+import keri.projectx.block.BlockProjectX
 import keri.projectx.client.render.ShadowBlockRenderer
-import keri.projectx.machine.ProjectXYMechProxy
 import keri.projectx.multiblock.tile.{BlockDef, TileMultiShadow}
+import keri.projectx.tile.TileEntityXycroniumLight
+import keri.projectx.util.ModPrefs
 import net.minecraft.block.SoundType
 import net.minecraft.block.material.Material
 import net.minecraft.block.state.IBlockState
@@ -18,8 +20,9 @@ import net.minecraft.tileentity.TileEntity
 import net.minecraft.util.math.{AxisAlignedBB, BlockPos, RayTraceResult}
 import net.minecraft.util.{BlockRenderLayer, EnumBlockRenderType, EnumFacing}
 import net.minecraft.world.{Explosion, IBlockAccess, World}
+import net.minecraftforge.fml.common.registry.GameRegistry
 
-class BlockMultiShadow(material: Material, suffix: String) extends BlockBase[TileMultiShadow](s"blockMultiShadow$suffix", material) with BlockMulti {
+class BlockMultiShadow(material: Material, suffix: String) extends BlockProjectX[TileMultiShadow](s"blockMultiShadow$suffix", material) with BlockMulti {
   setCreativeTab(null)
   material match {
     case Material.WOOD => setSoundType(SoundType.WOOD)
@@ -166,4 +169,6 @@ class BlockMultiShadow(material: Material, suffix: String) extends BlockBase[Til
     super.harvestBlock(worldIn, player, pos, state, te, stack)
     worldIn.setBlockToAir(pos)
   }
+
+  override def registerTileEntities(): Unit = GameRegistry.registerTileEntity(classOf[TileMultiShadow], "tile." + ModPrefs.MODID + ".multi_block_shadow_block")
 }
