@@ -6,6 +6,7 @@ import codechicken.lib.colour.{ColourRGBA, EnumColour}
 import codechicken.lib.render.CCRenderState
 import codechicken.lib.texture.TextureUtils
 import codechicken.lib.vec.Vector3
+import keri.ninetaillib.lib.gui.GuiContainerBase
 import keri.projectx.ProjectX
 import net.minecraft.client.gui.inventory.GuiContainer
 import net.minecraft.client.renderer.texture.TextureAtlasSprite
@@ -16,7 +17,7 @@ import org.lwjgl.opengl.GL11
 import scala.collection.JavaConverters._
 import scala.collection.mutable.ArrayBuffer
 
-abstract class GuiCommon(container: Container) extends GuiContainer(container) {
+abstract class GuiCommon(container: Container) extends GuiContainerBase(container) {
   private val menus = new ArrayBuffer[Menu]()
 
   override def initGui(): Unit = {

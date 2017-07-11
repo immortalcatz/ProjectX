@@ -7,8 +7,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 
-//TODO Find viability of keeping this, BlockPos is a thing now..
-
 /**
  * Used in CuboiodCoord
  */
