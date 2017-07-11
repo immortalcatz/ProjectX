@@ -8,6 +8,7 @@ package keri.projectx.network;
 
 import codechicken.lib.packet.ICustomPacketHandler;
 import codechicken.lib.packet.PacketCustom;
+import keri.projectx.data.ProjectXWorldExtensionInstantiator;
 import keri.projectx.tile.TileEntityProjectX;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
@@ -23,6 +24,15 @@ public class ProjectXCPH implements ICustomPacketHandler.IClientPacketHandler {
         switch(packet.getType()){
             case 1:
                 this.handleTilePacket(packet, minecraft.world);
+                break;
+            case 2:
+                this.handleWEDescriptionPacket(packet, minecraft.world);
+                break;
+            case 3:
+                this.handleWERemoveMultiblockPacket(packet, minecraft.world);
+                break;
+            case 4:
+                this.handleWEMultiblockUpdatePacket(packet, minecraft.world);
                 break;
         }
     }
@@ -42,6 +52,18 @@ public class ProjectXCPH implements ICustomPacketHandler.IClientPacketHandler {
                 world.markBlockRangeForRenderUpdate(pos, pos);
             }
         }
+    }
+
+    private void handleWEDescriptionPacket(PacketCustom packet, WorldClient world){
+        ProjectXWorldExtensionInstantiator.getExtensionXy(world).handleDescriptionPacket(packet);
+    }
+
+    private void handleWERemoveMultiblockPacket(PacketCustom packet, WorldClient world){
+        ProjectXWorldExtensionInstantiator.getExtensionXy(world).handleRemoveMultiBlockPacket(packet);
+    }
+
+    private void handleWEMultiblockUpdatePacket(PacketCustom packet, WorldClient world){
+        ProjectXWorldExtensionInstantiator.getExtensionXy(world).handleMultiBlockUpdate(packet);
     }
 
 }

@@ -8,9 +8,9 @@ package keri.projectx.multiblock
 
 import codechicken.lib.data.{MCDataInput, MCDataOutput}
 import codechicken.lib.packet.PacketCustom
+import keri.projectx.ProjectX
 import keri.projectx.data.{ProjectXChunkExtension, ProjectXWorldExtension, ProjectXWorldExtensionInstantiator}
 import keri.projectx.featurehack.{EntityRenderHook, EntityUpdateHook}
-import keri.projectx.multiblock.network.MultiBlocksCPH
 import keri.projectx.tile.TileMultiBlock
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.nbt.{NBTTagCompound, NBTTagList}
@@ -126,7 +126,7 @@ abstract class MultiBlock(worldExt: ProjectXWorldExtension, chunkExt: ProjectXCh
     * @return the packet that sends to the client when either added or reloaded or another player is added to the world
     */
   def getDescriptionPacket(): FMLProxyPacket = {
-    val packet = new PacketCustom(MultiBlocksCPH.CHANNEL, 1)
+    val packet = new PacketCustom(ProjectX.INSTANCE, 2)
     packet.writeInt(id)
     packet.writeInt(getMultiBlockId.ordinal())
     packet.writeInt(chunkExt.coord.chunkXPos)
@@ -201,7 +201,7 @@ abstract class MultiBlock(worldExt: ProjectXWorldExtension, chunkExt: ProjectXCh
   def readFromUpdatePacket(in: MCDataInput): Unit = {}
 
   def getUpdatePacket: FMLProxyPacket = {
-    val packet = new PacketCustom(MultiBlocksCPH.CHANNEL, 3)
+    val packet = new PacketCustom(ProjectX.INSTANCE, 4)
     packet.writeInt(id)
     writeToUpdatePacket(packet)
     packet.toPacket

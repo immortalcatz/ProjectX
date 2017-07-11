@@ -8,7 +8,7 @@ package keri.projectx.data
 
 import codechicken.lib.packet.PacketCustom
 import codechicken.lib.world.{ChunkExtension, WorldExtension}
-import keri.projectx.multiblock.network.MultiBlocksCPH
+import keri.projectx.ProjectX
 import keri.projectx.multiblock.{MultiBlock, MultiBlockManager, MultiBlockTypes}
 import net.minecraft.world.World
 import net.minecraftforge.fml.relauncher.{Side, SideOnly}
@@ -111,7 +111,7 @@ class ProjectXWorldExtension(worldObj: World) extends WorldExtension(worldObj) {
           getChunkExtension(coord).removeMultiBlock(multiBlock)
       }
       if (!world.isRemote && remove) {
-        val packet = new PacketCustom(MultiBlocksCPH.CHANNEL, 2)
+        val packet = new PacketCustom(ProjectX.INSTANCE, 3)
         packet.writeInt(dim)
         packet.writeInt(multiBlock.id)
         multiBlock.getChunkExt.sendPacketToPlayers(packet.toPacket)
@@ -146,7 +146,7 @@ class ProjectXWorldExtension(worldObj: World) extends WorldExtension(worldObj) {
           getChunkExtension(coord).removeMultiBlock(multiBlock)
       }
       if (!world.isRemote) {
-        val packet = new PacketCustom(MultiBlocksCPH.CHANNEL, 2)
+        val packet = new PacketCustom(ProjectX.INSTANCE, 3)
         packet.writeInt(dim)
         packet.writeInt(multiBlock.id)
         multiBlock.getChunkExt.sendPacketToPlayers(packet.toPacket)

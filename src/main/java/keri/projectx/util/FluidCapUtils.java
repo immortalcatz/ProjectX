@@ -22,7 +22,7 @@ import javax.annotation.Nullable;
 /**
  * Created by Adam on 7/5/2017.
  */
-public class FluidUtils {
+public class FluidCapUtils {
     @CapabilityInject(IFluidHandler.class)
     private static final Capability<IFluidHandler> FLUID_HANDLER = null;
 

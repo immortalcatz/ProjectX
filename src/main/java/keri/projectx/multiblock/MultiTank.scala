@@ -16,7 +16,7 @@ import keri.projectx.data.{ProjectXChunkExtension, ProjectXWorldExtension, Proje
 import keri.projectx.multiblock.fluid.TFluidMultiBlock
 import keri.projectx.network.ProjectXGuiHandler
 import keri.projectx.tile.TileMultiBlock
-import keri.projectx.util.FluidUtils
+import keri.projectx.util.FluidCapUtils
 import keri.projectx.vec.{BlockCoord, CuboidCoord}
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import net.minecraft.entity.player.EntityPlayer
@@ -152,7 +152,7 @@ case class MultiTank(worldExt: ProjectXWorldExtension, chunkExt: ProjectXChunkEx
       } else if (tank.getFluid != null) {
         val slotContent = inv(0).copy()
         slotContent.setCount(1)
-        val fill = FluidUtils.tryFillContainer(slotContent, tank.getFluid)
+        val fill = FluidCapUtils.tryFillContainer(slotContent, tank.getFluid)
         if (fill.result.fluidStack == null) {
           return
         }
