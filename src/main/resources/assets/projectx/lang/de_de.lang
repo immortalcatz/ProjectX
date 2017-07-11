@@ -110,6 +110,7 @@ tile.projectx.engineering_bricks.green.name=Grüne Konstruktions Ziegel
 tile.projectx.engineering_bricks.red.name=Rote Konstruktions Ziegel
 tile.projectx.engineering_bricks.dark.name=Dunkle Konstruktions Ziegel
 tile.projectx.engineering_bricks.light.name=Helle Konstruktions Ziegel
+tile.projectx.valve.name=Tank Ventil
 
 item.projectx.xycronium_crystal.blue.name=Blauer Xycronium Kristall
 item.projectx.xycronium_crystal.green.name=Grüner Xycronium Kristall
@@ -181,8 +182,6 @@ item.projectx.leggings_xycronium_light.name=Helle Xycronium Hose
 item.projectx.boots_xycronium_light.name=Helle Xycronium Stiefel
 item.projectx.xynergy_tool.name=Xynergy Werkzeug
 item.projectx.manual.name=Handbuch
-
-tile.projectx.valve.name=Ventil
 
 container.projectx.fabricator.name=Fabrikator
 

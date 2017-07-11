@@ -110,6 +110,7 @@ tile.projectx.engineering_bricks.green.name=Green Engineering Bricks
 tile.projectx.engineering_bricks.red.name=Red Engineering Bricks
 tile.projectx.engineering_bricks.dark.name=Dark Engineering Bricks
 tile.projectx.engineering_bricks.light.name=Light Engineering Bricks
+tile.projectx.valve.name=Tank Valve
 
 item.projectx.xycronium_crystal.blue.name=Blue Xycronium Crystal
 item.projectx.xycronium_crystal.green.name=Green Xycronium Crystal
@@ -181,8 +182,6 @@ item.projectx.leggings_xycronium_light.name=Light Xycronium Leggings
 item.projectx.boots_xycronium_light.name=Light Xycronium Boots
 item.projectx.xynergy_tool.name=Xynergy Tool
 item.projectx.manual.name=Manual
-
-tile.projectx.valve.name=Valve
 
 container.projectx.fabricator.name=Fabricator
 

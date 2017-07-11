@@ -16,11 +16,14 @@ import keri.ninetaillib.lib.util.BlockAccessUtils;
 import keri.ninetaillib.lib.util.EnumDyeColor;
 import keri.ninetaillib.lib.util.IShiftDescription;
 import keri.projectx.ProjectX;
+import keri.projectx.api.block.IDiagnoseableBlock;
+import keri.projectx.api.block.IWrenchableBlock;
 import keri.projectx.event.CommonEventHandler;
 import keri.projectx.init.ProjectXContent;
 import keri.projectx.tile.TileEntityXycroniumLight;
 import keri.projectx.util.CommonUtils;
 import keri.projectx.util.ModPrefs;
+import keri.projectx.util.Translations;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -46,7 +49,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class BlockXycroniumLight extends BlockAnimationHandler<TileEntityXycroniumLight> implements IShiftDescription {
+public class BlockXycroniumLight extends BlockAnimationHandler<TileEntityXycroniumLight> implements IShiftDescription, IWrenchableBlock, IDiagnoseableBlock {
 
     @SideOnly(Side.CLIENT)
     private TextureAtlasSprite texture;
@@ -210,6 +213,49 @@ public class BlockXycroniumLight extends BlockAnimationHandler<TileEntityXycroni
         }
 
         return stack;
+    }
+
+    @Override
+    public boolean canWrench(World world, BlockPos pos, EntityPlayer player, EnumFacing side, EnumHand hand) {
+        return true;
+    }
+
+    @Override
+    public void onWrenchUsed(World world, BlockPos pos, EntityPlayer player, EnumFacing side, EnumHand hand) {
+        if(!world.isRemote){
+            TileEntityXycroniumLight tile = (TileEntityXycroniumLight)world.getTileEntity(pos);
+            ItemStack stack = new ItemStack(this, 1, 0);
+            ItemNBTUtils.validateTagExists(stack);
+
+            if(tile != null){
+                stack.getTagCompound().setInteger("color", tile.getColor().rgba());
+            }
+
+            ItemUtils.dropItem(world, pos, stack);
+            world.setBlockToAir(pos);
+        }
+    }
+
+    @Override
+    public boolean canDiagnose(World world, BlockPos pos, EntityPlayer player, EnumFacing side, EnumHand hand) {
+        return true;
+    }
+
+    @Override
+    public void onDiagnosed(World world, BlockPos pos, EntityPlayer player, EnumFacing side, EnumHand hand) {}
+
+    @Override
+    public void addDiagnosticInformation(World world, BlockPos pos, EntityPlayer player, List<String> tooltip) {
+        TileEntityXycroniumLight tile = (TileEntityXycroniumLight)world.getTileEntity(pos);
+
+        if(tile != null){
+            tooltip.add(TextFormatting.RED + "R: " + (tile.getColor().r & 0xFF));
+            tooltip.add(TextFormatting.GREEN + "G: " + (tile.getColor().g & 0xFF));
+            tooltip.add(TextFormatting.BLUE + "B: " + (tile.getColor().b & 0xFF));
+        }
+        else{
+            tooltip.add(Translations.TOOLTIP_DIAGNOSTIC_ERROR);
+        }
     }
 
     @Override

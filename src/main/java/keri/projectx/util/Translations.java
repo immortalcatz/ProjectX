@@ -27,6 +27,7 @@ public class Translations {
     public static final String TOOLTIP_MODE_SWAP = translate("tooltip", "mode_swap");
     public static final String TOOLTIP_ENERGY_STORED = translate("tooltip", "energy_stored");
     public static final String TOOLTIP_NO_CORE_INSTALLED = translate("tooltip", "no_core_installed");
+    public static final String TOOLTIP_DIAGNOSTIC_ERROR = translate("tooltip", "diagnostic_error");
 
     public static final String getXynergyTypeName(EnumXynergyType xynergyType){
         return translate("xynergy", "type." + xynergyType.getName());

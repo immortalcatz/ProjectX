@@ -155,6 +155,14 @@ public class ProjectXCrafting {
                 'C', new ItemStack(ProjectXContent.ENGINEERING_BRICKS, 1, 4),
                 'V', Blocks.PACKED_ICE
         );
+        GameRegistry.addRecipe(new ItemStack(ProjectXContent.XYNERGY_TOOL, 1, 0),
+                "X X",
+                " V ",
+                " C ",
+                'X', Items.IRON_INGOT,
+                'V', ProjectXContent.QUARTZ_CRYSTAL,
+                'C', new ItemStack(ProjectXContent.XYCRONIUM_INGOT, 1, OreDictionary.WILDCARD_VALUE)
+        );
 
         for(int meta = 0; meta < 5; meta++){
             GameRegistry.addShapelessRecipe(new ItemStack(ProjectXContent.XYCRONIUM_CRYSTAL, 9, meta), new ItemStack(ProjectXContent.XYCRONIUM_BLOCK, 1, meta));
