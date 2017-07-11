@@ -1,7 +1,7 @@
 package keri.projectx.machine.gui
 
 import codechicken.lib.inventory.container.ContainerExtended
-import com.projectxy.core.gui.{SlotLiquidContainer, SlotOutput}
+import keri.projectx.client.gui.{SlotLiquidContainer, SlotOutput}
 import keri.projectx.machine.multiblock.MultiTank
 import net.minecraft.entity.player.InventoryPlayer
 import net.minecraft.item.ItemStack

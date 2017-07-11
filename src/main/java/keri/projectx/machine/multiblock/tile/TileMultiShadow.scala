@@ -20,10 +20,6 @@ class TileMultiShadow extends TileMultiBlock /* with TMachineTile*/ {
 
   def getCurrBlockDef: Option[BlockDef] = Option(currBlock)
 
-  override def getUpdatePacket: SPacketUpdateTileEntity = new SPacketUpdateTileEntity(pos, 0, getUpdateTag)
-
-  override def getUpdateTag: NBTTagCompound = writeToNBT(super.getUpdateTag)
-
   override def writeToNBT(compound: NBTTagCompound): NBTTagCompound = {
     super.writeToNBT(compound)
     if (currBlock != null)
@@ -31,24 +27,9 @@ class TileMultiShadow extends TileMultiBlock /* with TMachineTile*/ {
     compound
   }
 
-  override def onDataPacket(net: NetworkManager, pkt: SPacketUpdateTileEntity): Unit = {
-    readFromNBT(pkt.getNbtCompound)
-  }
-
   override def readFromNBT(compound: NBTTagCompound): Unit = {
     super.readFromNBT(compound)
     BlockDef.read(compound).foreach(value => setCurrentBlock(value))
-  }
-
-  override def markDirty(): Unit = {
-    super.markDirty()
-    if (getWorld != null) {
-      val state = getWorld.getBlockState(getPos)
-      if (state != null) {
-        state.getBlock.updateTick(world, pos, state, getWorld.rand)
-        getWorld.notifyBlockUpdate(getPos, state, state, 3)
-      }
-    }
   }
 }
 

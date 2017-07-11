@@ -1,6 +1,6 @@
 package keri.projectx.machine.multiblock
 
-import keri.projectx.machine.multiblock.block.BlockMultiTank
+import keri.projectx.machine.multiblock.block.BlockValve
 import net.minecraft.block.material.Material
 import net.minecraft.block.state.IBlockState
 import net.minecraft.util.math.BlockPos
@@ -42,7 +42,7 @@ object MultiShadowCategoryMatcher {
   val GRASS = new MultiShadowCategoryMatcher(MultiShadowTypes.GRASS)
   val ANY_OPAQUE_EXCEPT_VALVE = new MultiBlockMatcher {
     override def matches(world: World, pos: BlockPos): Boolean = {
-      if (world.getBlockState(pos).getBlock.isInstanceOf[BlockMultiTank])
+      if (world.getBlockState(pos).getBlock.isInstanceOf[BlockValve])
         return false
       val category = MultiCategoryMatcher.getCategoryForBlock(world.getBlockState(pos))
       category == MultiShadowTypes.ROCK || category == MultiShadowTypes.WOOD || category == MultiShadowTypes.GRASS

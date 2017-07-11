@@ -3,9 +3,10 @@ package keri.projectx.machine.multiblock.block
 import java.util
 import java.util.Random
 
+import keri.ninetaillib.lib.block.BlockBase
 import keri.projectx.machine.ProjectXYMechProxy
+import keri.projectx.machine.client.ShadowBlockRenderer
 import keri.projectx.machine.multiblock.tile.{BlockDef, TileMultiShadow}
-import com.projectxy.world.block.MetaBlock
 import net.minecraft.block.SoundType
 import net.minecraft.block.material.Material
 import net.minecraft.block.state.IBlockState
@@ -18,8 +19,7 @@ import net.minecraft.util.math.{AxisAlignedBB, BlockPos, RayTraceResult}
 import net.minecraft.util.{BlockRenderLayer, EnumBlockRenderType, EnumFacing}
 import net.minecraft.world.{Explosion, IBlockAccess, World}
 
-class BlockMultiShadow(material: Material, suffix: String) extends MetaBlock(material) with BlockMulti {
-  setBlockName("blockMultiShadow" + suffix)
+class BlockMultiShadow(material: Material, suffix: String) extends BlockBase[TileMultiShadow](s"blockMultiShadow$suffix", material) with BlockMulti {
   setCreativeTab(null)
   material match {
     case Material.WOOD => setSoundType(SoundType.WOOD)
@@ -28,10 +28,9 @@ class BlockMultiShadow(material: Material, suffix: String) extends MetaBlock(mat
     case _ =>
   }
 
-  override def createNewTileEntity(world: World, meta: Int): TileEntity = new TileMultiShadow
+  override def createNewTileEntity(world: World, meta: Int): TileMultiShadow = new TileMultiShadow
 
-
-  override def getRenderType(state: IBlockState): EnumBlockRenderType = ProjectXYMechProxy.shadowRenderType
+  override def getRenderType(state: IBlockState): EnumBlockRenderType = ShadowBlockRenderer.RENDER_TYPE
 
   override def canRenderInLayer(state: IBlockState, layer: BlockRenderLayer): Boolean = {
     if (blockMaterial == Material.GLASS) {

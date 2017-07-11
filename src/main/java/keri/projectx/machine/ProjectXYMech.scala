@@ -4,10 +4,9 @@ import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.Mod.EventHandler
 import net.minecraftforge.fml.common.event.{FMLInitializationEvent, FMLPostInitializationEvent, FMLPreInitializationEvent}
 
-@Mod(modid = "projectxymech", name = "Project XY - Mech", modLanguage = "scala", dependencies = "required-after:projectxy")
+@Mod(modid = "projectxmech", name = "ProjectX - Mech", modLanguage = "scala", dependencies = "required-after:projectx")
 object ProjectXYMech {
-  MechBlocks.init()
-  val MOD_ID = "projectxymech"
+  val MOD_ID = "projectxmech"
 
   @EventHandler def init(event: FMLInitializationEvent) {
     ProjectXYMechProxy.init(event)

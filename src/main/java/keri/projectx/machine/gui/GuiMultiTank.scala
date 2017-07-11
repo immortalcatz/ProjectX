@@ -2,7 +2,7 @@ package keri.projectx.machine.gui
 
 import codechicken.lib.render.RenderUtils
 import codechicken.lib.vec.Vector3
-import com.projectxy.core.gui.GuiCommon
+import keri.projectx.client.gui.GuiCommon
 import keri.projectx.machine.multiblock.MultiTank
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.Tessellator

@@ -13,8 +13,11 @@ import keri.projectx.block.*;
 import keri.projectx.block.machine.*;
 import keri.projectx.client.ProjectXTab;
 import keri.projectx.item.*;
+import keri.projectx.machine.multiblock.block.BlockMultiShadow;
+import keri.projectx.machine.multiblock.block.BlockValve;
 import keri.projectx.util.ModPrefs;
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
@@ -58,6 +61,12 @@ public class ProjectXContent {
     public static Block XYCRONIUM_ICE = new BlockXycroniumIce();
     public static Block FABRICATOR = new BlockFabricator();
     public static Block XYNERGY_NODE = new BlockXynergyNode();
+    public static Block blockShadowRock = new BlockMultiShadow(Material.ROCK, "Rock");
+    public static Block blockShadowAir = new BlockMultiShadow(Material.AIR, "Air");
+    public static Block blockShadowGlass = new BlockMultiShadow(Material.GLASS, "Glass");
+    public static Block blockShadowWood = new BlockMultiShadow(Material.WOOD, "Wood");
+    public static Block blockShadowGrass = new BlockMultiShadow(Material.GROUND, "Grass");
+    public static Block blockMultiBlock = new BlockValve();
 
     public static Item XYCRONIUM_CRYSTAL = new ItemXycroniumCrystal();
     public static Item XYCRONIUM_INGOT = new ItemXycroniumIngot();

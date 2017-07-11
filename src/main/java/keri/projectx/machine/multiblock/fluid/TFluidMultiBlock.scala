@@ -4,7 +4,7 @@ import codechicken.lib.data.{MCDataInput, MCDataOutput}
 import codechicken.lib.fluid.FluidUtils
 import keri.projectx.machine.multiblock.MultiBlock
 import keri.projectx.machine.multiblock.tile.TileValve
-import com.projectxy.vec.CuboidCoord
+import keri.projectx.vec.CuboidCoord
 import net.minecraft.util.math.BlockPos
 import net.minecraftforge.fluids.{FluidStack, FluidTankInfo}
 

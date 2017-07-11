@@ -10,6 +10,10 @@ import keri.projectx.client.gui.GuiFaricator;
 import keri.projectx.client.gui.GuiManual;
 import keri.projectx.container.ContainerDummy;
 import keri.projectx.container.ContainerFabricator;
+import keri.projectx.machine.gui.ContainerMultitank;
+import keri.projectx.machine.gui.GuiMultiTank;
+import keri.projectx.machine.multiblock.MultiTank;
+import keri.projectx.machine.multiblock.tile.TileMultiBlock;
 import keri.projectx.tile.TileEntityFabricator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
@@ -23,32 +27,38 @@ public class ProjectXGuiHandler implements IGuiHandler {
     public static final int GUIID_BASE = 0;
     public static final int GUIID_FABRICATOR = GUIID_BASE + 0;
     public static final int GUIID_MANUAL = GUIID_BASE + 1;
+    public static final int MULTI_TANK = GUIID_BASE + 2;
 
     @Nullable
     @Override
-    public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-        if(ID == GUIID_FABRICATOR){
-            TileEntityFabricator tile = (TileEntityFabricator)world.getTileEntity(new BlockPos(x, y, z));
-            return new ContainerFabricator(player.inventory, tile);
+    public Object getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
+        switch (id) {
+            case GUIID_FABRICATOR:
+                TileEntityFabricator tileFabricator = (TileEntityFabricator) world.getTileEntity(new BlockPos(x, y, z));
+                return new ContainerFabricator(player.inventory, tileFabricator);
+            case GUIID_MANUAL:
+                return new ContainerDummy();
+            case MULTI_TANK:
+                TileMultiBlock tile = (TileMultiBlock) world.getTileEntity(new BlockPos(x, y, z));
+                return new ContainerMultitank(player.inventory, (MultiTank) tile.getTank(0).get());
         }
-        else if(ID == GUIID_MANUAL){
-            return new ContainerDummy();
-        }
-
         return null;
     }
 
     @Nullable
     @Override
-    public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-        if(ID == GUIID_FABRICATOR){
-            TileEntityFabricator tile = (TileEntityFabricator)world.getTileEntity(new BlockPos(x, y, z));
-            return new GuiFaricator(player.inventory, tile);
-        }
-        else if(ID == GUIID_MANUAL){
-            return new GuiManual();
-        }
+    public Object getClientGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
+        switch (id) {
+            case GUIID_FABRICATOR:
+                TileEntityFabricator tileFabricator = (TileEntityFabricator) world.getTileEntity(new BlockPos(x, y, z));
+                return new GuiFaricator(player.inventory, tileFabricator);
+            case GUIID_MANUAL:
+                return new GuiManual();
+            case MULTI_TANK:
+                TileMultiBlock tileMultiBlock = (TileMultiBlock) world.getTileEntity(new BlockPos(x, y, z));
+                return new GuiMultiTank(player.inventory, (MultiTank) tileMultiBlock.getTank(0).get());
 
+        }
         return null;
     }
 

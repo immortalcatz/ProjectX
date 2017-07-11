@@ -4,7 +4,7 @@ import codechicken.lib.render
 import codechicken.lib.texture.TextureUtils
 import codechicken.lib.texture.TextureUtils.IIconRegister
 import keri.projectx.machine.multiblock.tile.TileMultiBlock
-import com.projectxy.world.ProjectXYWorld
+import keri.projectx.util.ModPrefs
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.texture.{TextureAtlasSprite, TextureMap}
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
@@ -71,6 +71,6 @@ object MultiBlockOverlayRenderer extends IIconRegister {
   }
 
   override def registerIcons(textureMap: TextureMap): Unit = {
-    overlayTexture = textureMap.registerSprite(new ResourceLocation(ProjectXYWorld.MOD_ID, s"blocks/overlay/overlay_multi_block"))
+    overlayTexture = textureMap.registerSprite(new ResourceLocation(ModPrefs.MODID, s"blocks/overlay_multi_block"))
   }
 }

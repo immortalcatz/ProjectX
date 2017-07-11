@@ -2,7 +2,7 @@ package keri.projectx.machine.multiblock
 
 import codechicken.lib.data.{MCDataInput, MCDataOutput}
 import codechicken.lib.packet.PacketCustom
-import com.projectxy.featurehack.{EntityRenderHook, EntityUpdateHook}
+import keri.projectx.featurehack.{EntityRenderHook, EntityUpdateHook}
 import keri.projectx.machine.multiblock.network.MultiBlocksCPH
 import keri.projectx.machine.multiblock.tile.TileMultiBlock
 import net.minecraft.entity.player.EntityPlayer
@@ -122,8 +122,8 @@ abstract class MultiBlock(worldExt: XYWorldExtension, chunkExt: XYChunkExtension
     val packet = new PacketCustom(MultiBlocksCPH.CHANNEL, 1)
     packet.writeInt(id)
     packet.writeInt(getMultiBlockId.ordinal())
-    packet.writeInt(chunkExt.coord.x)
-    packet.writeInt(chunkExt.coord.z)
+    packet.writeInt(chunkExt.coord.chunkXPos)
+    packet.writeInt(chunkExt.coord.chunkZPos)
     packet.writeNBTTagCompound(writeBlockCoords(new NBTTagCompound))
     writeToDescriptionPacket(packet)
     packet.toPacket

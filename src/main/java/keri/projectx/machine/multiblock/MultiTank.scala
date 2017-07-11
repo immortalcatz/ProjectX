@@ -5,11 +5,12 @@ import codechicken.lib.fluid.FluidUtils
 import codechicken.lib.inventory.InventoryUtils
 import codechicken.lib.render.{CCRenderState, RenderUtils}
 import codechicken.lib.vec.Cuboid6
+import keri.projectx.ProjectX
 import keri.projectx.machine.multiblock.fluid.TFluidMultiBlock
 import keri.projectx.machine.multiblock.tile.TileMultiBlock
-import com.projectxy.util.XyFluidUtil
-import com.projectxy.vec.{BlockCoord, CuboidCoord}
-import com.projectxy.world.{GuiHandler, ProjectXYWorld}
+import keri.projectx.network.ProjectXGuiHandler
+import keri.projectx.util.XFluidUtil
+import keri.projectx.vec.{BlockCoord, CuboidCoord}
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.inventory.IInventory
@@ -43,7 +44,7 @@ case class MultiTank(worldExt: XYWorldExtension, chunkExt: XYChunkExtension) ext
   override def onActivated(blockPos: BlockPos, player: EntityPlayer): Int = {
     world.getTileEntity(blockPos) match {
       case tile: TileMultiBlock => if (tile.formedMultiBlocks.size() > 1) return 2
-        player.openGui(ProjectXYWorld, GuiHandler.GuiIds.TANK.id, world, blockPos.getX, blockPos.getY, blockPos.getZ)
+        player.openGui(ProjectX.INSTANCE, ProjectXGuiHandler.MULTI_TANK, world, blockPos.getX, blockPos.getY, blockPos.getZ)
         return 1
       case _ =>
     }
@@ -141,7 +142,7 @@ case class MultiTank(worldExt: XYWorldExtension, chunkExt: XYChunkExtension) ext
       } else if (tank.getFluid != null) {
         val slotContent = inv(0).copy()
         slotContent.setCount(1)
-        val fill = XyFluidUtil.tryFillContainer(slotContent, tank.getFluid)
+        val fill = XFluidUtil.tryFillContainer(slotContent, tank.getFluid)
         if (fill.result.fluidStack == null) {
           return
         }

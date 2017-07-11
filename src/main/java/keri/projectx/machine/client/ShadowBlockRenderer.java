@@ -1,26 +1,32 @@
 package keri.projectx.machine.client;
 
-import codechicken.lib.render.block.ICCBlockRenderer;
-import keri.projectx.machine.MechBlocks$;
+import keri.ninetaillib.lib.render.IBlockRenderingHandler;
+import keri.ninetaillib.lib.render.RenderingRegistry;
+import keri.projectx.client.render.RenderSimpleGlow;
+import keri.projectx.init.ProjectXContent;
 import keri.projectx.machine.multiblock.tile.BlockDef;
 import keri.projectx.machine.multiblock.tile.TileMultiShadow;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import scala.Option;
 
-public class ShadowBlockRenderer implements ICCBlockRenderer {
-    @Override
-    public void handleRenderBlockDamage(IBlockAccess world, BlockPos pos, IBlockState state, TextureAtlasSprite sprite, BufferBuilder buffer) {
+public class ShadowBlockRenderer implements IBlockRenderingHandler {
+    public static EnumBlockRenderType RENDER_TYPE;
+    static {
+        RENDER_TYPE = RenderingRegistry.getNextAvailableType();
+        RenderingRegistry.registerRenderingHandler(new ShadowBlockRenderer());
     }
 
     @Override
-    public boolean renderBlock(IBlockAccess world, BlockPos pos, IBlockState state, BufferBuilder buffer) {
+    public boolean renderWorld(IBlockAccess world, BlockPos pos, VertexBuffer buffer, BlockRenderLayer layer) {
         TileEntity tile = world.getTileEntity(pos);
         if (!(tile instanceof TileMultiShadow)) {
             return false;
@@ -29,17 +35,22 @@ public class ShadowBlockRenderer implements ICCBlockRenderer {
         if (!blockDef.isDefined())
             return false;
 
-        IBlockState shadow_state = blockDef.get().block().getStateFromMeta(MechBlocks$.MODULE$.blockShadowWood().getMetaFromState(state));
+        IBlockState shadow_state = blockDef.get().block().getStateFromMeta(ProjectXContent.blockShadowWood.getMetaFromState(world.getBlockState(pos)));
         return Minecraft.getMinecraft().getBlockRendererDispatcher().renderBlock(shadow_state, pos, world, buffer);
     }
 
     @Override
-    public void renderBrightness(IBlockState state, float brightness) {
+    public void renderDamage(IBlockAccess world, BlockPos pos, VertexBuffer buffer, TextureAtlasSprite texture) {
 
     }
 
     @Override
-    public void registerTextures(TextureMap map) {
+    public void renderInventory(ItemStack stack, VertexBuffer buffer) {
 
+    }
+
+    @Override
+    public EnumBlockRenderType getRenderType() {
+        return RENDER_TYPE;
     }
 }

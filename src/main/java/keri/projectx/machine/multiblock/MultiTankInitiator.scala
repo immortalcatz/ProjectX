@@ -2,7 +2,7 @@ package keri.projectx.machine.multiblock
 
 import keri.projectx.machine.multiblock.block.BlockMulti
 import keri.projectx.machine.multiblock.tile.TileMultiBlock
-import com.projectxy.vec.CuboidCoord
+import keri.projectx.vec.CuboidCoord
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
