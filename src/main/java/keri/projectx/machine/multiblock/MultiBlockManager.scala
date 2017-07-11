@@ -14,12 +14,12 @@ object MultiBlockManager {
       return None
 
     MultiCategoryMatcher.getCategoryForBlock(blockState) match {
-      case MultiShadowTypes.ROCK => world.setBlockState(pos, ProjectXContent.blockShadowRock.getStateFromMeta(meta), 3)
-      case MultiShadowTypes.WOOD => world.setBlockState(pos, ProjectXContent.blockShadowWood.getStateFromMeta(meta), 3)
-      case MultiShadowTypes.GLASS => world.setBlockState(pos, ProjectXContent.blockShadowGlass.getStateFromMeta(meta), 3)
-      case MultiShadowTypes.GRASS => world.setBlockState(pos, ProjectXContent.blockShadowGrass.getStateFromMeta(meta), 3)
-      case MultiShadowTypes.AIR => world.setBlockState(pos, ProjectXContent.blockShadowAir.getStateFromMeta(meta), 3)
-      case _ => world.setBlockState(pos, ProjectXContent.blockShadowRock.getStateFromMeta(meta), 3)
+      case MultiShadowTypes.ROCK => world.setBlockState(pos, ProjectXContent.SHADOW_ROCK.getStateFromMeta(meta), 3)
+      case MultiShadowTypes.WOOD => world.setBlockState(pos, ProjectXContent.SHADOW_WOOD.getStateFromMeta(meta), 3)
+      case MultiShadowTypes.GLASS => world.setBlockState(pos, ProjectXContent.SHADOW_GLASS.getStateFromMeta(meta), 3)
+      case MultiShadowTypes.GRASS => world.setBlockState(pos, ProjectXContent.SHADOW_GRASS.getStateFromMeta(meta), 3)
+      case MultiShadowTypes.AIR => world.setBlockState(pos, ProjectXContent.SHADOW_AIR.getStateFromMeta(meta), 3)
+      case _ => world.setBlockState(pos, ProjectXContent.SHADOW_ROCK.getStateFromMeta(meta), 3)
     }
 
     val tile = world.getTileEntity(pos).asInstanceOf[TileMultiShadow]

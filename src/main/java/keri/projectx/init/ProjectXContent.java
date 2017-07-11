@@ -61,12 +61,14 @@ public class ProjectXContent {
     public static Block XYCRONIUM_ICE = new BlockXycroniumIce();
     public static Block FABRICATOR = new BlockFabricator();
     public static Block XYNERGY_NODE = new BlockXynergyNode();
-    public static Block blockShadowRock = new BlockMultiShadow(Material.ROCK, "Rock");
-    public static Block blockShadowAir = new BlockMultiShadow(Material.AIR, "Air");
-    public static Block blockShadowGlass = new BlockMultiShadow(Material.GLASS, "Glass");
-    public static Block blockShadowWood = new BlockMultiShadow(Material.WOOD, "Wood");
-    public static Block blockShadowGrass = new BlockMultiShadow(Material.GROUND, "Grass");
-    public static Block blockMultiBlock = new BlockValve();
+
+    // MultiBlocks
+    public static Block SHADOW_ROCK = new BlockMultiShadow(Material.ROCK, "Rock");
+    public static Block SHADOW_AIR = new BlockMultiShadow(Material.AIR, "Air");
+    public static Block SHADOW_GLASS = new BlockMultiShadow(Material.GLASS, "Glass");
+    public static Block SHADOW_WOOD = new BlockMultiShadow(Material.WOOD, "Wood");
+    public static Block SHADOW_GRASS = new BlockMultiShadow(Material.GROUND, "Grass");
+    public static Block VALVE = new BlockValve();
 
     public static Item XYCRONIUM_CRYSTAL = new ItemXycroniumCrystal();
     public static Item XYCRONIUM_INGOT = new ItemXycroniumIngot();
