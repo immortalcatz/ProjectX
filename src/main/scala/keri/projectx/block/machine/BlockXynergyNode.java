@@ -72,22 +72,22 @@ public class BlockXynergyNode extends BlockProjectX implements IWrenchableBlock,
 
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        TileEntityXynergyNode tile = (TileEntityXynergyNode)world.getTileEntity(pos);
+        TileEntityXynergyNode tile = (TileEntityXynergyNode) world.getTileEntity(pos);
 
-        if(tile != null){
+        if (tile != null) {
             ItemStack heldItem = player.getHeldItem(hand);
 
-            if(!tile.getHasCore()){
-                if(heldItem != null && !heldItem.isEmpty()){
-                    if(heldItem.getItem() == ProjectXContent.POWER_CORE){
-                        if(!world.isRemote){
+            if (!tile.getHasCore()) {
+                if (heldItem != null && !heldItem.isEmpty()) {
+                    if (heldItem.getItem() == ProjectXContent.POWER_CORE) {
+                        if (!world.isRemote) {
                             tile.setXynergyClass(EnumCoreType.VALUES[heldItem.getMetadata()].getXynergyClass());
                             tile.setXynergyType(EnumCoreType.VALUES[heldItem.getMetadata()].getXynergyType());
                             tile.setHasCore(true);
                             tile.markDirty();
-                            tile.sendUpdatePacket(pos, true);
+                            tile.sendUpdatePacket(true);
 
-                            if(!player.capabilities.isCreativeMode){
+                            if (!player.capabilities.isCreativeMode) {
                                 heldItem.setCount(heldItem.getCount() - 1);
                             }
                         }
@@ -106,13 +106,11 @@ public class BlockXynergyNode extends BlockProjectX implements IWrenchableBlock,
         EnumFacing orientation = null;
         int pitch = Math.round(placer.rotationPitch);
 
-        if(pitch >= 40){
+        if (pitch >= 40) {
             orientation = EnumFacing.UP;
-        }
-        else if(pitch <= -40){
+        } else if (pitch <= -40) {
             orientation = EnumFacing.DOWN;
-        }
-        else{
+        } else {
             orientation = EnumFacing.fromAngle(placer.rotationYaw).getOpposite();
         }
 
@@ -121,11 +119,11 @@ public class BlockXynergyNode extends BlockProjectX implements IWrenchableBlock,
 
     @Override
     public void onBlockHarvested(World world, BlockPos pos, IBlockState state, EntityPlayer player) {
-        TileEntityXynergyNode tile = (TileEntityXynergyNode)world.getTileEntity(pos);
+        TileEntityXynergyNode tile = (TileEntityXynergyNode) world.getTileEntity(pos);
 
-        if(tile != null){
-            if(tile.getHasCore()){
-                if(!world.isRemote){
+        if (tile != null) {
+            if (tile.getHasCore()) {
+                if (!world.isRemote) {
                     EnumCoreType coreType = EnumCoreType.getFromClassAndType(tile.getXynergyClass(), tile.getXynergyType());
                     ItemStack stack = new ItemStack(ProjectXContent.POWER_CORE, 1, coreType.getIndex());
                     ItemUtils.dropItem(world, pos, stack);
@@ -143,14 +141,14 @@ public class BlockXynergyNode extends BlockProjectX implements IWrenchableBlock,
 
     @Override
     public void onWrenchUsed(World world, BlockPos pos, EntityPlayer player, EnumFacing side, EnumHand hand) {
-        if(!world.isRemote){
-            if(player.isSneaking()){
-                TileEntityXynergyNode tile = (TileEntityXynergyNode)world.getTileEntity(pos);
+        if (!world.isRemote) {
+            if (player.isSneaking()) {
+                TileEntityXynergyNode tile = (TileEntityXynergyNode) world.getTileEntity(pos);
 
                 List<ItemStack> drops = Lists.newArrayList();
                 drops.add(new ItemStack(this, 1, 0));
 
-                if(tile != null && tile.getHasCore()){
+                if (tile != null && tile.getHasCore()) {
                     EnumCoreType coreType = EnumCoreType.getFromClassAndType(tile.getXynergyClass(), tile.getXynergyType());
                     ItemStack stack = new ItemStack(ProjectXContent.POWER_CORE, 1, coreType.getIndex());
                     drops.add(stack);
@@ -158,18 +156,17 @@ public class BlockXynergyNode extends BlockProjectX implements IWrenchableBlock,
 
                 drops.forEach(stack -> ItemUtils.dropItem(world, pos, stack));
                 world.setBlockToAir(pos);
-            }
-            else{
-                TileEntityXynergyNode tile = (TileEntityXynergyNode)world.getTileEntity(pos);
+            } else {
+                TileEntityXynergyNode tile = (TileEntityXynergyNode) world.getTileEntity(pos);
 
-                if(tile != null){
-                    if(tile.getHasCore()){
+                if (tile != null) {
+                    if (tile.getHasCore()) {
                         EnumCoreType coreType = EnumCoreType.getFromClassAndType(tile.getXynergyClass(), tile.getXynergyType());
                         ItemStack stack = new ItemStack(ProjectXContent.POWER_CORE, 1, coreType.getIndex());
                         ItemUtils.dropItem(world, pos, stack);
                         tile.setHasCore(false);
                         tile.markDirty();
-                        tile.sendUpdatePacket(pos, true);
+                        tile.sendUpdatePacket(true);
                     }
                 }
             }
@@ -192,21 +189,21 @@ public class BlockXynergyNode extends BlockProjectX implements IWrenchableBlock,
     }
 
     @Override
-    public void onDiagnosed(World world, BlockPos pos, EntityPlayer player, EnumFacing side, EnumHand hand) {}
+    public void onDiagnosed(World world, BlockPos pos, EntityPlayer player, EnumFacing side, EnumHand hand) {
+    }
 
     @Override
     public void addDiagnosticInformation(World world, BlockPos pos, EntityPlayer player, List<String> tooltip) {
-        TileEntityXynergyNode tile = (TileEntityXynergyNode)world.getTileEntity(pos);
+        TileEntityXynergyNode tile = (TileEntityXynergyNode) world.getTileEntity(pos);
 
-        if(tile != null){
-            if(tile.getHasCore()){
+        if (tile != null) {
+            if (tile.getHasCore()) {
                 String xynergyClass = Translations.getXynergyClassName(tile.getXynergyClass());
                 String xynergyType = Translations.getXynergyTypeName(tile.getXynergyType());
                 tooltip.add(Translations.TOOLTIP_XYNERGY_CLASS + ": " + xynergyClass);
                 tooltip.add(Translations.TOOLTIP_XYNERGY_TYPE + ": " + xynergyType);
                 tooltip.add(Translations.TOOLTIP_ENERGY_STORED + ": " + tile.getEnergyStored() + "/" + tile.getMaxEnergyStored() + " XU");
-            }
-            else{
+            } else {
                 tooltip.add(Translations.TOOLTIP_NO_CORE_INSTALLED);
                 tooltip.add(Translations.TOOLTIP_ENERGY_STORED + ": 0 XU");
             }
@@ -220,27 +217,26 @@ public class BlockXynergyNode extends BlockProjectX implements IWrenchableBlock,
 
     @Override
     public void onSwapped(World world, BlockPos pos, EntityPlayer player, EnumFacing side, EnumHand hand) {
-        if(!world.isRemote){
-            TileEntityXynergyNode tile = (TileEntityXynergyNode)world.getTileEntity(pos);
+        if (!world.isRemote) {
+            TileEntityXynergyNode tile = (TileEntityXynergyNode) world.getTileEntity(pos);
 
-            if(tile != null){
-                if(tile.getHasCore()){
+            if (tile != null) {
+                if (tile.getHasCore()) {
                     EnumCoreType coreType = EnumCoreType.getFromClassAndType(tile.getXynergyClass(), tile.getXynergyType());
                     ItemStack stack = new ItemStack(ProjectXContent.POWER_CORE, 1, coreType.getIndex());
                     XynergyToolHelper.prepareToStore(player, hand);
                     XynergyToolHelper.storeItem(player, hand, stack);
                     tile.setHasCore(false);
                     tile.markDirty();
-                    tile.sendUpdatePacket(pos, true);
-                }
-                else{
+                    tile.sendUpdatePacket(true);
+                } else {
                     ItemStack stack = XynergyToolHelper.disposeStoredItem(player, hand);
                     EnumCoreType coreType = EnumCoreType.VALUES[stack.getMetadata()];
                     tile.setHasCore(true);
                     tile.setXynergyClass(coreType.getXynergyClass());
                     tile.setXynergyType(coreType.getXynergyType());
                     tile.markDirty();
-                    tile.sendUpdatePacket(pos, true);
+                    tile.sendUpdatePacket(true);
                 }
             }
         }
@@ -249,11 +245,11 @@ public class BlockXynergyNode extends BlockProjectX implements IWrenchableBlock,
     @Override
     @SuppressWarnings("deprecation")
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess world, BlockPos pos) {
-        TileEntityXynergyNode tile = (TileEntityXynergyNode)world.getTileEntity(pos);
+        TileEntityXynergyNode tile = (TileEntityXynergyNode) world.getTileEntity(pos);
         List<Transformation> transforms = Lists.newArrayList();
         EnumFacing orientation = EnumFacing.getFront(BlockAccessUtils.getBlockMetadata(state));
 
-        switch(orientation){
+        switch (orientation) {
             case DOWN:
                 transforms.add(new Rotation(180D * MathHelper.torad, new Vector3(1D, 0D, 0D)).at(Vector3.center));
                 break;
@@ -275,13 +271,12 @@ public class BlockXynergyNode extends BlockProjectX implements IWrenchableBlock,
                 break;
         }
 
-        if(tile != null){
-            if(tile.getHasCore()){
+        if (tile != null) {
+            if (tile.getHasCore()) {
                 Cuboid6 bounds = VectorUtils.divide(new Cuboid6(2D, 0D, 2D, 14D, 14D, 14D), 16D);
                 transforms.forEach(t -> bounds.apply(t));
                 return bounds.aabb();
-            }
-            else{
+            } else {
                 Cuboid6 bounds = VectorUtils.divide(new Cuboid6(3D, 0D, 3D, 13D, 2D, 13D), 16D);
                 transforms.forEach(t -> bounds.apply(t));
                 return bounds.aabb();

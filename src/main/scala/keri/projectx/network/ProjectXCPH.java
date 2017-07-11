@@ -9,6 +9,7 @@ package keri.projectx.network;
 import codechicken.lib.packet.ICustomPacketHandler;
 import codechicken.lib.packet.PacketCustom;
 import keri.projectx.data.ProjectXWorldExtensionInstantiator;
+import keri.projectx.tile.TTilePacketHandler;
 import keri.projectx.tile.TileEntityProjectX;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
@@ -21,7 +22,7 @@ public class ProjectXCPH implements ICustomPacketHandler.IClientPacketHandler {
 
     @Override
     public void handlePacket(PacketCustom packet, Minecraft minecraft, INetHandlerPlayClient handler) {
-        switch(packet.getType()){
+        switch (packet.getType()) {
             case 1:
                 this.handleTilePacket(packet, minecraft.world);
                 break;
@@ -34,35 +35,44 @@ public class ProjectXCPH implements ICustomPacketHandler.IClientPacketHandler {
             case 4:
                 this.handleWEMultiblockUpdatePacket(packet, minecraft.world);
                 break;
+            case 5:
+                this.handleTTilePacketHandler(packet, minecraft.world);
         }
     }
 
-    private void handleTilePacket(PacketCustom packet, WorldClient world){
+    private void handleTTilePacketHandler(PacketCustom packet, WorldClient world) {
+        TileEntity tileEntity = world.getTileEntity(packet.readPos());
+        if (tileEntity != null && tileEntity instanceof TTilePacketHandler) {
+            ((TTilePacketHandler) tileEntity).handlePacket(packet);
+        }
+    }
+
+    private void handleTilePacket(PacketCustom packet, WorldClient world) {
         final BlockPos pos = packet.readPos();
         final NBTTagCompound tag = packet.readNBTTagCompound();
         final boolean rerender = packet.readBoolean();
-        TileEntity tile = (TileEntity)world.getTileEntity(pos);
+        TileEntity tile = (TileEntity) world.getTileEntity(pos);
 
-        if(tile != null && tile instanceof TileEntityProjectX){
-            TileEntityProjectX tileUpdate = (TileEntityProjectX)tile;
+        if (tile != null && tile instanceof TileEntityProjectX) {
+            TileEntityProjectX tileUpdate = (TileEntityProjectX) tile;
             tileUpdate.readFromNBT(tag);
             tileUpdate.markDirty();
 
-            if(rerender){
+            if (rerender) {
                 world.markBlockRangeForRenderUpdate(pos, pos);
             }
         }
     }
 
-    private void handleWEDescriptionPacket(PacketCustom packet, WorldClient world){
+    private void handleWEDescriptionPacket(PacketCustom packet, WorldClient world) {
         ProjectXWorldExtensionInstantiator.getExtensionXy(world).handleDescriptionPacket(packet);
     }
 
-    private void handleWERemoveMultiblockPacket(PacketCustom packet, WorldClient world){
+    private void handleWERemoveMultiblockPacket(PacketCustom packet, WorldClient world) {
         ProjectXWorldExtensionInstantiator.getExtensionXy(world).handleRemoveMultiBlockPacket(packet);
     }
 
-    private void handleWEMultiblockUpdatePacket(PacketCustom packet, WorldClient world){
+    private void handleWEMultiblockUpdatePacket(PacketCustom packet, WorldClient world) {
         ProjectXWorldExtensionInstantiator.getExtensionXy(world).handleMultiBlockUpdate(packet);
     }
 

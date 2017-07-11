@@ -45,6 +45,10 @@ class BlockTankValve extends BlockAnimationHandler[TileValve]("valve", Material.
     texture = register.registerIcon(s"${ModPrefs.MODID}:blocks/valve")
   }
 
+  override def getIcon(meta: Int, side: Int): TextureAtlasSprite = texture
+
+  override def getIcon(world: IBlockAccess, pos: BlockPos, side: Int): TextureAtlasSprite = texture
+
   override def getAnimationIcon(stack: ItemStack, side: Int): TextureAtlasSprite = ProjectX.PROXY.getAnimatedTexture
 
   override def getAnimationIcon(world: IBlockAccess, pos: BlockPos, side: Int): TextureAtlasSprite = ProjectX.PROXY.getAnimatedTexture
@@ -56,10 +60,6 @@ class BlockTankValve extends BlockAnimationHandler[TileValve]("valve", Material.
   override def getAnimationBrightness(stack: ItemStack, side: Int): Int = 220
 
   override def getAnimationBrightness(world: IBlockAccess, pos: BlockPos, side: Int): Int = 220
-
-  override def getIcon(meta: Int, side: Int): TextureAtlasSprite = texture
-
-  override def getIcon(world: IBlockAccess, pos: BlockPos, side: Int): TextureAtlasSprite = texture
 
   override def registerTileEntities(): Unit = GameRegistry.registerTileEntity(classOf[TileValve], "tile." + ModPrefs.MODID + ".multi_block_valve")
 }

@@ -55,6 +55,9 @@ public class ProjectXContent {
     public static Block SHADOW_WOOD = new BlockMultiShadow(Material.WOOD, "Wood");
     public static Block SHADOW_GRASS = new BlockMultiShadow(Material.GROUND, "Grass");
     public static Block VALVE = new BlockTankValve();
+    public static Block LEVEL_DETECTOR = new BlockFluidDetector();
+
+    //Items
     public static Item XYCRONIUM_CRYSTAL = new ItemXycroniumCrystal();
     public static Item XYCRONIUM_INGOT = new ItemXycroniumIngot();
     public static Item XYCRONIUM_NUGGET = new ItemXycroniumNugget();

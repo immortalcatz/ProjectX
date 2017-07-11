@@ -82,7 +82,7 @@ public class BlockXycroniumLight extends BlockAnimationHandler<TileEntityXycroni
                     if(!world.isRemote){
                         tile.setColor(EnumDyeColor.VALUES[heldItem.getMetadata()].getColor());
                         tile.markDirty();
-                        tile.sendUpdatePacket(pos, true);
+                        tile.sendUpdatePacket(true);
 
                         if(!player.capabilities.isCreativeMode){
                             heldItem.setCount(heldItem.getCount() - 1);
@@ -99,7 +99,7 @@ public class BlockXycroniumLight extends BlockAnimationHandler<TileEntityXycroni
                         Colour color = CommonUtils.modifyColor(tile.getColor(), player, hand, modify);
                         tile.setColor(color);
                         tile.markDirty();
-                        tile.sendUpdatePacket(pos, true);
+                        tile.sendUpdatePacket(true);
                     }
                 }
 
@@ -116,7 +116,7 @@ public class BlockXycroniumLight extends BlockAnimationHandler<TileEntityXycroni
                             if(heldItem.getTagCompound() != null){
                                 tile.setColor(new ColourRGBA(heldItem.getTagCompound().getInteger("color")));
                                 tile.markDirty();
-                                tile.sendUpdatePacket(pos, true);
+                                tile.sendUpdatePacket(true);
                             }
                         }
                     }
@@ -152,7 +152,7 @@ public class BlockXycroniumLight extends BlockAnimationHandler<TileEntityXycroni
             if(!world.isRemote){
                 tile.setColor(new ColourRGBA(stack.getTagCompound().getInteger("color")));
                 tile.markDirty();
-                tile.sendUpdatePacket(pos, true);
+                tile.sendUpdatePacket(true);
             }
         }
 

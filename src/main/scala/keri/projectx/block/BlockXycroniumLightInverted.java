@@ -67,19 +67,19 @@ public class BlockXycroniumLightInverted extends BlockAnimationHandler<TileEntit
 
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        TileEntityXycroniumLight tile = (TileEntityXycroniumLight)world.getTileEntity(pos);
+        TileEntityXycroniumLight tile = (TileEntityXycroniumLight) world.getTileEntity(pos);
         ItemStack heldItem = player.getHeldItem(hand);
 
-        if(!heldItem.isEmpty()){
-            if(heldItem.getItem() == Items.DYE){
-                if(tile != null){
-                    if(!world.isRemote){
+        if (!heldItem.isEmpty()) {
+            if (heldItem.getItem() == Items.DYE) {
+                if (tile != null) {
+                    if (!world.isRemote) {
                         tile.setColor(EnumDyeColor.VALUES[heldItem.getMetadata()].getColor());
                         tile.markDirty();
-                        tile.sendUpdatePacket(pos, true);
+                        tile.sendUpdatePacket(true);
 
-                        if(!world.isRemote){
-                            if(!player.capabilities.isCreativeMode){
+                        if (!world.isRemote) {
+                            if (!player.capabilities.isCreativeMode) {
                                 heldItem.setCount(heldItem.getCount() - 1);
                             }
                         }
@@ -87,32 +87,29 @@ public class BlockXycroniumLightInverted extends BlockAnimationHandler<TileEntit
 
                     return true;
                 }
-            }
-            else if(heldItem.getItem() == ProjectXContent.XYCRONIUM_CRYSTAL){
-                if(tile != null){
-                    if(!world.isRemote){
-                        byte modify = (byte)(2 - heldItem.getMetadata());
+            } else if (heldItem.getItem() == ProjectXContent.XYCRONIUM_CRYSTAL) {
+                if (tile != null) {
+                    if (!world.isRemote) {
+                        byte modify = (byte) (2 - heldItem.getMetadata());
                         Colour color = CommonUtils.modifyColor(tile.getColor(), player, hand, modify);
                         tile.setColor(color);
                         tile.markDirty();
-                        tile.sendUpdatePacket(pos, true);
+                        tile.sendUpdatePacket(true);
                     }
                 }
 
                 return true;
-            }
-            else if(heldItem.getItem() == ProjectXContent.COLOR_SCANNER){
-                if(!world.isRemote){
-                    if(tile != null){
-                        if(player.isSneaking()){
+            } else if (heldItem.getItem() == ProjectXContent.COLOR_SCANNER) {
+                if (!world.isRemote) {
+                    if (tile != null) {
+                        if (player.isSneaking()) {
                             ItemNBTUtils.validateTagExists(heldItem);
                             heldItem.getTagCompound().setInteger("color", tile.getColor().rgba());
-                        }
-                        else{
-                            if(heldItem.getTagCompound() != null){
+                        } else {
+                            if (heldItem.getTagCompound() != null) {
                                 tile.setColor(new ColourRGBA(heldItem.getTagCompound().getInteger("color")));
                                 tile.markDirty();
-                                tile.sendUpdatePacket(pos, true);
+                                tile.sendUpdatePacket(true);
                             }
                         }
                     }
@@ -128,13 +125,12 @@ public class BlockXycroniumLightInverted extends BlockAnimationHandler<TileEntit
     @Override
     @SuppressWarnings("deprecation")
     public void neighborChanged(IBlockState state, World world, BlockPos pos, Block block, BlockPos fromPos) {
-        if(this.getMetaFromState(state) == 1){
-            if(world.isBlockPowered(pos)){
+        if (this.getMetaFromState(state) == 1) {
+            if (world.isBlockPowered(pos)) {
                 BlockAccessUtils.setBlockMetadata(world, pos, 0, 3);
             }
-        }
-        else{
-            if(!world.isBlockPowered(pos)){
+        } else {
+            if (!world.isBlockPowered(pos)) {
                 BlockAccessUtils.setBlockMetadata(world, pos, 1, 3);
             }
         }
@@ -142,23 +138,22 @@ public class BlockXycroniumLightInverted extends BlockAnimationHandler<TileEntit
 
     @Override
     public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
-        TileEntityXycroniumLight tile = (TileEntityXycroniumLight)world.getTileEntity(pos);
+        TileEntityXycroniumLight tile = (TileEntityXycroniumLight) world.getTileEntity(pos);
 
-        if(tile != null && stack.getTagCompound() != null){
-            if(!world.isRemote){
+        if (tile != null && stack.getTagCompound() != null) {
+            if (!world.isRemote) {
                 tile.setColor(new ColourRGBA(stack.getTagCompound().getInteger("color")));
                 tile.markDirty();
-                tile.sendUpdatePacket(pos, true);
+                tile.sendUpdatePacket(true);
             }
         }
 
-        if(this.getMetaFromState(state) == 1){
-            if(world.isBlockPowered(pos)){
+        if (this.getMetaFromState(state) == 1) {
+            if (world.isBlockPowered(pos)) {
                 BlockAccessUtils.setBlockMetadata(world, pos, 0, 3);
             }
-        }
-        else{
-            if(!world.isBlockPowered(pos)){
+        } else {
+            if (!world.isBlockPowered(pos)) {
                 BlockAccessUtils.setBlockMetadata(world, pos, 1, 3);
             }
         }
@@ -171,16 +166,16 @@ public class BlockXycroniumLightInverted extends BlockAnimationHandler<TileEntit
 
     @Override
     public void onBlockHarvested(World world, BlockPos pos, IBlockState state, EntityPlayer player) {
-        if(!world.isRemote){
-            if(!player.capabilities.isCreativeMode){
-                TileEntityXycroniumLight tile = (TileEntityXycroniumLight)world.getTileEntity(pos);
+        if (!world.isRemote) {
+            if (!player.capabilities.isCreativeMode) {
+                TileEntityXycroniumLight tile = (TileEntityXycroniumLight) world.getTileEntity(pos);
 
-                if(tile != null){
+                if (tile != null) {
                     ItemStack stack = new ItemStack(this, 1, 0);
                     ItemNBTUtils.validateTagExists(stack);
                     stack.getTagCompound().setInteger("color", tile.getColor().rgba());
 
-                    if(!world.isRemote){
+                    if (!world.isRemote) {
                         ItemUtils.dropItem(world, pos, stack);
                     }
                 }
@@ -198,13 +193,12 @@ public class BlockXycroniumLightInverted extends BlockAnimationHandler<TileEntit
     @Override
     public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
         ItemStack stack = new ItemStack(this, 1, 0);
-        TileEntityXycroniumLight tile = (TileEntityXycroniumLight)world.getTileEntity(pos);
+        TileEntityXycroniumLight tile = (TileEntityXycroniumLight) world.getTileEntity(pos);
         ItemNBTUtils.validateTagExists(stack);
 
-        if(tile != null){
+        if (tile != null) {
             stack.getTagCompound().setInteger("color", tile.getColor().rgba());
-        }
-        else{
+        } else {
             stack.getTagCompound().setInteger("color", new ColourRGBA(255, 255, 255, 255).rgba());
         }
 
@@ -218,12 +212,12 @@ public class BlockXycroniumLightInverted extends BlockAnimationHandler<TileEntit
 
     @Override
     public void onWrenchUsed(World world, BlockPos pos, EntityPlayer player, EnumFacing side, EnumHand hand) {
-        if(!world.isRemote){
-            TileEntityXycroniumLight tile = (TileEntityXycroniumLight)world.getTileEntity(pos);
+        if (!world.isRemote) {
+            TileEntityXycroniumLight tile = (TileEntityXycroniumLight) world.getTileEntity(pos);
             ItemStack stack = new ItemStack(this, 1, 0);
             ItemNBTUtils.validateTagExists(stack);
 
-            if(tile != null){
+            if (tile != null) {
                 stack.getTagCompound().setInteger("color", tile.getColor().rgba());
             }
 
@@ -238,18 +232,18 @@ public class BlockXycroniumLightInverted extends BlockAnimationHandler<TileEntit
     }
 
     @Override
-    public void onDiagnosed(World world, BlockPos pos, EntityPlayer player, EnumFacing side, EnumHand hand) {}
+    public void onDiagnosed(World world, BlockPos pos, EntityPlayer player, EnumFacing side, EnumHand hand) {
+    }
 
     @Override
     public void addDiagnosticInformation(World world, BlockPos pos, EntityPlayer player, List<String> tooltip) {
-        TileEntityXycroniumLight tile = (TileEntityXycroniumLight)world.getTileEntity(pos);
+        TileEntityXycroniumLight tile = (TileEntityXycroniumLight) world.getTileEntity(pos);
 
-        if(tile != null){
+        if (tile != null) {
             tooltip.add(TextFormatting.RED + "R: " + (tile.getColor().r & 0xFF));
             tooltip.add(TextFormatting.GREEN + "G: " + (tile.getColor().g & 0xFF));
             tooltip.add(TextFormatting.BLUE + "B: " + (tile.getColor().b & 0xFF));
-        }
-        else{
+        } else {
             tooltip.add(Translations.TOOLTIP_DIAGNOSTIC_ERROR);
         }
     }
@@ -257,7 +251,7 @@ public class BlockXycroniumLightInverted extends BlockAnimationHandler<TileEntit
     @Override
     @SideOnly(Side.CLIENT)
     public void getSubBlocks(Item item, CreativeTabs tab, NonNullList<ItemStack> list) {
-        for(EnumDyeColor color : EnumDyeColor.VALUES){
+        for (EnumDyeColor color : EnumDyeColor.VALUES) {
             ItemStack stack = new ItemStack(this, 1, 0);
             ItemNBTUtils.validateTagExists(stack);
             stack.getTagCompound().setInteger("color", color.getColor().rgba());
@@ -274,13 +268,12 @@ public class BlockXycroniumLightInverted extends BlockAnimationHandler<TileEntit
     @Override
     @SideOnly(Side.CLIENT)
     public void addDescription(ItemStack stack, EntityPlayer player, List<String> tooltip) {
-        if(stack.getTagCompound() != null){
+        if (stack.getTagCompound() != null) {
             Colour color = new ColourRGBA(stack.getTagCompound().getInteger("color"));
             tooltip.add(TextFormatting.RED + "R: " + (color.r & 0xFF));
             tooltip.add(TextFormatting.GREEN + "G: " + (color.g & 0xFF));
             tooltip.add(TextFormatting.BLUE + "B: " + (color.b & 0xFF));
-        }
-        else{
+        } else {
             tooltip.add(TextFormatting.RED + "R: 0");
             tooltip.add(TextFormatting.GREEN + "G: 0");
             tooltip.add(TextFormatting.BLUE + "B: 0");
@@ -289,7 +282,7 @@ public class BlockXycroniumLightInverted extends BlockAnimationHandler<TileEntit
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister register){
+    public void registerIcons(IIconRegister register) {
         this.texture = register.registerIcon(ModPrefs.MODID + ":blocks/xycronium_light");
     }
 
@@ -314,23 +307,21 @@ public class BlockXycroniumLightInverted extends BlockAnimationHandler<TileEntit
     @Override
     @SideOnly(Side.CLIENT)
     public int getAnimationColor(ItemStack stack, int side) {
-        if(stack.getTagCompound() != null){
+        if (stack.getTagCompound() != null) {
             return stack.getTagCompound().getInteger("color");
-        }
-        else{
+        } else {
             return new ColourRGBA(255, 255, 255, 255).rgba();
         }
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public int getAnimationColor(IBlockAccess world, BlockPos pos, int side){
-        TileEntityXycroniumLight tile = (TileEntityXycroniumLight)world.getTileEntity(pos);
+    public int getAnimationColor(IBlockAccess world, BlockPos pos, int side) {
+        TileEntityXycroniumLight tile = (TileEntityXycroniumLight) world.getTileEntity(pos);
 
-        if(tile != null){
+        if (tile != null) {
             return tile.getColor().rgba();
-        }
-        else{
+        } else {
             return new ColourRGBA(255, 255, 255, 255).rgba();
         }
     }
@@ -343,7 +334,7 @@ public class BlockXycroniumLightInverted extends BlockAnimationHandler<TileEntit
 
     @Override
     @SideOnly(Side.CLIENT)
-    public int getAnimationBrightness(IBlockAccess world, BlockPos pos, int side){
+    public int getAnimationBrightness(IBlockAccess world, BlockPos pos, int side) {
         return BlockAccessUtils.getBlockMetadata(world, pos) == 1 ? 0x00F000F0 : 0x00B0000F;
     }
 

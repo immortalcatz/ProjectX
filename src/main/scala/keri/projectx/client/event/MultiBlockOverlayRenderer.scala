@@ -39,7 +39,6 @@ object MultiBlockOverlayRenderer extends IIconRegister {
         case tileMulti: TileMultiBlock =>
           val player = event.getPlayer
           GL11.glPushMatrix()
-          //Translate player coords to world coords used in entities
           val interpPosX: Double = player.lastTickPosX + (player.posX - player.lastTickPosX) * event.getPartialTicks
           val interpPosY: Double = player.lastTickPosY + (player.posY - player.lastTickPosY) * event.getPartialTicks
           val interpPosZ: Double = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * event.getPartialTicks

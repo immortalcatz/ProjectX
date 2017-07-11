@@ -10,13 +10,12 @@ import codechicken.lib.packet.PacketCustom;
 import keri.ninetaillib.lib.tile.TileEntityBase;
 import keri.projectx.ProjectX;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.math.BlockPos;
 
 public class TileEntityProjectX extends TileEntityBase {
 
-    public void sendUpdatePacket(BlockPos pos, boolean causeRenderUpdate){
+    public void sendUpdatePacket(boolean causeRenderUpdate) {
         PacketCustom packet = new PacketCustom(ProjectX.INSTANCE, 1);
-        packet.writePos(this.pos);
+        packet.writePos(getPos());
         packet.writeNBTTagCompound(this.writeToNBT(new NBTTagCompound()));
         packet.writeBoolean(causeRenderUpdate);
         packet.sendToClients();

@@ -10,8 +10,9 @@ import codechicken.lib.fluid.FluidUtils
 import keri.projectx.api.fluid.IFluidSource
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.util.{EnumFacing, ITickable}
+import net.minecraftforge.common.capabilities.Capability
 import net.minecraftforge.fluids._
-import net.minecraftforge.fluids.capability.{IFluidHandler, IFluidTankProperties}
+import net.minecraftforge.fluids.capability.{CapabilityFluidHandler, IFluidHandler, IFluidTankProperties}
 
 class TileValve extends TileMultiBlock with IFluidHandler with ITickable {
   var inactiveFluid = FluidUtils.emptyFluid()
@@ -34,6 +35,16 @@ class TileValve extends TileMultiBlock with IFluidHandler with ITickable {
     0
   }
 
+
+  override def hasCapability(capability: Capability[_], facing: EnumFacing): Boolean = super.hasCapability(capability, facing) || capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY;
+
+
+  override def getCapability[T](capability: Capability[T], facing: EnumFacing): T = {
+    if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+      return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(this)
+    }
+    super.getCapability(capability, facing)
+  }
 
   override def writeToNBT(nbt: NBTTagCompound): NBTTagCompound = {
     nbt.setTag("inactive_fluid", FluidUtils.write(inactiveFluid, new NBTTagCompound))
@@ -60,4 +71,6 @@ class TileValve extends TileMultiBlock with IFluidHandler with ITickable {
       }
     }
   }
+
+
 }

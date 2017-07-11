@@ -8,7 +8,6 @@ package keri.projectx.tile
 
 import java.util
 
-import keri.ninetaillib.lib.tile.TileEntityBase
 import keri.projectx.multiblock.MultiBlock
 import keri.projectx.multiblock.fluid.TFluidMultiBlock
 import net.minecraft.entity.player.EntityPlayer
@@ -16,7 +15,7 @@ import net.minecraft.entity.player.EntityPlayer
 import scala.collection.JavaConversions._
 
 
-abstract class TileMultiBlock extends TileEntityBase {
+abstract class TileMultiBlock extends TileEntityProjectX {
   val formedMultiBlocks = new util.LinkedList[MultiBlock]
 
   def onBlockActivated(player: EntityPlayer): Boolean = {

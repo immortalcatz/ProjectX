@@ -1,4 +1,4 @@
-package keri.projectx.block.multiblock
+package keri.projectx.block.machine
 
 import keri.projectx.tile.TileMultiBlock
 import net.minecraft.block.state.IBlockState
