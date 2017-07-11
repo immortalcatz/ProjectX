@@ -6,7 +6,6 @@ import keri.ninetaillib.lib.tile.TileEntityBase
 import keri.projectx.multiblock.MultiBlock
 import keri.projectx.multiblock.fluid.TFluidMultiBlock
 import net.minecraft.entity.player.EntityPlayer
-import net.minecraft.tileentity.TileEntity
 
 import scala.collection.JavaConversions._
 

@@ -6,12 +6,12 @@
 
 package keri.projectx.network;
 
+import keri.projectx.client.gui.ContainerMultitank;
 import keri.projectx.client.gui.GuiFaricator;
 import keri.projectx.client.gui.GuiManual;
+import keri.projectx.client.gui.GuiMultiTank;
 import keri.projectx.container.ContainerDummy;
 import keri.projectx.container.ContainerFabricator;
-import keri.projectx.client.gui.ContainerMultitank;
-import keri.projectx.client.gui.GuiMultiTank;
 import keri.projectx.multiblock.MultiTank;
 import keri.projectx.multiblock.tile.TileMultiBlock;
 import keri.projectx.tile.TileEntityFabricator;

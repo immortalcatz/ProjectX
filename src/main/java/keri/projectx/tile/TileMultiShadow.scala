@@ -4,8 +4,6 @@ import codechicken.lib.data.{MCDataInput, MCDataOutput}
 import net.minecraft.block.Block
 import net.minecraft.block.state.IBlockState
 import net.minecraft.nbt.NBTTagCompound
-import net.minecraft.network.NetworkManager
-import net.minecraft.network.play.server.SPacketUpdateTileEntity
 
 class TileMultiShadow extends TileMultiBlock /* with TMachineTile*/ {
   private var currBlock: BlockDef = null

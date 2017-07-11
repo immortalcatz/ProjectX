@@ -1,13 +1,17 @@
-package keri.projectx.multiblock.block
+/*
+ * Copyright (c) 2017 KitsuneAlex. All rights reserved!
+ * Do not destribute or redistribute this software without the
+ * explicit permission of the developer!
+ */
+
+package keri.projectx.block.machine
 
 import java.util
 import java.util.Random
 
-import keri.ninetaillib.lib.block.BlockBase
 import keri.projectx.block.BlockProjectX
 import keri.projectx.client.render.ShadowBlockRenderer
 import keri.projectx.multiblock.tile.{BlockDef, TileMultiShadow}
-import keri.projectx.tile.TileEntityXycroniumLight
 import keri.projectx.util.ModPrefs
 import net.minecraft.block.SoundType
 import net.minecraft.block.material.Material

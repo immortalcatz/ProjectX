@@ -8,7 +8,6 @@ import codechicken.lib.texture.TextureUtils
 import codechicken.lib.vec.Vector3
 import keri.ninetaillib.lib.gui.GuiContainerBase
 import keri.projectx.ProjectX
-import net.minecraft.client.gui.inventory.GuiContainer
 import net.minecraft.client.renderer.texture.TextureAtlasSprite
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import net.minecraft.inventory.{Container, Slot}

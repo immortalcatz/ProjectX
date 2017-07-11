@@ -1,11 +1,17 @@
-package keri.projectx.multiblock.block
+/*
+ * Copyright (c) 2017 KitsuneAlex. All rights reserved!
+ * Do not destribute or redistribute this software without the
+ * explicit permission of the developer!
+ */
+
+package keri.projectx.block.machine
 
 import keri.ninetaillib.lib.texture.IIconRegister
 import keri.projectx.ProjectX
 import keri.projectx.api.color.EnumXycroniumColor
 import keri.projectx.block.BlockAnimationHandler
 import keri.projectx.multiblock.MultiTankInitiator
-import keri.projectx.multiblock.tile.{TileMultiShadow, TileValve}
+import keri.projectx.multiblock.tile.TileValve
 import keri.projectx.util.ModPrefs
 import net.minecraft.block.material.Material
 import net.minecraft.block.state.IBlockState

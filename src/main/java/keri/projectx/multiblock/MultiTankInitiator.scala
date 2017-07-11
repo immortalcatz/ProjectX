@@ -1,6 +1,6 @@
 package keri.projectx.multiblock
 
-import keri.projectx.multiblock.block.BlockMulti
+import keri.projectx.block.machine.BlockMulti
 import keri.projectx.multiblock.tile.TileMultiBlock
 import keri.projectx.vec.CuboidCoord
 import net.minecraft.util.EnumFacing
