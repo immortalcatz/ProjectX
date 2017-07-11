@@ -10,7 +10,7 @@ import codechicken.lib.render
 import codechicken.lib.texture.TextureUtils
 import codechicken.lib.texture.TextureUtils.IIconRegister
 import keri.projectx.tile.TileMultiBlock
-import keri.projectx.util.ModPrefs
+import keri.projectx.util.{ModPrefs, PlayerStareTracker}
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.texture.{TextureAtlasSprite, TextureMap}
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
@@ -26,8 +26,8 @@ import scala.collection.JavaConversions._
 import scala.collection.mutable
 
 object MultiBlockOverlayRenderer extends IIconRegister {
+  val stareTracker = new PlayerStareTracker
   var overlayTexture: TextureAtlasSprite = _
-
 
   @SideOnly(Side.CLIENT)
   @SubscribeEvent
@@ -44,6 +44,9 @@ object MultiBlockOverlayRenderer extends IIconRegister {
           val interpPosY: Double = player.lastTickPosY + (player.posY - player.lastTickPosY) * event.getPartialTicks
           val interpPosZ: Double = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * event.getPartialTicks
           GL11.glTranslated(-interpPosX, -interpPosY, -interpPosZ)
+          stareTracker.update(event.getTarget)
+          val alpha: Float = 1.0F - stareTracker.getStareTime / 100.0f
+          GlStateManager.color(1, 1, 1, alpha)
           renderOverlay(tileMulti)
           GL11.glPopMatrix()
         case _ =>
@@ -68,7 +71,7 @@ object MultiBlockOverlayRenderer extends IIconRegister {
         if (!blocksToRender.contains(new BlockPos(coord).offset(side))) {
           tess.reset()
           tess.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX)
-          //tess.color(1, 1, 1, .25f)
+
           render.RenderUtils.renderBlockOverlaySide(coord.getX, coord.getY, coord.getZ, side.getIndex, overlayTexture.getMinU, overlayTexture.getMaxU, overlayTexture.getMinV, overlayTexture.getMaxV)
           Tessellator.getInstance().draw()
         }
