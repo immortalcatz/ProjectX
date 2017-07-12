@@ -18,7 +18,6 @@ import keri.projectx.client.render.tesr.TESRFabricator;
 import keri.projectx.client.render.tesr.TESRXynergyNode;
 import keri.projectx.featurehack.FeatureHack;
 import keri.projectx.integration.IntegrationHandler;
-import keri.projectx.multiblock.MultiBlockClientProxy;
 import keri.projectx.network.ProjectXCPH;
 import keri.projectx.tile.TileEntityFabricator;
 import keri.projectx.tile.TileEntityXynergyNode;
@@ -56,7 +55,6 @@ public class ClientProxy extends CommonProxy {
         PacketCustom.assignHandler(ProjectX.INSTANCE, new ProjectXCPH());
         IntegrationHandler.INSTANCE.initClient(event);
 
-        MultiBlockClientProxy.init(event);
         FeatureHack.enableRenderHook();
     }
 
@@ -65,8 +63,6 @@ public class ClientProxy extends CommonProxy {
         super.postInit(event);
         ProjectX.MOD_HANDLER.handlePostInit(event);
         IntegrationHandler.INSTANCE.postInitClient(event);
-
-        MultiBlockClientProxy.postInit(event);
     }
 
     @Override
