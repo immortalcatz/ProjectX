@@ -7,8 +7,10 @@
 package keri.projectx.proxy;
 
 import codechicken.lib.packet.PacketCustom;
+import codechicken.lib.world.WorldExtensionManager;
 import keri.projectx.ProjectX;
-import keri.projectx.multiblock.MultiBlockCommonProxy;
+import keri.projectx.data.ProjectXWorldExtensionInstantiator$;
+import keri.projectx.featurehack.FeatureHack;
 import keri.projectx.network.ProjectXSPH;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -19,18 +21,20 @@ public class CommonProxy implements IProxy {
 
     @Override
     public void preInit(FMLPreInitializationEvent event) {
-        MultiBlockCommonProxy.preInit(event);
+
     }
 
     @Override
     public void init(FMLInitializationEvent event) {
-        MultiBlockCommonProxy.init(event);
         PacketCustom.assignHandler(ProjectX.INSTANCE, new ProjectXSPH());
+
+        WorldExtensionManager.registerWorldExtension(ProjectXWorldExtensionInstantiator$.MODULE$);
+        FeatureHack.enableUpdateHook();
     }
 
     @Override
     public void postInit(FMLPostInitializationEvent event) {
-        MultiBlockCommonProxy.postInit(event);
+
     }
 
     @Override

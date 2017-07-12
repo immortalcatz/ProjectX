@@ -7,13 +7,16 @@
 package keri.projectx.proxy;
 
 import codechicken.lib.packet.PacketCustom;
+import codechicken.lib.texture.TextureUtils;
 import keri.projectx.ProjectX;
 import keri.projectx.client.IconHandler;
 import keri.projectx.client.event.ClientEventHandler;
+import keri.projectx.client.event.MultiBlockOverlayRenderer$;
 import keri.projectx.client.playereffect.PlayerEffects;
 import keri.projectx.client.render.AnimatedTextureFX;
 import keri.projectx.client.render.tesr.TESRFabricator;
 import keri.projectx.client.render.tesr.TESRXynergyNode;
+import keri.projectx.featurehack.FeatureHack;
 import keri.projectx.integration.IntegrationHandler;
 import keri.projectx.multiblock.MultiBlockClientProxy;
 import keri.projectx.network.ProjectXCPH;
@@ -42,7 +45,8 @@ public class ClientProxy extends CommonProxy {
         PlayerEffects.preInit();
         IntegrationHandler.INSTANCE.preInitClient(event);
 
-        MultiBlockClientProxy.preInit(event);
+        MinecraftForge.EVENT_BUS.register(MultiBlockOverlayRenderer$.MODULE$);
+        TextureUtils.addIconRegister(MultiBlockOverlayRenderer$.MODULE$);
     }
 
     @Override
@@ -53,6 +57,7 @@ public class ClientProxy extends CommonProxy {
         IntegrationHandler.INSTANCE.initClient(event);
 
         MultiBlockClientProxy.init(event);
+        FeatureHack.enableRenderHook();
     }
 
     @Override
