@@ -9,7 +9,7 @@ package keri.projectx.multiblock.fluid
 import codechicken.lib.data.{MCDataInput, MCDataOutput}
 import codechicken.lib.fluid.FluidUtils
 import keri.projectx.multiblock.MultiBlock
-import keri.projectx.tile.TileValve
+import keri.projectx.tile.TileEntityTankValve
 import keri.projectx.vec.CuboidCoord
 import net.minecraft.util.math.BlockPos
 import net.minecraftforge.fluids.{FluidStack, FluidTankInfo}
@@ -45,7 +45,7 @@ trait TFluidMultiBlock extends MultiBlock {
 
   override def onJoinTile(pos: BlockPos): Unit = {
     world.getTileEntity(pos) match {
-      case valve: TileValve =>
+      case valve: TileEntityTankValve =>
         if (tank != null)
           tank.fill(valve.inactiveFluid, true)
         valve.inactiveFluid = FluidUtils.emptyFluid()
@@ -56,10 +56,10 @@ trait TFluidMultiBlock extends MultiBlock {
 
   override def unload(remove: Boolean): Unit = {
     if (!world.isRemote && remove) {
-      val valves = new ArrayBuffer[TileValve]()
+      val valves = new ArrayBuffer[TileEntityTankValve]()
       for (pos <- inBlocks) {
         world.getTileEntity(pos) match {
-          case valve: TileValve =>
+          case valve: TileEntityTankValve =>
             if (valve.getTank(0).contains(this))
               valves += valve
           case _ =>

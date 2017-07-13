@@ -6,7 +6,7 @@
 
 package keri.projectx.multiblock
 
-import keri.projectx.block.machine.BlockMulti
+import keri.projectx.block.machine.multiblock.TBlockMulti
 import keri.projectx.tile.TileMultiBlock
 import keri.projectx.vec.CuboidCoord
 import net.minecraft.util.EnumFacing
@@ -20,7 +20,7 @@ object MultiTankInitiator extends MultiBlockInitiator[MultiTank] {
   val matcher = new MultiBlockMatcher {
     override def matches(world: World, pos: BlockPos): Boolean = {
       val block = world.getBlockState(pos).getBlock
-      block.isInstanceOf[BlockMulti] || MultiShadowCategoryMatcher.ANY_BUT_AIR.matches(world, pos)
+      block.isInstanceOf[TBlockMulti] || MultiShadowCategoryMatcher.ANY_BUT_AIR.matches(world, pos)
     }
   }
   var bounds: CuboidCoord = new CuboidCoord()

@@ -6,7 +6,7 @@
 
 package keri.projectx.multiblock
 
-import keri.projectx.block.machine.BlockTankValve
+import keri.projectx.block.machine.multiblock.BlockTankValve
 import net.minecraft.block.material.Material
 import net.minecraft.block.state.IBlockState
 import net.minecraft.util.math.BlockPos
