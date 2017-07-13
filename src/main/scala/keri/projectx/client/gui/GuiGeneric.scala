@@ -6,8 +6,6 @@
 
 package keri.projectx.client.gui
 
-import java.util
-
 import codechicken.lib.colour.{ColourRGBA, EnumColour}
 import codechicken.lib.render.CCRenderState
 import codechicken.lib.texture.TextureUtils
@@ -22,7 +20,7 @@ import org.lwjgl.opengl.GL11
 import scala.collection.JavaConverters._
 import scala.collection.mutable.ArrayBuffer
 
-abstract class GuiCommon(container: Container) extends GuiContainerBase(container) {
+abstract class GuiGeneric(container: Container) extends GuiContainerBase(container) {
   private val menus = new ArrayBuffer[Menu]()
 
   override def initGui(): Unit = {
@@ -43,7 +41,7 @@ abstract class GuiCommon(container: Container) extends GuiContainerBase(containe
   }
 
   private def drawBackgroundSlots(): Unit = {
-    val slots = container.inventorySlots.asInstanceOf[util.List[Slot]]
+    val slots = container.inventorySlots
     for (slot <- slots.asScala)
       drawSlot(slot)
   }

@@ -17,6 +17,7 @@ import net.minecraft.world.World
   * Ex any type of block that is ROCK
   */
 object MultiCategoryMatcher {
+  //noinspection ScalaDeprecation
   def getCategoryForBlock(state: IBlockState): MultiShadowTypes = {
     val block = state.getBlock
     if (block == null || block.getMaterial(state) == Material.AIR) {

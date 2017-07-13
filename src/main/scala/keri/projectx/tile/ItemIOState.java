@@ -1,7 +1,7 @@
 package keri.projectx.tile;
 
 public enum ItemIOState {
-    OUT, IN, BOTH;
+    OUT, IN;
 
     public ItemIOState nextState() {
         if (this.ordinal() == values().length - 1) {

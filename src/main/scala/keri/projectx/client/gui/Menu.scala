@@ -15,7 +15,7 @@ import scala.collection.mutable.ArrayBuffer
 /**
   * Created by Adam on 7/10/2017.
   */
-case class Menu(gui: GuiCommon, x: Int, y: Int) {
+case class Menu(gui: GuiGeneric, x: Int, y: Int) {
   val menuItems = new ArrayBuffer[MenuItem]()
   val callbacks = new ArrayBuffer[Int => Unit]()
   var selected = 0
@@ -68,4 +68,4 @@ case class Menu(gui: GuiCommon, x: Int, y: Int) {
   }
 }
 
-case class MenuItem(gui: GuiCommon, tooltip: String, icon: TextureAtlasSprite, resourceAction: ResourceAction)
+case class MenuItem(gui: GuiGeneric, tooltip: String, icon: TextureAtlasSprite, resourceAction: ResourceAction)

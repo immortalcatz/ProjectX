@@ -14,7 +14,7 @@ import keri.projectx.container.ContainerMultitank
 import keri.projectx.multiblock.MultiTank
 import net.minecraft.entity.player.InventoryPlayer
 
-class GuiMultiTank(inventory: InventoryPlayer, multiTank: MultiTank) extends GuiCommon(new ContainerMultitank(inventory, multiTank)) {
+class GuiMultiTank(inventory: InventoryPlayer, multiTank: MultiTank) extends GuiGeneric(new ContainerMultitank(inventory, multiTank)) {
   override def guiName: String = "Tank"
 
   override def drawBackground(): Unit = {
