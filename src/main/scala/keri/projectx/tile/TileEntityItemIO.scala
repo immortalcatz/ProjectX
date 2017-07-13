@@ -6,9 +6,41 @@
 
 package keri.projectx.tile
 
+import net.minecraft.entity.player.EntityPlayer
+import net.minecraft.nbt.NBTTagCompound
+import net.minecraft.util.ITickable
+
+import scala.beans.BeanProperty
+
 /**
   * Created by Adam on 7/12/2017.
   */
-class TileEntityItemIO extends TileMultiBlock {
+class TileEntityItemIO extends TileMultiBlock with ITickable {
+  @BeanProperty var currentState: ItemIOState = ItemIOState.BOTH
 
+  override def update(): Unit = {
+  }
+
+  override def writeToNBT(tag: NBTTagCompound): NBTTagCompound = {
+    tag.setInteger("state", currentState.ordinal())
+    super.writeToNBT(tag)
+  }
+
+  override def readFromNBT(tag: NBTTagCompound): Unit = {
+    super.readFromNBT(tag)
+    setState(ItemIOState.values()(tag.getInteger("state")))
+  }
+  def setState(state: ItemIOState): Unit = {
+    if (state != currentState) {
+      currentState = state
+      sendUpdatePacket(true)
+    }
+  }
+  override def onBlockActivated(player: EntityPlayer): Boolean = {
+    if (player.isSneaking) {
+      setState(currentState.nextState())
+    }
+    super.onBlockActivated(player)
+  }
 }
+
