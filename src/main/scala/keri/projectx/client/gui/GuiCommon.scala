@@ -51,7 +51,7 @@ abstract class GuiCommon(container: Container) extends GuiContainerBase(containe
   private def drawSlot(slot: Slot): Unit = {
     val x = slot.xPos - 1
     val y = slot.yPos - 1
-    drawTexturedModalRect(x, y, 176, 10, 18, 18)
+    drawTexturedModalRect(x, y, 176, 0, 18, 18)
   }
 
   def drawTankBig(x: Int, y: Int) {
@@ -114,11 +114,11 @@ abstract class GuiCommon(container: Container) extends GuiContainerBase(containe
     menus.foreach(menu => menu.manageTooltips((mouseX, mouseY)))
   }
 
-  override def drawGuiContainerForegroundLayer(par1: Int, par2: Int): Unit = {
+  override def drawGuiContainerForegroundLayer(x: Int, y: Int): Unit = {
     fontRendererObj.drawString(guiName, xSize / 2 - fontRendererObj.getStringWidth(guiName) / 2, 8, EnumColour.LIGHT_GRAY.rgb())
     GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F)
     GL11.glDisable(GL11.GL_LIGHTING)
-    drawForeground()
+    drawForeground(x, y)
     GL11.glEnable(GL11.GL_LIGHTING)
   }
 
@@ -134,7 +134,7 @@ abstract class GuiCommon(container: Container) extends GuiContainerBase(containe
 
   def guiName: String
 
-  def drawForeground()
+  def drawForeground(mouseX: Int, mouseY: Int)
 
   def drawBackground()
 }

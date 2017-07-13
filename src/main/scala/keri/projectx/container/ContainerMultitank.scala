@@ -13,8 +13,8 @@ import net.minecraft.entity.player.InventoryPlayer
 import net.minecraft.item.ItemStack
 
 class ContainerMultitank(inventory: InventoryPlayer, multiTank: MultiTank) extends ContainerExtended {
-  addSlotToContainer(new SlotLiquidContainer(multiTank, 0, 98, 50))
-  addSlotToContainer(new SlotOutput(multiTank, 1, 152, 50))
+  addSlotToContainer(new SlotLiquidContainer(multiTank, 0, 78, 40))
+  addSlotToContainer(new SlotOutput(multiTank, 1, 132, 40))
   bindPlayerInventory(inventory, 8, 93)
 
   override def doMergeStackAreas(slotIndex: Int, stack: ItemStack): Boolean = {
