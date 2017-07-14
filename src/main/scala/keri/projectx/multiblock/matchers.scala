@@ -6,7 +6,7 @@
 
 package keri.projectx.multiblock
 
-import keri.projectx.block.machine.BlockTankValve
+import keri.projectx.block.machine.multiblock.BlockTankValve
 import net.minecraft.block.material.Material
 import net.minecraft.block.state.IBlockState
 import net.minecraft.util.math.BlockPos
@@ -17,6 +17,7 @@ import net.minecraft.world.World
   * Ex any type of block that is ROCK
   */
 object MultiCategoryMatcher {
+  //noinspection ScalaDeprecation
   def getCategoryForBlock(state: IBlockState): MultiShadowTypes = {
     val block = state.getBlock
     if (block == null || block.getMaterial(state) == Material.AIR) {

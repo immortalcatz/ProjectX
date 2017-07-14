@@ -13,7 +13,7 @@ import net.minecraft.util.ResourceLocation
   * Created by Adam on 7/10/2017.
   */
 object ResourceLib {
-  val baseGui = register("textures/gui/generic_processor.png")
+  val baseGui = register("textures/gui/generic_gui.png")
 
   def register(path: String) = new ResourceAction(new ResourceLocation(ModPrefs.MODID, path))
 }

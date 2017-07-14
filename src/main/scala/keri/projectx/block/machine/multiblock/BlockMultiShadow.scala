@@ -4,7 +4,7 @@
  * explicit permission of the developer!
  */
 
-package keri.projectx.block.machine
+package keri.projectx.block.machine.multiblock
 
 import java.util
 import java.util.Random
@@ -26,7 +26,7 @@ import net.minecraft.util.{BlockRenderLayer, EnumBlockRenderType, EnumFacing}
 import net.minecraft.world.{Explosion, IBlockAccess, World}
 import net.minecraftforge.fml.common.registry.GameRegistry
 
-class BlockMultiShadow(material: Material, suffix: String) extends BlockProjectX[TileMultiShadow](s"blockMultiShadow$suffix", material) with BlockMulti {
+class BlockMultiShadow(material: Material, suffix: String) extends BlockProjectX[TileMultiShadow](s"blockMultiShadow$suffix", material) with TBlockMulti {
   setCreativeTab(null)
   material match {
     case Material.WOOD => setSoundType(SoundType.WOOD)
@@ -56,6 +56,13 @@ class BlockMultiShadow(material: Material, suffix: String) extends BlockProjectX
     }
   }
 
+  def getShadowBlock(world: IBlockAccess, pos: BlockPos): Option[BlockDef] = {
+    world.getTileEntity(pos) match {
+      case tile: TileMultiShadow => tile.getCurrBlockDef
+      case _ => None
+    }
+  }
+
   override def getCollisionBoundingBox(blockState: IBlockState, worldIn: IBlockAccess, pos: BlockPos): AxisAlignedBB = {
     val shadowBlock = getShadowBlock(worldIn, pos)
     if (shadowBlock.isDefined) {
@@ -63,7 +70,6 @@ class BlockMultiShadow(material: Material, suffix: String) extends BlockProjectX
     }
     super.getCollisionBoundingBox(blockState, worldIn, pos)
   }
-
 
   override def isFireSource(world: World, pos: BlockPos, side: EnumFacing): Boolean = {
     val shadowBlock = getShadowBlock(world, pos)
@@ -93,7 +99,6 @@ class BlockMultiShadow(material: Material, suffix: String) extends BlockProjectX
     }
     blockMaterial != Material.AIR
   }
-
 
   override def addDestroyEffects(world: World, pos: BlockPos, manager: ParticleManager): Boolean = {
     val shadowBlock = getShadowBlock(world, pos)
@@ -146,13 +151,6 @@ class BlockMultiShadow(material: Material, suffix: String) extends BlockProjectX
       shadowBlock.get.block.getExplosionResistance(world, pos, exploder, explosion)
     } else {
       super.getExplosionResistance(world, pos, exploder, explosion)
-    }
-  }
-
-  def getShadowBlock(world: IBlockAccess, pos: BlockPos): Option[BlockDef] = {
-    world.getTileEntity(pos) match {
-      case tile: TileMultiShadow => tile.getCurrBlockDef
-      case _ => None
     }
   }
 

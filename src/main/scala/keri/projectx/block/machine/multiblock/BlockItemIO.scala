@@ -4,63 +4,58 @@
  * explicit permission of the developer!
  */
 
-package keri.projectx.block.machine
+package keri.projectx.block.machine.multiblock
 
+import codechicken.lib.colour.EnumColour
 import keri.ninetaillib.lib.texture.IIconRegister
 import keri.projectx.ProjectX
 import keri.projectx.api.color.EnumXycroniumColor
 import keri.projectx.block.BlockAnimationHandler
-import keri.projectx.multiblock.MultiTankInitiator
-import keri.projectx.tile.TileValve
+import keri.projectx.tile.{ItemIOState, TileEntityItemIO}
 import keri.projectx.util.ModPrefs
 import net.minecraft.block.material.Material
 import net.minecraft.block.state.IBlockState
 import net.minecraft.client.renderer.texture.TextureAtlasSprite
-import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.ItemStack
+import net.minecraft.tileentity.TileEntity
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.{EnumFacing, EnumHand}
 import net.minecraft.world.{IBlockAccess, World}
 import net.minecraftforge.fml.common.registry.GameRegistry
 
-class BlockTankValve extends BlockAnimationHandler[TileValve]("valve", Material.IRON) with BlockMulti {
+/**
+  * Created by Adam on 7/12/2017.
+  */
+class BlockItemIO extends BlockAnimationHandler[TileEntityItemIO]("item_io", Material.IRON) with TBlockMulti {
   var texture: TextureAtlasSprite = _
-
-  override def createNewTileEntity(world: World, meta: Int): TileValve = new TileValve
-
-  override def onBlockActivated(world: World, pos: BlockPos, state: IBlockState, playerIn: EntityPlayer, hand: EnumHand, facing: EnumFacing, hitX: Float, hitY: Float, hitZ: Float): Boolean = {
-    world.getTileEntity(pos) match {
-      case valve: TileValve =>
-        if (!world.isRemote) {
-          if (valve.isAlreadyPartOfStructure)
-            return super.onBlockActivated(world, pos, state, playerIn, hand, facing, hitX, hitY, hitZ)
-          MultiTankInitiator.create(world, pos)
-        }
-      case _ =>
-    }
-    false
-  }
 
   override def registerIcons(register: IIconRegister): Unit = {
     texture = register.registerIcon(s"${ModPrefs.MODID}:blocks/valve")
   }
 
-  override def getIcon(meta: Int, side: Int): TextureAtlasSprite = texture
 
+  override def createTileEntity(world: World, state: IBlockState): TileEntity = new TileEntityItemIO
+
+  override def getIcon(meta: Int, side: Int): TextureAtlasSprite = texture
   override def getIcon(world: IBlockAccess, pos: BlockPos, side: Int): TextureAtlasSprite = texture
 
   override def getAnimationIcon(stack: ItemStack, side: Int): TextureAtlasSprite = ProjectX.PROXY.getAnimatedTexture
-
   override def getAnimationIcon(world: IBlockAccess, pos: BlockPos, side: Int): TextureAtlasSprite = ProjectX.PROXY.getAnimatedTexture
 
-  override def getAnimationColor(stack: ItemStack, side: Int): Int = EnumXycroniumColor.BLUE.getColor.rgba()
-
-  override def getAnimationColor(world: IBlockAccess, pos: BlockPos, side: Int): Int = EnumXycroniumColor.BLUE.getColor.rgba()
+  override def getAnimationColor(stack: ItemStack, side: Int): Int = EnumColour.ORANGE.rgba()
+  override def getAnimationColor(world: IBlockAccess, pos: BlockPos, side: Int): Int = {
+    world.getTileEntity(pos) match {
+      case itemIO: TileEntityItemIO => {
+        itemIO.currentState match {
+          case ItemIOState.OUT => EnumColour.ORANGE.rgba()
+          case ItemIOState.IN => EnumXycroniumColor.BLUE.getColor.rgba()
+          case _ => EnumColour.RED.rgba()
+        }
+      }
+    }
+  }
 
   override def getAnimationBrightness(stack: ItemStack, side: Int): Int = 220
-
   override def getAnimationBrightness(world: IBlockAccess, pos: BlockPos, side: Int): Int = 220
 
-  override def registerTileEntities(): Unit = GameRegistry.registerTileEntity(classOf[TileValve], "tile." + ModPrefs.MODID + ".multi_block_valve")
+  override def registerTileEntities(): Unit = GameRegistry.registerTileEntity(classOf[TileEntityItemIO], "tile." + ModPrefs.MODID + ".multi_block_item_io")
 }
-

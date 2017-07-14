@@ -4,7 +4,7 @@
  * explicit permission of the developer!
  */
 
-package keri.projectx.block.machine
+package keri.projectx.block.machine.multiblock
 
 import keri.ninetaillib.lib.texture.IIconRegister
 import keri.projectx.ProjectX
@@ -24,7 +24,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry
 /**
   * Created by Adam on 7/11/2017.
   */
-class BlockFluidDetector extends BlockAnimationHandler[TileEntityFluidDetector]("fluid_detector", Material.IRON) with BlockMulti {
+class BlockFluidDetector extends BlockAnimationHandler[TileEntityFluidDetector]("fluid_detector", Material.IRON) with TBlockMulti {
   var texture: TextureAtlasSprite = _
 
   override def createNewTileEntity(world: World, meta: Int): TileEntityFluidDetector = new TileEntityFluidDetector
@@ -44,20 +44,16 @@ class BlockFluidDetector extends BlockAnimationHandler[TileEntityFluidDetector](
   }
 
   override def getIcon(meta: Int, side: Int): TextureAtlasSprite = texture
-
   override def getIcon(world: IBlockAccess, pos: BlockPos, side: Int): TextureAtlasSprite = texture
 
   //IAnimationHandler
   override def getAnimationIcon(stack: ItemStack, side: Int): TextureAtlasSprite = ProjectX.PROXY.getAnimatedTexture
-
   override def getAnimationIcon(world: IBlockAccess, pos: BlockPos, side: Int): TextureAtlasSprite = ProjectX.PROXY.getAnimatedTexture
 
   override def getAnimationColor(stack: ItemStack, side: Int): Int = EnumXycroniumColor.RED.getColor.rgba()
-
   override def getAnimationColor(world: IBlockAccess, pos: BlockPos, side: Int): Int = EnumXycroniumColor.RED.getColor.rgba()
 
   override def getAnimationBrightness(stack: ItemStack, side: Int): Int = 220
-
   override def getAnimationBrightness(world: IBlockAccess, pos: BlockPos, side: Int): Int = {
     world.getTileEntity(pos) match {
       case fluidDetector: TileEntityFluidDetector => if (fluidDetector.power > 0) 220 else 50

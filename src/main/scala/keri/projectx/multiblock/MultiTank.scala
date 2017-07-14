@@ -27,7 +27,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.world.World
 import net.minecraftforge.fluids.FluidUtil
-import net.minecraftforge.fluids.capability.ItemFluidContainer
+import net.minecraftforge.fluids.capability.IFluidHandlerItem
 import net.minecraftforge.fml.relauncher.{Side, SideOnly}
 import org.lwjgl.opengl.GL11
 
@@ -39,8 +39,7 @@ case class MultiTank(worldExt: ProjectXWorldExtension, chunkExt: ProjectXChunkEx
   var area: CuboidCoord = null
 
   def this(worldObj: World, location: (Int, Int), airArea: CuboidCoord) = {
-    this(
-      ProjectXWorldExtensionInstantiator.getExtension(worldObj).asInstanceOf[ProjectXWorldExtension],
+    this(ProjectXWorldExtensionInstantiator.getExtension(worldObj).asInstanceOf[ProjectXWorldExtension],
       ProjectXWorldExtensionInstantiator.getExtension(worldObj).getChunkExtension(location._1, location._2).asInstanceOf[ProjectXChunkExtension])
     area = airArea
     initTank()
@@ -193,7 +192,7 @@ case class MultiTank(worldExt: ProjectXWorldExtension, chunkExt: ProjectXChunkEx
 
   override def markDirty(): Unit = chunkExt.getChunk().setChunkModified()
 
-  override def isItemValidForSlot(index: Int, stack: ItemStack): Boolean = stack.getItem.isInstanceOf[ItemFluidContainer]
+  override def isItemValidForSlot(index: Int, stack: ItemStack): Boolean = FluidUtil.getFluidHandler(stack) != null || stack.getItem.isInstanceOf[IFluidHandlerItem]
 
   override def openInventory(player: EntityPlayer): Unit = {}
 

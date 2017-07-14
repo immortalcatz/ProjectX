@@ -11,6 +11,10 @@ import keri.ninetaillib.lib.item.ItemToolHelper;
 import keri.ninetaillib.lib.mod.ContentLoader;
 import keri.projectx.block.*;
 import keri.projectx.block.machine.*;
+import keri.projectx.block.machine.multiblock.BlockFluidDetector;
+import keri.projectx.block.machine.multiblock.BlockItemIO;
+import keri.projectx.block.machine.multiblock.BlockMultiShadow;
+import keri.projectx.block.machine.multiblock.BlockTankValve;
 import keri.projectx.client.ProjectXTab;
 import keri.projectx.item.*;
 import keri.projectx.util.ModPrefs;
@@ -56,6 +60,7 @@ public class ProjectXContent {
     public static Block SHADOW_GRASS = new BlockMultiShadow(Material.GROUND, "Grass");
     public static Block VALVE = new BlockTankValve();
     public static Block LEVEL_DETECTOR = new BlockFluidDetector();
+    public static Block ITEM_IO = new BlockItemIO();
 
     //Items
     public static Item XYCRONIUM_CRYSTAL = new ItemXycroniumCrystal();
