@@ -18,7 +18,7 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class ProjectXCrafting {
 
-    public static void init(){
+    public static void init() {
         addSwordRecipe(ProjectXContent.XYCRONIUM_SWORD_BLUE, new ItemStack(ProjectXContent.XYCRONIUM_INGOT, 1, 0));
         addPickaxeRecipe(ProjectXContent.XYCRONIUM_PICKAXE_BLUE, new ItemStack(ProjectXContent.XYCRONIUM_INGOT, 1, 0));
         addShovelRecipe(ProjectXContent.XYCRONIUM_SHOVEL_BLUE, new ItemStack(ProjectXContent.XYCRONIUM_INGOT, 1, 0));
@@ -155,6 +155,31 @@ public class ProjectXCrafting {
                 'C', new ItemStack(ProjectXContent.ENGINEERING_BRICKS, 1, 4),
                 'V', Blocks.PACKED_ICE
         );
+
+        GameRegistry.addRecipe(new ItemStack(ProjectXContent.VALVE, 1),
+                "XCX",
+                "CBC",
+                "XCX",
+                'B', Items.BUCKET,
+                'C', Items.IRON_INGOT,
+                'X', new ItemStack(ProjectXContent.ENGINEERING_BRICKS, 1, 0));
+
+        GameRegistry.addRecipe(new ItemStack(ProjectXContent.LEVEL_DETECTOR, 1),
+                "XCX",
+                "CTC",
+                "XCX",
+                'T', Items.REDSTONE,
+                'C', Items.IRON_INGOT,
+                'X', new ItemStack(ProjectXContent.ENGINEERING_BRICKS, 1, 2));
+
+        GameRegistry.addRecipe(new ItemStack(ProjectXContent.ITEM_IO, 1),
+                "XCX",
+                "CTC",
+                "XCX",
+                'T', new ItemStack(Blocks.CHEST, 1, OreDictionary.WILDCARD_VALUE),
+                'C', Items.IRON_INGOT,
+                'X', new ItemStack(ProjectXContent.ENGINEERING_BRICKS, 1, 4));
+
         GameRegistry.addRecipe(new ItemStack(ProjectXContent.XYNERGY_TOOL, 1, 0),
                 "X X",
                 " V ",
@@ -164,7 +189,7 @@ public class ProjectXCrafting {
                 'C', new ItemStack(ProjectXContent.XYCRONIUM_INGOT, 1, OreDictionary.WILDCARD_VALUE)
         );
 
-        for(int meta = 0; meta < 5; meta++){
+        for (int meta = 0; meta < 5; meta++) {
             GameRegistry.addShapelessRecipe(new ItemStack(ProjectXContent.XYCRONIUM_CRYSTAL, 9, meta), new ItemStack(ProjectXContent.XYCRONIUM_BLOCK, 1, meta));
             GameRegistry.addShapelessRecipe(new ItemStack(ProjectXContent.XYCRONIUM_NUGGET, 9, meta), new ItemStack(ProjectXContent.XYCRONIUM_INGOT, 1, meta));
             GameRegistry.addSmelting(new ItemStack(ProjectXContent.XYCRONIUM_CRYSTAL, 1, meta), new ItemStack(ProjectXContent.XYCRONIUM_INGOT, 1, meta), 1F);
@@ -207,7 +232,7 @@ public class ProjectXCrafting {
             );
         }
 
-        for(int meta = 0; meta < 16; meta++){
+        for (int meta = 0; meta < 16; meta++) {
             GameRegistry.addRecipe(new ItemStack(ProjectXContent.XYCRONIUM_PLATE, 4, meta),
                     "XVX",
                     "VBV",
@@ -259,45 +284,45 @@ public class ProjectXCrafting {
         }
     }
 
-    private static void addColorRecipe(ItemStack output, Colour color, Object... params){
+    private static void addColorRecipe(ItemStack output, Colour color, Object... params) {
         ItemNBTUtils.validateTagExists(output);
         output.getTagCompound().setInteger("color", color.rgba());
         GameRegistry.addRecipe(output, params);
     }
 
-    private static void addSwordRecipe(Item output, ItemStack material){
+    private static void addSwordRecipe(Item output, ItemStack material) {
         GameRegistry.addRecipe(new ItemStack(output, 1, 0), " X ", " X ", " C ", 'X', material, 'C', Items.STICK);
     }
 
-    private static void addPickaxeRecipe(Item output, ItemStack material){
+    private static void addPickaxeRecipe(Item output, ItemStack material) {
         GameRegistry.addRecipe(new ItemStack(output, 1, 0), "XXX", " C ", " C ", 'X', material, 'C', Items.STICK);
     }
 
-    private static void addShovelRecipe(Item output, ItemStack material){
+    private static void addShovelRecipe(Item output, ItemStack material) {
         GameRegistry.addRecipe(new ItemStack(output, 1, 0), " X ", " C ", " C ", 'X', material, 'C', Items.STICK);
     }
 
-    private static void addAxeRecipe(Item output, ItemStack material){
+    private static void addAxeRecipe(Item output, ItemStack material) {
         GameRegistry.addRecipe(new ItemStack(output, 1, 0), "XX ", "XC ", " C ", 'X', material, 'C', Items.STICK);
     }
 
-    private static void addHoeRecipe(Item output, ItemStack material){
+    private static void addHoeRecipe(Item output, ItemStack material) {
         GameRegistry.addRecipe(new ItemStack(output, 1, 0), "XX ", " C ", " C ", 'X', material, 'C', Items.STICK);
     }
 
-    private static void addHelmetRecipe(Item output, ItemStack material){
+    private static void addHelmetRecipe(Item output, ItemStack material) {
         GameRegistry.addRecipe(new ItemStack(output, 1, 0), "XXX", "X X", "   ", 'X', material);
     }
 
-    private static void addChestplateRecipe(Item output, ItemStack material){
+    private static void addChestplateRecipe(Item output, ItemStack material) {
         GameRegistry.addRecipe(new ItemStack(output, 1, 0), "X X", "XXX", "XXX", 'X', material);
     }
 
-    private static void addLeggingsRecipe(Item output, ItemStack material){
+    private static void addLeggingsRecipe(Item output, ItemStack material) {
         GameRegistry.addRecipe(new ItemStack(output, 1, 0), "XXX", "X X", "X X", 'X', material);
     }
 
-    private static void addBootsRecipe(Item output, ItemStack material){
+    private static void addBootsRecipe(Item output, ItemStack material) {
         GameRegistry.addRecipe(new ItemStack(output, 1, 0), "   ", "X X", "X X", 'X', material);
     }
 
