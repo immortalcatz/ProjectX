@@ -31,13 +31,12 @@ class ProjectXChunkExtension(chunk: Chunk, worldExt: ProjectXWorldExtension) ext
 
   override def sendUpdatePackets(): Unit = {
     requestedUpdatePackets = false
-    for (packet <- packetQueue)
-      sendPacketToPlayers(packet)
-    for (multiBlock <- updateMultiBlocks) {
+    packetQueue.foreach(sendPacketToPlayers)
+    updateMultiBlocks.foreach(multiBlock => {
       sendPacketToPlayers(multiBlock.getUpdatePacket)
       updateMultiBlocks -= multiBlock
       multiBlock.requestsedUpdatePacket = false
-    }
+    })
     packetQueue.clear()
   }
 
@@ -53,37 +52,36 @@ class ProjectXChunkExtension(chunk: Chunk, worldExt: ProjectXWorldExtension) ext
 
   override def saveData(tag: NBTTagCompound): Unit = {
     val mulitBlockNBT = new NBTTagList
-    for (multiBlock <- multiBlocks) {
+    multiBlocks.foreach(multiBlock =>
       if (multiBlock.getChunkExt == this) {
         val nbt = new NBTTagCompound
         nbt.setInteger("multiBlockId", multiBlock.id)
         nbt.setInteger("multiBlockType", multiBlock.getMultiBlockId.ordinal())
         multiBlock.writeToNBT(nbt)
         mulitBlockNBT.appendTag(nbt)
-      }
-    }
+      })
     //Set the tag to something unique so it doesn't collide with other mods.
     tag.setTag("ProjectXMulti", mulitBlockNBT)
   }
 
   override def loadData(tag: NBTTagCompound): Unit = {
     val tagList = tag.getTagList("ProjectXMulti", 10)
-    for (i <- 0 until tagList.tagCount()) {
+    (0 until tagList.tagCount()).foreach(i => {
       val nbt = tagList.getCompoundTagAt(i)
       val multiblock = MultiBlockManager.createMultiBlock(MultiBlockTypes.values()(nbt.getInteger("multiBlockType")), worldExt, this)
       multiblock.readFromNBT(nbt)
       worldExt.unloadMutliBlock(multiblock)
-    }
+    })
   }
 
   override def unload(): Unit = {
-    for (multiblock <- multiBlocks) {
-      if (multiblock.getChunkExt == this || world.world.isRemote) {
-        worldExt.removeMultiBlock(multiblock, remove = false)
+    multiBlocks.foreach(multiBlock => {
+      if (multiBlock.getChunkExt == this || world.world.isRemote) {
+        worldExt.removeMultiBlock(multiBlock, remove = false)
       } else {
-        worldExt.unloadMutliBlock(multiblock)
+        worldExt.unloadMutliBlock(multiBlock)
       }
-    }
+    })
   }
 
   /**
@@ -92,12 +90,13 @@ class ProjectXChunkExtension(chunk: Chunk, worldExt: ProjectXWorldExtension) ext
     * @param player
     */
   override def onWatchPlayer(player: EntityPlayerMP): Unit = {
-    for (multiBlock <- multiBlocks) {
-      if (multiBlock.getChunkExt == this)
-      //playerNetServerHandler
-        player.connection.sendPacket(multiBlock.getDescriptionPacket())
+    multiBlocks.filter(multiBlock => {
+      multiBlock.getChunkExt == this
+    }) foreach {
+      multiBlock => player.connection.sendPacket(multiBlock.getDescriptionPacket())
     }
   }
+
 
   def getChunk(): Chunk = chunk
 

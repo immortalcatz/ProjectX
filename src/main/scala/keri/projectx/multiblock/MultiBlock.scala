@@ -14,7 +14,7 @@ import keri.projectx.featurehack.{EntityRenderHook, EntityUpdateHook}
 import keri.projectx.tile.TileMultiBlock
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.nbt.{NBTTagCompound, NBTTagList}
-import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.{BlockPos, ChunkPos}
 import net.minecraft.world.World
 import net.minecraftforge.fml.common.network.internal.FMLProxyPacket
 import net.minecraftforge.fml.relauncher.{Side, SideOnly}
@@ -26,12 +26,13 @@ abstract class MultiBlock(worldExt: ProjectXWorldExtension, chunkExt: ProjectXCh
   val world = worldExt.world
   val id = worldExt.nextAvailableMultiBlockId
   val inBlocks = new ArrayBuffer[BlockPos]()
-  val inChunks = new mutable.HashSet[(Int, Int)]()
+  val inChunks = new mutable.HashSet[ChunkPos]()
   var valid = false
   var requestsedUpdatePacket = false
 
-  def this(worldObj: World, location: (Int, Int)) =
-    this(ProjectXWorldExtensionInstantiator.getExtension(worldObj).asInstanceOf[ProjectXWorldExtension], ProjectXWorldExtensionInstantiator.getExtension(worldObj).getChunkExtension(location._1, location._2).asInstanceOf[ProjectXChunkExtension])
+  def this(worldObj: World, location: ChunkPos) =
+    this(ProjectXWorldExtensionInstantiator.getExtensionX(worldObj),
+      ProjectXWorldExtensionInstantiator.getExtensionX(worldObj).getChunkExtension(location))
 
 
   /**
@@ -61,19 +62,18 @@ abstract class MultiBlock(worldExt: ProjectXWorldExtension, chunkExt: ProjectXCh
       onJoinTile(pos)
     }
 
-    for (pos <- inBlocks) {
-      world.getTileEntity(pos) match {
-        case multiblock: TileMultiBlock => multiblock.joinMultiBlock(this)
-        case _ => sys.error("Tile is invalid.")
-      }
-    }
+    inBlocks.foreach(world.getTileEntity(_) match {
+      case multiblock: TileMultiBlock => multiblock.joinMultiBlock(this)
+      case _ => sys.error("Tile is invalid.")
+    })
 
     //Entity should always spawn at the head of the positions
     val position = inBlocks.head
     valid = true
     world.spawnEntity(new EntityUpdateHook(world, position.getX, position.getY, position.getZ, this))
-    if (world.isRemote)
+    if (world.isRemote) {
       world.spawnEntity(new EntityRenderHook(world, position.getX, position.getY, position.getZ, this))
+    }
     true
   }
 
@@ -91,9 +91,9 @@ abstract class MultiBlock(worldExt: ProjectXWorldExtension, chunkExt: ProjectXCh
     */
   def unload(remove: Boolean): Unit = {
     valid = false
-    for (pos <- inBlocks) {
-      world.getTileEntity(pos) match {
-        case tile: TileMultiBlock => tile.removeMultiBlock(this)
+    inBlocks foreach {
+      world.getTileEntity(_) match {
+        case tileMulti: TileMultiBlock => tileMulti.removeMultiBlock(this)
         case _ =>
       }
     }
@@ -102,11 +102,8 @@ abstract class MultiBlock(worldExt: ProjectXWorldExtension, chunkExt: ProjectXCh
   /**
     * @return true if all chunks are loaded. Used to detect if the multiblock should be loaded into the world
     */
-  def chunksLoaded(): Boolean = {
-    for (chunk <- inChunks)
-      if (worldExt.getChunkExtension(chunk) == null)
-        return false
-    true
+  final def chunksLoaded(): Boolean = inChunks exists {
+    worldExt.getChunkExtension(_) != null
   }
 
   /**
@@ -151,9 +148,10 @@ abstract class MultiBlock(worldExt: ProjectXWorldExtension, chunkExt: ProjectXCh
   def readBlockCoords(in: NBTTagCompound): Unit = {
     inBlocks.clear()
     val list = in.getTagList("coords", 10)
-    for (i <- 0 until list.tagCount()) {
-      val innerList = list.getCompoundTagAt(i)
-      addTile(new BlockPos(innerList.getInteger("x"), innerList.getInteger("y"), innerList.getInteger("z")))
+    0 until list.tagCount() map {
+      list.getCompoundTagAt
+    } foreach { list =>
+      addTile(new BlockPos(list.getInteger("x"), list.getInteger("y"), list.getInteger("z")))
     }
   }
 
@@ -164,7 +162,7 @@ abstract class MultiBlock(worldExt: ProjectXWorldExtension, chunkExt: ProjectXCh
     */
   def addTile(blockPos: BlockPos): Unit = {
     inBlocks += blockPos
-    inChunks += ((blockPos.getX >> 4, blockPos.getZ >> 4))
+    inChunks += new ChunkPos(blockPos.getX >> 4, blockPos.getZ >> 4)
   }
 
   def writeToNBT(nbt: NBTTagCompound): Unit = {
@@ -176,13 +174,13 @@ abstract class MultiBlock(worldExt: ProjectXWorldExtension, chunkExt: ProjectXCh
     */
   def writeBlockCoords(out: NBTTagCompound): NBTTagCompound = {
     val list = new NBTTagList
-    for (blockCoord <- inBlocks) {
+    inBlocks.foreach(blockCoord => {
       val inner = new NBTTagCompound
       inner.setInteger("x", blockCoord.getX)
       inner.setInteger("y", blockCoord.getY)
       inner.setInteger("z", blockCoord.getZ)
       list.appendTag(inner)
-    }
+    })
     out.setTag("coords", list)
     out
   }

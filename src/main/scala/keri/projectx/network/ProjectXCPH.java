@@ -65,15 +65,15 @@ public class ProjectXCPH implements ICustomPacketHandler.IClientPacketHandler {
     }
 
     private void handleWEDescriptionPacket(PacketCustom packet, WorldClient world) {
-        ProjectXWorldExtensionInstantiator.getExtensionXy(world).handleDescriptionPacket(packet);
+        ProjectXWorldExtensionInstantiator.getExtensionX(world).handleDescriptionPacket(packet);
     }
 
     private void handleWERemoveMultiblockPacket(PacketCustom packet, WorldClient world) {
-        ProjectXWorldExtensionInstantiator.getExtensionXy(world).handleRemoveMultiBlockPacket(packet);
+        ProjectXWorldExtensionInstantiator.getExtensionX(world).handleRemoveMultiBlockPacket(packet);
     }
 
     private void handleWEMultiblockUpdatePacket(PacketCustom packet, WorldClient world) {
-        ProjectXWorldExtensionInstantiator.getExtensionXy(world).handleMultiBlockUpdate(packet);
+        ProjectXWorldExtensionInstantiator.getExtensionX(world).handleMultiBlockUpdate(packet);
     }
 
 }

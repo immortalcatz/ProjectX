@@ -18,5 +18,5 @@ object ProjectXWorldExtensionInstantiator extends WorldExtensionInstantiator {
 
   override def createChunkExtension(chunk: Chunk, worldExtension: WorldExtension): ChunkExtension = new ProjectXChunkExtension(chunk, worldExtension.asInstanceOf[ProjectXWorldExtension])
 
-  def getExtensionXy(world: World): ProjectXWorldExtension = getExtension(world).asInstanceOf[ProjectXWorldExtension]
+  def getExtensionX(world: World): ProjectXWorldExtension = getExtension(world).asInstanceOf[ProjectXWorldExtension]
 }

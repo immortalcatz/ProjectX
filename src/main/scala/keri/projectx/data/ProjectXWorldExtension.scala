@@ -10,6 +10,7 @@ import codechicken.lib.packet.PacketCustom
 import codechicken.lib.world.{ChunkExtension, WorldExtension}
 import keri.projectx.ProjectX
 import keri.projectx.multiblock.{MultiBlock, MultiBlockManager, MultiBlockTypes}
+import net.minecraft.util.math.ChunkPos
 import net.minecraft.world.World
 import net.minecraftforge.fml.relauncher.{Side, SideOnly}
 
@@ -17,7 +18,6 @@ import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 
 class ProjectXWorldExtension(worldObj: World) extends WorldExtension(worldObj) {
-
   val dim = world.provider.getDimension
   val chunkPackets = new ArrayBuffer[ProjectXChunkExtension]()
   private val multiBlocks = new mutable.HashMap[Int, MultiBlock]()
@@ -34,16 +34,15 @@ class ProjectXWorldExtension(worldObj: World) extends WorldExtension(worldObj) {
   }
 
   override def postTick(): Unit = {
-    for (chunkExt <- chunkPackets)
-      chunkExt.sendUpdatePackets()
+    chunkPackets.foreach(_.sendUpdatePackets())
     chunkPackets.clear()
 
-    for (multiblock <- unloadedMultiBlocks) {
-      if (multiblock.chunksLoaded()) {
-        addMultiBlock(multiblock)
-        unloadedMultiBlocks.remove(multiblock)
-      }
-    }
+    unloadedMultiBlocks.filter(multiBlock => {
+      multiBlock.chunksLoaded()
+    }).foreach(multiBlock => {
+      addMultiBlock(multiBlock)
+      unloadedMultiBlocks.remove(multiBlock)
+    })
   }
 
   @SideOnly(Side.CLIENT)
@@ -95,10 +94,11 @@ class ProjectXWorldExtension(worldObj: World) extends WorldExtension(worldObj) {
     }
     unloadedMultiBlocks += multiBlock
     if (multiBlock.isValid) {
-      for (coord <- multiBlock.inChunks) {
-        if (coord.eq(multiBlock.getChunkExt.coord))
+      multiBlock.inChunks.foreach(coord => {
+        if (coord.eq(multiBlock.getChunkExt.coord)) {
           getChunkExtension(coord).removeMultiBlock(multiBlock)
-      }
+        }
+      })
       if (!world.isRemote) {
         val packet = new PacketCustom(ProjectX.INSTANCE, 3)
         packet.writeInt(dim)
@@ -107,18 +107,18 @@ class ProjectXWorldExtension(worldObj: World) extends WorldExtension(worldObj) {
       }
     }
   }
-
-  def getChunkExtension(chunkPos: (Int, Int)): ProjectXChunkExtension = getChunkExtension(chunkPos._1, chunkPos._2).asInstanceOf[ProjectXChunkExtension]
-
-  override def getChunkExtension(chunkXPos: Int, chunkZPos: Int): ChunkExtension = chunkMap.get(world.getChunkFromChunkCoords(chunkXPos, chunkZPos)).asInstanceOf[ProjectXChunkExtension]
+  
+  def getChunkExtension(chunkPos: ChunkPos): ProjectXChunkExtension = getChunkExtension(chunkPos.chunkXPos, chunkPos.chunkZPos).asInstanceOf[ProjectXChunkExtension]
 
   @SideOnly(Side.CLIENT)
   def handleRemoveMultiBlockPacket(packet: PacketCustom): Unit = {
-    if (packet.readInt() != dim)
+    if (packet.readInt() != dim) {
       return
+    }
     val multiBlock = multiBlocks.get(packet.readInt())
-    if (multiBlock.isDefined)
+    if (multiBlock.isDefined) {
       removeMultiBlock(multiBlock.get)
+    }
   }
 
   def removeMultiBlock(multiBlock: MultiBlock, remove: Boolean = true): Unit = {
