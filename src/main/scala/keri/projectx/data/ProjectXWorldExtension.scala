@@ -7,9 +7,9 @@
 package keri.projectx.data
 
 import codechicken.lib.packet.PacketCustom
-import codechicken.lib.world.{ChunkExtension, WorldExtension}
+import codechicken.lib.world.WorldExtension
 import keri.projectx.ProjectX
-import keri.projectx.multiblock.{MultiBlock, MultiBlockManager, MultiBlockTypes}
+import keri.projectx.multiblock.{MultiBlock, MultiBlockManager, MultiBlockType}
 import net.minecraft.util.math.ChunkPos
 import net.minecraft.world.World
 import net.minecraftforge.fml.relauncher.{Side, SideOnly}
@@ -50,7 +50,7 @@ class ProjectXWorldExtension(worldObj: World) extends WorldExtension(worldObj) {
     multiBlockId = packet.readInt()
     creatingClientSideMultiBlock = true
     val multiblock = MultiBlockManager.createMultiBlock(
-      MultiBlockTypes.values()(packet.readInt()),
+      MultiBlockType.values()(packet.readInt()),
       this,
       getChunkExtension(packet.readInt(), packet.readInt()).asInstanceOf[ProjectXChunkExtension])
     creatingClientSideMultiBlock = false

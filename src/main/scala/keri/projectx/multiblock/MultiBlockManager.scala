@@ -39,9 +39,9 @@ object MultiBlockManager {
     Some(tile)
   }
 
-  def createMultiBlock(multiBlockId: MultiBlockTypes, worldEx: ProjectXWorldExtension, chunkEx: ProjectXChunkExtension): MultiBlock = {
+  def createMultiBlock(multiBlockId: MultiBlockType, worldEx: ProjectXWorldExtension, chunkEx: ProjectXChunkExtension): MultiBlock = {
     multiBlockId match {
-      case MultiBlockTypes.TANK => new MultiTank(worldEx, chunkEx)
+      case MultiBlockType.TANK => new MultiTank(worldEx, chunkEx)
     }
   }
 }

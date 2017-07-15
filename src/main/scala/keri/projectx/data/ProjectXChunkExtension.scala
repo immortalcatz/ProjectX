@@ -7,7 +7,7 @@
 package keri.projectx.data
 
 import codechicken.lib.world.ChunkExtension
-import keri.projectx.multiblock.{MultiBlock, MultiBlockManager, MultiBlockTypes}
+import keri.projectx.multiblock.{MultiBlock, MultiBlockManager, MultiBlockType}
 import net.minecraft.entity.player.EntityPlayerMP
 import net.minecraft.nbt.{NBTTagCompound, NBTTagList}
 import net.minecraft.world.chunk.Chunk
@@ -42,36 +42,33 @@ class ProjectXChunkExtension(chunk: Chunk, worldExt: ProjectXWorldExtension) ext
 
   def sendMultiBlockPacket(packet: FMLProxyPacket): Unit = {
     packetQueue += packet
-    requestUpdatePacket
+    requestUpdatePacket()
   }
 
-  def requestUpdatePacket = {
+  def requestUpdatePacket(): Unit = {
     worldExt.chunkPackets += this
     requestedUpdatePackets = true
   }
 
   override def saveData(tag: NBTTagCompound): Unit = {
     val mulitBlockNBT = new NBTTagList
-    multiBlocks.foreach(multiBlock =>
-      if (multiBlock.getChunkExt == this) {
-        val nbt = new NBTTagCompound
-        nbt.setInteger("multiBlockId", multiBlock.id)
-        nbt.setInteger("multiBlockType", multiBlock.getMultiBlockId.ordinal())
-        multiBlock.writeToNBT(nbt)
-        mulitBlockNBT.appendTag(nbt)
-      })
-    //Set the tag to something unique so it doesn't collide with other mods.
-    tag.setTag("ProjectXMulti", mulitBlockNBT)
+    multiBlocks.map(multiBlock => {
+      val nbt = new NBTTagCompound
+      nbt.setInteger("multi_block_type", multiBlock.getMultiBlockType.ordinal())
+      multiBlock.writeToNBT(nbt)
+      nbt
+    }).foreach(mulitBlockNBT.appendTag)
+    tag.setTag(s"project_x_multi_blocks_version_${MultiBlockVersion.VERSION}", mulitBlockNBT)
   }
 
   override def loadData(tag: NBTTagCompound): Unit = {
-    val tagList = tag.getTagList("ProjectXMulti", 10)
-    (0 until tagList.tagCount()).foreach(i => {
+    val tagList = tag.getTagList(s"project_x_multi_blocks_version_${MultiBlockVersion.VERSION}", 10)
+    (0 until tagList.tagCount()).map(i => {
       val nbt = tagList.getCompoundTagAt(i)
-      val multiblock = MultiBlockManager.createMultiBlock(MultiBlockTypes.values()(nbt.getInteger("multiBlockType")), worldExt, this)
+      val multiblock = MultiBlockManager.createMultiBlock(MultiBlockType.values()(nbt.getInteger("multi_block_type")), worldExt, this)
       multiblock.readFromNBT(nbt)
-      worldExt.unloadMutliBlock(multiblock)
-    })
+      multiblock
+    }).foreach(worldExt.unloadMutliBlock)
   }
 
   override def unload(): Unit = {
@@ -86,8 +83,6 @@ class ProjectXChunkExtension(chunk: Chunk, worldExt: ProjectXWorldExtension) ext
 
   /**
     * Send update packet to player when chunk is loaded.
-    *
-    * @param player
     */
   override def onWatchPlayer(player: EntityPlayerMP): Unit = {
     multiBlocks.filter(multiBlock => {
@@ -98,13 +93,13 @@ class ProjectXChunkExtension(chunk: Chunk, worldExt: ProjectXWorldExtension) ext
   }
 
 
-  def getChunk(): Chunk = chunk
+  def getChunk: Chunk = chunk
 
   def markMultiBlockForUpdate(multiBlock: MultiBlock): Unit = {
     if (multiBlock.requestsedUpdatePacket)
       return
     chunk.setModified(true)
-    requestUpdatePacket
+    requestUpdatePacket()
     updateMultiBlocks += multiBlock
     multiBlock.requestsedUpdatePacket = true
   }

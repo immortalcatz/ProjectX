@@ -60,7 +60,7 @@ case class MultiTank(worldExt: ProjectXWorldExtension, chunkExt: ProjectXChunkEx
     super.onActivated(blockPos, player)
   }
 
-  override def getMultiBlockId: MultiBlockTypes = MultiBlockTypes.TANK
+  override def getMultiBlockType: MultiBlockType = MultiBlockType.TANK
 
   override def writeToNBT(nbt: NBTTagCompound): Unit = {
     super.writeToNBT(nbt)
@@ -190,7 +190,7 @@ case class MultiTank(worldExt: ProjectXWorldExtension, chunkExt: ProjectXChunkEx
 
   override def clear(): Unit = {}
 
-  override def markDirty(): Unit = chunkExt.getChunk().setChunkModified()
+  override def markDirty(): Unit = chunkExt.getChunk.setChunkModified()
 
   override def isItemValidForSlot(index: Int, stack: ItemStack): Boolean = FluidUtil.getFluidHandler(stack) != null || stack.getItem.isInstanceOf[IFluidHandlerItem]
 

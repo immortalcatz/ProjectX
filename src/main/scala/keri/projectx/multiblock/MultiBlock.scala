@@ -125,7 +125,7 @@ abstract class MultiBlock(worldExt: ProjectXWorldExtension, chunkExt: ProjectXCh
   def getDescriptionPacket(): FMLProxyPacket = {
     val packet = new PacketCustom(ProjectX.INSTANCE, 2)
     packet.writeInt(id)
-    packet.writeInt(getMultiBlockId.ordinal())
+    packet.writeInt(getMultiBlockType.ordinal())
     packet.writeInt(chunkExt.coord.chunkXPos)
     packet.writeInt(chunkExt.coord.chunkZPos)
     packet.writeNBTTagCompound(writeBlockCoords(new NBTTagCompound))
@@ -134,41 +134,6 @@ abstract class MultiBlock(worldExt: ProjectXWorldExtension, chunkExt: ProjectXCh
   }
 
   def writeToDescriptionPacket(out: MCDataOutput): Unit = {}
-
-  def handleDescriptionPacket(packet: PacketCustom): Unit = {
-    readBlockCoords(packet.readNBTTagCompound())
-    readFromDescriptionPacket(packet)
-  }
-
-  def readFromDescriptionPacket(in: MCDataInput): Unit = {}
-
-  /**
-    * Reads the block coords that are written to NBT
-    */
-  def readBlockCoords(in: NBTTagCompound): Unit = {
-    inBlocks.clear()
-    val list = in.getTagList("coords", 10)
-    0 until list.tagCount() map {
-      list.getCompoundTagAt
-    } foreach { list =>
-      addTile(new BlockPos(list.getInteger("x"), list.getInteger("y"), list.getInteger("z")))
-    }
-  }
-
-  /**
-    * Adds a block to the structure
-    *
-    * @param blockPos the position of the block
-    */
-  def addTile(blockPos: BlockPos): Unit = {
-    inBlocks += blockPos
-    inChunks += new ChunkPos(blockPos.getX >> 4, blockPos.getZ >> 4)
-  }
-
-  def writeToNBT(nbt: NBTTagCompound): Unit = {
-    writeBlockCoords(nbt)
-  }
-
   /**
     * Writes the block coords that compromises the structure to NBT so it can be sent to client and be saved to NBT
     */
@@ -184,7 +149,35 @@ abstract class MultiBlock(worldExt: ProjectXWorldExtension, chunkExt: ProjectXCh
     out.setTag("coords", list)
     out
   }
-
+  def handleDescriptionPacket(packet: PacketCustom): Unit = {
+    readBlockCoords(packet.readNBTTagCompound())
+    readFromDescriptionPacket(packet)
+  }
+  def readFromDescriptionPacket(in: MCDataInput): Unit = {}
+  /**
+    * Reads the block coords that are written to NBT
+    */
+  def readBlockCoords(in: NBTTagCompound): Unit = {
+    inBlocks.clear()
+    val list = in.getTagList("coords", 10)
+    0 until list.tagCount() map {
+      list.getCompoundTagAt
+    } foreach { list =>
+      addTile(new BlockPos(list.getInteger("x"), list.getInteger("y"), list.getInteger("z")))
+    }
+  }
+  /**
+    * Adds a block to the structure
+    *
+    * @param blockPos the position of the block
+    */
+  def addTile(blockPos: BlockPos): Unit = {
+    inBlocks += blockPos
+    inChunks += new ChunkPos(blockPos.getX >> 4, blockPos.getZ >> 4)
+  }
+  def writeToNBT(nbt: NBTTagCompound): Unit = {
+    writeBlockCoords(nbt)
+  }
   def readFromNBT(nbt: NBTTagCompound): Unit = {
     readBlockCoords(nbt)
   }
@@ -194,7 +187,7 @@ abstract class MultiBlock(worldExt: ProjectXWorldExtension, chunkExt: ProjectXCh
     *
     * @return
     */
-  def getMultiBlockId: MultiBlockTypes
+  def getMultiBlockType: MultiBlockType
 
   def readFromUpdatePacket(in: MCDataInput): Unit = {}
 
