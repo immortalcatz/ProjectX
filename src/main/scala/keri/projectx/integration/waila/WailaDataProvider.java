@@ -10,6 +10,8 @@ import codechicken.lib.util.ItemNBTUtils;
 import keri.projectx.block.BlockXycroniumLight;
 import keri.projectx.block.BlockXycroniumLightInverted;
 import keri.projectx.init.ProjectXContent;
+import keri.projectx.tile.ItemIOState;
+import keri.projectx.tile.TileEntityItemIO;
 import keri.projectx.tile.TileEntityXycroniumLight;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
@@ -30,14 +32,13 @@ public class WailaDataProvider implements IWailaDataProvider {
     @Nonnull
     @Override
     public ItemStack getWailaStack(IWailaDataAccessor accessor, IWailaConfigHandler config) {
-        if(accessor.getTileEntity() instanceof TileEntityXycroniumLight){
-            TileEntityXycroniumLight tile = (TileEntityXycroniumLight)accessor.getTileEntity();
+        if (accessor.getTileEntity() instanceof TileEntityXycroniumLight) {
+            TileEntityXycroniumLight tile = (TileEntityXycroniumLight) accessor.getTileEntity();
             ItemStack stack = null;
 
-            if(accessor.getBlock() instanceof BlockXycroniumLight){
+            if (accessor.getBlock() instanceof BlockXycroniumLight) {
                 stack = new ItemStack(ProjectXContent.XYCRONIUM_LIGHT, 1, 0);
-            }
-            else if(accessor.getBlock() instanceof BlockXycroniumLightInverted){
+            } else if (accessor.getBlock() instanceof BlockXycroniumLightInverted) {
                 stack = new ItemStack(ProjectXContent.XYCRONIUM_LIGHT_INVERTED, 1, 0);
             }
 
@@ -58,11 +59,18 @@ public class WailaDataProvider implements IWailaDataProvider {
     @Nonnull
     @Override
     public List<String> getWailaBody(ItemStack stack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
-        if(accessor.getTileEntity() instanceof TileEntityXycroniumLight){
-            TileEntityXycroniumLight tile = (TileEntityXycroniumLight)accessor.getTileEntity();
+        if (accessor.getTileEntity() instanceof TileEntityXycroniumLight) {
+            TileEntityXycroniumLight tile = (TileEntityXycroniumLight) accessor.getTileEntity();
             currenttip.add(TextFormatting.RED + "R: " + (tile.getColor().r & 0xFF));
             currenttip.add(TextFormatting.GREEN + "G: " + (tile.getColor().g & 0xFF));
             currenttip.add(TextFormatting.BLUE + "B: " + (tile.getColor().b & 0xFF));
+        } else if (accessor.getTileEntity() instanceof TileEntityItemIO) {
+            TileEntityItemIO tileEntityItemIO = (TileEntityItemIO) accessor.getTileEntity();
+            if (tileEntityItemIO.getCurrentState() == ItemIOState.IN) {
+                currenttip.add("Current Setting: " + TextFormatting.GREEN + "Input");
+            } else {
+                currenttip.add("Current Setting: " + TextFormatting.RED + "Output");
+            }
         }
 
         return currenttip;

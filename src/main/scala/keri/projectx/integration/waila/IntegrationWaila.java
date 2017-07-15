@@ -10,6 +10,7 @@ import keri.projectx.ProjectX;
 import keri.projectx.block.BlockXycroniumLight;
 import keri.projectx.block.BlockXycroniumLightInverted;
 import keri.projectx.integration.IIntegrationModule;
+import keri.projectx.tile.TileEntityItemIO;
 import mcp.mobius.waila.api.IWailaRegistrar;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLInterModComms;
@@ -24,6 +25,7 @@ public class IntegrationWaila implements IIntegrationModule {
         registrar.registerBodyProvider(dataProvider, BlockXycroniumLight.class);
         registrar.registerStackProvider(dataProvider, BlockXycroniumLightInverted.class);
         registrar.registerBodyProvider(dataProvider, BlockXycroniumLightInverted.class);
+        registrar.registerBodyProvider(dataProvider, TileEntityItemIO.class);
     }
 
     @Override

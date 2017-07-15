@@ -41,16 +41,16 @@ class BlockItemIO extends BlockAnimationHandler[TileEntityItemIO]("item_io", Mat
   override def getAnimationIcon(stack: ItemStack, side: Int): TextureAtlasSprite = ProjectX.PROXY.getAnimatedTexture
   override def getAnimationIcon(world: IBlockAccess, pos: BlockPos, side: Int): TextureAtlasSprite = ProjectX.PROXY.getAnimatedTexture
 
-  override def getAnimationColor(stack: ItemStack, side: Int): Int = EnumColour.ORANGE.rgba()
+  override def getAnimationColor(stack: ItemStack, side: Int): Int = EnumXycroniumColor.GREEN.getColor.rgba()
   override def getAnimationColor(world: IBlockAccess, pos: BlockPos, side: Int): Int = {
     world.getTileEntity(pos) match {
       case itemIO: TileEntityItemIO => {
         itemIO.currentState match {
-          case ItemIOState.OUT => EnumColour.ORANGE.rgba()
-          case ItemIOState.IN => EnumXycroniumColor.BLUE.getColor.rgba()
-          case _ => EnumColour.RED.rgba()
+          case ItemIOState.OUT => EnumXycroniumColor.RED.getColor.rgba()
+          case ItemIOState.IN => EnumXycroniumColor.GREEN.getColor.rgba()
         }
       }
+      case _ => EnumColour.RED.rgba()
     }
   }
 

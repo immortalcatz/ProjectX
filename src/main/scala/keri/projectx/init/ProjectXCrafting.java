@@ -178,7 +178,7 @@ public class ProjectXCrafting {
                 "XCX",
                 'T', new ItemStack(Blocks.CHEST, 1, OreDictionary.WILDCARD_VALUE),
                 'C', Items.IRON_INGOT,
-                'X', new ItemStack(ProjectXContent.ENGINEERING_BRICKS, 1, 4));
+                'X', new ItemStack(ProjectXContent.ENGINEERING_BRICKS, 1, 1));
 
         GameRegistry.addRecipe(new ItemStack(ProjectXContent.XYNERGY_TOOL, 1, 0),
                 "X X",
