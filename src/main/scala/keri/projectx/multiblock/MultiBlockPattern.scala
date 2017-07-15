@@ -30,7 +30,7 @@ case class MultiBlockPattern(width: Int, height: Int, depth: Int) {
 
   def fillFaces(minx: Int, miny: Int, minz: Int, maxx: Int, maxy: Int, maxz: Int, matcherIndex: Int): Unit = {
     for (side <- EnumFacing.VALUES) {
-      val shrunk = shrink(shift(minx, miny, minz, maxx, maxy, minz, 1), side)
+      val shrunk = expand(shift(minx, miny, minz, maxx, maxy, minz, 1), side)
       for (x <- shrunk(0) to shrunk(1))
         for (y <- shrunk(2) to shrunk(3))
           for (z <- shrunk(4) to shrunk(5))
@@ -109,13 +109,13 @@ case class MultiBlockPattern(width: Int, height: Int, depth: Int) {
     }
   }
 
-  def worldDemonstratesPattern(world: World, pos: BlockPos): Boolean = {
+  def worldDemonstratesPattern(world: World, origin: BlockPos): Boolean = {
     for (x <- 0 until width; y <- 0 until height; z <- 0 until depth) {
       val matcherId = pattern(x)(y)(z)
-      if (matcherId >= 0 && !matchers(matcherId).matches(world, new BlockPos(pos).add(x, y, z))) {
+      if (matcherId >= 0 && !matchers(matcherId).matches(world, new BlockPos(origin).add(x, y, z))) {
         return false
       } else if (matcherId == -1) {
-        val offsetPos = new BlockPos(pos).add(x, y, z)
+        val offsetPos = new BlockPos(origin).add(x, y, z)
         if (!world.isAirBlock(offsetPos)) {
           return false
         }
@@ -126,7 +126,7 @@ case class MultiBlockPattern(width: Int, height: Int, depth: Int) {
 }
 
 object MultiBlockPattern {
-  def shrink(minxyzmaxxyz: Array[Int], side: EnumFacing): Array[Int] = {
+  def expand(minxyzmaxxyz: Array[Int], side: EnumFacing): Array[Int] = {
     if (side.ordinal() % 2 == 0)
       minxyzmaxxyz(side.ordinal()) -= 1
     else

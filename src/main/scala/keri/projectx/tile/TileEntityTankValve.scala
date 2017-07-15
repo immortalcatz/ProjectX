@@ -35,9 +35,7 @@ class TileEntityTankValve extends TileMultiBlock with IFluidHandler with ITickab
     0
   }
 
-
   override def hasCapability(capability: Capability[_], facing: EnumFacing): Boolean = super.hasCapability(capability, facing) || capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY;
-
 
   override def getCapability[T](capability: Capability[T], facing: EnumFacing): T = {
     if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
@@ -58,12 +56,11 @@ class TileEntityTankValve extends TileMultiBlock with IFluidHandler with ITickab
   }
 
   //TODO
-  override def getTankProperties: Array[IFluidTankProperties] = null
+  override def getTankProperties: Array[IFluidTankProperties] = Array()
 
   override def update(): Unit = {
     if (!world.isRemote && !formedMultiBlocks.isEmpty) {
-      for (side <- EnumFacing.VALUES) {
-        val state = getWorld.getBlockState(getPos.offset(side))
+      EnumFacing.VALUES.map(side => getPos.offset(side)).map(getWorld.getBlockState).foreach { state =>
         state.getBlock match {
           case fluidSource: IFluidSource => getTank(0).get.tank.fill(fluidSource.getFluid(getWorld, getPos, state), true)
           case _ =>
