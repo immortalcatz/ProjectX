@@ -102,8 +102,11 @@ abstract class MultiBlock(worldExt: ProjectXWorldExtension, chunkExt: ProjectXCh
   /**
     * @return true if all chunks are loaded. Used to detect if the multiblock should be loaded into the world
     */
-  final def chunksLoaded(): Boolean = inChunks exists {
-    worldExt.getChunkExtension(_) != null
+  final def chunksLoaded(): Boolean = {
+    inChunks.foreach(chunkPos => if (worldExt.getChunkExtension(chunkPos) == null) {
+      return false
+    })
+    true
   }
 
   /**
