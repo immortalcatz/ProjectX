@@ -6,6 +6,9 @@
 
 package keri.projectx.client.gui
 
+import java.text.DecimalFormat
+
+import codechicken.lib.colour.EnumColour
 import codechicken.lib.render.RenderUtils
 import codechicken.lib.vec.Rectangle4i
 import keri.ninetaillib.lib.gui.GuiContainerBase
@@ -15,13 +18,15 @@ import keri.projectx.multiblock.MultiTank
 import net.minecraft.entity.player.InventoryPlayer
 
 class GuiMultiTank(inventory: InventoryPlayer, multiTank: MultiTank) extends GuiGeneric(new ContainerMultitank(inventory, multiTank)) {
+  val format = new DecimalFormat("#,###.##")
+
   override def guiName: String = "Tank"
 
   override def drawBackground(): Unit = {
   }
 
   override def drawForeground(mouseX: Int, mouseY: Int): Unit = {
-    drawFluidGauge(new Point2i(32, 12),
+    drawFluidGauge(new Point2i(32, 5),
       GuiContainerBase.BACKGROUND_DARK,
       multiTank.tank.getFluid.getFluid,
       multiTank.tank.c_ammount.toInt,
@@ -29,19 +34,11 @@ class GuiMultiTank(inventory: InventoryPlayer, multiTank: MultiTank) extends Gui
       new IPositionProvider {
         override def getPosition = new Point2i(mouseX, mouseY)
       })
+
+    val fluidStored = s"${format.format(multiTank.tank.getFluidAmount.toDouble / 1000)} B / ${format.format(multiTank.tank.getCapacity.toDouble / 1000)} B"
+    fontRendererObj.drawString(fluidStored, 10, 80, EnumColour.WHITE.rgb())
     RenderUtils.renderFluidGauge(multiTank.tank.getFluid, new Rectangle4i(24, 24, 25, 83), 16, 16)
-    //    drawTankBig(24, 24)
-    //    val fluid = multiTank.getTankInfo.fluid
-    //
-    //
-    //    if (fluid != null && fluid.amount > 0) {
-    //      val filled: Double = multiTank.tank.c_ammount / multiTank.tank.getCapacity
-    //      val height = 58.0D * filled
-    //      val buffer = Tessellator.getInstance().getBuffer
-    //      RenderUtils.preFluidRender()
-    //      buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX)
-    //      RenderUtils.renderFluidQuad(new Vector3(25.0D, 83.0D - height, this.zLevel), new Vector3(25.0D, 83.0D, this.zLevel), new Vector3(77.0D, 83.0D, this.zLevel), new Vector3(77.0D, 83.0D - height, this.zLevel), Minecraft.getMinecraft.getTextureMapBlocks.getAtlasSprite(fluid.getFluid.getStill(fluid).toString), 16f)
-    //      Tessellator.getInstance().draw()
-    //    }
   }
+
+
 }
