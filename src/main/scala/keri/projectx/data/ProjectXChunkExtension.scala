@@ -52,7 +52,7 @@ class ProjectXChunkExtension(chunk: Chunk, worldExt: ProjectXWorldExtension) ext
 
   override def saveData(tag: NBTTagCompound): Unit = {
     val mulitBlockNBT = new NBTTagList
-    multiBlocks.map(multiBlock => {
+    multiBlocks.filter(multiBlock => multiBlock.getChunkExt == this).map(multiBlock => {
       val nbt = new NBTTagCompound
       nbt.setInteger("multi_block_type", multiBlock.getMultiBlockType.ordinal())
       multiBlock.writeToNBT(nbt)
