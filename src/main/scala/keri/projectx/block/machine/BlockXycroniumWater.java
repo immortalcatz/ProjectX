@@ -6,9 +6,11 @@
 
 package keri.projectx.block.machine;
 
+import codechicken.lib.fluid.FluidUtils;
 import keri.ninetaillib.lib.texture.IIconRegister;
 import keri.projectx.ProjectX;
 import keri.projectx.api.color.EnumXycroniumColor;
+import keri.projectx.api.fluid.IFluidSource;
 import keri.projectx.block.BlockAnimationHandler;
 import keri.projectx.util.ModPrefs;
 import net.minecraft.block.Block;
@@ -23,10 +25,11 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockXycroniumWater extends BlockAnimationHandler {
+public class BlockXycroniumWater extends BlockAnimationHandler implements IFluidSource {
 
     @SideOnly(Side.CLIENT)
     private TextureAtlasSprite[] texture;
@@ -39,15 +42,14 @@ public class BlockXycroniumWater extends BlockAnimationHandler {
 
     @Override
     public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
-        for(EnumFacing side : EnumFacing.VALUES){
+        for (EnumFacing side : EnumFacing.VALUES) {
             BlockPos sidePos = pos.offset(side);
             IBlockState sideState = world.getBlockState(sidePos);
 
-            if(sideState.getBlock() == Blocks.FLOWING_LAVA){
-                if(sideState.getValue(BlockDynamicLiquid.LEVEL) == 0){
+            if (sideState.getBlock() == Blocks.FLOWING_LAVA) {
+                if (sideState.getValue(BlockDynamicLiquid.LEVEL) == 0) {
                     world.setBlockState(sidePos, Blocks.OBSIDIAN.getDefaultState(), 3);
-                }
-                else{
+                } else {
                     world.setBlockState(sidePos, Blocks.COBBLESTONE.getDefaultState(), 3);
                 }
             }
@@ -59,11 +61,10 @@ public class BlockXycroniumWater extends BlockAnimationHandler {
     public void neighborChanged(IBlockState state, World world, BlockPos pos, Block block, BlockPos fromPos) {
         IBlockState sideState = world.getBlockState(fromPos);
 
-        if(sideState.getBlock() == Blocks.FLOWING_LAVA){
-            if(sideState.getValue(BlockDynamicLiquid.LEVEL) == 0){
+        if (sideState.getBlock() == Blocks.FLOWING_LAVA) {
+            if (sideState.getValue(BlockDynamicLiquid.LEVEL) == 0) {
                 world.setBlockState(fromPos, Blocks.OBSIDIAN.getDefaultState(), 3);
-            }
-            else{
+            } else {
                 world.setBlockState(fromPos, Blocks.COBBLESTONE.getDefaultState(), 3);
             }
         }
@@ -72,20 +73,19 @@ public class BlockXycroniumWater extends BlockAnimationHandler {
     //TODO: needs ASM for BlockFarmland or some kind of event handler to prevent transformation into dirt/dry farmland
 
     /**
-    @Override
-    public void updateTick(World world, BlockPos pos, IBlockState state, Random random) {
-        for(int x = -3; x < 3; x++){
-            for(int z = -3; z < 3; z++){
-                BlockPos offsetPos = pos.add(x, 0, z);
-                IBlockState offsetState = world.getBlockState(offsetPos);
-
-                if(offsetState == Blocks.FARMLAND.getDefaultState()){
-                    IBlockState newState = offsetState.withProperty(BlockFarmland.MOISTURE, 7);
-                    world.setBlockState(offsetPos, newState, 3);
-                }
-            }
-        }
-    }
+     * @Override public void updateTick(World world, BlockPos pos, IBlockState state, Random random) {
+     * for(int x = -3; x < 3; x++){
+     * for(int z = -3; z < 3; z++){
+     * BlockPos offsetPos = pos.add(x, 0, z);
+     * IBlockState offsetState = world.getBlockState(offsetPos);
+     * <p>
+     * if(offsetState == Blocks.FARMLAND.getDefaultState()){
+     * IBlockState newState = offsetState.withProperty(BlockFarmland.MOISTURE, 7);
+     * world.setBlockState(offsetPos, newState, 3);
+     * }
+     * }
+     * }
+     * }
      */
 
     @Override
@@ -99,13 +99,19 @@ public class BlockXycroniumWater extends BlockAnimationHandler {
     @Override
     @SideOnly(Side.CLIENT)
     public TextureAtlasSprite getIcon(int meta, int side) {
-        switch(side){
-            case 0: return this.texture[0];
-            case 1: return this.texture[0];
-            case 2: return this.texture[1];
-            case 3: return this.texture[1];
-            case 4: return this.texture[1];
-            case 5: return this.texture[1];
+        switch (side) {
+            case 0:
+                return this.texture[0];
+            case 1:
+                return this.texture[0];
+            case 2:
+                return this.texture[1];
+            case 3:
+                return this.texture[1];
+            case 4:
+                return this.texture[1];
+            case 5:
+                return this.texture[1];
         }
 
         return null;
@@ -147,4 +153,8 @@ public class BlockXycroniumWater extends BlockAnimationHandler {
         return 0x00F000F0;
     }
 
+    @Override
+    public FluidStack getFluid(IBlockAccess world, BlockPos pos, IBlockState state) {
+        return new FluidStack(FluidUtils.water, 50);
+    }
 }
