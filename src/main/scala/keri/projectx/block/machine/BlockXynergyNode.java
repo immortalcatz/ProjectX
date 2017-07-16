@@ -296,8 +296,8 @@ public class BlockXynergyNode extends BlockProjectX implements IWrenchableBlock,
     }
 
     @Override
-    public TextureAtlasSprite getIcon(int meta, int side) {
-        return this.texture[side];
+    public TextureAtlasSprite getIcon(int meta, EnumFacing side) {
+        return this.texture[side.getIndex()];
     }
 
     @Override

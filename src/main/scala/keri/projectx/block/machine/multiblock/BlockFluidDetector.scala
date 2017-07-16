@@ -45,8 +45,8 @@ class BlockFluidDetector extends BlockAnimationHandler[TileEntityFluidDetector](
     texture = register.registerIcon(s"${ModPrefs.MODID}:blocks/fluid_detector")
   }
 
-  override def getIcon(meta: Int, side: Int): TextureAtlasSprite = texture
-  override def getIcon(world: IBlockAccess, pos: BlockPos, side: Int): TextureAtlasSprite = texture
+  override def getIcon(meta: Int, side: EnumFacing): TextureAtlasSprite = texture
+  override def getIcon(world: IBlockAccess, pos: BlockPos, side: EnumFacing): TextureAtlasSprite = texture
 
   //IAnimationHandler
   override def getAnimationIcon(stack: ItemStack, side: Int): TextureAtlasSprite = ProjectX.PROXY.getAnimatedTexture

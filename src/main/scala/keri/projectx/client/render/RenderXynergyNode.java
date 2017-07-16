@@ -71,9 +71,9 @@ public class RenderXynergyNode implements IBlockRenderingHandler {
     public boolean renderWorld(IBlockAccess world, BlockPos pos, VertexBuffer buffer, BlockRenderLayer layer) {
         EnumFacing orientation = EnumFacing.getFront(BlockAccessUtils.getBlockMetadata(world, pos));
         IIconBlock iconProvider = (IIconBlock)world.getBlockState(pos).getBlock();
-        TextureAtlasSprite textureTop = iconProvider.getIcon(0, 0);
-        TextureAtlasSprite textureBottom = iconProvider.getIcon(0, 1);
-        TextureAtlasSprite textureSide = iconProvider.getIcon(0, 2);
+        TextureAtlasSprite textureTop = iconProvider.getIcon(0, EnumFacing.DOWN);
+        TextureAtlasSprite textureBottom = iconProvider.getIcon(0, EnumFacing.UP);
+        TextureAtlasSprite textureSide = iconProvider.getIcon(0, EnumFacing.NORTH);
         BakingVertexBuffer parent = BakingVertexBuffer.create();
         parent.begin(GL11.GL_QUADS, DefaultVertexFormats.ITEM);
         CCRenderState renderState = CCRenderState.instance();
@@ -138,9 +138,9 @@ public class RenderXynergyNode implements IBlockRenderingHandler {
     @Override
     public void renderInventory(ItemStack stack, VertexBuffer buffer) {
         IIconBlock iconProvider = (IIconBlock)Block.getBlockFromItem(stack.getItem());
-        TextureAtlasSprite textureTop = iconProvider.getIcon(0, 0);
-        TextureAtlasSprite textureBottom = iconProvider.getIcon(0, 1);
-        TextureAtlasSprite textureSide = iconProvider.getIcon(0, 2);
+        TextureAtlasSprite textureTop = iconProvider.getIcon(0, EnumFacing.DOWN);
+        TextureAtlasSprite textureBottom = iconProvider.getIcon(0, EnumFacing.UP);
+        TextureAtlasSprite textureSide = iconProvider.getIcon(0, EnumFacing.NORTH);
         Tessellator.getInstance().draw();
         GlStateManager.pushMatrix();
         GlStateManager.enableLighting();

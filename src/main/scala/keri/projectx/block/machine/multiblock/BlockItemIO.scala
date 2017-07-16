@@ -17,6 +17,7 @@ import net.minecraft.block.state.IBlockState
 import net.minecraft.client.renderer.texture.TextureAtlasSprite
 import net.minecraft.item.ItemStack
 import net.minecraft.tileentity.TileEntity
+import net.minecraft.util.EnumFacing
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.{IBlockAccess, World}
 import net.minecraftforge.fml.common.registry.GameRegistry
@@ -36,8 +37,8 @@ class BlockItemIO extends BlockAnimationHandler[TileEntityItemIO]("item_io", Mat
 
   override def createTileEntity(world: World, state: IBlockState): TileEntity = new TileEntityItemIO
 
-  override def getIcon(meta: Int, side: Int): TextureAtlasSprite = texture(0)
-  override def getIcon(world: IBlockAccess, pos: BlockPos, side: Int): TextureAtlasSprite = {
+  override def getIcon(meta: Int, side: EnumFacing): TextureAtlasSprite = texture(0)
+  override def getIcon(world: IBlockAccess, pos: BlockPos, side: EnumFacing): TextureAtlasSprite = {
     world.getTileEntity(pos) match {
       case tileItemIO: TileEntityItemIO => texture(tileItemIO.currentState.ordinal())
       case _ => texture(0)

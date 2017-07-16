@@ -47,8 +47,8 @@ class BlockTankValve extends BlockAnimationHandler[TileEntityTankValve]("valve",
     texture = register.registerIcon(s"${ModPrefs.MODID}:blocks/valve")
   }
 
-  override def getIcon(meta: Int, side: Int): TextureAtlasSprite = texture
-  override def getIcon(world: IBlockAccess, pos: BlockPos, side: Int): TextureAtlasSprite = texture
+  override def getIcon(meta: Int, side: EnumFacing): TextureAtlasSprite = texture
+  override def getIcon(world: IBlockAccess, pos: BlockPos, side: EnumFacing): TextureAtlasSprite = texture
 
   override def getAnimationIcon(stack: ItemStack, side: Int): TextureAtlasSprite = ProjectX.PROXY.getAnimatedTexture
   override def getAnimationIcon(world: IBlockAccess, pos: BlockPos, side: Int): TextureAtlasSprite = ProjectX.PROXY.getAnimatedTexture

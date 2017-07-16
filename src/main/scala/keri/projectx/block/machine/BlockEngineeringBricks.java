@@ -17,6 +17,7 @@ import keri.projectx.util.ModPrefs;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
@@ -40,7 +41,7 @@ public class BlockEngineeringBricks extends BlockAnimationHandler implements ICT
 
     @Override
     @SideOnly(Side.CLIENT)
-    public TextureAtlasSprite getIcon(int meta, int side) {
+    public TextureAtlasSprite getIcon(int meta, EnumFacing side) {
         return this.texture;
     }
 

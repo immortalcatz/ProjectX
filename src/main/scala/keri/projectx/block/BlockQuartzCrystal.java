@@ -158,7 +158,7 @@ public class BlockQuartzCrystal extends BlockProjectX implements IAnimationHandl
 
     @Override
     @SideOnly(Side.CLIENT)
-    public TextureAtlasSprite getIcon(int meta, int side) {
+    public TextureAtlasSprite getIcon(int meta, EnumFacing side) {
         return ProjectX.PROXY.getAnimatedTexture();
     }
 

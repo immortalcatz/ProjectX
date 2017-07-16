@@ -28,6 +28,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumBlockRenderType;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
@@ -52,7 +53,7 @@ public class RenderConnectedTexture implements IBlockRenderingHandler {
     @Override
     public boolean renderWorld(IBlockAccess world, BlockPos pos, VertexBuffer buffer, BlockRenderLayer layer){
         IIconBlock iconProvider = (IIconBlock)world.getBlockState(pos).getBlock();
-        TextureAtlasSprite texture = iconProvider.getIcon(0, 0);
+        TextureAtlasSprite texture = iconProvider.getIcon(0, EnumFacing.DOWN);
         BlockRenderContext renderContext = new BlockRenderContext();
         renderContext.setBlockAccess(world);
         renderContext.setCurrentBlockState(ProjectXContent.GLASS_VIEWER.getDefaultState());
@@ -89,7 +90,7 @@ public class RenderConnectedTexture implements IBlockRenderingHandler {
         CCModel model = DEFAULT_MODEL.copy();
         GlStateManager.pushMatrix();
         GlStateManager.enableLighting();
-        model.render(renderState, new IconTransformation(iconProvider.getIcon(0, 0)));
+        model.render(renderState, new IconTransformation(iconProvider.getIcon(0, EnumFacing.DOWN)));
         GlStateManager.popMatrix();
         Tessellator.getInstance().draw();
         buffer.begin(GL11.GL_QUADS, RenderUtils.getFormatWithLightMap(DefaultVertexFormats.ITEM));

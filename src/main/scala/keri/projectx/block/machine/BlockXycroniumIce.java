@@ -65,8 +65,8 @@ public class BlockXycroniumIce extends BlockAnimationHandler {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public TextureAtlasSprite getIcon(int meta, int side) {
-        switch(side){
+    public TextureAtlasSprite getIcon(int meta, EnumFacing side) {
+        switch (side.getIndex()) {
             case 0: return this.texture[0];
             case 1: return this.texture[0];
             case 2: return this.texture[1];

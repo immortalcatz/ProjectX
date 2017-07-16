@@ -14,6 +14,7 @@ import keri.projectx.util.ModPrefs;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
@@ -37,13 +38,13 @@ public class BlockXycroniumBricks extends BlockAnimationHandler {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public TextureAtlasSprite getIcon(int meta, int side) {
+    public TextureAtlasSprite getIcon(int meta, EnumFacing side) {
         return this.texture;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public int getColorMultiplier(int meta, int side) {
+    public int getColorMultiplier(int meta, EnumFacing side) {
         boolean coloredBricks = (Boolean)ProjectX.CONFIG.getProperty("coloredBricks").getValue();
         return coloredBricks ? EnumXycroniumColor.VALUES[meta].getColor().copy().multiplyC(0.5D).rgba() : 0xFFFFFFFF;
     }

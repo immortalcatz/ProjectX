@@ -41,7 +41,7 @@ public class BlockXycroniumStorage extends BlockAnimationHandler implements ICTM
 
     @Override
     @SideOnly(Side.CLIENT)
-    public TextureAtlasSprite getIcon(int meta, int side) {
+    public TextureAtlasSprite getIcon(int meta, EnumFacing side) {
         return this.texture;
     }
 

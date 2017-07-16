@@ -87,8 +87,8 @@ public class BlockFireBasin extends BlockAnimationHandler {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public TextureAtlasSprite getIcon(int meta, int side) {
-        switch(side){
+    public TextureAtlasSprite getIcon(int meta, EnumFacing side) {
+        switch (side.getIndex()) {
             case 0: return this.texture[0];
             case 1: return meta == 0 ? this.texture[2] : this.texture[3];
             case 2: return this.texture[1];
