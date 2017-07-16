@@ -24,6 +24,8 @@ import net.minecraft.world.{IBlockAccess, World}
 import net.minecraftforge.fml.common.registry.GameRegistry
 
 class BlockTankValve extends BlockAnimationHandler[TileEntityTankValve]("valve", Material.IRON) with TBlockMulti {
+  setHardness(1.4F)
+
   var texture: TextureAtlasSprite = _
 
   override def createNewTileEntity(world: World, meta: Int): TileEntityTankValve = new TileEntityTankValve

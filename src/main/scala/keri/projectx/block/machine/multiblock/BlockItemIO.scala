@@ -25,6 +25,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry
   * Created by Adam on 7/12/2017.
   */
 class BlockItemIO extends BlockAnimationHandler[TileEntityItemIO]("item_io", Material.IRON) with TBlockMulti {
+  setHardness(1.4F)
   var texture: Array[TextureAtlasSprite] = Array.fill[TextureAtlasSprite](2)(null)
 
   override def registerIcons(register: IIconRegister): Unit = {

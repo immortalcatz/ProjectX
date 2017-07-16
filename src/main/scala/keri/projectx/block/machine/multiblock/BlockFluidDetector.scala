@@ -25,6 +25,8 @@ import net.minecraftforge.fml.common.registry.GameRegistry
   * Created by Adam on 7/11/2017.
   */
 class BlockFluidDetector extends BlockAnimationHandler[TileEntityFluidDetector]("fluid_detector", Material.IRON) with TBlockMulti {
+  setHardness(1.4F)
+
   var texture: TextureAtlasSprite = _
 
   override def createNewTileEntity(world: World, meta: Int): TileEntityFluidDetector = new TileEntityFluidDetector
