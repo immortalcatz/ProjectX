@@ -93,15 +93,25 @@ class BlockMultiShadow(material: Material, suffix: String) extends BlockProjectX
   override def canCollideCheck(state: IBlockState, hitIfLiquid: Boolean): Boolean = blockMaterial != Material.AIR
 
   override def shouldSideBeRendered(blockState: IBlockState, world: IBlockAccess, pos: BlockPos, side: EnumFacing): Boolean = {
+    /**
     if (blockMaterial == Material.GLASS) {
       val state = world.getBlockState(pos.offset(side))
       if (state.getBlock == this) {
         return false
-      } else {
+      }
+      else {
         return true
       }
     }
+
     blockMaterial != Material.AIR
+      */
+    false
+  }
+
+
+  override def doesSideBlockRendering(state: IBlockState, world: IBlockAccess, pos: BlockPos, face: EnumFacing): Boolean = {
+    false
   }
 
   override def addDestroyEffects(world: World, pos: BlockPos, manager: ParticleManager): Boolean = {
@@ -186,17 +196,17 @@ class BlockMultiShadow(material: Material, suffix: String) extends BlockProjectX
   override def getIcon(world: IBlockAccess, pos: BlockPos, side: EnumFacing): TextureAtlasSprite = {
     val shadowBlock = getShadowBlock(world, pos)
 
-    if(shadowBlock.isInstanceOf[IIconBlock]){
-      if(shadowBlock.asInstanceOf[IIconBlock].getIcon(world, pos, side) != null){
-        shadowBlock.asInstanceOf[IIconBlock].getIcon(world, pos, side)
+    if(shadowBlock.isDefined){
+      if(shadowBlock.get.block.asInstanceOf[IIconBlock].getIcon(world, pos, side) != null){
+        shadowBlock.get.block.asInstanceOf[IIconBlock].getIcon(world, pos, side)
       }
       else{
-        val metadata = 0
-        shadowBlock.asInstanceOf[IIconBlock].getIcon(metadata, side)
+        shadowBlock.get.block.asInstanceOf[IIconBlock].getIcon(shadowBlock.get.meta, side)
       }
     }
-
-    TextureUtils.getMissingSprite
+    else{
+      TextureUtils.getMissingSprite
+    }
   }
 
   override def getColorMultiplier(meta: Int, side: EnumFacing): Int = {
@@ -208,29 +218,39 @@ class BlockMultiShadow(material: Material, suffix: String) extends BlockProjectX
   }
 
   override def getAnimationIcon(world: IBlockAccess, pos: BlockPos, side: Int): TextureAtlasSprite = {
-    getShadowBlock(world, pos) match {
-      case handler: IAnimationHandler => handler.getAnimationBrightness(world, pos, side)
-      case _ => TextureUtils.getMissingSprite
-    }
+    val shadowBlock = getShadowBlock(world, pos)
 
-    TextureUtils.getMissingSprite
+    if(shadowBlock.isDefined){
+      shadowBlock.get.block.asInstanceOf[IAnimationHandler].getAnimationIcon(world, pos, side)
+    }
+    else{
+      TextureUtils.getMissingSprite
+    }
   }
 
   override def getAnimationColor(stack: ItemStack, side: Int): Int = EnumColour.WHITE.rgba()
 
   override def getAnimationColor(world: IBlockAccess, pos: BlockPos, side: Int): Int = {
-    getShadowBlock(world, pos) match {
-      case handler: IAnimationHandler => handler.getAnimationColor(world, pos, side)
-      case _ => EnumColour.WHITE.rgba()
+    val shadowBlock = getShadowBlock(world, pos)
+
+    if(shadowBlock.isDefined){
+      shadowBlock.get.block.asInstanceOf[IAnimationHandler].getAnimationColor(world, pos, side)
+    }
+    else{
+      EnumColour.WHITE.rgba()
     }
   }
 
   override def getAnimationBrightness(stack: ItemStack, side: Int): Int = 0
 
   override def getAnimationBrightness(world: IBlockAccess, pos: BlockPos, side: Int): Int = {
-    getShadowBlock(world, pos) match {
-      case handler: IAnimationHandler => handler.getAnimationBrightness(world, pos, side)
-      case _ => 0
+    val shadowBlock = getShadowBlock(world, pos)
+
+    if(shadowBlock.isDefined){
+      shadowBlock.get.block.asInstanceOf[IAnimationHandler].getAnimationBrightness(world, pos, side)
+    }
+    else{
+      0
     }
   }
 
