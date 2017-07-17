@@ -187,8 +187,6 @@ class BlockMultiShadow(material: Material, suffix: String) extends BlockProjectX
     val shadowBlock = getShadowBlock(world, pos)
 
     if(shadowBlock.isInstanceOf[IIconBlock]){
-      val texture = null;
-
       if(shadowBlock.asInstanceOf[IIconBlock].getIcon(world, pos, side) != null){
         shadowBlock.asInstanceOf[IIconBlock].getIcon(world, pos, side)
       }
@@ -200,7 +198,6 @@ class BlockMultiShadow(material: Material, suffix: String) extends BlockProjectX
 
     TextureUtils.getMissingSprite
   }
-
 
   override def getColorMultiplier(meta: Int, side: EnumFacing): Int = {
     EnumColour.WHITE.rgba()
