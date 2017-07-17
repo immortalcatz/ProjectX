@@ -27,7 +27,6 @@ public class CommonProxy implements IProxy {
     @Override
     public void init(FMLInitializationEvent event) {
         PacketCustom.assignHandler(ProjectX.INSTANCE, new ProjectXSPH());
-
         WorldExtensionManager.registerWorldExtension(ProjectXWorldExtensionInstantiator$.MODULE$);
         FeatureHack.enableUpdateHook();
     }

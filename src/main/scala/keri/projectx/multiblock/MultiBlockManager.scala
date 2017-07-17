@@ -6,9 +6,11 @@
 
 package keri.projectx.multiblock
 
+import keri.projectx.block.BlockAnimationHandler
 import keri.projectx.data.{ProjectXChunkExtension, ProjectXWorldExtension}
 import keri.projectx.init.ProjectXContent
 import keri.projectx.tile.{TileMultiBlock, TileMultiShadow}
+import net.minecraft.tileentity.TileEntity
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
@@ -20,8 +22,10 @@ object MultiBlockManager {
     val blockState = world.getBlockState(pos)
     val meta = blockState.getBlock.getMetaFromState(blockState)
 
-    if (blockState.getBlock.hasTileEntity(blockState))
-      return None
+    if(!(blockState.getBlock.isInstanceOf[BlockAnimationHandler[TileEntity]])){
+      if (blockState.getBlock.hasTileEntity(blockState))
+        return None
+    }
 
     //TODO add more types
     MultiCategoryMatcher.getCategoryForBlock(blockState) match {

@@ -57,7 +57,7 @@ public class RenderSimpleGlow implements IBlockRenderingHandler {
     public boolean renderWorld(IBlockAccess world, BlockPos pos, VertexBuffer buffer, BlockRenderLayer layer) {
         CCRenderState renderState = CCRenderState.instance();
         IIconBlock iconProvider = (IIconBlock) world.getBlockState(pos).getBlock();
-        IAnimationHandler animationHandler = (IAnimationHandler) world.getBlockState(pos).getBlock();
+        IAnimationHandler animationHandler = (IAnimationHandler)world.getBlockState(pos).getBlock();
         CCModel modelAnimation = BLOCK_MODEL.copy();
         modelAnimation.apply(new Translation(Vector3.fromBlockPos(pos)));
         renderState.bind(buffer);
