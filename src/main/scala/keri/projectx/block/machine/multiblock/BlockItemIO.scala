@@ -21,15 +21,18 @@ import net.minecraft.util.EnumFacing
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.{IBlockAccess, World}
 import net.minecraftforge.fml.common.registry.GameRegistry
+import net.minecraftforge.fml.relauncher.{Side, SideOnly}
 
 /**
   * Created by Adam on 7/12/2017.
   */
 class BlockItemIO extends BlockAnimationHandler[TileEntityItemIO]("item_io", Material.IRON) with TBlockMulti {
   setHardness(1.4F)
-  var texture: Array[TextureAtlasSprite] = Array.fill[TextureAtlasSprite](2)(null)
+  @SideOnly(Side.CLIENT)
+  var texture: Array[TextureAtlasSprite] = _
 
   override def registerIcons(register: IIconRegister): Unit = {
+    texture = Array.fill[TextureAtlasSprite](2)(null)
     texture(0) = register.registerIcon(s"${ModPrefs.MODID}:blocks/item_io_out")
     texture(1) = register.registerIcon(s"${ModPrefs.MODID}:blocks/item_io_in")
   }
