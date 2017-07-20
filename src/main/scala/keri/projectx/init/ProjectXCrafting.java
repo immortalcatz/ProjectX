@@ -15,6 +15,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 
 public class ProjectXCrafting {
 
@@ -97,14 +98,14 @@ public class ProjectXCrafting {
                 'C', new ItemStack(ProjectXContent.ENGINEERING_BRICKS, 1, 0),
                 'V', Items.WATER_BUCKET
         );
-        GameRegistry.addRecipe(new ItemStack(ProjectXContent.XYCRONIUM_SOIL, 2, 0),
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ProjectXContent.XYCRONIUM_SOIL, 2, 0),
                 "XCX",
                 "CVC",
                 "XCX",
                 'X', Items.IRON_INGOT,
                 'C', new ItemStack(ProjectXContent.ENGINEERING_BRICKS, 1, 1),
-                'V', new ItemStack(Blocks.SAPLING, 1, OreDictionary.WILDCARD_VALUE)
-        );
+                'V', "treeSapling"
+        ));
         GameRegistry.addRecipe(new ItemStack(ProjectXContent.FIRE_BASIN, 2, 0),
                 "XBX",
                 "CVC",
@@ -155,31 +156,30 @@ public class ProjectXCrafting {
                 'C', new ItemStack(ProjectXContent.ENGINEERING_BRICKS, 1, 4),
                 'V', Blocks.PACKED_ICE
         );
-
         GameRegistry.addRecipe(new ItemStack(ProjectXContent.VALVE, 1),
                 "XCX",
                 "CBC",
                 "XCX",
                 'B', Items.BUCKET,
                 'C', Items.IRON_INGOT,
-                'X', new ItemStack(ProjectXContent.ENGINEERING_BRICKS, 1, 0));
-
+                'X', new ItemStack(ProjectXContent.ENGINEERING_BRICKS, 1, 0)
+        );
         GameRegistry.addRecipe(new ItemStack(ProjectXContent.LEVEL_DETECTOR, 1),
                 "XCX",
                 "CTC",
                 "XCX",
                 'T', Items.REDSTONE,
                 'C', Items.IRON_INGOT,
-                'X', new ItemStack(ProjectXContent.ENGINEERING_BRICKS, 1, 2));
-
-        GameRegistry.addRecipe(new ItemStack(ProjectXContent.ITEM_IO, 1),
+                'X', new ItemStack(ProjectXContent.ENGINEERING_BRICKS, 1, 2)
+        );
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ProjectXContent.ITEM_IO, 1),
                 "XCX",
                 "CTC",
                 "XCX",
-                'T', new ItemStack(Blocks.CHEST, 1, OreDictionary.WILDCARD_VALUE),
+                'T', "blockChest",
                 'C', Items.IRON_INGOT,
-                'X', new ItemStack(ProjectXContent.ENGINEERING_BRICKS, 1, 1));
-
+                'X', new ItemStack(ProjectXContent.ENGINEERING_BRICKS, 1, 1)
+        ));
         GameRegistry.addRecipe(new ItemStack(ProjectXContent.XYNERGY_TOOL, 1, 0),
                 "X X",
                 " V ",
