@@ -61,7 +61,7 @@ minecraft {
 
 dependencies {
     deobfCompile "codechicken:CodeChickenLib:1.11.2-3.0.0.272:deobf"
-    deobfCompile "keri.ninetaillib:NineTailLib:1.11.2-1.6.138:deobf"
+    deobfCompile "keri.ninetaillib:NineTailLib:1.11.2-1.6.141:deobf"
 	deobfCompile "mcp.mobius.waila:Hwyla:1.8.15-B29_1.11"
 	deobfCompile "mezz.jei:jei_1.11.2:4.5.0.287"
 	deobfCompile "slimeknights.mantle:Mantle:1.11.2-1.2.0.27:deobf"
