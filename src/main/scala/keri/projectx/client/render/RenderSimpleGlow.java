@@ -19,8 +19,6 @@ import keri.ninetaillib.lib.render.RenderingRegistry;
 import keri.ninetaillib.lib.texture.IIconBlock;
 import keri.ninetaillib.lib.util.BlockAccessUtils;
 import keri.ninetaillib.lib.util.RenderUtils;
-import keri.projectx.client.render.connected.BlockRenderContext;
-import keri.projectx.client.render.connected.ICTMBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.GlStateManager;
@@ -75,51 +73,28 @@ public class RenderSimpleGlow implements IBlockRenderingHandler {
         List<BakedQuad> overlayQuads = Lists.newArrayList();
 
         if (layer == BlockRenderLayer.CUTOUT_MIPPED) {
-            if (world.getBlockState(pos).getBlock() instanceof ICTMBlock) {
+            CCModel modelOverlay = BLOCK_MODEL.copy();
+            BakingVertexBuffer parent = BakingVertexBuffer.create();
+            parent.begin(GL11.GL_QUADS, DefaultVertexFormats.ITEM);
+            renderState.reset();
+            renderState.bind(parent);
+
+            for (EnumFacing side : EnumFacing.VALUES) {
                 TextureAtlasSprite texture = null;
 
-                if (iconProvider.getIcon(world, pos, EnumFacing.DOWN) != null) {
-                    texture = iconProvider.getIcon(world, pos, EnumFacing.DOWN);
+                if (iconProvider.getIcon(world, pos, side) != null) {
+                    texture = iconProvider.getIcon(world, pos, side);
                 } else {
-                    texture = iconProvider.getIcon(BlockAccessUtils.getBlockMetadata(world, pos), EnumFacing.DOWN);
+                    texture = iconProvider.getIcon(BlockAccessUtils.getBlockMetadata(world, pos), side);
                 }
 
-                BlockRenderContext renderContext = new BlockRenderContext();
-                renderContext.setBlockAccess(world);
-                renderContext.setCurrentBlockState(world.getBlockState(pos));
-                renderContext.setChangeBounds(true);
-                renderContext.renderStandardBlock(pos, texture);
-                BakingVertexBuffer parent = BakingVertexBuffer.create();
-                parent.begin(GL11.GL_QUADS, DefaultVertexFormats.ITEM);
-                renderState.reset();
-                renderState.bind(parent);
-                renderContext.getModel().render(renderState);
-                parent.finishDrawing();
-                overlayQuads.addAll(parent.bake());
-            } else {
-                CCModel modelOverlay = BLOCK_MODEL.copy();
-                BakingVertexBuffer parent = BakingVertexBuffer.create();
-                parent.begin(GL11.GL_QUADS, DefaultVertexFormats.ITEM);
-                renderState.reset();
-                renderState.bind(parent);
-
-                for (EnumFacing side : EnumFacing.VALUES) {
-                    TextureAtlasSprite texture = null;
-
-                    if (iconProvider.getIcon(world, pos, side) != null) {
-                        texture = iconProvider.getIcon(world, pos, side);
-                    } else {
-                        texture = iconProvider.getIcon(BlockAccessUtils.getBlockMetadata(world, pos), side);
-                    }
-
-                    int colorMultiplier = iconProvider.getColorMultiplier(BlockAccessUtils.getBlockMetadata(world, pos), side);
-                    modelOverlay.setColour(colorMultiplier);
-                    modelOverlay.render(renderState, 4 * side.getIndex(), 4 + (4 * side.getIndex()), new IconTransformation(texture));
-                }
-
-                parent.finishDrawing();
-                overlayQuads.addAll(parent.bake());
+                int colorMultiplier = iconProvider.getColorMultiplier(BlockAccessUtils.getBlockMetadata(world, pos), side);
+                modelOverlay.setColour(colorMultiplier);
+                modelOverlay.render(renderState, 4 * side.getIndex(), 4 + (4 * side.getIndex()), new IconTransformation(texture));
             }
+
+            parent.finishDrawing();
+            overlayQuads.addAll(parent.bake());
         }
 
         return RenderUtils.renderQuads(buffer, world, pos, overlayQuads);

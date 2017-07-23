@@ -6,25 +6,24 @@
 
 package keri.projectx.block;
 
+import keri.ninetaillib.lib.render.connected.ICTMBlock;
 import keri.ninetaillib.lib.texture.IIconRegister;
-import keri.projectx.client.render.connected.RenderConnectedTexture;
-import keri.projectx.client.render.connected.TextureConnected;
+import keri.ninetaillib.lib.util.ClientUtils;
 import keri.projectx.util.ModPrefs;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockGlassViewer extends BlockProjectX {
+public class BlockGlassViewer extends BlockProjectX implements ICTMBlock {
 
     @SideOnly(Side.CLIENT)
-    private TextureConnected texture;
+    private TextureAtlasSprite[] texture;
 
     public BlockGlassViewer() {
         super("glass_viewer", Material.GLASS);
@@ -34,19 +33,25 @@ public class BlockGlassViewer extends BlockProjectX {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister register) {
-        this.texture = new TextureConnected(ModPrefs.MODID + ":blocks/glass_viewer/glass_viewer").register(register);
+        this.texture = ClientUtils.registerConnectedTexture(register, ModPrefs.MODID + ":blocks/glass_viewer/glass_viewer");
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public TextureAtlasSprite getIcon(int meta, EnumFacing side) {
-        return this.texture;
+        return this.texture[0];
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public EnumBlockRenderType getRenderType(IBlockState state) {
-        return RenderConnectedTexture.RENDER_TYPE;
+    public boolean canTextureConnect(IBlockAccess world, BlockPos pos, EnumFacing side) {
+        return true;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public TextureAtlasSprite[] getConnectedTexture(IBlockAccess world, BlockPos pos, EnumFacing side) {
+        return this.texture;
     }
 
     @Override

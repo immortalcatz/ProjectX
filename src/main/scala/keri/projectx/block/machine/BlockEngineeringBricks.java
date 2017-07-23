@@ -6,13 +6,13 @@
 
 package keri.projectx.block.machine;
 
+import keri.ninetaillib.lib.render.connected.ICTMBlock;
 import keri.ninetaillib.lib.texture.IIconRegister;
 import keri.ninetaillib.lib.util.BlockAccessUtils;
+import keri.ninetaillib.lib.util.ClientUtils;
 import keri.projectx.ProjectX;
 import keri.projectx.api.color.EnumXycroniumColor;
 import keri.projectx.block.BlockAnimationHandler;
-import keri.projectx.client.render.connected.ICTMBlock;
-import keri.projectx.client.render.connected.TextureConnected;
 import keri.projectx.util.ModPrefs;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -26,7 +26,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class BlockEngineeringBricks extends BlockAnimationHandler implements ICTMBlock {
 
     @SideOnly(Side.CLIENT)
-    private TextureConnected texture;
+    private TextureAtlasSprite[] texture;
 
     public BlockEngineeringBricks() {
         super("engineering_bricks", Material.ROCK, EnumXycroniumColor.toStringArray());
@@ -36,12 +36,24 @@ public class BlockEngineeringBricks extends BlockAnimationHandler implements ICT
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister register) {
-        this.texture = new TextureConnected(ModPrefs.MODID + ":blocks/engineering_bricks/engineering_bricks").register(register);
+        this.texture = ClientUtils.registerConnectedTexture(register, ModPrefs.MODID + ":blocks/engineering_bricks/engineering_bricks");
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public TextureAtlasSprite getIcon(int meta, EnumFacing side) {
+        return this.texture[0];
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean canTextureConnect(IBlockAccess world, BlockPos pos, EnumFacing side) {
+        return true;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public TextureAtlasSprite[] getConnectedTexture(IBlockAccess world, BlockPos pos, EnumFacing side) {
         return this.texture;
     }
 

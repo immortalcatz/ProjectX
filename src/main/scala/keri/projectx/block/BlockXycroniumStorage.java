@@ -6,12 +6,12 @@
 
 package keri.projectx.block;
 
+import keri.ninetaillib.lib.render.connected.ICTMBlock;
 import keri.ninetaillib.lib.texture.IIconRegister;
 import keri.ninetaillib.lib.util.BlockAccessUtils;
+import keri.ninetaillib.lib.util.ClientUtils;
 import keri.projectx.ProjectX;
 import keri.projectx.api.color.EnumXycroniumColor;
-import keri.projectx.client.render.connected.ICTMBlock;
-import keri.projectx.client.render.connected.TextureConnected;
 import keri.projectx.util.ModPrefs;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -26,7 +26,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class BlockXycroniumStorage extends BlockAnimationHandler implements ICTMBlock {
 
     @SideOnly(Side.CLIENT)
-    private TextureConnected texture;
+    private TextureAtlasSprite[] texture;
 
     public BlockXycroniumStorage() {
         super("xycronium_block", Material.ROCK, EnumXycroniumColor.toStringArray());
@@ -36,12 +36,24 @@ public class BlockXycroniumStorage extends BlockAnimationHandler implements ICTM
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister register) {
-        this.texture = new TextureConnected(ModPrefs.MODID + ":blocks/xycronium_block/xycronium_block").register(register);
+        this.texture = ClientUtils.registerConnectedTexture(register, ModPrefs.MODID + ":blocks/xycronium_block/xycronium_block");
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public TextureAtlasSprite getIcon(int meta, EnumFacing side) {
+        return this.texture[0];
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean canTextureConnect(IBlockAccess world, BlockPos pos, EnumFacing side) {
+        return true;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public TextureAtlasSprite[] getConnectedTexture(IBlockAccess world, BlockPos pos, EnumFacing side) {
         return this.texture;
     }
 

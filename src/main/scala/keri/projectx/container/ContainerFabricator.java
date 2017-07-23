@@ -6,7 +6,7 @@
 
 package keri.projectx.container;
 
-import keri.ninetaillib.lib.container.ContainerBase;
+import codechicken.lib.inventory.container.ContainerExtended;
 import keri.ninetaillib.lib.container.slot.SlotFalseCopy;
 import keri.projectx.container.slot.SlotDisabled;
 import keri.projectx.tile.TileEntityFabricator;
@@ -14,7 +14,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 
-public class ContainerFabricator extends ContainerBase {
+public class ContainerFabricator extends ContainerExtended {
 
     private InventoryPlayer inventoryPlayer;
     private TileEntityFabricator tile;
@@ -46,18 +46,8 @@ public class ContainerFabricator extends ContainerBase {
     }
 
     @Override
-    public boolean supportsShiftClick(EntityPlayer player, int slot) {
-        return slot > 9;
-    }
-
-    @Override
     public boolean canInteractWith(EntityPlayer player) {
         return this.tile.isUsableByPlayer(player);
-    }
-
-    @Override
-    public int getSizeInventory() {
-        return this.tile.getSizeInventory();
     }
 
 }
