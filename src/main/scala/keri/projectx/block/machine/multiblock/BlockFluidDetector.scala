@@ -42,7 +42,7 @@ class BlockFluidDetector extends BlockAnimationHandler[TileEntityFluidDetector](
   }
 
   override def registerIcons(register: IIconRegister): Unit = {
-    texture = register.registerIcon(s"${ModPrefs.MODID}:blocks/fluid_detector")
+    texture = register.registerIcon(s"${ModPrefs.MODID}:blocks/machine/fluid_detector")
   }
 
   override def getIcon(meta: Int, side: EnumFacing): TextureAtlasSprite = texture

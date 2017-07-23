@@ -44,7 +44,7 @@ class BlockTankValve extends BlockAnimationHandler[TileEntityTankValve]("valve",
   }
 
   override def registerIcons(register: IIconRegister): Unit = {
-    texture = register.registerIcon(s"${ModPrefs.MODID}:blocks/valve")
+    texture = register.registerIcon(s"${ModPrefs.MODID}:blocks/machine/tank_valve")
   }
 
   override def getIcon(meta: Int, side: EnumFacing): TextureAtlasSprite = texture

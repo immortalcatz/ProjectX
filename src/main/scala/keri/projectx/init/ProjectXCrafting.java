@@ -222,7 +222,7 @@ public class ProjectXCrafting {
                     "XXX",
                     'X', new ItemStack(ProjectXContent.XYCRONIUM_NUGGET, 1, meta)
             );
-            GameRegistry.addRecipe(new ItemStack(ProjectXContent.ENGINEERING_BRICKS, 1, meta),
+            GameRegistry.addRecipe(new ItemStack(ProjectXContent.ENGINEERING_BRICKS, 4, meta),
                     "XCX",
                     "CVC",
                     "XCX",

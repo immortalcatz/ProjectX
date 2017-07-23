@@ -33,8 +33,8 @@ class BlockItemIO extends BlockAnimationHandler[TileEntityItemIO]("item_io", Mat
 
   override def registerIcons(register: IIconRegister): Unit = {
     texture = Array.fill[TextureAtlasSprite](2)(null)
-    texture(0) = register.registerIcon(s"${ModPrefs.MODID}:blocks/item_io_out")
-    texture(1) = register.registerIcon(s"${ModPrefs.MODID}:blocks/item_io_in")
+    texture(0) = register.registerIcon(s"${ModPrefs.MODID}:blocks/machine/item_io_out")
+    texture(1) = register.registerIcon(s"${ModPrefs.MODID}:blocks/machine/item_io_in")
   }
 
 

@@ -15,5 +15,7 @@ import net.minecraftforge.fluids.FluidStack;
  * Get a fluid stored in a block. You can use tile interaction or just send a fluid stack to have unlimited water
  */
 public interface IFluidSource {
+
     public FluidStack getFluid(IBlockAccess world, BlockPos pos, IBlockState state);
+
 }
