@@ -26,6 +26,7 @@ import scala.Option;
 //TODO make less cancerous
 @SideOnly(Side.CLIENT)
 public class RenderShadowBlock implements IBlockRenderingHandler {
+
     public static EnumBlockRenderType RENDER_TYPE;
 
     static {
@@ -62,4 +63,5 @@ public class RenderShadowBlock implements IBlockRenderingHandler {
     public EnumBlockRenderType getRenderType() {
         return RENDER_TYPE;
     }
+
 }

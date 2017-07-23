@@ -91,11 +91,11 @@ public class RenderQuartzCrystal implements IBlockRenderingHandler {
         model.apply(new Scale(new Vector3(2D, 2D, 2D)));
         model.apply(new Translation(new Vector3(0.5D, 0.5D, 0.5D)));
         model.render(renderState);
-        renderState.brightness = lastBrightness;
         Tessellator.getInstance().draw();
         RenderUtils.enableMipmap(mipmapFilterData);
         GlStateManager.enableLighting();
         GlStateManager.popMatrix();
+        renderState.brightness = lastBrightness;
         buffer.begin(GL11.GL_QUADS, RenderUtils.getFormatWithLightMap(DefaultVertexFormats.ITEM));
     }
 

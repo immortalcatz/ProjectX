@@ -14,9 +14,9 @@ import net.minecraft.util.math.RayTraceResult;
  * Created by Adam on 7/11/2017.
  */
 public class PlayerStareTracker {
+
     BlockPos staringPos = BlockPos.ORIGIN;
     int lastTime = 0;
-
 
     public void update(RayTraceResult result) {
         int time = (int) ClientUtils.getRenderTime();
@@ -32,4 +32,5 @@ public class PlayerStareTracker {
     public int getStareTime() {
         return (int) ClientUtils.getRenderTime() - lastTime;
     }
+
 }

@@ -79,6 +79,6 @@ object MultiBlockOverlayRenderer extends IIconRegister {
   }
 
   override def registerIcons(textureMap: TextureMap): Unit = {
-    overlayTexture = textureMap.registerSprite(new ResourceLocation(ModPrefs.MODID, s"blocks/overlay_multi_block"))
+    overlayTexture = textureMap.registerSprite(new ResourceLocation(ModPrefs.MODID, s"blocks/machine/overlay_multi_block"))
   }
 }

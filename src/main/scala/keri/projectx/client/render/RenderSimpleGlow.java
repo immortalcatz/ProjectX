@@ -16,6 +16,8 @@ import codechicken.lib.vec.uv.IconTransformation;
 import com.google.common.collect.Lists;
 import keri.ninetaillib.lib.render.IBlockRenderingHandler;
 import keri.ninetaillib.lib.render.RenderingRegistry;
+import keri.ninetaillib.lib.render.connected.ConnectedRenderContext;
+import keri.ninetaillib.lib.render.connected.ICTMBlock;
 import keri.ninetaillib.lib.texture.IIconBlock;
 import keri.ninetaillib.lib.util.BlockAccessUtils;
 import keri.ninetaillib.lib.util.RenderUtils;
@@ -55,8 +57,7 @@ public class RenderSimpleGlow implements IBlockRenderingHandler {
     @Override
     public boolean renderWorld(IBlockAccess world, BlockPos pos, IBlockState state, VertexBuffer buffer, BlockRenderLayer layer) {
         CCRenderState renderState = CCRenderState.instance();
-        IIconBlock iconProvider = (IIconBlock) world.getBlockState(pos).getBlock();
-        IAnimationHandler animationHandler = (IAnimationHandler)world.getBlockState(pos).getBlock();
+        IAnimationHandler animationHandler = (IAnimationHandler)state.getBlock();
         CCModel modelAnimation = BLOCK_MODEL.copy();
         modelAnimation.apply(new Translation(Vector3.fromBlockPos(pos)));
         renderState.bind(buffer);
@@ -73,28 +74,52 @@ public class RenderSimpleGlow implements IBlockRenderingHandler {
         List<BakedQuad> overlayQuads = Lists.newArrayList();
 
         if (layer == BlockRenderLayer.CUTOUT_MIPPED) {
-            CCModel modelOverlay = BLOCK_MODEL.copy();
-            BakingVertexBuffer parent = BakingVertexBuffer.create();
-            parent.begin(GL11.GL_QUADS, DefaultVertexFormats.ITEM);
-            renderState.reset();
-            renderState.bind(parent);
+            if(state.getBlock() instanceof ICTMBlock){
+                ICTMBlock iconProvider = (ICTMBlock)state.getBlock();
+                ConnectedRenderContext renderContext = new ConnectedRenderContext();
+                renderContext.setBlockAccess(world);
+                renderContext.setCurrentBlockState(state);
+                renderContext.setChangeBounds(true);
 
-            for (EnumFacing side : EnumFacing.VALUES) {
-                TextureAtlasSprite texture = null;
-
-                if (iconProvider.getIcon(world, pos, side) != null) {
-                    texture = iconProvider.getIcon(world, pos, side);
-                } else {
-                    texture = iconProvider.getIcon(BlockAccessUtils.getBlockMetadata(world, pos), side);
+                for(EnumFacing side : EnumFacing.VALUES){
+                    if(iconProvider.canTextureConnect(world, pos, side)){
+                        renderContext.renderFace(pos, iconProvider.getConnectedTexture(world, pos, side), side);
+                    }
                 }
 
-                int colorMultiplier = iconProvider.getColorMultiplier(BlockAccessUtils.getBlockMetadata(world, pos), side);
-                modelOverlay.setColour(colorMultiplier);
-                modelOverlay.render(renderState, 4 * side.getIndex(), 4 + (4 * side.getIndex()), new IconTransformation(texture));
+                BakingVertexBuffer parent = BakingVertexBuffer.create();
+                parent.begin(GL11.GL_QUADS, DefaultVertexFormats.ITEM);
+                renderState.reset();
+                renderState.bind(parent);
+                renderContext.getModel().render(renderState);
+                parent.finishDrawing();
+                overlayQuads.addAll(parent.bake());
             }
+            else{
+                IIconBlock iconProvider = (IIconBlock)state.getBlock();
+                CCModel modelOverlay = BLOCK_MODEL.copy();
+                BakingVertexBuffer parent = BakingVertexBuffer.create();
+                parent.begin(GL11.GL_QUADS, DefaultVertexFormats.ITEM);
+                renderState.reset();
+                renderState.bind(parent);
 
-            parent.finishDrawing();
-            overlayQuads.addAll(parent.bake());
+                for (EnumFacing side : EnumFacing.VALUES) {
+                    TextureAtlasSprite texture = null;
+
+                    if (iconProvider.getIcon(world, pos, side) != null) {
+                        texture = iconProvider.getIcon(world, pos, side);
+                    } else {
+                        texture = iconProvider.getIcon(BlockAccessUtils.getBlockMetadata(world, pos), side);
+                    }
+
+                    int colorMultiplier = iconProvider.getColorMultiplier(BlockAccessUtils.getBlockMetadata(world, pos), side);
+                    modelOverlay.setColour(colorMultiplier);
+                    modelOverlay.render(renderState, 4 * side.getIndex(), 4 + (4 * side.getIndex()), new IconTransformation(texture));
+                }
+
+                parent.finishDrawing();
+                overlayQuads.addAll(parent.bake());
+            }
         }
 
         return RenderUtils.renderQuads(buffer, world, pos, overlayQuads);
