@@ -20,6 +20,7 @@ import keri.ninetaillib.lib.util.ModelUtils;
 import keri.ninetaillib.lib.util.RenderUtils;
 import keri.projectx.init.ProjectXContent;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
@@ -51,7 +52,7 @@ public class RenderConnectedTexture implements IBlockRenderingHandler {
     }
 
     @Override
-    public boolean renderWorld(IBlockAccess world, BlockPos pos, VertexBuffer buffer, BlockRenderLayer layer){
+    public boolean renderWorld(IBlockAccess world, BlockPos pos, IBlockState state, VertexBuffer buffer, BlockRenderLayer layer){
         IIconBlock iconProvider = (IIconBlock)world.getBlockState(pos).getBlock();
         TextureAtlasSprite texture = iconProvider.getIcon(0, EnumFacing.DOWN);
         BlockRenderContext renderContext = new BlockRenderContext();
@@ -70,7 +71,7 @@ public class RenderConnectedTexture implements IBlockRenderingHandler {
     }
 
     @Override
-    public void renderDamage(IBlockAccess world, BlockPos pos, VertexBuffer buffer, TextureAtlasSprite texture) {
+    public void renderDamage(IBlockAccess world, BlockPos pos, IBlockState state, VertexBuffer buffer, TextureAtlasSprite texture) {
         CCRenderState renderState = CCRenderState.instance();
         renderState.bind(buffer);
         renderState.reset();

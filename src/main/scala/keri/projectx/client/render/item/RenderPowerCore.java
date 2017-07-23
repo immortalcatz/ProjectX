@@ -17,6 +17,7 @@ import keri.projectx.client.render.RenderTruncatedIcosahedron;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
@@ -36,7 +37,7 @@ public class RenderPowerCore implements IItemRenderingHandler {
     }
 
     @Override
-    public void renderItem(ItemStack stack, VertexBuffer buffer) {
+    public void renderItem(ItemStack stack, VertexBuffer buffer, ItemCameraTransforms.TransformType transformType) {
         Tessellator.getInstance().draw();
         Colour colorCore = EnumCoreType.VALUES[stack.getMetadata()].getCoreColor();
         Colour colorShell = EnumCoreType.VALUES[stack.getMetadata()].getShellColor();

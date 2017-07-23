@@ -22,6 +22,7 @@ import keri.ninetaillib.lib.util.RenderUtils;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.ItemStack;
@@ -56,7 +57,7 @@ public class RenderXynergyTool implements IItemRenderingHandler {
     }
 
     @Override
-    public void renderItem(ItemStack stack, VertexBuffer buffer) {
+    public void renderItem(ItemStack stack, VertexBuffer buffer, ItemCameraTransforms.TransformType transformType) {
         IIconItem iconProvider = (IIconItem)stack.getItem();
         TextureAtlasSprite textureSide = iconProvider.getIcon(0);
         TextureAtlasSprite textureBottom = iconProvider.getIcon(1);

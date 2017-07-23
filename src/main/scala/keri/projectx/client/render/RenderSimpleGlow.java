@@ -22,6 +22,7 @@ import keri.ninetaillib.lib.util.RenderUtils;
 import keri.projectx.client.render.connected.BlockRenderContext;
 import keri.projectx.client.render.connected.ICTMBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
@@ -54,7 +55,7 @@ public class RenderSimpleGlow implements IBlockRenderingHandler {
     }
 
     @Override
-    public boolean renderWorld(IBlockAccess world, BlockPos pos, VertexBuffer buffer, BlockRenderLayer layer) {
+    public boolean renderWorld(IBlockAccess world, BlockPos pos, IBlockState state, VertexBuffer buffer, BlockRenderLayer layer) {
         CCRenderState renderState = CCRenderState.instance();
         IIconBlock iconProvider = (IIconBlock) world.getBlockState(pos).getBlock();
         IAnimationHandler animationHandler = (IAnimationHandler)world.getBlockState(pos).getBlock();
@@ -125,7 +126,7 @@ public class RenderSimpleGlow implements IBlockRenderingHandler {
     }
 
     @Override
-    public void renderDamage(IBlockAccess world, BlockPos pos, VertexBuffer buffer, TextureAtlasSprite texture) {
+    public void renderDamage(IBlockAccess world, BlockPos pos, IBlockState state, VertexBuffer buffer, TextureAtlasSprite texture) {
         CCModel model = BLOCK_MODEL.copy();
         model.apply(new Translation(Vector3.fromBlockPos(pos)));
         CCRenderState renderState = CCRenderState.instance();

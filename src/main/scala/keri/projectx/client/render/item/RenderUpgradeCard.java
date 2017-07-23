@@ -24,6 +24,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.ItemStack;
@@ -57,7 +58,7 @@ public class RenderUpgradeCard implements IItemRenderingHandler {
     }
 
     @Override
-    public void renderItem(ItemStack stack, VertexBuffer buffer) {
+    public void renderItem(ItemStack stack, VertexBuffer buffer, ItemCameraTransforms.TransformType transformType) {
         GlStateManager.translate(0.5D, 0.5D, 0.5D);
         GlStateManager.scale(0.75D, 0.75D, 0.75D);
         GlStateManager.translate(-0.5D, -0.5D, -0.5D);

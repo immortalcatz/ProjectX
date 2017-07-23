@@ -10,6 +10,7 @@ import keri.ninetaillib.lib.render.IBlockRenderingHandler;
 import keri.ninetaillib.lib.render.RenderingRegistry;
 import keri.projectx.tile.BlockDef;
 import keri.projectx.tile.TileMultiShadow;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -33,7 +34,7 @@ public class RenderShadowBlock implements IBlockRenderingHandler {
     }
 
     @Override
-    public boolean renderWorld(IBlockAccess world, BlockPos pos, VertexBuffer buffer, BlockRenderLayer layer) {
+    public boolean renderWorld(IBlockAccess world, BlockPos pos, IBlockState state, VertexBuffer buffer, BlockRenderLayer layer) {
         TileEntity tile = world.getTileEntity(pos);
         if (!(tile instanceof TileMultiShadow)) {
             return false;
@@ -48,7 +49,7 @@ public class RenderShadowBlock implements IBlockRenderingHandler {
     }
 
     @Override
-    public void renderDamage(IBlockAccess world, BlockPos pos, VertexBuffer buffer, TextureAtlasSprite texture) {
+    public void renderDamage(IBlockAccess world, BlockPos pos, IBlockState state, VertexBuffer buffer, TextureAtlasSprite texture) {
 
     }
 

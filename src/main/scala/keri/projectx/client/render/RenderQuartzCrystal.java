@@ -17,6 +17,7 @@ import keri.ninetaillib.lib.render.RenderingRegistry;
 import keri.ninetaillib.lib.util.BlockAccessUtils;
 import keri.ninetaillib.lib.util.RenderUtils;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
@@ -45,7 +46,7 @@ public class RenderQuartzCrystal implements IBlockRenderingHandler {
     }
 
     @Override
-    public boolean renderWorld(IBlockAccess world, BlockPos pos, VertexBuffer buffer, BlockRenderLayer layer){
+    public boolean renderWorld(IBlockAccess world, BlockPos pos, IBlockState state, VertexBuffer buffer, BlockRenderLayer layer){
         IAnimationHandler animationHandler = (IAnimationHandler)world.getBlockState(pos).getBlock();
         CCRenderState renderState = CCRenderState.instance();
         renderState.bind(buffer);
@@ -60,7 +61,7 @@ public class RenderQuartzCrystal implements IBlockRenderingHandler {
     }
 
     @Override
-    public void renderDamage(IBlockAccess world, BlockPos pos, VertexBuffer buffer, TextureAtlasSprite texture) {
+    public void renderDamage(IBlockAccess world, BlockPos pos, IBlockState state, VertexBuffer buffer, TextureAtlasSprite texture) {
         CCRenderState renderState = CCRenderState.instance();
         renderState.bind(buffer);
         Colour color = new ColourRGBA(255, 255, 255, 255);

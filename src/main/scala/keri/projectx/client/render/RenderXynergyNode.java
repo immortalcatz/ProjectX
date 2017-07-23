@@ -21,6 +21,7 @@ import keri.ninetaillib.lib.util.BlockAccessUtils;
 import keri.ninetaillib.lib.util.ModelUtils;
 import keri.ninetaillib.lib.util.RenderUtils;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
@@ -68,7 +69,7 @@ public class RenderXynergyNode implements IBlockRenderingHandler {
     }
 
     @Override
-    public boolean renderWorld(IBlockAccess world, BlockPos pos, VertexBuffer buffer, BlockRenderLayer layer) {
+    public boolean renderWorld(IBlockAccess world, BlockPos pos, IBlockState state, VertexBuffer buffer, BlockRenderLayer layer) {
         EnumFacing orientation = EnumFacing.getFront(BlockAccessUtils.getBlockMetadata(world, pos));
         IIconBlock iconProvider = (IIconBlock)world.getBlockState(pos).getBlock();
         TextureAtlasSprite textureTop = iconProvider.getIcon(0, EnumFacing.DOWN);
@@ -123,7 +124,7 @@ public class RenderXynergyNode implements IBlockRenderingHandler {
     }
 
     @Override
-    public void renderDamage(IBlockAccess world, BlockPos pos, VertexBuffer buffer, TextureAtlasSprite texture) {
+    public void renderDamage(IBlockAccess world, BlockPos pos, IBlockState state, VertexBuffer buffer, TextureAtlasSprite texture) {
         CCRenderState renderState = CCRenderState.instance();
         renderState.reset();
         renderState.bind(buffer);
