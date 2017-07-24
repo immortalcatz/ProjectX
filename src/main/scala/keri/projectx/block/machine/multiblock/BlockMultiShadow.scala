@@ -56,8 +56,8 @@ class BlockMultiShadow(material: Material, suffix: String) extends BlockProjectX
   }
   override def getCollisionBoundingBox(blockState: IBlockState, worldIn: IBlockAccess, pos: BlockPos): AxisAlignedBB = {
     val shadowBlock = getShadowBlock(worldIn, pos)
-    shadowBlock.map(_.block).foreach(shadowBlock => {
-      return shadowBlock.getCollisionBoundingBox(blockState, worldIn, pos)
+    shadowBlock.foreach(shadowBlock => {
+      return shadowBlock.block.getCollisionBoundingBox(shadowBlock.getBlockState(), worldIn, pos)
     })
     super.getCollisionBoundingBox(blockState, worldIn, pos)
   }
