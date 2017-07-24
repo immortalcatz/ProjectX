@@ -122,7 +122,7 @@ public class RenderSimpleGlow implements IBlockRenderingHandler {
             }
         }
 
-        return RenderUtils.renderQuads(buffer, world, pos, overlayQuads);
+        return RenderUtils.renderQuads(buffer, world, pos, state, overlayQuads);
     }
 
     @Override

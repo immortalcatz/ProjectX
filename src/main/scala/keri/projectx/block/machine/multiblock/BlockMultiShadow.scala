@@ -9,18 +9,14 @@ package keri.projectx.block.machine.multiblock
 import java.util
 import java.util.Random
 
-import codechicken.lib.colour.EnumColour
-import codechicken.lib.texture.TextureUtils
-import keri.ninetaillib.lib.texture.IIconBlock
 import keri.projectx.block.BlockProjectX
-import keri.projectx.client.render.{IAnimationHandler, RenderShadowBlock}
+import keri.projectx.client.render.RenderShadowBlock
 import keri.projectx.tile.{BlockDef, TileMultiShadow}
 import keri.projectx.util.ModPrefs
 import net.minecraft.block.SoundType
 import net.minecraft.block.material.Material
 import net.minecraft.block.state.IBlockState
 import net.minecraft.client.particle.ParticleManager
-import net.minecraft.client.renderer.texture.TextureAtlasSprite
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.ItemStack
@@ -30,7 +26,7 @@ import net.minecraft.util.{BlockRenderLayer, EnumBlockRenderType, EnumFacing}
 import net.minecraft.world.{Explosion, IBlockAccess, World}
 import net.minecraftforge.fml.common.registry.GameRegistry
 
-class BlockMultiShadow(material: Material, suffix: String) extends BlockProjectX[TileMultiShadow](s"blockMultiShadow$suffix", material) with TBlockMulti with IAnimationHandler {
+class BlockMultiShadow(material: Material, suffix: String) extends BlockProjectX[TileMultiShadow](s"blockMultiShadow$suffix", material) with TBlockMulti {
   setCreativeTab(null)
   material match {
     case Material.WOOD => setSoundType(SoundType.WOOD)
@@ -44,13 +40,8 @@ class BlockMultiShadow(material: Material, suffix: String) extends BlockProjectX
   override def getRenderType(state: IBlockState): EnumBlockRenderType = RenderShadowBlock.RENDER_TYPE
 
   override def canRenderInLayer(state: IBlockState, layer: BlockRenderLayer): Boolean = {
-    if (blockMaterial == Material.GLASS) {
-      return layer == BlockRenderLayer.CUTOUT || layer == BlockRenderLayer.TRANSLUCENT
-    } else {
-      return layer == BlockRenderLayer.CUTOUT_MIPPED || layer == BlockRenderLayer.SOLID
-    }
+    true
   }
-
 
   override def updateTick(world: World, pos: BlockPos, state: IBlockState, rand: Random): Unit = {
     super.updateTick(world, pos, state, rand)
@@ -100,11 +91,6 @@ class BlockMultiShadow(material: Material, suffix: String) extends BlockProjectX
       * *
       * blockMaterial != Material.AIR
       */
-    false
-  }
-
-
-  override def doesSideBlockRendering(state: IBlockState, world: IBlockAccess, pos: BlockPos, face: EnumFacing): Boolean = {
     false
   }
 
@@ -168,48 +154,5 @@ class BlockMultiShadow(material: Material, suffix: String) extends BlockProjectX
   }
 
   override def registerTileEntities(): Unit = GameRegistry.registerTileEntity(classOf[TileMultiShadow], "tile." + ModPrefs.MODID + ".multi_block_shadow_block")
-
-
-  override def getIcon(meta: Int, side: EnumFacing): TextureAtlasSprite = TextureUtils.getMissingSprite
-
-  override def getIcon(world: IBlockAccess, pos: BlockPos, side: EnumFacing): TextureAtlasSprite = {
-    getShadowBlock(world, pos).foreach(blockDef => {
-      if (blockDef.block.asInstanceOf[IIconBlock].getIcon(world, pos, side) != null) {
-        return blockDef.block.asInstanceOf[IIconBlock].getIcon(world, pos, side)
-      } else {
-        return blockDef.block.asInstanceOf[IIconBlock].getIcon(blockDef.meta, side)
-      }
-    })
-    TextureUtils.getMissingSprite
-  }
-
-  override def getColorMultiplier(meta: Int, side: EnumFacing): Int = EnumColour.WHITE.rgba()
-
-  override def getAnimationIcon(stack: ItemStack, side: Int): TextureAtlasSprite = TextureUtils.getMissingSprite
-
-  override def getAnimationIcon(world: IBlockAccess, pos: BlockPos, side: Int): TextureAtlasSprite = {
-    getShadowBlock(world, pos).map(_.block.asInstanceOf[IAnimationHandler]).foreach(animationHandler => {
-      return animationHandler.getAnimationIcon(world, pos, side)
-    })
-    TextureUtils.getMissingSprite
-  }
-
-  override def getAnimationColor(stack: ItemStack, side: Int): Int = EnumColour.WHITE.rgba()
-
-  override def getAnimationColor(world: IBlockAccess, pos: BlockPos, side: Int): Int = {
-    getShadowBlock(world, pos).map(_.block.asInstanceOf[IAnimationHandler]).foreach(animationHandler => {
-      return animationHandler.getAnimationColor(world, pos, side)
-    })
-    EnumColour.WHITE.rgba()
-  }
-
-  override def getAnimationBrightness(stack: ItemStack, side: Int): Int = 0
-
-  override def getAnimationBrightness(world: IBlockAccess, pos: BlockPos, side: Int): Int = {
-    getShadowBlock(world, pos).map(_.block.asInstanceOf[IAnimationHandler]).foreach(animationHandler => {
-      return animationHandler.getAnimationBrightness(world, pos, side)
-    })
-    0
-  }
 
 }

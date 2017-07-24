@@ -23,7 +23,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import scala.Option;
-//TODO make less cancerous
+
 @SideOnly(Side.CLIENT)
 public class RenderShadowBlock implements IBlockRenderingHandler {
 
@@ -37,27 +37,41 @@ public class RenderShadowBlock implements IBlockRenderingHandler {
     @Override
     public boolean renderWorld(IBlockAccess world, BlockPos pos, IBlockState state, VertexBuffer buffer, BlockRenderLayer layer) {
         TileEntity tile = world.getTileEntity(pos);
+
         if (!(tile instanceof TileMultiShadow)) {
             return false;
         }
 
-        Option<BlockDef> blockDef = ((TileMultiShadow) tile).getCurrBlockDef();
+        Option<BlockDef> blockDef = ((TileMultiShadow)tile).getCurrBlockDef();
 
-        if (!blockDef.isDefined())
+        if (!blockDef.isDefined()) {
             return false;
+        }
 
         return Minecraft.getMinecraft().getBlockRendererDispatcher().renderBlock(blockDef.get().getBlockState(), pos, world, buffer);
     }
 
     @Override
     public void renderDamage(IBlockAccess world, BlockPos pos, IBlockState state, VertexBuffer buffer, TextureAtlasSprite texture) {
+        /**
+        TileEntity tile = world.getTileEntity(pos);
 
+        if (!(tile instanceof TileMultiShadow)) {
+            return;
+        }
+
+        Option<BlockDef> blockDef = ((TileMultiShadow)tile).getCurrBlockDef();
+
+        if (!blockDef.isDefined()) {
+            return;
+        }
+
+        Minecraft.getMinecraft().getBlockRendererDispatcher().renderBlockDamage(blockDef.get().getBlockState(), pos, texture, world);
+         */
     }
 
     @Override
-    public void renderInventory(ItemStack stack, VertexBuffer buffer) {
-
-    }
+    public void renderInventory(ItemStack stack, VertexBuffer buffer) {}
 
     @Override
     public EnumBlockRenderType getRenderType() {
