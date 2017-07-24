@@ -78,7 +78,7 @@ public class BlockGlassViewer extends BlockProjectX implements ICTMBlock {
     @SideOnly(Side.CLIENT)
     @SuppressWarnings("deprecation")
     public boolean shouldSideBeRendered(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
-        return world.getBlockState(pos.offset(side)).getBlock() != this;
+        return state.getBlock() != this;
     }
 
 }

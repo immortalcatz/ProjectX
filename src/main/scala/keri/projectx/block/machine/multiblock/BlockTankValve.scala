@@ -10,6 +10,7 @@ import keri.ninetaillib.lib.texture.IIconRegister
 import keri.projectx.ProjectX
 import keri.projectx.api.color.EnumXycroniumColor
 import keri.projectx.block.BlockAnimationHandler
+import keri.projectx.client.render.RenderBlockBeveled
 import keri.projectx.multiblock.MultiTankInitiator
 import keri.projectx.tile.TileEntityTankValve
 import keri.projectx.util.ModPrefs
@@ -19,7 +20,7 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.ItemStack
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.{EnumFacing, EnumHand}
+import net.minecraft.util.{EnumBlockRenderType, EnumFacing, EnumHand}
 import net.minecraft.world.{IBlockAccess, World}
 import net.minecraftforge.fml.common.registry.GameRegistry
 
@@ -58,6 +59,9 @@ class BlockTankValve extends BlockAnimationHandler[TileEntityTankValve]("valve",
 
   override def getAnimationBrightness(stack: ItemStack, side: Int): Int = 220
   override def getAnimationBrightness(world: IBlockAccess, pos: BlockPos, side: Int): Int = 220
+
+
+  override def getRenderType(state: IBlockState): EnumBlockRenderType = RenderBlockBeveled.RENDER_TYPE
 
   override def registerTileEntities(): Unit = GameRegistry.registerTileEntity(classOf[TileEntityTankValve], "tile." + ModPrefs.MODID + ".multi_block_valve")
 }

@@ -10,6 +10,7 @@ import keri.ninetaillib.lib.texture.IIconRegister
 import keri.projectx.ProjectX
 import keri.projectx.api.color.EnumXycroniumColor
 import keri.projectx.block.BlockAnimationHandler
+import keri.projectx.client.render.RenderBlockBeveled
 import keri.projectx.tile.TileEntityItemIO
 import keri.projectx.util.ModPrefs
 import net.minecraft.block.material.Material
@@ -17,8 +18,8 @@ import net.minecraft.block.state.IBlockState
 import net.minecraft.client.renderer.texture.TextureAtlasSprite
 import net.minecraft.item.ItemStack
 import net.minecraft.tileentity.TileEntity
-import net.minecraft.util.EnumFacing
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.{EnumBlockRenderType, EnumFacing}
 import net.minecraft.world.{IBlockAccess, World}
 import net.minecraftforge.fml.common.registry.GameRegistry
 import net.minecraftforge.fml.relauncher.{Side, SideOnly}
@@ -47,6 +48,8 @@ class BlockItemIO extends BlockAnimationHandler[TileEntityItemIO]("item_io", Mat
       case _ => texture(0)
     }
   }
+
+  override def getRenderType(state: IBlockState): EnumBlockRenderType = RenderBlockBeveled.RENDER_TYPE
 
   override def getAnimationIcon(stack: ItemStack, side: Int): TextureAtlasSprite = ProjectX.PROXY.getAnimatedTexture
   override def getAnimationIcon(world: IBlockAccess, pos: BlockPos, side: Int): TextureAtlasSprite = ProjectX.PROXY.getAnimatedTexture
