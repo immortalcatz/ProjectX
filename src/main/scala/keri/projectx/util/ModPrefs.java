@@ -19,7 +19,8 @@ public class ModPrefs {
             "after:thermalexpansion;" +
             "after:chisel;" +
             "after:mantle;" +
-            "after:tconstruct";
+            "after:tconstruct;" +
+            "after:jei";
     public static final String ACC_MC = "1.11.2";
     public static final String CSIDE = "keri.projectx.proxy.ClientProxy";
     public static final String SSIDE = "keri.projectx.proxy.CommonProxy";
