@@ -6,7 +6,7 @@
 
 package keri.projectx.multiblock
 
-import keri.projectx.block.{BlockAnimationHandler, BlockGlassViewer}
+import keri.projectx.block.BlockAnimationHandler
 import keri.projectx.data.{ProjectXChunkExtension, ProjectXWorldExtension}
 import keri.projectx.tile.{TileMultiBlock, TileMultiShadow}
 import net.minecraft.tileentity.TileEntity
