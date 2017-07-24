@@ -40,7 +40,12 @@ class BlockMultiShadow(material: Material, suffix: String) extends BlockProjectX
   override def getRenderType(state: IBlockState): EnumBlockRenderType = RenderShadowBlock.RENDER_TYPE
 
   override def canRenderInLayer(state: IBlockState, layer: BlockRenderLayer): Boolean = {
-    true
+    if (blockMaterial == Material.GLASS) {
+      return layer == BlockRenderLayer.CUTOUT || layer == BlockRenderLayer.TRANSLUCENT
+    }
+    else {
+      return layer == BlockRenderLayer.CUTOUT_MIPPED || layer == BlockRenderLayer.SOLID
+    }
   }
 
   override def updateTick(world: World, pos: BlockPos, state: IBlockState, rand: Random): Unit = {
@@ -91,6 +96,8 @@ class BlockMultiShadow(material: Material, suffix: String) extends BlockProjectX
       * *
       * blockMaterial != Material.AIR
       */
+
+
     false
   }
 
