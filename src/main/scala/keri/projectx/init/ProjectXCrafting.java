@@ -176,7 +176,7 @@ public class ProjectXCrafting {
                 "XCX",
                 "CTC",
                 "XCX",
-                'T', "blockChest",
+                'T', "chest",
                 'C', Items.IRON_INGOT,
                 'X', new ItemStack(ProjectXContent.ENGINEERING_BRICKS, 1, 1)
         ));
