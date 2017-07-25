@@ -51,6 +51,7 @@ public class ProjectXContent {
     public static Block LIQUID_VOID = new BlockLiquidVoid();
     public static Block XYCRONIUM_ICE = new BlockXycroniumIce();
     public static Block FABRICATOR = new BlockFabricator();
+    public static Block ENGINEERING_TABLE = new BlockEngineeringTable();
     public static Block XYNERGY_NODE = new BlockXynergyNode();
     // MultiBlocks
     public static Block SHADOW_ROCK = new BlockMultiShadow(Material.ROCK, "Rock");
@@ -61,7 +62,6 @@ public class ProjectXContent {
     public static Block VALVE = new BlockTankValve();
     public static Block LEVEL_DETECTOR = new BlockFluidDetector();
     public static Block ITEM_IO = new BlockItemIO();
-
     //Items
     public static Item XYCRONIUM_CRYSTAL = new ItemXycroniumCrystal();
     public static Item XYCRONIUM_INGOT = new ItemXycroniumIngot();

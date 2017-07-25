@@ -27,7 +27,7 @@ import net.minecraftforge.fml.relauncher.{Side, SideOnly}
 
 class BlockTankValve extends BlockAnimationHandler[TileEntityTankValve]("valve", Material.IRON) with TBlockMulti {
   setHardness(1.4F)
-
+  @SideOnly(Side.CLIENT)
   var texture: TextureAtlasSprite = _
 
   override def createNewTileEntity(world: World, meta: Int): TileEntityTankValve = new TileEntityTankValve
@@ -45,20 +45,26 @@ class BlockTankValve extends BlockAnimationHandler[TileEntityTankValve]("valve",
     false
   }
 
+  @SideOnly(Side.CLIENT)
   override def registerIcons(register: IIconRegister): Unit = {
     texture = register.registerIcon(s"${ModPrefs.MODID}:blocks/machine/tank_valve")
   }
 
+  @SideOnly(Side.CLIENT)
   override def getIcon(meta: Int, side: EnumFacing): TextureAtlasSprite = texture
+  @SideOnly(Side.CLIENT)
   override def getIcon(world: IBlockAccess, pos: BlockPos, side: EnumFacing): TextureAtlasSprite = texture
-
+  @SideOnly(Side.CLIENT)
   override def getAnimationIcon(stack: ItemStack, side: Int): TextureAtlasSprite = ProjectX.PROXY.getAnimatedTexture
+  @SideOnly(Side.CLIENT)
   override def getAnimationIcon(world: IBlockAccess, pos: BlockPos, side: Int): TextureAtlasSprite = ProjectX.PROXY.getAnimatedTexture
-
+  @SideOnly(Side.CLIENT)
   override def getAnimationColor(stack: ItemStack, side: Int): Int = EnumXycroniumColor.BLUE.getColor.rgba()
+  @SideOnly(Side.CLIENT)
   override def getAnimationColor(world: IBlockAccess, pos: BlockPos, side: Int): Int = EnumXycroniumColor.BLUE.getColor.rgba()
-
+  @SideOnly(Side.CLIENT)
   override def getAnimationBrightness(stack: ItemStack, side: Int): Int = 220
+  @SideOnly(Side.CLIENT)
   override def getAnimationBrightness(world: IBlockAccess, pos: BlockPos, side: Int): Int = 220
 
   @SideOnly(Side.CLIENT)

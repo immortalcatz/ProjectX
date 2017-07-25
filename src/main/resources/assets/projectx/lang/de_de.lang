@@ -111,7 +111,8 @@ tile.projectx.engineering_bricks.red.name=Rote Konstruktions Ziegel
 tile.projectx.engineering_bricks.dark.name=Dunkle Konstruktions Ziegel
 tile.projectx.engineering_bricks.light.name=Helle Konstruktions Ziegel
 tile.projectx.valve.name=Tank Ventil
-tile.projectx.fluid_detector.name=Flüssigkeit Detektor
+tile.projectx.fluid_detector.name=Flüssigkeits Detektor
+tile.projectx.engineering_table.name=Ingenieurstisch
 
 item.projectx.xycronium_crystal.blue.name=Blauer Xycronium Kristall
 item.projectx.xycronium_crystal.green.name=Grüner Xycronium Kristall

@@ -113,6 +113,7 @@ tile.projectx.engineering_bricks.light.name=Light Engineering Bricks
 tile.projectx.valve.name=Tank Valve
 tile.projectx.fluid_detector.name=Fluid Detector
 tile.projectx.item_io.name=Item IO
+tile.projectx.engineering_table.name=Engineering Table
 
 item.projectx.xycronium_crystal.blue.name=Blue Xycronium Crystal
 item.projectx.xycronium_crystal.green.name=Green Xycronium Crystal
