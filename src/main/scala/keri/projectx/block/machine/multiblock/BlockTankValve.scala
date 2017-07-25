@@ -23,6 +23,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.{EnumBlockRenderType, EnumFacing, EnumHand}
 import net.minecraft.world.{IBlockAccess, World}
 import net.minecraftforge.fml.common.registry.GameRegistry
+import net.minecraftforge.fml.relauncher.{Side, SideOnly}
 
 class BlockTankValve extends BlockAnimationHandler[TileEntityTankValve]("valve", Material.IRON) with TBlockMulti {
   setHardness(1.4F)
@@ -60,7 +61,7 @@ class BlockTankValve extends BlockAnimationHandler[TileEntityTankValve]("valve",
   override def getAnimationBrightness(stack: ItemStack, side: Int): Int = 220
   override def getAnimationBrightness(world: IBlockAccess, pos: BlockPos, side: Int): Int = 220
 
-
+  @SideOnly(Side.CLIENT)
   override def getRenderType(state: IBlockState): EnumBlockRenderType = RenderBlockBeveled.RENDER_TYPE
 
   override def registerTileEntities(): Unit = GameRegistry.registerTileEntity(classOf[TileEntityTankValve], "tile." + ModPrefs.MODID + ".multi_block_valve")

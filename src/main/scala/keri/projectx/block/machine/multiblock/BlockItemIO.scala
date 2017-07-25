@@ -49,6 +49,7 @@ class BlockItemIO extends BlockAnimationHandler[TileEntityItemIO]("item_io", Mat
     }
   }
 
+  @SideOnly(Side.CLIENT)
   override def getRenderType(state: IBlockState): EnumBlockRenderType = RenderBlockBeveled.RENDER_TYPE
 
   override def getAnimationIcon(stack: ItemStack, side: Int): TextureAtlasSprite = ProjectX.PROXY.getAnimatedTexture

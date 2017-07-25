@@ -22,9 +22,10 @@ import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.ItemStack
 import net.minecraft.tileentity.TileEntity
 import net.minecraft.util.math.{AxisAlignedBB, BlockPos, RayTraceResult}
-import net.minecraft.util.{BlockRenderLayer, EnumBlockRenderType, EnumFacing}
+import net.minecraft.util.{BlockRenderLayer, EnumFacing}
 import net.minecraft.world.{Explosion, IBlockAccess, World}
 import net.minecraftforge.fml.common.registry.GameRegistry
+import net.minecraftforge.fml.relauncher.{Side, SideOnly}
 
 class BlockMultiShadow(material: Material, suffix: String) extends BlockProjectX[TileMultiShadow](s"blockMultiShadow$suffix", material) with TBlockMulti {
   setCreativeTab(null)
@@ -37,7 +38,8 @@ class BlockMultiShadow(material: Material, suffix: String) extends BlockProjectX
 
   override def createNewTileEntity(world: World, meta: Int): TileMultiShadow = new TileMultiShadow
 
-  override def getRenderType(state: IBlockState): EnumBlockRenderType = RenderShadowBlock.RENDER_TYPE
+  @SideOnly(Side.CLIENT)
+  override def getRenderType(state: IBlockState) = RenderShadowBlock.RENDER_TYPE
 
   override def canRenderInLayer(state: IBlockState, layer: BlockRenderLayer): Boolean = {
     if (blockMaterial == Material.GLASS) {
@@ -153,7 +155,13 @@ class BlockMultiShadow(material: Material, suffix: String) extends BlockProjectX
 
   override def hasTileEntity(state: IBlockState): Boolean = true
 
-  override def removedByPlayer(state: IBlockState, world: World, pos: BlockPos, player: EntityPlayer, willHarvest: Boolean): Boolean = if (willHarvest) true else super.removedByPlayer(state, world, pos, player, willHarvest)
+  override def removedByPlayer(state: IBlockState, world: World, pos: BlockPos, player: EntityPlayer, willHarvest: Boolean): Boolean = {
+    val shadowBlock = getShadowBlock(world, pos)
+    if (shadowBlock.isEmpty) {
+      world.setBlockToAir(pos)
+    }
+    super.removedByPlayer(state, world, pos, player, willHarvest)
+  }
 
   override def harvestBlock(worldIn: World, player: EntityPlayer, pos: BlockPos, state: IBlockState, te: TileEntity, stack: ItemStack): Unit = {
     super.harvestBlock(worldIn, player, pos, state, te, stack)
