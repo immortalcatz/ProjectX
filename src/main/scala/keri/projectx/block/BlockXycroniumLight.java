@@ -196,7 +196,7 @@ public class BlockXycroniumLight extends BlockAnimationHandler<TileEntityXycroni
 
     @Override
     public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
-        return this.getMetaFromState(state) == 1 ? 255 : 0;
+        return this.getMetaFromState(state) == 1 ? 0 : 0;
     }
 
     @Override

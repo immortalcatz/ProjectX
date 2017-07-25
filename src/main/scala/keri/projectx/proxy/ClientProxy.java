@@ -43,7 +43,6 @@ public class ClientProxy extends CommonProxy {
         IconHandler.INSTANCE.preInit();
         PlayerEffects.preInit();
         IntegrationHandler.INSTANCE.preInitClient(event);
-
         MinecraftForge.EVENT_BUS.register(MultiBlockOverlayRenderer$.MODULE$);
         TextureUtils.addIconRegister(MultiBlockOverlayRenderer$.MODULE$);
     }
@@ -54,7 +53,6 @@ public class ClientProxy extends CommonProxy {
         ProjectX.MOD_HANDLER.handleClientInit(event);
         PacketCustom.assignHandler(ProjectX.INSTANCE, new ProjectXCPH());
         IntegrationHandler.INSTANCE.initClient(event);
-
         FeatureHack.enableRenderHook();
     }
 

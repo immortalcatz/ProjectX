@@ -6,6 +6,7 @@
 
 package keri.projectx.integration;
 
+import keri.projectx.integration.albedo.IntegrationAlbedo;
 import keri.projectx.integration.chisel.IntegrationChisel;
 import keri.projectx.integration.thermalexpansion.IntegrationThermalExpansion;
 import keri.projectx.integration.thermalfoundation.IntegrationThermalFoundation;
@@ -14,10 +15,11 @@ import net.minecraftforge.fml.common.Loader;
 
 public class ProjectXIntegrations {
 
-    private static final String MODID_WAILA = "waila";
-    private static final String MODID_THERMAL_EXPANSION = "thermalexpansion";
-    private static final String MODID_THERMAL_FOUNDATION = "thermalfoundation";
-    private static final String MODID_CHISEL = "chisel";
+    public static final String MODID_WAILA = "waila";
+    public static final String MODID_THERMAL_EXPANSION = "thermalexpansion";
+    public static final String MODID_THERMAL_FOUNDATION = "thermalfoundation";
+    public static final String MODID_CHISEL = "chisel";
+    public static final String MODID_ALBEDO = "albedo";
 
     public static void preInit(){
         if(Loader.isModLoaded(MODID_WAILA)){
@@ -34,6 +36,10 @@ public class ProjectXIntegrations {
 
         if(Loader.isModLoaded(MODID_CHISEL)){
             IntegrationHandler.INSTANCE.registerModule(new IntegrationChisel());
+        }
+
+        if(Loader.isModLoaded(MODID_ALBEDO)){
+            IntegrationHandler.INSTANCE.registerModule(new IntegrationAlbedo());
         }
     }
 
