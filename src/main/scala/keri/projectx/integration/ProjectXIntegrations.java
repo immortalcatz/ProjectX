@@ -14,10 +14,10 @@ import net.minecraftforge.fml.common.Loader;
 
 public class ProjectXIntegrations {
 
-    private static final String MODID_WAILA = "waila";
-    private static final String MODID_THERMAL_EXPANSION = "thermalexpansion";
-    private static final String MODID_THERMAL_FOUNDATION = "thermalfoundation";
-    private static final String MODID_CHISEL = "chisel";
+    public static final String MODID_WAILA = "waila";
+    public static final String MODID_THERMAL_EXPANSION = "thermalexpansion";
+    public static final String MODID_THERMAL_FOUNDATION = "thermalfoundation";
+    public static final String MODID_CHISEL = "chisel";
 
     public static void preInit(){
         if(Loader.isModLoaded(MODID_WAILA)){

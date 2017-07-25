@@ -44,29 +44,29 @@ public class ProjectX {
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event){
-        MOD_HANDLER.handlePreInit(event);
-        PROXY.preInit(event);
-        MinecraftForge.EVENT_BUS.register(CommonEventHandler.INSTANCE);
         ProjectXIntegrations.preInit();
+        MOD_HANDLER.handlePreInit(event);
+        MinecraftForge.EVENT_BUS.register(CommonEventHandler.INSTANCE);
         IntegrationHandler.INSTANCE.preInit(event);
+        PROXY.preInit(event);
     }
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event){
         MOD_HANDLER.handleInit(event);
-        PROXY.init(event);
         ProjectXCrafting.init();
         ProjectXWorldGen.init();
         ProjectXOreDictionary.init();
         NetworkRegistry.INSTANCE.registerGuiHandler(INSTANCE, new ProjectXGuiHandler());
         IntegrationHandler.INSTANCE.init(event);
+        PROXY.init(event);
     }
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event){
         MOD_HANDLER.handlePostInit(event);
-        PROXY.postInit(event);
         IntegrationHandler.INSTANCE.postInit(event);
+        PROXY.postInit(event);
     }
 
 }

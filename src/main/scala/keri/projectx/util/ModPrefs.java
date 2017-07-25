@@ -20,7 +20,8 @@ public class ModPrefs {
             "after:chisel;" +
             "after:mantle;" +
             "after:tconstruct;" +
-            "after:jei";
+            "after:jei;" +
+            "after:albedo";
     public static final String ACC_MC = "1.11.2";
     public static final String CSIDE = "keri.projectx.proxy.ClientProxy";
     public static final String SSIDE = "keri.projectx.proxy.CommonProxy";

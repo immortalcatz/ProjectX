@@ -10,12 +10,14 @@ import codechicken.lib.colour.Colour;
 import codechicken.lib.colour.ColourRGBA;
 import codechicken.lib.util.ItemNBTUtils;
 import codechicken.lib.util.ItemUtils;
+import codechicken.lib.vec.Vector3;
 import com.google.common.collect.Lists;
 import keri.ninetaillib.lib.texture.IIconRegister;
 import keri.ninetaillib.lib.util.BlockAccessUtils;
 import keri.ninetaillib.lib.util.EnumDyeColor;
 import keri.ninetaillib.lib.util.IShiftDescription;
 import keri.projectx.ProjectX;
+import keri.projectx.api.block.IColorableBlock;
 import keri.projectx.api.block.IDiagnoseableBlock;
 import keri.projectx.api.block.IWrenchableBlock;
 import keri.projectx.event.CommonEventHandler;
@@ -49,7 +51,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class BlockXycroniumLight extends BlockAnimationHandler<TileEntityXycroniumLight> implements IShiftDescription, IWrenchableBlock, IDiagnoseableBlock {
+public class BlockXycroniumLight extends BlockAnimationHandler<TileEntityXycroniumLight> implements IShiftDescription, IWrenchableBlock, IDiagnoseableBlock, IColorableBlock {
 
     @SideOnly(Side.CLIENT)
     private TextureAtlasSprite texture;
@@ -100,25 +102,6 @@ public class BlockXycroniumLight extends BlockAnimationHandler<TileEntityXycroni
                         tile.setColor(color);
                         tile.markDirty();
                         tile.sendUpdatePacket(true);
-                    }
-                }
-
-                return true;
-            }
-            else if(heldItem.getItem() == ProjectXContent.COLOR_SCANNER){
-                if(tile != null){
-                    if(!world.isRemote){
-                        if(player.isSneaking()){
-                            ItemNBTUtils.validateTagExists(heldItem);
-                            heldItem.getTagCompound().setInteger("color", tile.getColor().rgba());
-                        }
-                        else{
-                            if(heldItem.getTagCompound() != null){
-                                tile.setColor(new ColourRGBA(heldItem.getTagCompound().getInteger("color")));
-                                tile.markDirty();
-                                tile.sendUpdatePacket(true);
-                            }
-                        }
                     }
                 }
 
@@ -190,8 +173,6 @@ public class BlockXycroniumLight extends BlockAnimationHandler<TileEntityXycroni
                 }
             }
         }
-
-        super.onBlockHarvested(world, pos, state, player);
     }
 
     @Override
@@ -255,6 +236,28 @@ public class BlockXycroniumLight extends BlockAnimationHandler<TileEntityXycroni
         }
         else{
             tooltip.add(Translations.TOOLTIP_DIAGNOSTIC_ERROR);
+        }
+    }
+
+    @Override
+    public Colour getStoredColor(World world, BlockPos pos, EntityPlayer player, EnumFacing side, EnumHand hand, Vector3 hit) {
+        TileEntityXycroniumLight tile = (TileEntityXycroniumLight)world.getTileEntity(pos);
+
+        if(tile != null){
+            return tile.getColor();
+        }
+
+        return new ColourRGBA(255, 255, 255, 255);
+    }
+
+    @Override
+    public void setStoredColor(World world, BlockPos pos, EntityPlayer player, EnumFacing side, EnumHand hand, Vector3 hit, Colour color) {
+        TileEntityXycroniumLight tile = (TileEntityXycroniumLight)world.getTileEntity(pos);
+
+        if(tile != null && !world.isRemote){
+            tile.setColor(color);
+            tile.markDirty();
+            tile.sendUpdatePacket(true);
         }
     }
 
