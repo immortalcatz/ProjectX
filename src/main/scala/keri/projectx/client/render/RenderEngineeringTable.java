@@ -1,8 +1,11 @@
 package keri.projectx.client.render;
 
+import codechicken.lib.colour.Colour;
+import codechicken.lib.colour.ColourRGBA;
 import codechicken.lib.render.CCModel;
 import codechicken.lib.render.CCRenderState;
 import codechicken.lib.render.buffer.BakingVertexBuffer;
+import codechicken.lib.util.ClientUtils;
 import codechicken.lib.vec.Cuboid6;
 import codechicken.lib.vec.Translation;
 import codechicken.lib.vec.Vector3;
@@ -33,6 +36,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
+import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 
@@ -40,6 +44,7 @@ import java.util.List;
 public class RenderEngineeringTable implements IBlockRenderingHandler {
 
     public static final RenderEngineeringTable INSTANCE = new RenderEngineeringTable();
+    private static final RenderTruncatedIcosahedron ICOSA_RENDERER = RenderTruncatedIcosahedron.getInstance();
     public static EnumBlockRenderType RENDER_TYPE;
     private static CCModel[] BLOCK_MODEL;
 
@@ -159,6 +164,14 @@ public class RenderEngineeringTable implements IBlockRenderingHandler {
         }
 
         Tessellator.getInstance().draw();
+        GlStateManager.pushMatrix();
+        GlStateManager.translate(0.5D, 0.5D, 0.5D);
+        GlStateManager.rotate((float)ClientUtils.getRenderTime() * 4F, 0F, 1F, 0F);
+        Color colorHsb = Color.getHSBColor((float)ClientUtils.getRenderTime() / 120F, 1F, 1F);
+        Colour colorHex = new ColourRGBA(colorHsb.getRed(), colorHsb.getGreen(), colorHsb.getBlue(), colorHsb.getAlpha());
+        Colour colorPent = colorHex.copy().multiplyC(0.75D);
+        ICOSA_RENDERER.render(0.92D, colorPent, colorHex, RenderTruncatedIcosahedron.EnumHedrontexture.SPACE);
+        GlStateManager.popMatrix();
         buffer.begin(GL11.GL_QUADS, RenderUtils.getFormatWithLightMap(DefaultVertexFormats.ITEM));
     }
 
