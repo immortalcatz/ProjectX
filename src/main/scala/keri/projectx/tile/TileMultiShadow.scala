@@ -16,7 +16,13 @@ class TileMultiShadow extends TileMultiBlock /* with TMachineTile*/ {
 
   def setCurrentBlock(block: Block, meta: Int): Unit = setCurrentBlock(new BlockDef(block, meta))
 
-  def setCurrentBlock(blockDef: BlockDef) = currBlock = blockDef
+  def setCurrentBlock(blockDef: BlockDef) = {
+    currBlock = blockDef
+    markDirty()
+    if (!getWorld.isRemote) {
+      sendUpdatePacket(true)
+    }
+  }
 
   def getCurrMeta: Option[Int] = if (currBlock != null) Some(currBlock.meta) else None
 
@@ -34,6 +40,9 @@ class TileMultiShadow extends TileMultiBlock /* with TMachineTile*/ {
   override def readFromNBT(compound: NBTTagCompound): Unit = {
     super.readFromNBT(compound)
     BlockDef.read(compound).foreach(value => setCurrentBlock(value))
+    if (!world.isRemote && currBlock == null) {
+      getWorld.setBlockToAir(getPos)
+    }
   }
 }
 

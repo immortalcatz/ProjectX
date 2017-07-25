@@ -42,6 +42,7 @@ class TileEntityItemIO extends TileMultiBlock with ITickable with IInventory {
   def setState(state: ItemIOState): Unit = {
     if (state != currentState) {
       currentState = state
+      markDirty()
       sendUpdatePacket(true)
     }
   }
