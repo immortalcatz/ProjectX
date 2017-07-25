@@ -23,7 +23,7 @@ class TileEntityFabricator extends TileEntityProjectX with ISidedInventory with 
   val OUTPUT_SLOT_INDEX = 9
   val CRAFTING_INVENTORY_RANGE = 0 until 9
   val inv = Array.fill[ItemStack](INVENTORY_SIZE)(ItemStack.EMPTY)
-  var currentRecipe: IRecipe = null
+  var currentRecipe: IRecipe = _
   var mode = 0
   var powered = false
   var prevPowered = false

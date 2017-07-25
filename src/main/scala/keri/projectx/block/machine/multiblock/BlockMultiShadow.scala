@@ -41,6 +41,7 @@ class BlockMultiShadow(material: Material, suffix: String) extends BlockProjectX
   @SideOnly(Side.CLIENT)
   override def getRenderType(state: IBlockState) = RenderShadowBlock.RENDER_TYPE
 
+  @SideOnly(Side.CLIENT)
   override def canRenderInLayer(state: IBlockState, layer: BlockRenderLayer): Boolean = {
     if (blockMaterial == Material.GLASS) {
       return layer == BlockRenderLayer.CUTOUT || layer == BlockRenderLayer.TRANSLUCENT
@@ -76,14 +77,17 @@ class BlockMultiShadow(material: Material, suffix: String) extends BlockProjectX
       case _ => None
     }
   }
+  @SideOnly(Side.CLIENT)
   override def isFullCube(state: IBlockState): Boolean = blockMaterial != Material.GLASS && blockMaterial != Material.AIR
 
   override def isAir(state: IBlockState, world: IBlockAccess, pos: BlockPos): Boolean = blockMaterial == Material.AIR
 
+  @SideOnly(Side.CLIENT)
   override def isOpaqueCube(state: IBlockState): Boolean = blockMaterial != Material.GLASS && blockMaterial != Material.AIR
 
   override def canCollideCheck(state: IBlockState, hitIfLiquid: Boolean): Boolean = blockMaterial != Material.AIR
 
+  @SideOnly(Side.CLIENT)
   override def addDestroyEffects(world: World, pos: BlockPos, manager: ParticleManager): Boolean = {
     getShadowBlock(world, pos).map(_.block).foreach(blockShadow => {
       return blockShadow.addDestroyEffects(world, pos, manager)
@@ -91,6 +95,7 @@ class BlockMultiShadow(material: Material, suffix: String) extends BlockProjectX
     super.addDestroyEffects(world, pos, manager)
   }
 
+  @SideOnly(Side.CLIENT)
   override def addHitEffects(state: IBlockState, worldObj: World, target: RayTraceResult, manager: ParticleManager): Boolean = {
     getShadowBlock(worldObj, target.getBlockPos).foreach(blockDef => {
       return blockDef.block.addHitEffects(blockDef.getBlockState(), worldObj, target, manager)

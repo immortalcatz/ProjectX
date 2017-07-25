@@ -10,6 +10,7 @@ import codechicken.lib.packet.ICustomPacketHandler;
 import codechicken.lib.packet.PacketCustom;
 import keri.projectx.data.ProjectXWorldExtensionInstantiator;
 import keri.projectx.tile.TTilePacketHandler;
+import keri.projectx.tile.TileEntityInventoryProjectX;
 import keri.projectx.tile.TileEntityProjectX;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
@@ -53,10 +54,17 @@ public class ProjectXCPH implements ICustomPacketHandler.IClientPacketHandler {
         final boolean rerender = packet.readBoolean();
         TileEntity tile = (TileEntity) world.getTileEntity(pos);
 
-        if (tile != null && tile instanceof TileEntityProjectX) {
-            TileEntityProjectX tileUpdate = (TileEntityProjectX) tile;
-            tileUpdate.readFromNBT(tag);
-            tileUpdate.markDirty();
+        if (tile != null) {
+            if(tile instanceof TileEntityProjectX){
+                TileEntityProjectX tileUpdate = (TileEntityProjectX) tile;
+                tileUpdate.readFromNBT(tag);
+                tileUpdate.markDirty();
+            }
+            else if(tile instanceof TileEntityInventoryProjectX){
+                TileEntityInventoryProjectX tileUpdate = (TileEntityInventoryProjectX) tile;
+                tileUpdate.readFromNBT(tag);
+                tileUpdate.markDirty();
+            }
 
             if (rerender) {
                 world.markBlockRangeForRenderUpdate(pos, pos);

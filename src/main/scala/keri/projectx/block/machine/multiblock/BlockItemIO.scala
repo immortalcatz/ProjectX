@@ -38,10 +38,12 @@ class BlockItemIO extends BlockAnimationHandler[TileEntityItemIO]("item_io", Mat
     texture(1) = register.registerIcon(s"${ModPrefs.MODID}:blocks/machine/item_io_in")
   }
 
-
   override def createTileEntity(world: World, state: IBlockState): TileEntity = new TileEntityItemIO
 
+  @SideOnly(Side.CLIENT)
   override def getIcon(meta: Int, side: EnumFacing): TextureAtlasSprite = texture(0)
+
+  @SideOnly(Side.CLIENT)
   override def getIcon(world: IBlockAccess, pos: BlockPos, side: EnumFacing): TextureAtlasSprite = {
     world.getTileEntity(pos) match {
       case tileItemIO: TileEntityItemIO => texture(tileItemIO.currentState.ordinal())
@@ -51,15 +53,19 @@ class BlockItemIO extends BlockAnimationHandler[TileEntityItemIO]("item_io", Mat
 
   @SideOnly(Side.CLIENT)
   override def getRenderType(state: IBlockState): EnumBlockRenderType = RenderBlockBeveled.RENDER_TYPE
-
+  @SideOnly(Side.CLIENT)
   override def getAnimationIcon(stack: ItemStack, side: Int): TextureAtlasSprite = ProjectX.PROXY.getAnimatedTexture
+  @SideOnly(Side.CLIENT)
   override def getAnimationIcon(world: IBlockAccess, pos: BlockPos, side: Int): TextureAtlasSprite = ProjectX.PROXY.getAnimatedTexture
-
-  override def getAnimationColor(stack: ItemStack, side: Int): Int = EnumXycroniumColor.LIGHT.getColor.rgba()
-  override def getAnimationColor(world: IBlockAccess, pos: BlockPos, side: Int): Int = EnumXycroniumColor.LIGHT.getColor.rgba()
-
+  @SideOnly(Side.CLIENT)
+  override def getAnimationColor(stack: ItemStack, side: Int): Int = EnumXycroniumColor.GREEN.getColor.rgba()
+  @SideOnly(Side.CLIENT)
+  override def getAnimationColor(world: IBlockAccess, pos: BlockPos, side: Int): Int = EnumXycroniumColor.GREEN.getColor.rgba()
+  @SideOnly(Side.CLIENT)
   override def getAnimationBrightness(stack: ItemStack, side: Int): Int = 220
+  @SideOnly(Side.CLIENT)
   override def getAnimationBrightness(world: IBlockAccess, pos: BlockPos, side: Int): Int = 220
 
   override def registerTileEntities(): Unit = GameRegistry.registerTileEntity(classOf[TileEntityItemIO], "tile." + ModPrefs.MODID + ".multi_block_item_io")
+
 }
