@@ -14,12 +14,10 @@ import keri.projectx.client.event.ClientEventHandler;
 import keri.projectx.client.event.MultiBlockOverlayRenderer$;
 import keri.projectx.client.playereffect.PlayerEffects;
 import keri.projectx.client.render.AnimatedTextureFX;
-import keri.projectx.client.render.tesr.TESRFabricator;
 import keri.projectx.client.render.tesr.TESRXynergyNode;
 import keri.projectx.featurehack.FeatureHack;
 import keri.projectx.integration.IntegrationHandler;
 import keri.projectx.network.ProjectXCPH;
-import keri.projectx.tile.TileEntityFabricator;
 import keri.projectx.tile.TileEntityXynergyNode;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraftforge.common.MinecraftForge;
@@ -74,7 +72,7 @@ public class ClientProxy extends CommonProxy {
     }
 
     private void registerRenderers(){
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFabricator.class, new TESRFabricator());
+        //ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFabricator.class, new TESRFabricator());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityXynergyNode.class, new TESRXynergyNode());
     }
 
