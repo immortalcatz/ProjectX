@@ -84,25 +84,6 @@ class BlockMultiShadow(material: Material, suffix: String) extends BlockProjectX
 
   override def canCollideCheck(state: IBlockState, hitIfLiquid: Boolean): Boolean = blockMaterial != Material.AIR
 
-  override def shouldSideBeRendered(blockState: IBlockState, world: IBlockAccess, pos: BlockPos, side: EnumFacing): Boolean = {
-    /**
-      * if (blockMaterial == Material.GLASS) {
-      * val state = world.getBlockState(pos.offset(side))
-      * if (state.getBlock == this) {
-      * return false
-      * }
-      * else {
-      * return true
-      * }
-      * }
-      * *
-      * blockMaterial != Material.AIR
-      */
-
-
-    false
-  }
-
   override def addDestroyEffects(world: World, pos: BlockPos, manager: ParticleManager): Boolean = {
     getShadowBlock(world, pos).map(_.block).foreach(blockShadow => {
       return blockShadow.addDestroyEffects(world, pos, manager)
@@ -153,21 +134,10 @@ class BlockMultiShadow(material: Material, suffix: String) extends BlockProjectX
     super.onNeighborChange(world, pos, neighbor)
   }
 
-  override def hasTileEntity(state: IBlockState): Boolean = true
-
-  override def removedByPlayer(state: IBlockState, world: World, pos: BlockPos, player: EntityPlayer, willHarvest: Boolean): Boolean = {
-    val shadowBlock = getShadowBlock(world, pos)
-    if (shadowBlock.isEmpty) {
-      world.setBlockToAir(pos)
-    }
-    super.removedByPlayer(state, world, pos, player, willHarvest)
-  }
-
   override def harvestBlock(worldIn: World, player: EntityPlayer, pos: BlockPos, state: IBlockState, te: TileEntity, stack: ItemStack): Unit = {
     super.harvestBlock(worldIn, player, pos, state, te, stack)
     worldIn.setBlockToAir(pos)
   }
 
   override def registerTileEntities(): Unit = GameRegistry.registerTileEntity(classOf[TileMultiShadow], "tile." + ModPrefs.MODID + ".multi_block_shadow_block")
-
 }
