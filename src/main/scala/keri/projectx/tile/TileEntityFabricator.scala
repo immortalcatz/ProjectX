@@ -43,27 +43,26 @@ class TileEntityFabricator extends TileEntityProjectX with ISidedInventory with 
     prevPowered = powered
     powered = world.isBlockIndirectlyGettingPowered(getPos) > 0
     if (powered != prevPowered) {
-      //mark block for update world.markAndNotifyBlock(getPos)
+      markDirty()
     }
     if (!world.isRemote) {
       if (inv_changed) {
         inv_changed = false
         loadRecipe()
       }
-      if (shouldCraft())
+      if (shouldCraft()) {
         craft()
-    } else {
+      }
     }
   }
 
-  def shouldCraft(): Boolean = {
-    mode match {
-      case 0 => !powered
-      case 1 => powered
-      case 2 => powered && !prevPowered
-    }
+  def shouldCraft(): Boolean = mode match {
+    case 0 => !powered
+    case 1 => powered
+    case 2 => powered && !prevPowered
   }
 
+  //TODO: Should we use this???
   def dropItems(): Unit = {
     for (i <- 10 until INVENTORY_SIZE) {
       if (inv(i) != null) {
@@ -73,9 +72,9 @@ class TileEntityFabricator extends TileEntityProjectX with ISidedInventory with 
   }
 
   def craft(result: ItemStack, items: Array[RecipeInvStack], crafting: InventoryCrafting): Unit = {
-    for (i <- CRAFTING_INVENTORY_RANGE) {
+    CRAFTING_INVENTORY_RANGE.foreach(i => {
       val stack = crafting.getStackInSlot(i)
-      if (stack != null) {
+      if (!stack.isEmpty) {
         crafting.decrStackSize(i, 1)
         if (stack.getItem.hasContainerItem(stack)) {
           var container = stack.getItem.getContainerItem(stack)
@@ -87,25 +86,25 @@ class TileEntityFabricator extends TileEntityProjectX with ISidedInventory with 
           }
         }
       }
-    }
+    })
   }
 
   def updateInventories(items: Array[RecipeInvStack], result: ItemStack, crafting: InventoryCrafting): Unit = {
-    for (invstack <- items) {
-      if (invstack != null) {
-        val stack = invstack.access.inv.getStackInSlot(invstack.slot)
-        stack.shrink(1)
-        if (stack.getCount < 1)
-          invstack.access.inv.setInventorySlotContents(invstack.slot, ItemStack.EMPTY)
-        else
-          invstack.access.inv.setInventorySlotContents(invstack.slot, stack)
-      }
-    }
+    items.foreach(invstack => if (invstack != null) {
+      val stack = invstack.access.inv.getStackInSlot(invstack.slot)
+      stack.shrink(1)
+      if (stack.getCount < 1)
+        invstack.access.inv.setInventorySlotContents(invstack.slot, ItemStack.EMPTY)
+      else
+        invstack.access.inv.setInventorySlotContents(invstack.slot, stack)
+    })
+
     for (i <- CRAFTING_INVENTORY_RANGE) {
       val stack = items(i)
       val container = crafting.getStackInSlot(i)
-      if (container != null && stack != null)
+      if (container != null && stack != null) {
         InventoryUtils.insertItem(stack.access.inv, container, false)
+      }
     }
     InventoryUtils.insertItem(this, result, false)
   }
@@ -232,36 +231,7 @@ class TileEntityFabricator extends TileEntityProjectX with ISidedInventory with 
     tag.setTag("items", InventoryUtils.writeItemStacksToTag(inv))
     tag
   }
-
-  /**
-    * //Packets and NBT saving
-  *override def saveNBT(compound: NBTTagCompound): Unit = {
-    *compound.setInteger("mode", mode)
-    *compound.setTag("items", InventoryUtils.writeItemStacksToTag(inv))
-  *}
- **
-    * override def receivePacket(in: MCDataInput): Unit = {
-    *mode = in.readInt()
-    *crafting_render_time = in.readInt()
-    *for (i <- CRAFTING_INVENTORY_RANGE)
-      *inv(i) = in.readItemStack()
-  *}
- **
-    * override def writeToPacket(out: MCDataOutput): Unit = {
-    *out.writeInt(mode)
-    *out.writeInt(crafting_render_time)
-    *for (i <- CRAFTING_INVENTORY_RANGE)
-      *out.writeItemStack(getStackInSlot(i))
-  *}
- **
-    * override def readNBT(compound: NBTTagCompound): Unit = {
-    *mode = compound.getInteger("mode")
-    *InventoryUtils.readItemStacksFromTag(inv, compound.getTagList("items", 10))
-  *}
-    */
-
-  //Inventory SHIT
-  private def onInventoryChanged() = inv_changed = true
+  override def isUsableByPlayer(player: EntityPlayer): Boolean = true
 
   override def getSlotsForFace(side: EnumFacing): Array[Int] = if (side == EnumFacing.UP) Array.empty[Int] else (10 until INVENTORY_SIZE).toArray
 
@@ -272,8 +242,10 @@ class TileEntityFabricator extends TileEntityProjectX with ISidedInventory with 
   override def decrStackSize(index: Int, count: Int): ItemStack = InventoryUtils.decrStackSize(this, index, count)
 
   override def closeInventory(player: EntityPlayer): Unit = {}
-
-  override def isUsableByPlayer(player: EntityPlayer): Boolean = ???
+  private def onInventoryChanged(): Unit = {
+    inv_changed = true
+    markDirty()
+  }
 
   override def getSizeInventory: Int = INVENTORY_SIZE
 
