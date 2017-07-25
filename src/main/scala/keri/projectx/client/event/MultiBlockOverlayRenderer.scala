@@ -39,14 +39,19 @@ object MultiBlockOverlayRenderer extends IIconRegister {
         case tileMulti: TileMultiBlock =>
           val player = event.getPlayer
           GL11.glPushMatrix()
+
           val interpPosX: Double = player.lastTickPosX + (player.posX - player.lastTickPosX) * event.getPartialTicks
           val interpPosY: Double = player.lastTickPosY + (player.posY - player.lastTickPosY) * event.getPartialTicks
           val interpPosZ: Double = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * event.getPartialTicks
           GL11.glTranslated(-interpPosX, -interpPosY, -interpPosZ)
+
           stareTracker.update(event.getTarget)
           val alpha: Float = 1.0F - stareTracker.getStareTime / 100.0f
+
           GlStateManager.color(1, 1, 1, alpha)
+
           renderOverlay(tileMulti)
+
           GL11.glPopMatrix()
         case _ =>
       }
@@ -55,27 +60,25 @@ object MultiBlockOverlayRenderer extends IIconRegister {
 
   def renderOverlay(tile: TileMultiBlock): Unit = {
     val blocksToRender = new mutable.HashSet[BlockPos]
-    for (multiBlock <- tile.formedMultiBlocks) {
+    tile.formedMultiBlocks.foreach(multiBlock => {
       blocksToRender ++= multiBlock.inBlocks
-    }
+    })
     val tess = Tessellator.getInstance().getBuffer
 
     GlStateManager.enableBlend()
     GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO)
     GlStateManager.depthMask(false)
-
+    tess.reset()
+    tess.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX)
     TextureUtils.bindBlockTexture()
-    for (coord <- blocksToRender) {
-      for (side <- EnumFacing.VALUES) {
+    blocksToRender.foreach(coord =>
+      EnumFacing.VALUES.foreach(side =>
         if (!blocksToRender.contains(new BlockPos(coord).offset(side))) {
-          tess.reset()
-          tess.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX)
-
           render.RenderUtils.renderBlockOverlaySide(coord.getX, coord.getY, coord.getZ, side.getIndex, overlayTexture.getMinU, overlayTexture.getMaxU, overlayTexture.getMinV, overlayTexture.getMaxV)
-          Tessellator.getInstance().draw()
         }
-      }
-    }
+      )
+    )
+    Tessellator.getInstance().draw()
   }
 
   override def registerIcons(textureMap: TextureMap): Unit = {

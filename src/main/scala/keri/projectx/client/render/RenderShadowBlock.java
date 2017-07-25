@@ -20,11 +20,8 @@ import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import scala.Option;
 
-@SideOnly(Side.CLIENT)
 public class RenderShadowBlock implements IBlockRenderingHandler {
 
     public static EnumBlockRenderType RENDER_TYPE;

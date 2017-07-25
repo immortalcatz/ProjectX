@@ -9,6 +9,7 @@ package keri.projectx.tile
 import codechicken.lib.data.{MCDataInput, MCDataOutput}
 import net.minecraft.block.Block
 import net.minecraft.block.state.IBlockState
+import net.minecraft.init.Blocks
 import net.minecraft.nbt.NBTTagCompound
 
 class TileMultiShadow extends TileMultiBlock /* with TMachineTile*/ {
@@ -16,12 +17,17 @@ class TileMultiShadow extends TileMultiBlock /* with TMachineTile*/ {
 
   def setCurrentBlock(block: Block, meta: Int): Unit = setCurrentBlock(new BlockDef(block, meta))
 
-  def setCurrentBlock(blockDef: BlockDef) = {
-    currBlock = blockDef
-    markDirty()
-    if (!getWorld.isRemote) {
-      sendUpdatePacket(true)
+  override def writeToNBT(compound: NBTTagCompound): NBTTagCompound = {
+    super.writeToNBT(compound)
+    if (currBlock == null) {
+      setCurrentBlock(Blocks.STONE, 0)
     }
+
+    if (currBlock != null) {
+      currBlock.write(compound)
+    } else {
+    }
+    compound
   }
 
   def getCurrMeta: Option[Int] = if (currBlock != null) Some(currBlock.meta) else None
@@ -29,21 +35,18 @@ class TileMultiShadow extends TileMultiBlock /* with TMachineTile*/ {
   def getCurrBLock: Option[Block] = if (currBlock != null) Some(currBlock.block) else None
 
   def getCurrBlockDef: Option[BlockDef] = Option(currBlock)
-
-  override def writeToNBT(compound: NBTTagCompound): NBTTagCompound = {
-    super.writeToNBT(compound)
-    if (currBlock != null)
-      currBlock.write(compound)
-    compound
-  }
-
   override def readFromNBT(compound: NBTTagCompound): Unit = {
     super.readFromNBT(compound)
     BlockDef.read(compound).foreach(value => setCurrentBlock(value))
-    if (!world.isRemote && currBlock == null) {
-      getWorld.setBlockToAir(getPos)
+  }
+  def setCurrentBlock(blockDef: BlockDef) = {
+    currBlock = blockDef
+    markDirty()
+    if (!isInvalid && hasWorld && !getWorld.isRemote) {
+      sendUpdatePacket(true)
     }
   }
+
 }
 
 case class BlockDef(block: Block, meta: Int) {
