@@ -9,17 +9,22 @@ package keri.projectx.item;
 import codechicken.lib.colour.Colour;
 import codechicken.lib.colour.ColourRGBA;
 import codechicken.lib.util.ItemNBTUtils;
+import codechicken.lib.vec.Vector3;
 import keri.ninetaillib.lib.render.EnumItemRenderType;
 import keri.ninetaillib.lib.texture.IIconRegister;
 import keri.ninetaillib.lib.util.IShiftDescription;
+import keri.projectx.api.block.IColorableBlock;
 import keri.projectx.client.render.item.RenderColorScanner;
 import keri.projectx.util.ModPrefs;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -53,6 +58,31 @@ public class ItemColorScanner extends ItemProjectX implements IShiftDescription 
         }
 
         return ActionResult.newResult(EnumActionResult.PASS, heldItem);
+    }
+
+    @Override
+    public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+        IBlockState state = world.getBlockState(pos);
+
+        if(state != null && state.getBlock() instanceof IColorableBlock){
+            IColorableBlock block = (IColorableBlock)state.getBlock();
+            ItemStack heldItem = player.getHeldItem(hand);
+
+            if(player.isSneaking()){
+                ItemNBTUtils.validateTagExists(heldItem);
+                heldItem.getTagCompound().setInteger("color", block.getStoredColor(world, pos, player, side, hand, new Vector3(hitX, hitY, hitZ)).rgba());
+                return EnumActionResult.SUCCESS;
+            }
+            else{
+                if(heldItem.getTagCompound() != null){
+                    Colour color = new ColourRGBA(heldItem.getTagCompound().getInteger("color"));
+                    block.setStoredColor(world, pos, player, side, hand, new Vector3(hitX, hitY, hitZ), color);
+                    return EnumActionResult.SUCCESS;
+                }
+            }
+        }
+
+        return EnumActionResult.PASS;
     }
 
     @Override
