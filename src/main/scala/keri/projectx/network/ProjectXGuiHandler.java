@@ -6,15 +6,18 @@
 
 package keri.projectx.network;
 
-import keri.projectx.client.gui.GuiFaricator;
-import keri.projectx.client.gui.GuiManual;
-import keri.projectx.client.gui.GuiMultiTank;
+import keri.projectx.client.gui.item.GuiManual;
+import keri.projectx.client.gui.machine.GuiEngineeringTable;
+import keri.projectx.client.gui.machine.GuiFaricator;
+import keri.projectx.client.gui.machine.GuiMultiTank;
 import keri.projectx.container.ContainerDummy;
+import keri.projectx.container.ContainerEngineeringTable;
 import keri.projectx.container.ContainerFabricator;
 import keri.projectx.container.ContainerMultitank;
 import keri.projectx.multiblock.MultiTank;
+import keri.projectx.tile.TileEntityEngineeringTable;
 import keri.projectx.tile.TileEntityFabricator;
-import keri.projectx.tile.TileMultiBlock;
+import keri.projectx.tile.TileEntityMultiblock;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -40,8 +43,11 @@ public class ProjectXGuiHandler implements IGuiHandler {
             case GUIID_MANUAL:
                 return new ContainerDummy();
             case GUIID_MULTI_TANK:
-                TileMultiBlock tileMultiTank = (TileMultiBlock) world.getTileEntity(new BlockPos(x, y, z));
+                TileEntityMultiblock tileMultiTank = (TileEntityMultiblock) world.getTileEntity(new BlockPos(x, y, z));
                 return new ContainerMultitank(player.inventory, (MultiTank)tileMultiTank.getTank(0).get());
+            case GUIID_ENGINEERING_TABLE:
+                TileEntityEngineeringTable tileEngineeringTable = (TileEntityEngineeringTable)world.getTileEntity(new BlockPos(x, y, z));
+                return new ContainerEngineeringTable(player.inventory, tileEngineeringTable);
         }
         return null;
     }
@@ -56,8 +62,11 @@ public class ProjectXGuiHandler implements IGuiHandler {
             case GUIID_MANUAL:
                 return new GuiManual();
             case GUIID_MULTI_TANK:
-                TileMultiBlock tileMultiBlock = (TileMultiBlock) world.getTileEntity(new BlockPos(x, y, z));
+                TileEntityMultiblock tileMultiBlock = (TileEntityMultiblock) world.getTileEntity(new BlockPos(x, y, z));
                 return new GuiMultiTank(player.inventory, (MultiTank) tileMultiBlock.getTank(0).get());
+            case GUIID_ENGINEERING_TABLE:
+                TileEntityEngineeringTable tileEngineeringTable = (TileEntityEngineeringTable)world.getTileEntity(new BlockPos(x, y, z));
+                return new GuiEngineeringTable(player.inventory, tileEngineeringTable);
         }
         return null;
     }

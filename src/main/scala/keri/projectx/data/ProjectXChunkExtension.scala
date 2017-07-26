@@ -7,7 +7,7 @@
 package keri.projectx.data
 
 import codechicken.lib.world.ChunkExtension
-import keri.projectx.multiblock.{MultiBlock, MultiBlockManager, MultiBlockType}
+import keri.projectx.multiblock.{Multiblock, MultiblockManager, MultiblockType}
 import net.minecraft.entity.player.EntityPlayerMP
 import net.minecraft.nbt.{NBTTagCompound, NBTTagList}
 import net.minecraft.world.chunk.Chunk
@@ -17,17 +17,17 @@ import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 
 class ProjectXChunkExtension(chunk: Chunk, worldExt: ProjectXWorldExtension) extends ChunkExtension(chunk, worldExt) {
-  private val multiBlocks = new mutable.HashSet[MultiBlock]()
-  private val updateMultiBlocks = new mutable.HashSet[MultiBlock]()
+  private val multiBlocks = new mutable.HashSet[Multiblock]()
+  private val updateMultiBlocks = new mutable.HashSet[Multiblock]()
   private val packetQueue = new ArrayBuffer[FMLProxyPacket]()
   var requestedUpdatePackets = false
 
-  def addMultiBlock(multiBlock: MultiBlock): Unit = {
+  def addMultiBlock(multiBlock: Multiblock): Unit = {
     multiBlocks += multiBlock
     chunk.setChunkModified()
   }
 
-  def removeMultiBlock(multiBlock: MultiBlock): Unit = multiBlocks.remove(multiBlock)
+  def removeMultiBlock(multiBlock: Multiblock): Unit = multiBlocks.remove(multiBlock)
 
   override def sendUpdatePackets(): Unit = {
     requestedUpdatePackets = false
@@ -58,14 +58,14 @@ class ProjectXChunkExtension(chunk: Chunk, worldExt: ProjectXWorldExtension) ext
       multiBlock.writeToNBT(nbt)
       nbt
     }).foreach(mulitBlockNBT.appendTag)
-    tag.setTag(s"project_x_multi_blocks_version_${MultiBlockVersion.VERSION}", mulitBlockNBT)
+    tag.setTag(s"project_x_multi_blocks_version_${MultiblockVersion.VERSION}", mulitBlockNBT)
   }
 
   override def loadData(tag: NBTTagCompound): Unit = {
-    val tagList = tag.getTagList(s"project_x_multi_blocks_version_${MultiBlockVersion.VERSION}", 10)
+    val tagList = tag.getTagList(s"project_x_multi_blocks_version_${MultiblockVersion.VERSION}", 10)
     (0 until tagList.tagCount()).map(i => {
       val nbt = tagList.getCompoundTagAt(i)
-      val multiblock = MultiBlockManager.createMultiBlock(MultiBlockType.values()(nbt.getInteger("multi_block_type")), worldExt, this)
+      val multiblock = MultiblockManager.createMultiBlock(MultiblockType.values()(nbt.getInteger("multi_block_type")), worldExt, this)
       multiblock.readFromNBT(nbt)
       multiblock
     }).foreach(worldExt.unloadMutliBlock)
@@ -95,7 +95,7 @@ class ProjectXChunkExtension(chunk: Chunk, worldExt: ProjectXWorldExtension) ext
 
   def getChunk: Chunk = chunk
 
-  def markMultiBlockForUpdate(multiBlock: MultiBlock): Unit = {
+  def markMultiBlockForUpdate(multiBlock: Multiblock): Unit = {
     if (multiBlock.requestsedUpdatePacket)
       return
     chunk.setModified(true)

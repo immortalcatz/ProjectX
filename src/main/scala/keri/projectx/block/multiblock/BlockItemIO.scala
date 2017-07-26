@@ -4,7 +4,7 @@
  * of the developer!
  */
 
-package keri.projectx.block.machine.multiblock
+package keri.projectx.block.multiblock
 
 import keri.ninetaillib.lib.texture.IIconRegister
 import keri.projectx.ProjectX

@@ -14,7 +14,7 @@ import net.minecraftforge.common.capabilities.Capability
 import net.minecraftforge.fluids._
 import net.minecraftforge.fluids.capability.{CapabilityFluidHandler, IFluidHandler, IFluidTankProperties}
 
-class TileEntityTankValve extends TileMultiBlock with IFluidHandler with ITickable {
+class TileEntityTankValve extends TileEntityMultiblock with IFluidHandler with ITickable {
   var inactiveFluid = FluidUtils.emptyFluid()
 
   override def drain(resource: FluidStack, doDrain: Boolean): FluidStack = drain(resource.amount, doDrain)

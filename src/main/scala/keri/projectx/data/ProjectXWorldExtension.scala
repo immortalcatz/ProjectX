@@ -9,7 +9,7 @@ package keri.projectx.data
 import codechicken.lib.packet.PacketCustom
 import codechicken.lib.world.WorldExtension
 import keri.projectx.ProjectX
-import keri.projectx.multiblock.{MultiBlock, MultiBlockManager, MultiBlockType}
+import keri.projectx.multiblock.{Multiblock, MultiblockManager, MultiblockType}
 import net.minecraft.util.math.ChunkPos
 import net.minecraft.world.World
 import net.minecraftforge.fml.relauncher.{Side, SideOnly}
@@ -20,8 +20,8 @@ import scala.collection.mutable.ArrayBuffer
 class ProjectXWorldExtension(worldObj: World) extends WorldExtension(worldObj) {
   val dim = world.provider.getDimension
   val chunkPackets = new ArrayBuffer[ProjectXChunkExtension]()
-  private val multiBlocks = new mutable.HashMap[Int, MultiBlock]()
-  private val unloadedMultiBlocks = new mutable.HashSet[MultiBlock]()
+  private val multiBlocks = new mutable.HashMap[Int, Multiblock]()
+  private val unloadedMultiBlocks = new mutable.HashSet[Multiblock]()
   private var multiBlockId = 1
   private var creatingClientSideMultiBlock = false
 
@@ -49,8 +49,8 @@ class ProjectXWorldExtension(worldObj: World) extends WorldExtension(worldObj) {
   def handleDescriptionPacket(packet: PacketCustom): Unit = {
     multiBlockId = packet.readInt()
     creatingClientSideMultiBlock = true
-    val multiblock = MultiBlockManager.createMultiBlock(
-      MultiBlockType.values()(packet.readInt()),
+    val multiblock = MultiblockManager.createMultiBlock(
+      MultiblockType.values()(packet.readInt()),
       this,
       getChunkExtension(packet.readInt(), packet.readInt()).asInstanceOf[ProjectXChunkExtension])
     creatingClientSideMultiBlock = false
@@ -58,7 +58,7 @@ class ProjectXWorldExtension(worldObj: World) extends WorldExtension(worldObj) {
     addMultiBlock(multiblock)
   }
 
-  def addMultiBlock(multiBlock: MultiBlock): Unit = {
+  def addMultiBlock(multiBlock: Multiblock): Unit = {
     if (multiBlocks.get(multiBlock.id).isDefined) {
       println("MultiBlock already exists")
       return
@@ -88,7 +88,7 @@ class ProjectXWorldExtension(worldObj: World) extends WorldExtension(worldObj) {
       multiBlock.getChunkExt.sendMultiBlockPacket(multiBlock.getDescriptionPacket())
   }
 
-  def unloadMutliBlock(multiBlock: MultiBlock): Unit = {
+  def unloadMutliBlock(multiBlock: Multiblock): Unit = {
     if (multiBlock.isValid && multiBlocks.remove(multiBlock.id).isEmpty) {
       return
     }
@@ -121,7 +121,7 @@ class ProjectXWorldExtension(worldObj: World) extends WorldExtension(worldObj) {
     }
   }
 
-  def removeMultiBlock(multiBlock: MultiBlock, remove: Boolean = true): Unit = {
+  def removeMultiBlock(multiBlock: Multiblock, remove: Boolean = true): Unit = {
     if (unloadedMultiBlocks.remove(multiBlock)) {
       return
     }

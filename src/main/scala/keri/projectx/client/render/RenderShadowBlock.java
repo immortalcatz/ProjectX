@@ -9,7 +9,7 @@ package keri.projectx.client.render;
 import keri.ninetaillib.lib.render.IBlockRenderingHandler;
 import keri.ninetaillib.lib.render.RenderingRegistry;
 import keri.projectx.tile.BlockDef;
-import keri.projectx.tile.TileMultiShadow;
+import keri.projectx.tile.TileEntityMultiShadow;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.VertexBuffer;
@@ -35,11 +35,11 @@ public class RenderShadowBlock implements IBlockRenderingHandler {
     public boolean renderWorld(IBlockAccess world, BlockPos pos, IBlockState state, VertexBuffer buffer, BlockRenderLayer layer) {
         TileEntity tile = world.getTileEntity(pos);
 
-        if (!(tile instanceof TileMultiShadow)) {
+        if (!(tile instanceof TileEntityMultiShadow)) {
             return false;
         }
 
-        Option<BlockDef> blockDef = ((TileMultiShadow)tile).getCurrBlockDef();
+        Option<BlockDef> blockDef = ((TileEntityMultiShadow)tile).getCurrBlockDef();
 
         if (!blockDef.isDefined()) {
             return false;

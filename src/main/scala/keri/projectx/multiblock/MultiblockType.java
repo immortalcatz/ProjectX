@@ -6,6 +6,6 @@
 
 package keri.projectx.multiblock;
 
-public enum MultiBlockType {
+public enum MultiblockType {
     TANK,
 }

@@ -4,13 +4,14 @@
  * of the developer!
  */
 
-package keri.projectx.client.gui
+package keri.projectx.client.gui.machine
 
 import java.text.DecimalFormat
 
 import codechicken.lib.colour.EnumColour
 import keri.ninetaillib.lib.gui.GuiContainerBase
 import keri.ninetaillib.lib.math.{IPositionProvider, Point2i}
+import keri.projectx.client.gui.GuiGeneric
 import keri.projectx.container.ContainerMultitank
 import keri.projectx.multiblock.MultiTank
 import net.minecraft.entity.player.InventoryPlayer

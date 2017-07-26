@@ -9,7 +9,7 @@ package keri.projectx.client.event
 import codechicken.lib.render
 import codechicken.lib.texture.TextureUtils
 import codechicken.lib.texture.TextureUtils.IIconRegister
-import keri.projectx.tile.TileMultiBlock
+import keri.projectx.tile.TileEntityMultiblock
 import keri.projectx.util.{ModPrefs, PlayerStareTracker}
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.texture.{TextureAtlasSprite, TextureMap}
@@ -36,7 +36,7 @@ object MultiBlockOverlayRenderer extends IIconRegister {
     val world = Minecraft.getMinecraft.world
     if (target.typeOfHit == RayTraceResult.Type.BLOCK) {
       world.getTileEntity(target.getBlockPos) match {
-        case tileMulti: TileMultiBlock =>
+        case tileMulti: TileEntityMultiblock =>
           val player = event.getPlayer
           GL11.glPushMatrix()
 
@@ -58,7 +58,7 @@ object MultiBlockOverlayRenderer extends IIconRegister {
     }
   }
 
-  def renderOverlay(tile: TileMultiBlock): Unit = {
+  def renderOverlay(tile: TileEntityMultiblock): Unit = {
     val blocksToRender = new mutable.HashSet[BlockPos]
     tile.formedMultiBlocks.foreach(multiBlock => {
       blocksToRender ++= multiBlock.inBlocks

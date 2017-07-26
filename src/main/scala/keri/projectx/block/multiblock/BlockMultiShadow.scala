@@ -4,14 +4,14 @@
  * of the developer!
  */
 
-package keri.projectx.block.machine.multiblock
+package keri.projectx.block.multiblock
 
 import java.util
 import java.util.Random
 
 import keri.projectx.block.BlockProjectX
 import keri.projectx.client.render.RenderShadowBlock
-import keri.projectx.tile.{BlockDef, TileMultiShadow}
+import keri.projectx.tile.{BlockDef, TileEntityMultiShadow}
 import keri.projectx.util.ModPrefs
 import net.minecraft.block.SoundType
 import net.minecraft.block.material.Material
@@ -27,7 +27,7 @@ import net.minecraft.world.{Explosion, IBlockAccess, World}
 import net.minecraftforge.fml.common.registry.GameRegistry
 import net.minecraftforge.fml.relauncher.{Side, SideOnly}
 
-class BlockMultiShadow(material: Material, suffix: String) extends BlockProjectX[TileMultiShadow](s"blockMultiShadow$suffix", material) with TBlockMulti {
+class BlockMultiShadow(material: Material, suffix: String) extends BlockProjectX[TileEntityMultiShadow](s"blockMultiShadow$suffix", material) with TBlockMulti {
   setCreativeTab(null)
   material match {
     case Material.WOOD => setSoundType(SoundType.WOOD)
@@ -36,7 +36,7 @@ class BlockMultiShadow(material: Material, suffix: String) extends BlockProjectX
     case _ =>
   }
 
-  override def createNewTileEntity(world: World, meta: Int): TileMultiShadow = new TileMultiShadow
+  override def createNewTileEntity(world: World, meta: Int): TileEntityMultiShadow = new TileEntityMultiShadow
 
   @SideOnly(Side.CLIENT)
   override def getRenderType(state: IBlockState) = RenderShadowBlock.RENDER_TYPE
@@ -73,7 +73,7 @@ class BlockMultiShadow(material: Material, suffix: String) extends BlockProjectX
   }
   def getShadowBlock(world: IBlockAccess, pos: BlockPos): Option[BlockDef] = {
     world.getTileEntity(pos) match {
-      case tile: TileMultiShadow => tile.getCurrBlockDef
+      case tile: TileEntityMultiShadow => tile.getCurrBlockDef
       case _ => None
     }
   }
@@ -144,5 +144,5 @@ class BlockMultiShadow(material: Material, suffix: String) extends BlockProjectX
     worldIn.setBlockToAir(pos)
   }
 
-  override def registerTileEntities(): Unit = GameRegistry.registerTileEntity(classOf[TileMultiShadow], "tile." + ModPrefs.MODID + ".multi_block_shadow_block")
+  override def registerTileEntities(): Unit = GameRegistry.registerTileEntity(classOf[TileEntityMultiShadow], "tile." + ModPrefs.MODID + ".multi_block_shadow_block")
 }

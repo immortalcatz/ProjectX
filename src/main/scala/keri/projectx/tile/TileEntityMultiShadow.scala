@@ -12,7 +12,7 @@ import net.minecraft.block.state.IBlockState
 import net.minecraft.init.Blocks
 import net.minecraft.nbt.NBTTagCompound
 
-class TileMultiShadow extends TileMultiBlock /* with TMachineTile*/ {
+class TileEntityMultiShadow extends TileEntityMultiblock /* with TMachineTile*/ {
   private var currBlock: BlockDef = null
 
   def setCurrentBlock(block: Block, meta: Int): Unit = setCurrentBlock(new BlockDef(block, meta))

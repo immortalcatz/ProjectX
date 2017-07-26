@@ -6,8 +6,8 @@
 
 package keri.projectx.multiblock
 
-import keri.projectx.multiblock.MultiBlockPattern._
-import keri.projectx.tile.TileMultiBlock
+import keri.projectx.multiblock.MultiblockPattern._
+import keri.projectx.tile.TileEntityMultiblock
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
@@ -17,7 +17,7 @@ import scala.collection.mutable.ArrayBuffer
 /**
   * Pattern maker for multiblcoks
   */
-case class MultiBlockPattern(width: Int, height: Int, depth: Int) {
+case class MultiblockPattern(width: Int, height: Int, depth: Int) {
   val pattern = Array.ofDim[Int](width, height, depth)
   val matchers = new ArrayBuffer[MultiBlockMatcher]()
 
@@ -99,12 +99,12 @@ case class MultiBlockPattern(width: Int, height: Int, depth: Int) {
     */
   def addMatcher(matcher: MultiBlockMatcher) = matchers += matcher
 
-  def addAndCheckPattern(multiBlock: MultiBlock, pos: BlockPos): Unit = {
+  def addAndCheckPattern(multiBlock: Multiblock, pos: BlockPos): Unit = {
     for (x <- 0 until width; y <- 0 until height; z <- 0 until depth) {
       val blockPos = new BlockPos(pos).add(x, y, z)
       val tile = multiBlock.world.getTileEntity(pos)
-      if (!tile.isInstanceOf[TileMultiBlock])
-        MultiBlockManager.convertBlockToShadow(multiBlock.world, blockPos)
+      if (!tile.isInstanceOf[TileEntityMultiblock])
+        MultiblockManager.convertBlockToShadow(multiBlock.world, blockPos)
       multiBlock.addTile(blockPos)
     }
   }
@@ -125,7 +125,7 @@ case class MultiBlockPattern(width: Int, height: Int, depth: Int) {
   }
 }
 
-object MultiBlockPattern {
+object MultiblockPattern {
   def expand(minxyzmaxxyz: Array[Int], side: EnumFacing): Array[Int] = {
     if (side.ordinal() % 2 == 0)
       minxyzmaxxyz(side.ordinal()) -= 1

@@ -11,7 +11,7 @@ import codechicken.lib.packet.PacketCustom
 import keri.projectx.ProjectX
 import keri.projectx.data.{ProjectXChunkExtension, ProjectXWorldExtension, ProjectXWorldExtensionInstantiator}
 import keri.projectx.featurehack.{EntityRenderHook, EntityUpdateHook}
-import keri.projectx.tile.TileMultiBlock
+import keri.projectx.tile.TileEntityMultiblock
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.nbt.{NBTTagCompound, NBTTagList}
 import net.minecraft.util.math.{BlockPos, ChunkPos}
@@ -22,7 +22,7 @@ import net.minecraftforge.fml.relauncher.{Side, SideOnly}
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 
-abstract class MultiBlock(worldExt: ProjectXWorldExtension, chunkExt: ProjectXChunkExtension) extends EntityUpdateHook.IUpdateCallback with EntityRenderHook.IRenderCallback {
+abstract class Multiblock(worldExt: ProjectXWorldExtension, chunkExt: ProjectXChunkExtension) extends EntityUpdateHook.IUpdateCallback with EntityRenderHook.IRenderCallback {
   val world = worldExt.world
   val id = worldExt.nextAvailableMultiBlockId
   val inBlocks = new ArrayBuffer[BlockPos]()
@@ -48,10 +48,10 @@ abstract class MultiBlock(worldExt: ProjectXWorldExtension, chunkExt: ProjectXCh
   def initiate(): Boolean = {
     for (pos <- inBlocks) {
       world.getTileEntity(pos) match {
-        case noop: TileMultiBlock =>
+        case noop: TileEntityMultiblock =>
         case _ =>
           if (!world.isRemote) {
-            val tile = MultiBlockManager.convertBlockToShadow(world, pos)
+            val tile = MultiblockManager.convertBlockToShadow(world, pos)
             if (tile.isEmpty)
               return false
           } else {
@@ -63,7 +63,7 @@ abstract class MultiBlock(worldExt: ProjectXWorldExtension, chunkExt: ProjectXCh
     }
 
     inBlocks.foreach(world.getTileEntity(_) match {
-      case multiblock: TileMultiBlock => multiblock.joinMultiBlock(this)
+      case multiblock: TileEntityMultiblock => multiblock.joinMultiBlock(this)
       case _ => sys.error("Tile is invalid.")
     })
 
@@ -93,7 +93,7 @@ abstract class MultiBlock(worldExt: ProjectXWorldExtension, chunkExt: ProjectXCh
     valid = false
     inBlocks foreach {
       world.getTileEntity(_) match {
-        case tileMulti: TileMultiBlock => tileMulti.removeMultiBlock(this)
+        case tileMulti: TileEntityMultiblock => tileMulti.removeMultiBlock(this)
         case _ =>
       }
     }
@@ -190,7 +190,7 @@ abstract class MultiBlock(worldExt: ProjectXWorldExtension, chunkExt: ProjectXCh
     *
     * @return
     */
-  def getMultiBlockType: MultiBlockType
+  def getMultiBlockType: MultiblockType
 
   def readFromUpdatePacket(in: MCDataInput): Unit = {}
 

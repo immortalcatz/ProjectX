@@ -8,6 +8,7 @@ package keri.projectx.client.gui
 
 import codechicken.lib.gui.GuiDraw
 import codechicken.lib.vec.Rectangle4i
+import keri.projectx.util.{ResourceAction, ResourceLib}
 import net.minecraft.client.renderer.texture.TextureAtlasSprite
 
 import scala.collection.mutable.ArrayBuffer

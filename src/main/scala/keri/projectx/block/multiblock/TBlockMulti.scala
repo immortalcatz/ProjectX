@@ -4,9 +4,9 @@
  * of the developer!
  */
 
-package keri.projectx.block.machine.multiblock
+package keri.projectx.block.multiblock
 
-import keri.projectx.tile.TileMultiBlock
+import keri.projectx.tile.TileEntityMultiblock
 import net.minecraft.block.state.IBlockState
 import net.minecraft.block.{Block, ITileEntityProvider}
 import net.minecraft.entity.player.EntityPlayer
@@ -22,7 +22,7 @@ trait TBlockMulti extends Block with ITileEntityProvider {
     if (worldIn.isRemote)
       return true
     worldIn.getTileEntity(pos) match {
-      case tileMultiBlock: TileMultiBlock => tileMultiBlock.onBlockActivated(playerIn)
+      case tileMultiBlock: TileEntityMultiblock => tileMultiBlock.onBlockActivated(playerIn)
       case _ => true
     }
   }

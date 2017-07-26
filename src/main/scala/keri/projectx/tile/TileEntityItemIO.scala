@@ -18,7 +18,7 @@ import scala.beans.BeanProperty
 /**
   * Created by Adam on 7/12/2017.
   */
-class TileEntityItemIO extends TileMultiBlock with ITickable with IInventory {
+class TileEntityItemIO extends TileEntityMultiblock with ITickable with IInventory {
   @BeanProperty var currentState: ItemIOState = ItemIOState.OUT
 
   override def update(): Unit = {

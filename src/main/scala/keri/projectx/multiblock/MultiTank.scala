@@ -15,7 +15,7 @@ import keri.projectx.ProjectX
 import keri.projectx.data.{ProjectXChunkExtension, ProjectXWorldExtension, ProjectXWorldExtensionInstantiator}
 import keri.projectx.multiblock.fluid.TFluidMultiBlock
 import keri.projectx.network.ProjectXGuiHandler
-import keri.projectx.tile.TileMultiBlock
+import keri.projectx.tile.TileEntityMultiblock
 import keri.projectx.util.FluidCapUtils
 import keri.projectx.vec.{BlockCoord, CuboidCoord}
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
@@ -34,7 +34,7 @@ import org.lwjgl.opengl.GL11
 /**
   * Created by Adam on 7/10/2017.
   */
-case class MultiTank(worldExt: ProjectXWorldExtension, chunkExt: ProjectXChunkExtension) extends MultiBlock(worldExt, chunkExt) with TFluidMultiBlock with IInventory {
+case class MultiTank(worldExt: ProjectXWorldExtension, chunkExt: ProjectXChunkExtension) extends Multiblock(worldExt, chunkExt) with TFluidMultiBlock with IInventory {
   val inv = Array.fill[ItemStack](2)(ItemStack.EMPTY)
   var area: CuboidCoord = null
 
@@ -52,7 +52,7 @@ case class MultiTank(worldExt: ProjectXWorldExtension, chunkExt: ProjectXChunkEx
     */
   override def onActivated(blockPos: BlockPos, player: EntityPlayer): Int = {
     world.getTileEntity(blockPos) match {
-      case tile: TileMultiBlock => if (tile.formedMultiBlocks.size() > 1) return 2
+      case tile: TileEntityMultiblock => if (tile.formedMultiBlocks.size() > 1) return 2
         player.openGui(ProjectX.INSTANCE, ProjectXGuiHandler.GUIID_MULTI_TANK, world, blockPos.getX, blockPos.getY, blockPos.getZ)
         return 1
       case _ =>
@@ -60,7 +60,7 @@ case class MultiTank(worldExt: ProjectXWorldExtension, chunkExt: ProjectXChunkEx
     super.onActivated(blockPos, player)
   }
 
-  override def getMultiBlockType: MultiBlockType = MultiBlockType.TANK
+  override def getMultiBlockType: MultiblockType = MultiblockType.TANK
 
   override def writeToNBT(nbt: NBTTagCompound): Unit = {
     super.writeToNBT(nbt)

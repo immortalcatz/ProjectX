@@ -4,7 +4,7 @@
  * of the developer!
  */
 
-package keri.projectx.client.gui;
+package keri.projectx.client.gui.item;
 
 import keri.ninetaillib.lib.gui.GuiContainerBase;
 import keri.projectx.container.ContainerDummy;

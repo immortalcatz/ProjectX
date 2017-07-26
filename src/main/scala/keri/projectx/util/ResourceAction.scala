@@ -4,7 +4,7 @@
  * of the developer!
  */
 
-package keri.projectx.client.gui
+package keri.projectx.util
 
 import net.minecraft.client.Minecraft
 import net.minecraft.util.ResourceLocation

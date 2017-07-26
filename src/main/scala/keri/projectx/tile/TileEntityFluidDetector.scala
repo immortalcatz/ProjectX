@@ -6,14 +6,14 @@
 
 package keri.projectx.tile
 
-import keri.projectx.multiblock.MultiBlock
+import keri.projectx.multiblock.Multiblock
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.util.ITickable
 
 /**
   * Created by Adam on 7/11/2017.
   */
-class TileEntityFluidDetector extends TileMultiBlock with ITickable {
+class TileEntityFluidDetector extends TileEntityMultiblock with ITickable {
   var power: Int = 0
 
   override def update(): Unit = {
@@ -36,7 +36,7 @@ class TileEntityFluidDetector extends TileMultiBlock with ITickable {
     }
   }
 
-  override def removeMultiBlock(multiBlock: MultiBlock): Boolean = {
+  override def removeMultiBlock(multiBlock: Multiblock): Boolean = {
     setPower(0)
     super.removeMultiBlock(multiBlock)
   }

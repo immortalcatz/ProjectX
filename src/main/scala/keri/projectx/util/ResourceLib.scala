@@ -4,9 +4,8 @@
  * of the developer!
  */
 
-package keri.projectx.client.gui
+package keri.projectx.util
 
-import keri.projectx.util.ModPrefs
 import net.minecraft.util.ResourceLocation
 
 /**

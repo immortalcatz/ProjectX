@@ -3,13 +3,15 @@
  * Do not distribute or redistribute without the explicit permission
  * of the developer!
  */
-package keri.projectx.client.gui
+package keri.projectx.client.gui.machine
 
 import codechicken.lib.texture.TextureUtils
 import keri.projectx.ProjectX
 import keri.projectx.api.color.EnumXycroniumColor
+import keri.projectx.client.gui.GuiGeneric
 import keri.projectx.container.ContainerFabricator
 import keri.projectx.tile.TileEntityFabricator
+import keri.projectx.util.ResourceLib
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.entity.player.InventoryPlayer
 import net.minecraftforge.fml.relauncher.{Side, SideOnly}

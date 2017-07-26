@@ -6,8 +6,8 @@
 
 package keri.projectx.multiblock
 
-import keri.projectx.block.machine.multiblock.TBlockMulti
-import keri.projectx.tile.TileMultiBlock
+import keri.projectx.block.multiblock.TBlockMulti
+import keri.projectx.tile.TileEntityMultiblock
 import keri.projectx.vec.CuboidCoord
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.math.BlockPos
@@ -16,7 +16,7 @@ import net.minecraft.world.World
 /**
   * Created by Adam on 7/10/2017.
   */
-object MultiTankInitiator extends MultiBlockInitiator[MultiTank] {
+object MultiTankInitiator extends MultiblockInitiator[MultiTank] {
   val matcher = new MultiBlockMatcher {
     override def matches(world: World, pos: BlockPos): Boolean = {
       val block = world.getBlockState(pos).getBlock
@@ -24,11 +24,11 @@ object MultiTankInitiator extends MultiBlockInitiator[MultiTank] {
     }
   }
   var innerBounds: CuboidCoord = new CuboidCoord()
-  var pattern: MultiBlockPattern = null
+  var pattern: MultiblockPattern = null
 
   override def create(world: World, pos: BlockPos): Option[MultiTank] = {
     val tile = world.getTileEntity(pos)
-    if (!tile.isInstanceOf[TileMultiBlock])
+    if (!tile.isInstanceOf[TileEntityMultiblock])
       None
     for (side <- EnumFacing.VALUES) {
       if (checkTank(world, side, pos)) {
@@ -51,7 +51,7 @@ object MultiTankInitiator extends MultiBlockInitiator[MultiTank] {
   }
 
   def checkPattern(world: World): Boolean = {
-    pattern = new MultiBlockPattern(innerBounds.max.x - innerBounds.min.x + 3, innerBounds.max.y - innerBounds.min.y + 3, innerBounds.max.z - innerBounds.min.z + 3)
+    pattern = new MultiblockPattern(innerBounds.max.x - innerBounds.min.x + 3, innerBounds.max.y - innerBounds.min.y + 3, innerBounds.max.z - innerBounds.min.z + 3)
     pattern.addMatcher(matcher)
     pattern.addMatcher(MultiShadowCategoryMatcher.ANY_OPAQUE_EXCEPT_VALVE)
     //Fill inner part with -1 being air or ignored
