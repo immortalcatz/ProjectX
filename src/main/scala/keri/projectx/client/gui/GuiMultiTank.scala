@@ -9,8 +9,6 @@ package keri.projectx.client.gui
 import java.text.DecimalFormat
 
 import codechicken.lib.colour.EnumColour
-import codechicken.lib.render.RenderUtils
-import codechicken.lib.vec.Rectangle4i
 import keri.ninetaillib.lib.gui.GuiContainerBase
 import keri.ninetaillib.lib.math.{IPositionProvider, Point2i}
 import keri.projectx.container.ContainerMultitank
@@ -37,6 +35,5 @@ class GuiMultiTank(inventory: InventoryPlayer, multiTank: MultiTank) extends Gui
 
     val fluidStored = s"${format.format(multiTank.tank.getFluidAmount.toDouble / 1000)} B / ${format.format(multiTank.tank.getCapacity.toDouble / 1000)} B"
     fontRendererObj.drawString(fluidStored, 10, 80, EnumColour.WHITE.rgb())
-    RenderUtils.renderFluidGauge(multiTank.tank.getFluid, new Rectangle4i(24, 24, 25, 83), 16, 16)
   }
 }

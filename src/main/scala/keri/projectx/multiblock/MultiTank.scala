@@ -53,7 +53,7 @@ case class MultiTank(worldExt: ProjectXWorldExtension, chunkExt: ProjectXChunkEx
   override def onActivated(blockPos: BlockPos, player: EntityPlayer): Int = {
     world.getTileEntity(blockPos) match {
       case tile: TileMultiBlock => if (tile.formedMultiBlocks.size() > 1) return 2
-        player.openGui(ProjectX.INSTANCE, ProjectXGuiHandler.MULTI_TANK, world, blockPos.getX, blockPos.getY, blockPos.getZ)
+        player.openGui(ProjectX.INSTANCE, ProjectXGuiHandler.GUIID_MULTI_TANK, world, blockPos.getX, blockPos.getY, blockPos.getZ)
         return 1
       case _ =>
     }

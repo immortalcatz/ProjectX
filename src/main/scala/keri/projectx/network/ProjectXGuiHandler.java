@@ -27,7 +27,8 @@ public class ProjectXGuiHandler implements IGuiHandler {
     public static final int GUIID_BASE = 0;
     public static final int GUIID_FABRICATOR = GUIID_BASE + 0;
     public static final int GUIID_MANUAL = GUIID_BASE + 1;
-    public static final int MULTI_TANK = GUIID_BASE + 2;
+    public static final int GUIID_MULTI_TANK = GUIID_BASE + 2;
+    public static final int GUIID_ENGINEERING_TABLE = GUIID_BASE + 3;
 
     @Nullable
     @Override
@@ -38,9 +39,9 @@ public class ProjectXGuiHandler implements IGuiHandler {
                 return new ContainerFabricator(player.inventory, tileFabricator);
             case GUIID_MANUAL:
                 return new ContainerDummy();
-            case MULTI_TANK:
-                TileMultiBlock tile = (TileMultiBlock) world.getTileEntity(new BlockPos(x, y, z));
-                return new ContainerMultitank(player.inventory, (MultiTank) tile.getTank(0).get());
+            case GUIID_MULTI_TANK:
+                TileMultiBlock tileMultiTank = (TileMultiBlock) world.getTileEntity(new BlockPos(x, y, z));
+                return new ContainerMultitank(player.inventory, (MultiTank)tileMultiTank.getTank(0).get());
         }
         return null;
     }
@@ -54,10 +55,9 @@ public class ProjectXGuiHandler implements IGuiHandler {
                 return new GuiFaricator(player.inventory, tileFabricator);
             case GUIID_MANUAL:
                 return new GuiManual();
-            case MULTI_TANK:
+            case GUIID_MULTI_TANK:
                 TileMultiBlock tileMultiBlock = (TileMultiBlock) world.getTileEntity(new BlockPos(x, y, z));
                 return new GuiMultiTank(player.inventory, (MultiTank) tileMultiBlock.getTank(0).get());
-
         }
         return null;
     }
