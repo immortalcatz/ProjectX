@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2017 KitsuneAlex & Adam8234. All rights reserved!
- * Do not destribute or redistribute this software without the
- * explicit permission of the developer!
+ * Do not distribute or redistribute without the explicit permission
+ * of the developer!
  */
 
 package keri.projectx.block;
@@ -22,6 +22,9 @@ import keri.projectx.api.block.IDiagnoseableBlock;
 import keri.projectx.api.block.IWrenchableBlock;
 import keri.projectx.event.CommonEventHandler;
 import keri.projectx.init.ProjectXContent;
+import keri.projectx.integration.albedo.AlbedoLight;
+import keri.projectx.integration.albedo.AlbedoLightHandler;
+import keri.projectx.integration.albedo.IntegrationAlbedo;
 import keri.projectx.tile.TileEntityXycroniumLight;
 import keri.projectx.util.CommonUtils;
 import keri.projectx.util.ModPrefs;
@@ -115,14 +118,28 @@ public class BlockXycroniumLight extends BlockAnimationHandler<TileEntityXycroni
     @Override
     @SuppressWarnings("deprecation")
     public void neighborChanged(IBlockState state, World world, BlockPos pos, Block block, BlockPos fromPos) {
+        TileEntityXycroniumLight tile = (TileEntityXycroniumLight)world.getTileEntity(pos);
+
         if(this.getMetaFromState(state) == 0){
             if(world.isBlockPowered(pos)){
                 BlockAccessUtils.setBlockMetadata(world, pos, 1, 3);
+
+                if(IntegrationAlbedo.IS_AVAILABLE){
+                    if(!world.isRemote && tile != null){
+                        AlbedoLightHandler.INSTANCE.sendAddLightPacket(pos, new AlbedoLight(Vector3.fromBlockPos(pos), tile.getColor(), 4.6F));
+                    }
+                }
             }
         }
         else{
             if(!world.isBlockPowered(pos)){
                 BlockAccessUtils.setBlockMetadata(world, pos, 0, 3);
+
+                if(IntegrationAlbedo.IS_AVAILABLE){
+                    if(!world.isRemote){
+                        AlbedoLightHandler.INSTANCE.sendRemoveLightPacket(pos);
+                    }
+                }
             }
         }
     }
@@ -142,11 +159,23 @@ public class BlockXycroniumLight extends BlockAnimationHandler<TileEntityXycroni
         if(this.getMetaFromState(state) == 0){
             if(world.isBlockPowered(pos)){
                 BlockAccessUtils.setBlockMetadata(world, pos, 1, 3);
+
+                if(IntegrationAlbedo.IS_AVAILABLE){
+                    if(!world.isRemote && tile != null){
+                        AlbedoLightHandler.INSTANCE.sendAddLightPacket(pos, new AlbedoLight(Vector3.fromBlockPos(pos), tile.getColor(), 4.6F));
+                    }
+                }
             }
         }
         else{
             if(!world.isBlockPowered(pos)){
                 BlockAccessUtils.setBlockMetadata(world, pos, 0, 3);
+
+                if(IntegrationAlbedo.IS_AVAILABLE){
+                    if(!world.isRemote){
+                        AlbedoLightHandler.INSTANCE.sendRemoveLightPacket(pos);
+                    }
+                }
             }
         }
     }
@@ -171,6 +200,10 @@ public class BlockXycroniumLight extends BlockAnimationHandler<TileEntityXycroni
                         ItemUtils.dropItem(world, pos, stack);
                     }
                 }
+            }
+
+            if(IntegrationAlbedo.IS_AVAILABLE){
+                AlbedoLightHandler.INSTANCE.sendRemoveLightPacket(pos);
             }
         }
     }
@@ -214,6 +247,10 @@ public class BlockXycroniumLight extends BlockAnimationHandler<TileEntityXycroni
 
             ItemUtils.dropItem(world, pos, stack);
             world.setBlockToAir(pos);
+
+            if(IntegrationAlbedo.IS_AVAILABLE){
+                AlbedoLightHandler.INSTANCE.sendRemoveLightPacket(pos);
+            }
         }
     }
 
@@ -258,6 +295,10 @@ public class BlockXycroniumLight extends BlockAnimationHandler<TileEntityXycroni
             tile.setColor(color);
             tile.markDirty();
             tile.sendUpdatePacket(true);
+
+            if(IntegrationAlbedo.IS_AVAILABLE){
+                AlbedoLightHandler.INSTANCE.sendChangeLightColorPacket(pos, tile.getColor());
+            }
         }
     }
 

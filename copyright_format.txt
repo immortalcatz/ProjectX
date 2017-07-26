@@ -1,0 +1,3 @@
+Copyright (c) $today.year KitsuneAlex & Adam8234. All rights reserved!
+Do not distribute or redistribute without the explicit permission
+of the developer!

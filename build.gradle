@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2017 KitsuneAlex & Adam8234. All rights reserved!
- * Do not destribute or redistribute this software without the
- * explicit permission of the developer!
+ * Do not distribute or redistribute without the explicit permission
+ * of the developer!
  */
 
 buildscript {
@@ -39,6 +39,10 @@ repositories {
         name "tterag's Maven"
         url "http://maven.tterrag.com"
     }
+    maven {
+        name "Elytradev Maven"
+        url 'https://repo.elytradev.com/'
+    }
 }
 
 apply plugin: 'net.minecraftforge.gradle.forge'
@@ -71,6 +75,7 @@ dependencies {
 	deobfCompile "cofh:ThermalExpansion:1.11.2-5.2.4.8:deobf"
     deobfCompile "team.chisel.ctm:CTM:MC1.11.2-0.1.1.7"
     deobfCompile "team.chisel:Chisel:MC1.11.2-0.0.11.18"
+    deobfCompile "elucent:albedo:1.0-SNAPSHOT"
 }
 
 processResources {
