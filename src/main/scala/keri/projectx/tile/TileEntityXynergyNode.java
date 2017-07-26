@@ -11,18 +11,35 @@ import com.google.common.collect.Lists;
 import keri.projectx.ProjectX;
 import keri.projectx.api.energy.*;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.Collection;
 import java.util.List;
 
-public class TileEntityXynergyNode extends TileEntityProjectX implements IXynergyHandler, IXynergyConnector {
+public class TileEntityXynergyNode extends TileEntityProjectX implements IXynergyHandler, IXynergyConnector, ITickable {
 
     private XynergyBuffer xynergyBuffer = new XynergyBuffer();
     private EnumXynergyClass xynergyClass = EnumXynergyClass.LOW;
     private EnumXynergyType xynergyType = EnumXynergyType.STRAIGHT;
     private boolean hasCore = false;
     private List<BlockPos> connectedDevices = Lists.newArrayList();
+    private boolean hasChanged = false;
+
+    @Override
+    public void update() {
+        if(!world.isRemote){
+            if(this.hasChanged){
+                for(BlockPos connection : this.connectedDevices){
+                    if(world.getBlockState(connection) == null || world.getTileEntity(connection) == null){
+                        this.connectedDevices.remove(connection);
+                    }
+                }
+
+                this.hasChanged = false;
+            }
+        }
+    }
 
     @Override
     public void readFromNBT(NBTTagCompound tag) {
@@ -41,6 +58,8 @@ public class TileEntityXynergyNode extends TileEntityProjectX implements IXynerg
             int posZ = connectedDevicesZ[index];
             this.connectedDevices.add(new BlockPos(posX, posY, posZ));
         }
+
+        this.hasChanged = tag.getBoolean("has_changed");
     }
 
     @Override
@@ -64,6 +83,7 @@ public class TileEntityXynergyNode extends TileEntityProjectX implements IXynerg
         tag.setIntArray("connected_devices_x", connectedDevicesX);
         tag.setIntArray("connected_devices_y", connectedDevicesY);
         tag.setIntArray("connected_devices_z", connectedDevicesZ);
+        tag.setBoolean("has_changed", this.hasChanged);
         return tag;
     }
 
@@ -97,6 +117,12 @@ public class TileEntityXynergyNode extends TileEntityProjectX implements IXynerg
         return this.connectedDevices;
     }
 
+    @Override
+    public void invalidate(){
+        this.connectedDevices.forEach(this::removeDevice);
+        super.invalidate();
+    }
+
     public EnumXynergyClass getXynergyClass() {
         return this.xynergyClass;
     }
@@ -125,11 +151,13 @@ public class TileEntityXynergyNode extends TileEntityProjectX implements IXynerg
     public void addDevice(BlockPos pos){
         this.connectedDevices.add(pos);
         this.sendAddDevicePacket(pos);
+        this.hasChanged = true;
     }
 
     public void removeDevice(BlockPos pos){
         this.connectedDevices.remove(pos);
         this.sendRemoveDevicePacket(pos);
+        this.hasChanged = true;
     }
 
     private void sendAddDevicePacket(BlockPos pos){
