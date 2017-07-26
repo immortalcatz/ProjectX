@@ -8,6 +8,7 @@ package keri.projectx.network;
 
 import codechicken.lib.packet.ICustomPacketHandler;
 import codechicken.lib.packet.PacketCustom;
+import keri.projectx.client.event.XynergyRenderingHandler;
 import keri.projectx.data.ProjectXWorldExtensionInstantiator;
 import keri.projectx.tile.TTilePacketHandler;
 import keri.projectx.tile.TileEntityInventoryProjectX;
@@ -38,6 +39,13 @@ public class ProjectXCPH implements ICustomPacketHandler.IClientPacketHandler {
                 break;
             case 5:
                 this.handleTTilePacketHandler(packet, minecraft.world);
+                break;
+            case 6:
+                this.handleAddDevicePacket(packet, minecraft.world);
+                break;
+            case 7:
+                this.handleRemoveDevicePacket(packet, minecraft.world);
+                break;
         }
     }
 
@@ -82,6 +90,18 @@ public class ProjectXCPH implements ICustomPacketHandler.IClientPacketHandler {
 
     private void handleWEMultiblockUpdatePacket(PacketCustom packet, WorldClient world) {
         ProjectXWorldExtensionInstantiator.getExtensionX(world).handleMultiBlockUpdate(packet);
+    }
+
+    private void handleAddDevicePacket(PacketCustom packet, WorldClient world){
+        final BlockPos masterPos = packet.readPos();
+        final BlockPos slavePos = packet.readPos();
+        XynergyRenderingHandler.INSTANCE.addDevice(masterPos, slavePos);
+    }
+
+    private void handleRemoveDevicePacket(PacketCustom packet, WorldClient world){
+        final BlockPos masterPos = packet.readPos();
+        final BlockPos slavePos = packet.readPos();
+        XynergyRenderingHandler.INSTANCE.removeDevice(masterPos, slavePos);
     }
 
 }

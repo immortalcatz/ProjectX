@@ -124,10 +124,12 @@ public class TileEntityXynergyNode extends TileEntityProjectX implements IXynerg
 
     public void addDevice(BlockPos pos){
         this.connectedDevices.add(pos);
+        this.sendAddDevicePacket(pos);
     }
 
     public void removeDevice(BlockPos pos){
         this.connectedDevices.remove(pos);
+        this.sendRemoveDevicePacket(pos);
     }
 
     private void sendAddDevicePacket(BlockPos pos){
@@ -139,7 +141,9 @@ public class TileEntityXynergyNode extends TileEntityProjectX implements IXynerg
 
     private void sendRemoveDevicePacket(BlockPos pos){
         PacketCustom packet = new PacketCustom(ProjectX.INSTANCE, 7);
-        packet.write
+        packet.writePos(this.pos);
+        packet.writePos(pos);
+        packet.compress().sendToClients();
     }
 
 }
