@@ -40,10 +40,9 @@ abstract class GuiGeneric(container: Container) extends GuiContainerBase(contain
     GL11.glTranslatef(-guiLeft, -guiTop, 0.0F)
   }
 
-  private def drawBackgroundSlots(): Unit = {
+  def drawBackgroundSlots(): Unit = {
     val slots = container.inventorySlots
-    for (slot <- slots.asScala)
-      drawSlot(slot)
+    slots.asScala.foreach(slot => drawSlot(slot))
   }
 
   private def drawSlot(slot: Slot): Unit = {

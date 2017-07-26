@@ -38,7 +38,7 @@ class BlockFabricator extends BlockAnimationHandler[TileEntityFabricator]("fabri
     this.texture(2) = register.registerIcon(ModPrefs.MODID + ":blocks/machine/machine_bottom")
   }
 
-  override def registerTileEntities(): Unit = GameRegistry.registerTileEntity(classOf[TileEntityFabricator], "tile." + ModPrefs.MODID + ".fabricator")
+  override def registerTileEntities(): Unit = GameRegistry.registerTileEntity(classOf[TileEntityFabricator], "tile." + ModPrefs.MODID + ".fabricator_crafter")
 
   override def createNewTileEntity(world: World, meta: Int): TileEntityFabricator = new TileEntityFabricator
 
@@ -57,5 +57,6 @@ class BlockFabricator extends BlockAnimationHandler[TileEntityFabricator]("fabri
   override def getAnimationBrightness(stack: ItemStack, side: Int): Int = 0x00F000F0
 
   override def getAnimationBrightness(world: IBlockAccess, pos: BlockPos, side: Int): Int = 0x00F000F0
-
+  override def isFullCube(state: IBlockState): Boolean = false
+  override def isOpaqueCube(state: IBlockState): Boolean = false
 }

@@ -50,23 +50,14 @@ class BlockTankValve extends BlockAnimationHandler[TileEntityTankValve]("valve",
     texture = register.registerIcon(s"${ModPrefs.MODID}:blocks/machine/tank_valve")
   }
 
-  @SideOnly(Side.CLIENT)
   override def getIcon(meta: Int, side: EnumFacing): TextureAtlasSprite = texture
-  @SideOnly(Side.CLIENT)
   override def getIcon(world: IBlockAccess, pos: BlockPos, side: EnumFacing): TextureAtlasSprite = texture
-  @SideOnly(Side.CLIENT)
   override def getAnimationIcon(stack: ItemStack, side: Int): TextureAtlasSprite = ProjectX.PROXY.getAnimatedTexture
-  @SideOnly(Side.CLIENT)
   override def getAnimationIcon(world: IBlockAccess, pos: BlockPos, side: Int): TextureAtlasSprite = ProjectX.PROXY.getAnimatedTexture
-  @SideOnly(Side.CLIENT)
   override def getAnimationColor(stack: ItemStack, side: Int): Int = EnumXycroniumColor.BLUE.getColor.rgba()
-  @SideOnly(Side.CLIENT)
   override def getAnimationColor(world: IBlockAccess, pos: BlockPos, side: Int): Int = EnumXycroniumColor.BLUE.getColor.rgba()
-  @SideOnly(Side.CLIENT)
   override def getAnimationBrightness(stack: ItemStack, side: Int): Int = 220
-  @SideOnly(Side.CLIENT)
   override def getAnimationBrightness(world: IBlockAccess, pos: BlockPos, side: Int): Int = 220
-
   @SideOnly(Side.CLIENT)
   override def getRenderType(state: IBlockState): EnumBlockRenderType = RenderBlockBeveled.RENDER_TYPE
 

@@ -34,14 +34,12 @@ case class Menu(gui: GuiGeneric, x: Int, y: Int) {
     //Bottom
     gui.drawTexturedModalRect(x - 35, y + 33 + 24 * (menuItems.length - 1), 222, 21, 34, 5)
     //Back
-    for (i <- menuItems.indices) {
+    menuItems.indices.foreach(i => {
       gui.drawTexturedModalRect(x - 35, y + 11 + 24 * i, 222, 2, 34, 22)
       gui.drawTexturedModalRect(x - 35, y + 33 + 24 * i, 222, 2, 34, 2)
-    }
+    })
     //Button
-    for (i <- menuItems.indices) {
-      gui.drawButton(this.x - 29, this.y + 11 + 24 * i, menuItems(i).icon, menuItems(i).resourceAction, i == selected)
-    }
+    menuItems.indices.foreach(i => gui.drawButton(this.x - 29, this.y + 11 + 24 * i, menuItems(i).icon, menuItems(i).resourceAction, i == selected))
   }
 
   def mouseClicked(mouse: (Int, Int), button: Int): Unit = {

@@ -15,11 +15,13 @@ import keri.projectx.client.event.MultiBlockOverlayRenderer$;
 import keri.projectx.client.playereffect.PlayerEffects;
 import keri.projectx.client.render.AnimatedTextureFX;
 import keri.projectx.client.render.tesr.TESREngineeringTable;
+import keri.projectx.client.render.tesr.TESRFabricator;
 import keri.projectx.client.render.tesr.TESRXynergyNode;
 import keri.projectx.featurehack.FeatureHack;
 import keri.projectx.integration.IntegrationHandler;
 import keri.projectx.network.ProjectXCPH;
 import keri.projectx.tile.TileEntityEngineeringTable;
+import keri.projectx.tile.TileEntityFabricator;
 import keri.projectx.tile.TileEntityXynergyNode;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraftforge.common.MinecraftForge;
@@ -35,7 +37,7 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void preInit(FMLPreInitializationEvent event) {
         super.preInit(event);
-        int animatinResolution = (Integer)ProjectX.CONFIG.getProperty("animationResolution").getValue();
+        int animatinResolution = (Integer) ProjectX.CONFIG.getProperty("animationResolution").getValue();
         ANIMATED_TEXTURE = new AnimatedTextureFX(animatinResolution);
         ProjectX.MOD_HANDLER.handleClientPreInit(event);
         MinecraftForge.EVENT_BUS.register(ClientEventHandler.INSTANCE);
@@ -73,8 +75,8 @@ public class ClientProxy extends CommonProxy {
         ClientEventHandler.INSTANCE.resetTooltip(tooltip, params);
     }
 
-    private void registerRenderers(){
-        //ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFabricator.class, new TESRFabricator());
+    private void registerRenderers() {
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFabricator.class, new TESRFabricator());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityXynergyNode.class, new TESRXynergyNode());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityEngineeringTable.class, new TESREngineeringTable());
     }

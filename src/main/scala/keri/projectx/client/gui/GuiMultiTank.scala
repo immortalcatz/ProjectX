@@ -39,6 +39,4 @@ class GuiMultiTank(inventory: InventoryPlayer, multiTank: MultiTank) extends Gui
     fontRendererObj.drawString(fluidStored, 10, 80, EnumColour.WHITE.rgb())
     RenderUtils.renderFluidGauge(multiTank.tank.getFluid, new Rectangle4i(24, 24, 25, 83), 16, 16)
   }
-
-
 }
