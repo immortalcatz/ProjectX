@@ -93,12 +93,29 @@ public class ItemXynergyTool extends ItemProjectX {
 
     private EnumActionResult link(World world, BlockPos pos, EntityPlayer player, EnumFacing side, EnumHand hand){
         IBlockState state = world.getBlockState(pos);
+        ItemStack heldItem = player.getHeldItem(hand);
 
         if(state != null && state.getBlock() instanceof ILinkableBlock){
             ILinkableBlock block = (ILinkableBlock)state.getBlock();
 
             if(block.canLink(world, pos, player, side, hand)){
-                block.onLinked(world, pos, player, side, hand);
+                ItemNBTUtils.validateTagExists(heldItem);
+
+                if(heldItem.getTagCompound().getInteger("link_state") == 0){
+                    heldItem.getTagCompound().setInteger("link_pos_x", pos.getX());
+                    heldItem.getTagCompound().setInteger("link_pos_y", pos.getY());
+                    heldItem.getTagCompound().setInteger("link_pos_z", pos.getZ());
+                    block.onLinked(world, pos, player, side, hand, pos);
+                    heldItem.getTagCompound().setInteger("link_state", 1);
+                }
+                else if(heldItem.getTagCompound().getInteger("link_state") == 1){
+                    int linkX = heldItem.getTagCompound().getInteger("link_pos_x");
+                    int linkY = heldItem.getTagCompound().getInteger("link_pos_x");
+                    int linkZ = heldItem.getTagCompound().getInteger("link_pos_x");
+                    block.onLinked(world, pos, player, side, hand, new BlockPos(linkX, linkY, linkZ));
+                    heldItem.getTagCompound().setInteger("link_state", 0);
+                }
+
                 return EnumActionResult.SUCCESS;
             }
             else{

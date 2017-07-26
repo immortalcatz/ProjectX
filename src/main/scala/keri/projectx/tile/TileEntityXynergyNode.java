@@ -6,7 +6,9 @@
 
 package keri.projectx.tile;
 
+import codechicken.lib.packet.PacketCustom;
 import com.google.common.collect.Lists;
+import keri.projectx.ProjectX;
 import keri.projectx.api.energy.*;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
@@ -67,16 +69,12 @@ public class TileEntityXynergyNode extends TileEntityProjectX implements IXynerg
 
     @Override
     public void extractEnergy(int amount) {
-        if(this.hasCore){
-            this.xynergyBuffer.extractEnergy(amount);
-        }
+        this.xynergyBuffer.extractEnergy(amount);
     }
 
     @Override
     public void receiveEnergy(int amount) {
-        if(this.hasCore){
-            this.xynergyBuffer.receiveEnergy(amount);
-        }
+        this.xynergyBuffer.receiveEnergy(amount);
     }
 
     @Override
@@ -91,7 +89,7 @@ public class TileEntityXynergyNode extends TileEntityProjectX implements IXynerg
 
     @Override
     public boolean canConnectEnergy() {
-        return true;
+        return this.hasCore;
     }
 
     @Override
@@ -122,6 +120,26 @@ public class TileEntityXynergyNode extends TileEntityProjectX implements IXynerg
 
     public void setHasCore(boolean hasCore) {
         this.hasCore = hasCore;
+    }
+
+    public void addDevice(BlockPos pos){
+        this.connectedDevices.add(pos);
+    }
+
+    public void removeDevice(BlockPos pos){
+        this.connectedDevices.remove(pos);
+    }
+
+    private void sendAddDevicePacket(BlockPos pos){
+        PacketCustom packet = new PacketCustom(ProjectX.INSTANCE, 6);
+        packet.writePos(this.pos);
+        packet.writePos(pos);
+        packet.compress().sendToClients();
+    }
+
+    private void sendRemoveDevicePacket(BlockPos pos){
+        PacketCustom packet = new PacketCustom(ProjectX.INSTANCE, 7);
+        packet.write
     }
 
 }

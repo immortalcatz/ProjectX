@@ -16,6 +16,6 @@ public interface ILinkableBlock {
 
     boolean canLink(World world, BlockPos pos, EntityPlayer player, EnumFacing side, EnumHand hand);
 
-    void onLinked(World world, BlockPos pos, EntityPlayer player, EnumFacing side, EnumHand hand);
+    void onLinked(World world, BlockPos pos, EntityPlayer player, EnumFacing side, EnumHand hand, BlockPos linkPos);
 
 }

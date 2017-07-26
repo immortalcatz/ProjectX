@@ -175,12 +175,24 @@ public class BlockXynergyNode extends BlockProjectX implements IWrenchableBlock,
 
     @Override
     public boolean canLink(World world, BlockPos pos, EntityPlayer player, EnumFacing side, EnumHand hand) {
+        TileEntityXynergyNode tile = (TileEntityXynergyNode)world.getTileEntity(pos);
+
+        if(tile != null){
+            return tile.getHasCore();
+        }
+
         return false;
     }
 
     @Override
-    public void onLinked(World world, BlockPos pos, EntityPlayer player, EnumFacing side, EnumHand hand) {
+    public void onLinked(World world, BlockPos pos, EntityPlayer player, EnumFacing side, EnumHand hand, BlockPos linkPos) {
+        TileEntityXynergyNode tile = (TileEntityXynergyNode)world.getTileEntity(pos);
 
+        if(tile != null && !world.isRemote && linkPos != pos){
+            tile.addDevice(linkPos);
+            tile.markDirty();
+            tile.sendUpdatePacket(false);
+        }
     }
 
     @Override
@@ -189,8 +201,7 @@ public class BlockXynergyNode extends BlockProjectX implements IWrenchableBlock,
     }
 
     @Override
-    public void onDiagnosed(World world, BlockPos pos, EntityPlayer player, EnumFacing side, EnumHand hand) {
-    }
+    public void onDiagnosed(World world, BlockPos pos, EntityPlayer player, EnumFacing side, EnumHand hand) {}
 
     @Override
     public void addDiagnosticInformation(World world, BlockPos pos, EntityPlayer player, List<String> tooltip) {
