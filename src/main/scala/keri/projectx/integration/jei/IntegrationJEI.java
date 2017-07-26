@@ -10,7 +10,9 @@ import keri.projectx.init.ProjectXContent;
 import mezz.jei.api.*;
 import mezz.jei.api.ingredients.IModIngredientRegistration;
 import mezz.jei.api.recipe.IRecipeCategoryRegistration;
+import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 
 @JEIPlugin
 public class IntegrationJEI implements IModPlugin {
@@ -37,11 +39,12 @@ public class IntegrationJEI implements IModPlugin {
 
     @Override
     public void register(IModRegistry registry) {
-
+        registry.getRecipeTransferRegistry().addRecipeTransferHandler(new FabricatorRecipeTransferInfo());
+        registry.addRecipeCategoryCraftingItem(new ItemStack(ProjectXContent.FABRICATOR, 1, 0), VanillaRecipeCategoryUid.CRAFTING);
     }
 
     @Override
-    public void onRuntimeAvailable(IJeiRuntime jeiRuntime) {
+    public void onRuntimeAvailable(IJeiRuntime runtime) {
 
     }
 

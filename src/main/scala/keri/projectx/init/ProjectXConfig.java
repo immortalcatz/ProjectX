@@ -81,7 +81,7 @@ public class ProjectXConfig {
         properties.addProperty(INTEGRATION_TF_K, new ConfigBoolean(INTEGRATION_TF_K, INTEGRATION_TF_D, CATEGORY_INTEGRATION_N, true));
         properties.addProperty(INTEGRATION_CHISEL_K, new ConfigBoolean(INTEGRATION_CHISEL_K, INTEGRATION_CHISEL_D, CATEGORY_INTEGRATION_N, true));
         properties.addProperty(INTEGRATION_TIC_K, new ConfigBoolean(INTEGRATION_TIC_K, INTEGRATION_TIC_D, CATEGORY_INTEGRATION_N, true));
-        properties.addProperty(INTEGRATION_ALBEDO_K, new ConfigBoolean(INTEGRATION_ALBEDO_K, INTEGRATION_ALBEDO_D, CATEGORY_INTEGRATION_N, true));
+        properties.addProperty(INTEGRATION_ALBEDO_K, new ConfigBoolean(INTEGRATION_ALBEDO_K, INTEGRATION_ALBEDO_D, CATEGORY_INTEGRATION_N, false));
         properties.addProperty(ORE_GEN_WEIGHT_K, new ConfigInteger(ORE_GEN_WEIGHT_K, ORE_GEN_WEIGHT_C, CATEGORY_WORLD_N, 1, 0, 10));
         properties.addProperty(XYCRONIUM_ORE_BLUE_K, new ConfigIntArray(XYCRONIUM_ORE_BLUE_K, CATEGORY_WORLD_N, XYCRONIUM_ORE_BLUE_C, new int[]{3, 20, 52, 4, 8}));
         properties.addProperty(XYCRONIUM_ORE_GREEN_K, new ConfigIntArray(XYCRONIUM_ORE_GREEN_K, CATEGORY_WORLD_N, XYCRONIUM_ORE_GREEN_C, new int[]{3, 20, 52, 4, 8}));

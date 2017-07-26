@@ -22,11 +22,11 @@ public class ContainerFabricator extends ContainerExtended {
 
     private InventoryPlayer inventoryPlayer;
     private TileEntityFabricator tile;
+    private int playerInventoryStart = -1;
 
     public ContainerFabricator(InventoryPlayer inventoryPlayer, TileEntityFabricator tile) {
         this.inventoryPlayer = inventoryPlayer;
         this.tile = tile;
-        this.bindPlayerInventory(inventoryPlayer, 8, 93);
 
         for (int x = 0; x < 3; x++) {
             for (int y = 0; y < 3; y++) {
@@ -64,11 +64,19 @@ public class ContainerFabricator extends ContainerExtended {
                 this.addSlotToContainer(new Slot(tile, index, posX, posY));
             }
         }
+
+        int start = this.inventorySlots.size();
+        this.bindPlayerInventory(inventoryPlayer, 8, 93);
+        this.playerInventoryStart = start;
     }
 
     @Override
     public boolean canInteractWith(EntityPlayer player) {
         return this.tile.isUsableByPlayer(player);
+    }
+
+    public int getPlayerInventoryStart(){
+        return this.playerInventoryStart;
     }
 
 }
