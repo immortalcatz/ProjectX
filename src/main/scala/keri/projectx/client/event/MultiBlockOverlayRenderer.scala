@@ -32,6 +32,8 @@ object MultiBlockOverlayRenderer extends IIconRegister {
   @SideOnly(Side.CLIENT)
   @SubscribeEvent
   def onDrawBlockHighlight(event: DrawBlockHighlightEvent): Unit = {
+    stareTracker.update(event.getTarget)
+
     val target = event.getTarget
     val world = Minecraft.getMinecraft.world
     if (target.typeOfHit == RayTraceResult.Type.BLOCK) {
@@ -45,7 +47,7 @@ object MultiBlockOverlayRenderer extends IIconRegister {
           val interpPosZ: Double = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * event.getPartialTicks
           GL11.glTranslated(-interpPosX, -interpPosY, -interpPosZ)
 
-          stareTracker.update(event.getTarget)
+
           val alpha: Float = 1.0F - stareTracker.getStareTime / 100.0f
 
           GlStateManager.color(1, 1, 1, alpha)

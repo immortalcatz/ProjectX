@@ -9,7 +9,7 @@ package keri.projectx.data
 import codechicken.lib.packet.PacketCustom
 import codechicken.lib.world.WorldExtension
 import keri.projectx.ProjectX
-import keri.projectx.multiblock.{Multiblock, MultiblockManager, MultiblockType}
+import keri.projectx.multiblock.{MultiBlock, MultiBlockType, MultiBlockUtils}
 import net.minecraft.util.math.ChunkPos
 import net.minecraft.world.World
 import net.minecraftforge.fml.relauncher.{Side, SideOnly}
@@ -18,55 +18,41 @@ import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 
 class ProjectXWorldExtension(worldObj: World) extends WorldExtension(worldObj) {
-  val dim = world.provider.getDimension
-  val chunkPackets = new ArrayBuffer[ProjectXChunkExtension]()
-  private val multiBlocks = new mutable.HashMap[Int, Multiblock]()
-  private val unloadedMultiBlocks = new mutable.HashSet[Multiblock]()
-  private var multiBlockId = 1
-  private var creatingClientSideMultiBlock = false
+  val dimension_id: Int = world.provider.getDimension
+  val requested_chunk_packets = new ArrayBuffer[ProjectXChunkExtension]()
+  private val multi_blocks = new mutable.HashMap[Int, MultiBlock]()
+  private val shelved_multi_blocks = new mutable.HashSet[MultiBlock]()
+  private var current_multi_block_id: Int = 1
+  private var creating_client_side_multi_block: Boolean = false
 
   def nextAvailableMultiBlockId: Int = {
-    if (!creatingClientSideMultiBlock && worldObj.isRemote)
+    if (!creating_client_side_multi_block && worldObj.isRemote)
       throw new IllegalStateException("You cannot instantiate a Multiblock on the client side, bad kitty, *squirt*")
-    val ret = multiBlockId
-    multiBlockId += 1
+    val ret = current_multi_block_id
+    current_multi_block_id += 1
     ret
   }
 
   override def postTick(): Unit = {
-    chunkPackets.foreach(_.sendUpdatePackets())
-    chunkPackets.clear()
+    requested_chunk_packets.foreach(_.sendUpdatePackets())
+    requested_chunk_packets.clear()
 
-    unloadedMultiBlocks.filter(multiBlock => {
-      multiBlock.chunksLoaded()
-    }).foreach(multiBlock => {
-      addMultiBlock(multiBlock)
-      unloadedMultiBlocks.remove(multiBlock)
-    })
+    shelved_multi_blocks
+      .filter(_.chunksLoaded())
+      .foreach(multiBlock => {
+        addMultiBlock(multiBlock)
+        shelved_multi_blocks.remove(multiBlock)
+      })
   }
-
-  @SideOnly(Side.CLIENT)
-  def handleDescriptionPacket(packet: PacketCustom): Unit = {
-    multiBlockId = packet.readInt()
-    creatingClientSideMultiBlock = true
-    val multiblock = MultiblockManager.createMultiBlock(
-      MultiblockType.values()(packet.readInt()),
-      this,
-      getChunkExtension(packet.readInt(), packet.readInt()).asInstanceOf[ProjectXChunkExtension])
-    creatingClientSideMultiBlock = false
-    multiblock.handleDescriptionPacket(packet)
-    addMultiBlock(multiblock)
-  }
-
-  def addMultiBlock(multiBlock: Multiblock): Unit = {
-    if (multiBlocks.get(multiBlock.id).isDefined) {
+  def addMultiBlock(multiBlock: MultiBlock): Unit = {
+    if (multi_blocks.get(multiBlock.id).isDefined) {
       println("MultiBlock already exists")
       return
     }
 
     //Fixes the issue with chunks not being loaded, allowing the multiblock to fail initialization on the client.
     if (!multiBlock.chunksLoaded()) {
-      unloadMutliBlock(multiBlock)
+      shelveMultiBlock(multiBlock)
       return
     }
 
@@ -82,17 +68,17 @@ class ProjectXWorldExtension(worldObj: World) extends WorldExtension(worldObj) {
       getChunkExtension(chunk).addMultiBlock(multiBlock)
 
     //Put the multiblock with its id and the mulitblock itself.
-    multiBlocks.put(multiBlock.id, multiBlock)
+    multi_blocks.put(multiBlock.id, multiBlock)
 
-    if (!world.isRemote)
+    if (!world.isRemote) {
       multiBlock.getChunkExt.sendMultiBlockPacket(multiBlock.getDescriptionPacket())
+    }
   }
-
-  def unloadMutliBlock(multiBlock: Multiblock): Unit = {
-    if (multiBlock.isValid && multiBlocks.remove(multiBlock.id).isEmpty) {
+  def shelveMultiBlock(multiBlock: MultiBlock): Unit = {
+    if (multiBlock.isValid && multi_blocks.remove(multiBlock.id).isEmpty) {
       return
     }
-    unloadedMultiBlocks += multiBlock
+    shelved_multi_blocks += multiBlock
     if (multiBlock.isValid) {
       multiBlock.inChunks.foreach(coord => {
         if (coord.eq(multiBlock.getChunkExt.coord)) {
@@ -101,58 +87,64 @@ class ProjectXWorldExtension(worldObj: World) extends WorldExtension(worldObj) {
       })
       if (!world.isRemote) {
         val packet = new PacketCustom(ProjectX.INSTANCE, 3)
-        packet.writeInt(dim)
+        packet.writeInt(dimension_id)
         packet.writeInt(multiBlock.id)
         multiBlock.getChunkExt.sendPacketToPlayers(packet.toPacket)
       }
     }
   }
-  
-  def getChunkExtension(chunkPos: ChunkPos): ProjectXChunkExtension = getChunkExtension(chunkPos.chunkXPos, chunkPos.chunkZPos).asInstanceOf[ProjectXChunkExtension]
-
+  def handleDescriptionPacket(packet: PacketCustom): Unit = {
+    current_multi_block_id = packet.readInt()
+    creating_client_side_multi_block = true
+    val multiblock = MultiBlockUtils.createMultiBlock(
+      MultiBlockType.values()(packet.readInt()),
+      this,
+      getChunkExtension(new ChunkPos(packet.readInt(), packet.readInt())))
+    creating_client_side_multi_block = false
+    multiblock.handleDescriptionPacket(packet)
+    addMultiBlock(multiblock)
+  }
   @SideOnly(Side.CLIENT)
   def handleRemoveMultiBlockPacket(packet: PacketCustom): Unit = {
-    if (packet.readInt() != dim) {
+    if (packet.readInt() != dimension_id) {
       return
     }
-    val multiBlock = multiBlocks.get(packet.readInt())
-    if (multiBlock.isDefined) {
-      removeMultiBlock(multiBlock.get)
-    }
+    multi_blocks.get(packet.readInt()).foreach(removeMultiBlock)
   }
 
-  def removeMultiBlock(multiBlock: Multiblock, remove: Boolean = true): Unit = {
-    if (unloadedMultiBlocks.remove(multiBlock)) {
+  def removeMultiBlock(multiBlock: MultiBlock): Unit = removeMultiBlock(multiBlock, remove = true)
+
+  def removeMultiBlock(multiBlock: MultiBlock, remove: Boolean): Unit = {
+    if (shelved_multi_blocks.remove(multiBlock)) {
       return
     }
-    if (multiBlock.isValid && multiBlocks.remove(multiBlock.id).isEmpty) {
+
+    if (multiBlock.isValid && multi_blocks.remove(multiBlock.id).isEmpty) {
       return
     }
+
     if (multiBlock.isValid) {
       for (coord <- multiBlock.inChunks) {
-        if (coord.eq(multiBlock.getChunkExt.coord) || remove)
+        if (coord.eq(multiBlock.getChunkExt.coord) || remove) {
           getChunkExtension(coord).removeMultiBlock(multiBlock)
+        }
       }
       if (!world.isRemote && remove) {
         val packet = new PacketCustom(ProjectX.INSTANCE, 3)
-        packet.writeInt(dim)
+        packet.writeInt(dimension_id)
         packet.writeInt(multiBlock.id)
         multiBlock.getChunkExt.sendPacketToPlayers(packet.toPacket)
       }
     }
     multiBlock.unload(remove)
   }
-
+  def getChunkExtension(chunkPos: ChunkPos): ProjectXChunkExtension = getChunkExtension(chunkPos.chunkXPos, chunkPos.chunkZPos).asInstanceOf[ProjectXChunkExtension]
   @SideOnly(Side.CLIENT)
   def handleMultiBlockUpdate(packet: PacketCustom): Unit = {
     val id = packet.readInt()
-    if (multiBlocks.contains(id)) {
-      multiBlocks.get(id).exists(x => {
-        x.readFromUpdatePacket(packet)
-        true
-      })
-    }
+    multi_blocks.get(id).foreach(multiBlock => {
+      multiBlock.readFromUpdatePacket(packet)
+    })
   }
-
 
 }

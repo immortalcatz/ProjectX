@@ -7,7 +7,9 @@
 package keri.projectx.data
 
 import codechicken.lib.world.ChunkExtension
-import keri.projectx.multiblock.{Multiblock, MultiblockManager, MultiblockType}
+import keri.projectx.data.ProjectXChunkExtension._
+import keri.projectx.multiblock.{MultiBlock, MultiBlockType, MultiBlockUtils}
+import keri.projectx.util.ScalaNBTExtensions.asIterableCompound
 import net.minecraft.entity.player.EntityPlayerMP
 import net.minecraft.nbt.{NBTTagCompound, NBTTagList}
 import net.minecraft.world.chunk.Chunk
@@ -17,66 +19,53 @@ import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 
 class ProjectXChunkExtension(chunk: Chunk, worldExt: ProjectXWorldExtension) extends ChunkExtension(chunk, worldExt) {
-  private val multiBlocks = new mutable.HashSet[Multiblock]()
-  private val updateMultiBlocks = new mutable.HashSet[Multiblock]()
-  private val packetQueue = new ArrayBuffer[FMLProxyPacket]()
-  var requestedUpdatePackets = false
+  private val multi_blocks = new mutable.HashSet[MultiBlock]()
+  private val multi_block_update_queue = new mutable.HashSet[MultiBlock]()
+  private val packet_queue = new ArrayBuffer[FMLProxyPacket]()
+  var requested_packet_update = false
 
-  def addMultiBlock(multiBlock: Multiblock): Unit = {
-    multiBlocks += multiBlock
+  def getChunk: Chunk = chunk
+
+  def addMultiBlock(multiBlock: MultiBlock): Unit = {
+    multi_blocks += multiBlock
     chunk.setChunkModified()
   }
 
-  def removeMultiBlock(multiBlock: Multiblock): Unit = multiBlocks.remove(multiBlock)
+  def removeMultiBlock(multiBlock: MultiBlock): Unit = multi_blocks.remove(multiBlock)
 
-  override def sendUpdatePackets(): Unit = {
-    requestedUpdatePackets = false
-    packetQueue.foreach(sendPacketToPlayers)
-    updateMultiBlocks.foreach(multiBlock => {
-      sendPacketToPlayers(multiBlock.getUpdatePacket)
-      updateMultiBlocks -= multiBlock
-      multiBlock.requestsedUpdatePacket = false
-    })
-    packetQueue.clear()
+  override def loadData(tag: NBTTagCompound): Unit =
+    tag.getTagList(TAG_NAME, 10)
+      .map(createMultiBlockFromNBT)
+      .foreach(worldExt.shelveMultiBlock)
+  private def createMultiBlockFromNBT(tag: NBTTagCompound): MultiBlock = {
+    val multiblock = MultiBlockUtils.createMultiBlock(MultiBlockType.fromNBT(tag), worldExt, this)
+    multiblock.readFromNBT(tag)
+    multiblock
   }
-
-  def sendMultiBlockPacket(packet: FMLProxyPacket): Unit = {
-    packetQueue += packet
-    requestUpdatePacket()
-  }
-
-  def requestUpdatePacket(): Unit = {
-    worldExt.chunkPackets += this
-    requestedUpdatePackets = true
-  }
-
   override def saveData(tag: NBTTagCompound): Unit = {
-    val mulitBlockNBT = new NBTTagList
-    multiBlocks.filter(multiBlock => multiBlock.getChunkExt == this).map(multiBlock => {
-      val nbt = new NBTTagCompound
-      nbt.setInteger("multi_block_type", multiBlock.getMultiBlockType.ordinal())
-      multiBlock.writeToNBT(nbt)
-      nbt
-    }).foreach(mulitBlockNBT.appendTag)
-    tag.setTag(s"project_x_multi_blocks_version_${MultiblockVersion.VERSION}", mulitBlockNBT)
+    val tagList = new NBTTagList
+    multi_blocks
+      .filter(_.partOfChunkExt(this))
+      .map(saveMultiBlockToNBT)
+      .foreach(tagList.appendTag)
+    tag.setTag(TAG_NAME, tagList)
   }
-
-  override def loadData(tag: NBTTagCompound): Unit = {
-    val tagList = tag.getTagList(s"project_x_multi_blocks_version_${MultiblockVersion.VERSION}", 10)
-    (0 until tagList.tagCount()).map(i => {
-      val nbt = tagList.getCompoundTagAt(i)
-      val multiblock = MultiblockManager.createMultiBlock(MultiblockType.values()(nbt.getInteger("multi_block_type")), worldExt, this)
-      multiblock.readFromNBT(nbt)
-      multiblock
-    }).foreach(worldExt.unloadMutliBlock)
+  private def saveMultiBlockToNBT(multiBlock: MultiBlock): NBTTagCompound = {
+    val nbt = new NBTTagCompound
+    multiBlock.getMultiBlockType.writeToNBT(nbt)
+    multiBlock.writeToNBT(nbt)
+    nbt
   }
-
+  /**
+    * Called when the chunk is unloaded
+    * Here we want to unload any multi-blocks that are in this chunk
+    */
   override def unload(): Unit = {
-    multiBlocks.foreach(multiBlock => {
+    multi_blocks.foreach(multiBlock => {
       if (multiBlock.getChunkExt == this || world.world.isRemote) {
         worldExt.removeMultiBlock(multiBlock, remove = false)
       } else {
-        worldExt.unloadMutliBlock(multiBlock)
+        worldExt.shelveMultiBlock(multiBlock)
       }
     })
   }
@@ -85,22 +74,47 @@ class ProjectXChunkExtension(chunk: Chunk, worldExt: ProjectXWorldExtension) ext
     * Send update packet to player when chunk is loaded.
     */
   override def onWatchPlayer(player: EntityPlayerMP): Unit = {
-    multiBlocks.filter(multiBlock => {
-      multiBlock.getChunkExt == this
-    }) foreach {
+    multi_blocks.filter(_.partOfChunkExt(this)) foreach {
       multiBlock => player.connection.sendPacket(multiBlock.getDescriptionPacket())
     }
   }
 
-
-  def getChunk: Chunk = chunk
-
-  def markMultiBlockForUpdate(multiBlock: Multiblock): Unit = {
-    if (multiBlock.requestsedUpdatePacket)
+  //Packets
+  def markMultiBlockForUpdate(multiBlock: MultiBlock): Unit = {
+    if (multiBlock.requestsedUpdatePacket) {
       return
+    }
     chunk.setModified(true)
-    requestUpdatePacket()
-    updateMultiBlocks += multiBlock
+    multi_block_update_queue += multiBlock
     multiBlock.requestsedUpdatePacket = true
+    requestUpdatePacket()
   }
+
+  override def sendUpdatePackets(): Unit = {
+    requested_packet_update = false
+    packet_queue.foreach(sendPacketToPlayers)
+    multi_block_update_queue.foreach(multiBlock => {
+      sendPacketToPlayers(multiBlock.getUpdatePacket)
+      multi_block_update_queue -= multiBlock
+      multiBlock.requestsedUpdatePacket = false
+    })
+    packet_queue.clear()
+  }
+
+  def sendMultiBlockPacket(packet: FMLProxyPacket): Unit = {
+    packet_queue += packet
+    requestUpdatePacket()
+  }
+
+  /**
+    * Requests update packet for the chunk
+    */
+  def requestUpdatePacket(): Unit = {
+    worldExt.requested_chunk_packets += this
+    requested_packet_update = true
+  }
+}
+
+object ProjectXChunkExtension {
+  val TAG_NAME = s"project_x_multi_blocks_version_${MultiblockVersion.VERSION}"
 }

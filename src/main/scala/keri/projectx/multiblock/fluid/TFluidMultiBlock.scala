@@ -8,7 +8,7 @@ package keri.projectx.multiblock.fluid
 
 import codechicken.lib.data.{MCDataInput, MCDataOutput}
 import codechicken.lib.fluid.FluidUtils
-import keri.projectx.multiblock.Multiblock
+import keri.projectx.multiblock.MultiBlock
 import keri.projectx.tile.TileEntityTankValve
 import keri.projectx.vec.CuboidCoord
 import net.minecraft.util.math.BlockPos
@@ -16,7 +16,7 @@ import net.minecraftforge.fluids.{FluidStack, FluidTankInfo}
 
 import scala.collection.mutable.ArrayBuffer
 
-trait TFluidMultiBlock extends Multiblock {
+trait TFluidMultiBlock extends MultiBlock {
   var tank: LevelSensitiveFluidTank = null
   var area: CuboidCoord
 

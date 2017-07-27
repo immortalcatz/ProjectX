@@ -26,6 +26,8 @@ public class PlayerStareTracker {
                 lastTime = time;
                 staringPos = result.getBlockPos();
             }
+        } else {
+            staringPos = BlockPos.ORIGIN;
         }
     }
 

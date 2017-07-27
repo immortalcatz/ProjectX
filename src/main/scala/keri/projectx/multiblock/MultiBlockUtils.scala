@@ -16,7 +16,7 @@ import net.minecraft.world.World
 /**
   * Created by Adam on 7/10/2017.
   */
-object MultiblockManager {
+object MultiBlockUtils {
   def convertBlockToShadow(world: World, pos: BlockPos): Option[TileEntityMultiblock] = {
     val blockState = world.getBlockState(pos)
     val meta = blockState.getBlock.getMetaFromState(blockState)
@@ -35,9 +35,8 @@ object MultiblockManager {
     Some(tile)
   }
 
-  def createMultiBlock(multiBlockId: MultiblockType, worldEx: ProjectXWorldExtension, chunkEx: ProjectXChunkExtension): Multiblock = {
-    multiBlockId match {
-      case MultiblockType.TANK => new MultiTank(worldEx, chunkEx)
-    }
+  //Creates Mutli-block from storage
+  def createMultiBlock(multiBlockId: MultiBlockType, worldEx: ProjectXWorldExtension, chunkEx: ProjectXChunkExtension): MultiBlock = multiBlockId match {
+    case MultiBlockType.TANK => new MultiTank(worldEx, chunkEx)
   }
 }

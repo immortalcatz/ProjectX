@@ -57,6 +57,7 @@ class BlockMultiShadow(material: Material, suffix: String) extends BlockProjectX
       blockDef.block.updateTick(world, pos, blockDef.getBlockState(), rand)
     })
   }
+
   override def getCollisionBoundingBox(blockState: IBlockState, worldIn: IBlockAccess, pos: BlockPos): AxisAlignedBB = {
     val shadowBlock = getShadowBlock(worldIn, pos)
     shadowBlock.foreach(shadowBlock => {
@@ -64,6 +65,7 @@ class BlockMultiShadow(material: Material, suffix: String) extends BlockProjectX
     })
     super.getCollisionBoundingBox(blockState, worldIn, pos)
   }
+
   override def isFireSource(world: World, pos: BlockPos, side: EnumFacing): Boolean = {
     val shadowBlock = getShadowBlock(world, pos)
     shadowBlock.map(_.block).foreach(shadowBlock => {
@@ -71,6 +73,7 @@ class BlockMultiShadow(material: Material, suffix: String) extends BlockProjectX
     })
     false
   }
+
   def getShadowBlock(world: IBlockAccess, pos: BlockPos): Option[BlockDef] = {
     world.getTileEntity(pos) match {
       case tile: TileEntityMultiShadow => tile.getCurrBlockDef

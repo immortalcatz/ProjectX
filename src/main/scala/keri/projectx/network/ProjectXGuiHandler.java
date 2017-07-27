@@ -44,7 +44,9 @@ public class ProjectXGuiHandler implements IGuiHandler {
                 return new ContainerDummy();
             case GUIID_MULTI_TANK:
                 TileEntityMultiblock tileMultiTank = (TileEntityMultiblock) world.getTileEntity(new BlockPos(x, y, z));
-                return new ContainerMultitank(player.inventory, (MultiTank)tileMultiTank.getTank(0).get());
+                if (tileMultiTank.getTank(0).isDefined())
+                    return new ContainerMultitank(player.inventory, (MultiTank) tileMultiTank.getTank(0).get());
+                break;
             case GUIID_ENGINEERING_TABLE:
                 TileEntityEngineeringTable tileEngineeringTable = (TileEntityEngineeringTable)world.getTileEntity(new BlockPos(x, y, z));
                 return new ContainerEngineeringTable(player.inventory, tileEngineeringTable);
@@ -63,7 +65,9 @@ public class ProjectXGuiHandler implements IGuiHandler {
                 return new GuiManual();
             case GUIID_MULTI_TANK:
                 TileEntityMultiblock tileMultiBlock = (TileEntityMultiblock) world.getTileEntity(new BlockPos(x, y, z));
-                return new GuiMultiTank(player.inventory, (MultiTank) tileMultiBlock.getTank(0).get());
+                if (tileMultiBlock.getTank(0).isDefined())
+                    return new GuiMultiTank(player.inventory, (MultiTank) tileMultiBlock.getTank(0).get());
+                break;
             case GUIID_ENGINEERING_TABLE:
                 TileEntityEngineeringTable tileEngineeringTable = (TileEntityEngineeringTable)world.getTileEntity(new BlockPos(x, y, z));
                 return new GuiEngineeringTable(player.inventory, tileEngineeringTable);

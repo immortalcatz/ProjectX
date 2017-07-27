@@ -8,7 +8,7 @@ package keri.projectx.tile
 
 import java.util
 
-import keri.projectx.multiblock.Multiblock
+import keri.projectx.multiblock.MultiBlock
 import keri.projectx.multiblock.fluid.TFluidMultiBlock
 import net.minecraft.entity.player.EntityPlayer
 
@@ -16,7 +16,7 @@ import scala.collection.JavaConversions._
 
 
 abstract class TileEntityMultiblock extends TileEntityProjectX {
-  val formedMultiBlocks = new util.LinkedList[Multiblock]
+  val formedMultiBlocks = new util.LinkedList[MultiBlock]
 
   def onBlockActivated(player: EntityPlayer): Boolean = {
     if (player.isSneaking)
@@ -45,9 +45,9 @@ abstract class TileEntityMultiblock extends TileEntityProjectX {
 
   def isAlreadyPartOfStructure: Boolean = !formedMultiBlocks.isEmpty
 
-  def joinMultiBlock(multiBlock: Multiblock) = formedMultiBlocks.add(multiBlock)
+  def joinMultiBlock(multiBlock: MultiBlock) = formedMultiBlocks.add(multiBlock)
 
-  def removeMultiBlock(multiBlock: Multiblock) = formedMultiBlocks.remove(multiBlock)
+  def removeMultiBlock(multiBlock: MultiBlock) = formedMultiBlocks.remove(multiBlock)
 
   def getTank(index: Int): Option[TFluidMultiBlock] = {
     //Have to iterate each one because it'll crash... -_-

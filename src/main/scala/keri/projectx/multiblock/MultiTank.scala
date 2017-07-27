@@ -31,10 +31,7 @@ import net.minecraftforge.fluids.capability.IFluidHandlerItem
 import net.minecraftforge.fml.relauncher.{Side, SideOnly}
 import org.lwjgl.opengl.GL11
 
-/**
-  * Created by Adam on 7/10/2017.
-  */
-case class MultiTank(worldExt: ProjectXWorldExtension, chunkExt: ProjectXChunkExtension) extends Multiblock(worldExt, chunkExt) with TFluidMultiBlock with IInventory {
+class MultiTank(worldExt: ProjectXWorldExtension, chunkExt: ProjectXChunkExtension) extends MultiBlock(worldExt, chunkExt) with TFluidMultiBlock with IInventory {
   val inv = Array.fill[ItemStack](2)(ItemStack.EMPTY)
   var area: CuboidCoord = null
 
@@ -45,11 +42,7 @@ case class MultiTank(worldExt: ProjectXWorldExtension, chunkExt: ProjectXChunkEx
     initTank()
   }
 
-  /**
-    * @param blockPos the position of the block being clicked
-    * @param player   the player
-    * @return a int value corresponding to the type of action that should be completed after the block has been activated, 0 - nothing, 1 - finish, 2 - continue or finish at end
-    */
+
   override def onActivated(blockPos: BlockPos, player: EntityPlayer): Int = {
     world.getTileEntity(blockPos) match {
       case tile: TileEntityMultiblock => if (tile.formedMultiBlocks.size() > 1) return 2
@@ -60,7 +53,7 @@ case class MultiTank(worldExt: ProjectXWorldExtension, chunkExt: ProjectXChunkEx
     super.onActivated(blockPos, player)
   }
 
-  override def getMultiBlockType: MultiblockType = MultiblockType.TANK
+  override def getMultiBlockType: MultiBlockType = MultiBlockType.TANK
 
   override def writeToNBT(nbt: NBTTagCompound): Unit = {
     super.writeToNBT(nbt)
@@ -89,7 +82,6 @@ case class MultiTank(worldExt: ProjectXWorldExtension, chunkExt: ProjectXChunkEx
     tank.read(in)
     inv(0) = in.readItemStack()
     inv(1) = in.readItemStack()
-    println(inv(1))
   }
 
 
@@ -157,14 +149,14 @@ case class MultiTank(worldExt: ProjectXWorldExtension, chunkExt: ProjectXChunkEx
         }
         var drain = true
         if (!inv(1).isEmpty) {
-          if (inv(1).isStackable && InventoryUtils.canStack(inv(0), fill.result.itemStack) && inv(1).getCount() < inv(1).getMaxStackSize) {
+          if (inv(1).isStackable && InventoryUtils.canStack(inv(0), fill.result.itemStack) && inv(1).getCount < inv(1).getMaxStackSize) {
             fill.result.itemStack.grow(inv(1).getCount)
           } else {
             drain = false
           }
         }
         if (drain) {
-          var amount = if (fill.remainder.fluidStack != null) fill.remainder.fluidStack.amount else 0
+          val amount = if (fill.remainder.fluidStack != null) fill.remainder.fluidStack.amount else 0
           tank.drain(tank.getFluidAmount - amount, true)
           decrStackSize(0, 1)
           setInventorySlotContents(1, fill.result.itemStack)
@@ -209,9 +201,9 @@ case class MultiTank(worldExt: ProjectXWorldExtension, chunkExt: ProjectXChunkEx
   override def isEmpty: Boolean = false
 
   //IWorldNamable
-  override def getDisplayName: ITextComponent = ???
+  override def getDisplayName: ITextComponent = null
 
-  override def getName: String = ???
+  override def getName: String = ""
 
-  override def hasCustomName: Boolean = ???
+  override def hasCustomName: Boolean = false
 }

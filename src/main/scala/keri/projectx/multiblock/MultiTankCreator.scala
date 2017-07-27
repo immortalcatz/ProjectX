@@ -13,10 +13,7 @@ import net.minecraft.util.EnumFacing
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
-/**
-  * Created by Adam on 7/10/2017.
-  */
-object MultiTankInitiator extends MultiblockInitiator[MultiTank] {
+object MultiTankCreator extends MultiBlockCreator[MultiTank] {
   val matcher = new MultiBlockMatcher {
     override def matches(world: World, pos: BlockPos): Boolean = {
       val block = world.getBlockState(pos).getBlock

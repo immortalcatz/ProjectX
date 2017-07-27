@@ -22,12 +22,12 @@ import net.minecraftforge.fml.relauncher.{Side, SideOnly}
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 
-abstract class Multiblock(worldExt: ProjectXWorldExtension, chunkExt: ProjectXChunkExtension) extends EntityUpdateHook.IUpdateCallback with EntityRenderHook.IRenderCallback {
-  val world = worldExt.world
-  val id = worldExt.nextAvailableMultiBlockId
+abstract class MultiBlock(worldExt: ProjectXWorldExtension, chunkExt: ProjectXChunkExtension) extends EntityUpdateHook.IUpdateCallback with EntityRenderHook.IRenderCallback {
+  val world: World = worldExt.world
+  val id: Int = worldExt.nextAvailableMultiBlockId
+  private var valid = false
   val inBlocks = new ArrayBuffer[BlockPos]()
   val inChunks = new mutable.HashSet[ChunkPos]()
-  var valid = false
   var requestsedUpdatePacket = false
 
   def this(worldObj: World, location: ChunkPos) =
@@ -41,7 +41,6 @@ abstract class Multiblock(worldExt: ProjectXWorldExtension, chunkExt: ProjectXCh
     * @return a int value corresponding to the type of action that should be completed after the block has been activated, 0 - nothing, 1 - finish, 2 - continue or finish at end
     */
   def onActivated(blockPos: BlockPos, player: EntityPlayer): Int = 0
-
   /**
     * Called before adding to the world
     */
@@ -51,7 +50,7 @@ abstract class Multiblock(worldExt: ProjectXWorldExtension, chunkExt: ProjectXCh
         case noop: TileEntityMultiblock =>
         case _ =>
           if (!world.isRemote) {
-            val tile = MultiblockManager.convertBlockToShadow(world, pos)
+            val tile = MultiBlockUtils.convertBlockToShadow(world, pos)
             if (tile.isEmpty)
               return false
           } else {
@@ -190,7 +189,7 @@ abstract class Multiblock(worldExt: ProjectXWorldExtension, chunkExt: ProjectXCh
     *
     * @return
     */
-  def getMultiBlockType: MultiblockType
+  def getMultiBlockType: MultiBlockType
 
   def readFromUpdatePacket(in: MCDataInput): Unit = {}
 
@@ -219,4 +218,6 @@ abstract class Multiblock(worldExt: ProjectXWorldExtension, chunkExt: ProjectXCh
     * Idk why but this fixes a bug
     */
   override def equals(obj: scala.Any): Boolean = super.equals(obj)
+
+  def partOfChunkExt(chunkExtension: ProjectXChunkExtension): Boolean = chunkExtension == this.chunkExt
 }

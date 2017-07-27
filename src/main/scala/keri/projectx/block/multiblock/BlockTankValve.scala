@@ -11,7 +11,7 @@ import keri.projectx.ProjectX
 import keri.projectx.api.color.EnumXycroniumColor
 import keri.projectx.block.BlockAnimationHandler
 import keri.projectx.client.render.RenderBlockBeveled
-import keri.projectx.multiblock.MultiTankInitiator
+import keri.projectx.multiblock.MultiTankCreator
 import keri.projectx.tile.TileEntityTankValve
 import keri.projectx.util.ModPrefs
 import net.minecraft.block.material.Material
@@ -38,7 +38,7 @@ class BlockTankValve extends BlockAnimationHandler[TileEntityTankValve]("valve",
         if (!world.isRemote) {
           if (valve.isAlreadyPartOfStructure)
             return super.onBlockActivated(world, pos, state, playerIn, hand, facing, hitX, hitY, hitZ)
-          MultiTankInitiator.create(world, pos)
+          MultiTankCreator.create(world, pos)
         }
       case _ =>
     }

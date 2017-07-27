@@ -31,10 +31,13 @@ case class MultiblockPattern(width: Int, height: Int, depth: Int) {
   def fillFaces(minx: Int, miny: Int, minz: Int, maxx: Int, maxy: Int, maxz: Int, matcherIndex: Int): Unit = {
     for (side <- EnumFacing.VALUES) {
       val shrunk = expand(shift(minx, miny, minz, maxx, maxy, minz, 1), side)
-      for (x <- shrunk(0) to shrunk(1))
-        for (y <- shrunk(2) to shrunk(3))
-          for (z <- shrunk(4) to shrunk(5))
+      for (x <- shrunk(0) to shrunk(1)) {
+        for (y <- shrunk(2) to shrunk(3)) {
+          for (z <- shrunk(4) to shrunk(5)) {
             pattern(x)(y)(z) = matcherIndex
+          }
+        }
+      }
     }
   }
 
@@ -99,12 +102,12 @@ case class MultiblockPattern(width: Int, height: Int, depth: Int) {
     */
   def addMatcher(matcher: MultiBlockMatcher) = matchers += matcher
 
-  def addAndCheckPattern(multiBlock: Multiblock, pos: BlockPos): Unit = {
+  def addAndCheckPattern(multiBlock: MultiBlock, pos: BlockPos): Unit = {
     for (x <- 0 until width; y <- 0 until height; z <- 0 until depth) {
       val blockPos = new BlockPos(pos).add(x, y, z)
       val tile = multiBlock.world.getTileEntity(pos)
       if (!tile.isInstanceOf[TileEntityMultiblock])
-        MultiblockManager.convertBlockToShadow(multiBlock.world, blockPos)
+        MultiBlockUtils.convertBlockToShadow(multiBlock.world, blockPos)
       multiBlock.addTile(blockPos)
     }
   }
