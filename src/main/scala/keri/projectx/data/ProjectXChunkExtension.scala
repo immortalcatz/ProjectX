@@ -116,5 +116,5 @@ class ProjectXChunkExtension(chunk: Chunk, worldExt: ProjectXWorldExtension) ext
 }
 
 object ProjectXChunkExtension {
-  val TAG_NAME = s"project_x_multi_blocks_version_${MultiblockVersion.VERSION}"
+  val TAG_NAME = s"project_x_multi_blocks_version_${MultiBlockVersion.VERSION}"
 }

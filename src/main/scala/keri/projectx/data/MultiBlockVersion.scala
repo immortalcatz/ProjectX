@@ -6,6 +6,6 @@
 
 package keri.projectx.data
 
-object MultiblockVersion {
+object MultiBlockVersion {
   val VERSION: Int = 0
 }

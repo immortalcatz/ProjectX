@@ -6,7 +6,7 @@
 
 package keri.projectx.multiblock
 
-import keri.projectx.multiblock.MultiblockPattern._
+import keri.projectx.multiblock.MultiBlockPattern._
 import keri.projectx.tile.TileEntityMultiblock
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.math.BlockPos
@@ -17,7 +17,7 @@ import scala.collection.mutable.ArrayBuffer
 /**
   * Pattern maker for multiblcoks
   */
-case class MultiblockPattern(width: Int, height: Int, depth: Int) {
+case class MultiBlockPattern(width: Int, height: Int, depth: Int) {
   val pattern = Array.ofDim[Int](width, height, depth)
   val matchers = new ArrayBuffer[MultiBlockMatcher]()
 
@@ -128,7 +128,7 @@ case class MultiblockPattern(width: Int, height: Int, depth: Int) {
   }
 }
 
-object MultiblockPattern {
+object MultiBlockPattern {
   def expand(minxyzmaxxyz: Array[Int], side: EnumFacing): Array[Int] = {
     if (side.ordinal() % 2 == 0)
       minxyzmaxxyz(side.ordinal()) -= 1

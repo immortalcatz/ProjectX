@@ -21,7 +21,7 @@ object MultiTankCreator extends MultiBlockCreator[MultiTank] {
     }
   }
   var innerBounds: CuboidCoord = new CuboidCoord()
-  var pattern: MultiblockPattern = null
+  var pattern: MultiBlockPattern = null
 
   override def create(world: World, pos: BlockPos): Option[MultiTank] = {
     val tile = world.getTileEntity(pos)
@@ -48,7 +48,7 @@ object MultiTankCreator extends MultiBlockCreator[MultiTank] {
   }
 
   def checkPattern(world: World): Boolean = {
-    pattern = new MultiblockPattern(innerBounds.max.x - innerBounds.min.x + 3, innerBounds.max.y - innerBounds.min.y + 3, innerBounds.max.z - innerBounds.min.z + 3)
+    pattern = new MultiBlockPattern(innerBounds.max.x - innerBounds.min.x + 3, innerBounds.max.y - innerBounds.min.y + 3, innerBounds.max.z - innerBounds.min.z + 3)
     pattern.addMatcher(matcher)
     pattern.addMatcher(MultiShadowCategoryMatcher.ANY_OPAQUE_EXCEPT_VALVE)
     //Fill inner part with -1 being air or ignored
