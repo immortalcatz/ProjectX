@@ -1,13 +1,18 @@
+/*
+ * Copyright (c) 2017 KitsuneAlex & Adam8234. All rights reserved!
+ * Do not distribute or redistribute without the explicit permission
+ * of the developer!
+ */
+
 package keri.projectx.client.render
 
+import codechicken.lib.render.CCRenderState
 import codechicken.lib.render.buffer.BakingVertexBuffer
-import codechicken.lib.render.{CCModel, CCRenderState}
 import codechicken.lib.vec.uv.IconTransformation
 import codechicken.lib.vec.{Cuboid6, Translation, Vector3}
 import keri.ninetaillib.lib.render.connected.{ConnectedRenderContext, ICTMBlock}
 import keri.ninetaillib.lib.render.{IBlockRenderingHandler, RenderingRegistry}
 import keri.ninetaillib.lib.texture.IIconBlock
-import keri.ninetaillib.lib.util.RenderUtils.MipmapFilterData
 import keri.ninetaillib.lib.util.{ModelUtils, RenderUtils}
 import net.minecraft.block.Block
 import net.minecraft.block.state.IBlockState
@@ -24,28 +29,28 @@ import org.lwjgl.opengl.GL11
 @SideOnly(Side.CLIENT)
 object RenderSimpleGlow extends IBlockRenderingHandler {
 
-  private final val BLOCK_MODEL: CCModel = ModelUtils.getNormalized(new Cuboid6(0D, 0D, 0D, 16D, 16D, 16D))
+  private final val BLOCK_MODEL = ModelUtils.getNormalized(new Cuboid6(0D, 0D, 0D, 16D, 16D, 16D))
   final val RENDER_TYPE: EnumBlockRenderType = RenderingRegistry.getNextAvailableType
   RenderingRegistry.registerRenderingHandler(RenderSimpleGlow.this)
 
   override def renderWorld(world: IBlockAccess, pos: BlockPos, state: IBlockState, buffer: VertexBuffer, layer: BlockRenderLayer): Boolean = {
-    val iconProvider: IIconBlock = state.getBlock.asInstanceOf[IIconBlock]
-    val animationHandler: IAnimationHandler = state.getBlock.asInstanceOf[IAnimationHandler]
-    val renderState: CCRenderState = CCRenderState.instance
-    val translation: Translation = new Translation(Vector3.fromBlockPos(pos))
-    val meta: Int = state.getBlock.getMetaFromState(state)
+    val iconProvider = state.getBlock.asInstanceOf[IIconBlock]
+    val animationHandler = state.getBlock.asInstanceOf[IAnimationHandler]
+    val renderState = CCRenderState.instance
+    val translation = new Translation(Vector3.fromBlockPos(pos))
+    val meta = state.getBlock.getMetaFromState(state)
     renderState.reset()
     renderState.bind(buffer)
 
     for (side <- 0 until 6) {
-      val texture: TextureAtlasSprite = animationHandler.getAnimationIcon(world, pos, side)
-      val color: Int = animationHandler.getAnimationColor(world, pos, side)
+      val texture = animationHandler.getAnimationIcon(world, pos, side)
+      val color = animationHandler.getAnimationColor(world, pos, side)
       renderState.brightness = animationHandler.getAnimationBrightness(world, pos, side)
       BLOCK_MODEL.copy.apply(translation).setColour(color).render(renderState, 4 * side, 4 + 4 * side, new IconTransformation(texture))
     }
 
     if (layer == BlockRenderLayer.CUTOUT_MIPPED) {
-      val parentBuffer: BakingVertexBuffer = BakingVertexBuffer.create
+      val parentBuffer = BakingVertexBuffer.create
       parentBuffer.begin(GL11.GL_QUADS, DefaultVertexFormats.ITEM)
       renderState.reset
       renderState.bind(parentBuffer)
@@ -92,30 +97,30 @@ object RenderSimpleGlow extends IBlockRenderingHandler {
   }
 
   override def renderDamage(world: IBlockAccess, pos: BlockPos, state: IBlockState, buffer: VertexBuffer, texture: TextureAtlasSprite): Unit = {
-    val renderState: CCRenderState = CCRenderState.instance
-    val translation: Translation = new Translation(Vector3.fromBlockPos(pos))
+    val renderState = CCRenderState.instance
+    val translation = new Translation(Vector3.fromBlockPos(pos))
     renderState.reset
     renderState.bind(buffer)
     BLOCK_MODEL.copy.apply(translation).render(renderState, new IconTransformation(texture))
   }
 
   override def renderInventory(stack: ItemStack, buffer: VertexBuffer): Unit = {
-    val iconProvider: IIconBlock = Block.getBlockFromItem(stack.getItem).asInstanceOf[IIconBlock]
-    val animationHandler: IAnimationHandler = Block.getBlockFromItem(stack.getItem).asInstanceOf[IAnimationHandler]
-    val meta: Int = stack.getMetadata
+    val iconProvider = Block.getBlockFromItem(stack.getItem).asInstanceOf[IIconBlock]
+    val animationHandler = Block.getBlockFromItem(stack.getItem).asInstanceOf[IAnimationHandler]
+    val meta = stack.getMetadata
     val lastBrightness = OpenGlHelper.lastBrightnessY.toInt << 16 | OpenGlHelper.lastBrightnessX.toInt
-    val renderState: CCRenderState = CCRenderState.instance
+    val renderState = CCRenderState.instance
     Tessellator.getInstance.draw
     GlStateManager.pushMatrix
     GlStateManager.disableLighting
-    val filterData: MipmapFilterData = RenderUtils.disableMipmap
+    val filterData = RenderUtils.disableMipmap
     buffer.begin(GL11.GL_QUADS, RenderUtils.getFormatWithLightMap(DefaultVertexFormats.ITEM))
     renderState.reset
     renderState.bind(buffer)
 
     for (side <- 0 until 6) {
-      val texture: TextureAtlasSprite = animationHandler.getAnimationIcon(stack, side)
-      val color: Int = animationHandler.getAnimationColor(stack, side)
+      val texture = animationHandler.getAnimationIcon(stack, side)
+      val color = animationHandler.getAnimationColor(stack, side)
       renderState.brightness = animationHandler.getAnimationBrightness(stack, side)
       BLOCK_MODEL.copy.setColour(color).render(renderState, 4 * side, 4 + 4 * side, new IconTransformation(texture))
     }
@@ -131,8 +136,8 @@ object RenderSimpleGlow extends IBlockRenderingHandler {
     renderState.brightness = lastBrightness
 
     for (side <- 0 until 6) {
-      val texture: TextureAtlasSprite = iconProvider.getIcon(meta, EnumFacing.getFront(side))
-      val color: Int = iconProvider.getColorMultiplier(meta, EnumFacing.getFront(side))
+      val texture = iconProvider.getIcon(meta, EnumFacing.getFront(side))
+      val color = iconProvider.getColorMultiplier(meta, EnumFacing.getFront(side))
       BLOCK_MODEL.copy.setColour(color).render(renderState, 4 * side, 4 + 4 * side, new IconTransformation(texture))
     }
 

@@ -1,7 +1,13 @@
+/*
+ * Copyright (c) 2017 KitsuneAlex & Adam8234. All rights reserved!
+ * Do not distribute or redistribute without the explicit permission
+ * of the developer!
+ */
+
 package keri.projectx.client.render
 
+import codechicken.lib.render.CCRenderState
 import codechicken.lib.render.buffer.BakingVertexBuffer
-import codechicken.lib.render.{CCModel, CCRenderState}
 import codechicken.lib.vec.uv.{IconTransformation, MultiIconTransformation}
 import codechicken.lib.vec.{Cuboid6, Translation, Vector3}
 import keri.ninetaillib.lib.render.{IBlockRenderingHandler, RenderingRegistry}
@@ -22,7 +28,7 @@ import org.lwjgl.opengl.GL11
 @SideOnly(Side.CLIENT)
 object RenderXynergyNode extends IBlockRenderingHandler {
 
-  private final val BLOCK_MODEL: Array[CCModel] = ModelUtils.getNormalized(Array(
+  private final val BLOCK_MODEL = ModelUtils.getNormalized(Array(
     new Cuboid6(3D, 0D, 3D, 7D, 1D, 7D),
     new Cuboid6(9D, 0D, 3D, 13D, 1D, 7D),
     new Cuboid6(9D, 0D, 9D, 13D, 1D, 13D),
@@ -44,19 +50,19 @@ object RenderXynergyNode extends IBlockRenderingHandler {
   RenderingRegistry.registerRenderingHandler(RenderXynergyNode.this)
 
   override def renderWorld(world: IBlockAccess, pos: BlockPos, state: IBlockState, buffer: VertexBuffer, layer: BlockRenderLayer): Boolean = {
-    val iconProvider: IIconBlock = state.getBlock.asInstanceOf[IIconBlock]
-    val textureTop: TextureAtlasSprite = iconProvider.getIcon(0, EnumFacing.DOWN)
-    val textureBottom: TextureAtlasSprite = iconProvider.getIcon(0, EnumFacing.UP)
-    val textureSide: TextureAtlasSprite = iconProvider.getIcon(0, EnumFacing.NORTH)
-    val meta: Int = state.getBlock.getMetaFromState(state)
-    val renderState: CCRenderState = CCRenderState.instance
-    val parentBuffer: BakingVertexBuffer = BakingVertexBuffer.create
+    val iconProvider = state.getBlock.asInstanceOf[IIconBlock]
+    val textureTop = iconProvider.getIcon(0, EnumFacing.DOWN)
+    val textureBottom = iconProvider.getIcon(0, EnumFacing.UP)
+    val textureSide = iconProvider.getIcon(0, EnumFacing.NORTH)
+    val meta = state.getBlock.getMetaFromState(state)
+    val renderState = CCRenderState.instance
+    val parentBuffer = BakingVertexBuffer.create
     parentBuffer.begin(GL11.GL_QUADS, DefaultVertexFormats.ITEM)
     renderState.reset()
     renderState.bind(parentBuffer)
 
     for (part <- 0 until BLOCK_MODEL.length) {
-      val modelPart: CCModel = BLOCK_MODEL(part).copy
+      val modelPart = BLOCK_MODEL(part).copy
 
       EnumFacing.getFront(meta) match {
         case EnumFacing.DOWN => ModelUtils.rotate(modelPart, 180D, new Vector3(1D, 0D, 0D), new Vector3(0D, 8D, 8D))
@@ -77,7 +83,7 @@ object RenderXynergyNode extends IBlockRenderingHandler {
         case x if x < 4 => modelPart.render(renderState, new MultiIconTransformation(textureBottom, textureBottom, textureSide, textureSide, textureSide, textureSide))
         case x if x > 3 && x < 8 => modelPart.render(renderState, new MultiIconTransformation(textureTop, textureTop, textureSide, textureSide, textureSide, textureSide))
         case _ => {
-          val zOffset: Double = 0.0004D
+          val zOffset = 0.0004D
           modelPart.zOffset(new Cuboid6(zOffset, zOffset, zOffset, zOffset, zOffset, zOffset))
           modelPart.render(renderState, new MultiIconTransformation(textureTop, textureTop, textureSide, textureSide, textureSide, textureSide))
         }
@@ -89,14 +95,14 @@ object RenderXynergyNode extends IBlockRenderingHandler {
   }
 
   override def renderDamage(world: IBlockAccess, pos: BlockPos, state: IBlockState, buffer: VertexBuffer, texture: TextureAtlasSprite): Unit = {
-    val renderState: CCRenderState = CCRenderState.instance
-    val translation: Translation = new Translation(Vector3.fromBlockPos(pos))
-    val meta: Int = state.getBlock.getMetaFromState(state)
+    val renderState = CCRenderState.instance
+    val translation = new Translation(Vector3.fromBlockPos(pos))
+    val meta = state.getBlock.getMetaFromState(state)
     renderState.reset
     renderState.bind(buffer)
 
     for (part <- 0 until BLOCK_MODEL.length) {
-      var modelPart: CCModel = BLOCK_MODEL(part).copy
+      var modelPart = BLOCK_MODEL(part).copy
 
       EnumFacing.getFront(meta) match {
         case EnumFacing.DOWN => ModelUtils.rotate(modelPart, 180D, new Vector3(1D, 0D, 0D), new Vector3(0D, 8D, 8D))
@@ -119,11 +125,11 @@ object RenderXynergyNode extends IBlockRenderingHandler {
   }
 
   override def renderInventory(stack: ItemStack, buffer: VertexBuffer): Unit = {
-    val iconProvider: IIconBlock = Block.getBlockFromItem(stack.getItem).asInstanceOf[IIconBlock]
-    val textureTop: TextureAtlasSprite = iconProvider.getIcon(0, EnumFacing.DOWN)
-    val textureBottom: TextureAtlasSprite = iconProvider.getIcon(0, EnumFacing.UP)
-    val textureSide: TextureAtlasSprite = iconProvider.getIcon(0, EnumFacing.NORTH)
-    val renderState: CCRenderState = CCRenderState.instance()
+    val iconProvider = Block.getBlockFromItem(stack.getItem).asInstanceOf[IIconBlock]
+    val textureTop = iconProvider.getIcon(0, EnumFacing.DOWN)
+    val textureBottom = iconProvider.getIcon(0, EnumFacing.UP)
+    val textureSide = iconProvider.getIcon(0, EnumFacing.NORTH)
+    val renderState = CCRenderState.instance()
     Tessellator.getInstance.draw
     GlStateManager.pushMatrix
     GlStateManager.enableLighting
@@ -132,13 +138,13 @@ object RenderXynergyNode extends IBlockRenderingHandler {
     renderState.bind(buffer)
 
     for (part <- 0 until BLOCK_MODEL.length) {
-      var modelPart: CCModel = BLOCK_MODEL(part).copy
+      var modelPart = BLOCK_MODEL(part).copy
 
       part match {
         case x if x < 4 => modelPart.render(renderState, new MultiIconTransformation(textureBottom, textureBottom, textureSide, textureSide, textureSide, textureSide))
         case x if x > 3 && x < 8 => modelPart.render(renderState, new MultiIconTransformation(textureTop, textureTop, textureSide, textureSide, textureSide, textureSide))
         case _ => {
-          val zOffset: Double = 0.0004D
+          val zOffset = 0.0004D
           modelPart.zOffset(new Cuboid6(zOffset, zOffset, zOffset, zOffset, zOffset, zOffset))
           modelPart.render(renderState, new MultiIconTransformation(textureTop, textureTop, textureSide, textureSide, textureSide, textureSide))
         }
