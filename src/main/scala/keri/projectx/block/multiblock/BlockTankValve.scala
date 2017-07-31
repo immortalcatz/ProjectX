@@ -22,13 +22,15 @@ import net.minecraft.item.ItemStack
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.{EnumBlockRenderType, EnumFacing, EnumHand}
 import net.minecraft.world.{IBlockAccess, World}
-import net.minecraftforge.fml.common.registry.GameRegistry
 import net.minecraftforge.fml.relauncher.{Side, SideOnly}
 
-class BlockTankValve extends BlockAnimationHandler[TileEntityTankValve]("valve", Material.IRON) with TBlockMulti {
+class BlockTankValve extends BlockAnimationHandler[TileEntityTankValve]("tank_valve", Material.IRON) with TBlockMulti {
   setHardness(1.4F)
+
   @SideOnly(Side.CLIENT)
   var texture: TextureAtlasSprite = _
+
+  override def registerTileEntities(): Unit = registerTile(classOf[TileEntityTankValve])
 
   override def createNewTileEntity(world: World, meta: Int): TileEntityTankValve = new TileEntityTankValve
 
@@ -50,17 +52,32 @@ class BlockTankValve extends BlockAnimationHandler[TileEntityTankValve]("valve",
     texture = register.registerIcon(s"${ModPrefs.MODID}:blocks/machine/tank_valve")
   }
 
+  @SideOnly(Side.CLIENT)
   override def getIcon(meta: Int, side: EnumFacing): TextureAtlasSprite = texture
+
+  @SideOnly(Side.CLIENT)
   override def getIcon(world: IBlockAccess, pos: BlockPos, side: EnumFacing): TextureAtlasSprite = texture
+
+  @SideOnly(Side.CLIENT)
   override def getAnimationIcon(stack: ItemStack, side: Int): TextureAtlasSprite = ProjectX.PROXY.getAnimatedTexture
+
+  @SideOnly(Side.CLIENT)
   override def getAnimationIcon(world: IBlockAccess, pos: BlockPos, side: Int): TextureAtlasSprite = ProjectX.PROXY.getAnimatedTexture
+
+  @SideOnly(Side.CLIENT)
   override def getAnimationColor(stack: ItemStack, side: Int): Int = EnumXycroniumColor.BLUE.getColor.rgba()
+
+  @SideOnly(Side.CLIENT)
   override def getAnimationColor(world: IBlockAccess, pos: BlockPos, side: Int): Int = EnumXycroniumColor.BLUE.getColor.rgba()
+
+  @SideOnly(Side.CLIENT)
   override def getAnimationBrightness(stack: ItemStack, side: Int): Int = 220
+
+  @SideOnly(Side.CLIENT)
   override def getAnimationBrightness(world: IBlockAccess, pos: BlockPos, side: Int): Int = 220
+
   @SideOnly(Side.CLIENT)
   override def getRenderType(state: IBlockState): EnumBlockRenderType = RenderBlockBeveled.RENDER_TYPE
 
-  override def registerTileEntities(): Unit = GameRegistry.registerTileEntity(classOf[TileEntityTankValve], "tile." + ModPrefs.MODID + ".multi_block_valve")
 }
 

@@ -32,7 +32,7 @@ public abstract class BlockAnimationHandler<T extends TileEntity> extends BlockP
         super(blockName, material, mapColor, subNames);
     }
 
-    public BlockAnimationHandler(String blockName, Material material, String... subNames) {
+    public BlockAnimationHandler(String blockName, Material material, String[] subNames) {
         super(blockName, material, subNames);
     }
 

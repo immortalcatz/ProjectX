@@ -6,8 +6,15 @@
 
 package keri.projectx.client.render;
 
+import codechicken.lib.render.CCModel;
+import codechicken.lib.render.CCRenderState;
+import codechicken.lib.vec.Cuboid6;
+import codechicken.lib.vec.Translation;
+import codechicken.lib.vec.Vector3;
+import codechicken.lib.vec.uv.IconTransformation;
 import keri.ninetaillib.lib.render.IBlockRenderingHandler;
 import keri.ninetaillib.lib.render.RenderingRegistry;
+import keri.ninetaillib.lib.util.ModelUtils;
 import keri.projectx.tile.BlockDef;
 import keri.projectx.tile.TileEntityMultiShadow;
 import net.minecraft.block.state.IBlockState;
@@ -50,21 +57,12 @@ public class RenderShadowBlock implements IBlockRenderingHandler {
 
     @Override
     public void renderDamage(IBlockAccess world, BlockPos pos, IBlockState state, VertexBuffer buffer, TextureAtlasSprite texture) {
-        /**
-        TileEntity tile = world.getTileEntity(pos);
-
-        if (!(tile instanceof TileMultiShadow)) {
-            return;
-        }
-
-        Option<BlockDef> blockDef = ((TileMultiShadow)tile).getCurrBlockDef();
-
-        if (!blockDef.isDefined()) {
-            return;
-        }
-
-        Minecraft.getMinecraft().getBlockRendererDispatcher().renderBlockDamage(blockDef.get().getBlockState(), pos, texture, world);
-         */
+        CCRenderState renderState = CCRenderState.instance();
+        renderState.reset();
+        renderState.bind(buffer);
+        CCModel model = ModelUtils.getNormalized(new Cuboid6(0D, 0D, 0D, 16D, 16D, 16D));
+        Translation t = new Translation(Vector3.fromBlockPos(pos));
+        model.apply(t).render(renderState, new IconTransformation(texture));
     }
 
     @Override

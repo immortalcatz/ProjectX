@@ -12,7 +12,6 @@ import java.util.Random
 import keri.projectx.block.BlockProjectX
 import keri.projectx.client.render.RenderShadowBlock
 import keri.projectx.tile.{BlockDef, TileEntityMultiShadow}
-import keri.projectx.util.ModPrefs
 import net.minecraft.block.SoundType
 import net.minecraft.block.material.Material
 import net.minecraft.block.state.IBlockState
@@ -24,11 +23,11 @@ import net.minecraft.tileentity.TileEntity
 import net.minecraft.util.math.{AxisAlignedBB, BlockPos, RayTraceResult}
 import net.minecraft.util.{BlockRenderLayer, EnumFacing}
 import net.minecraft.world.{Explosion, IBlockAccess, World}
-import net.minecraftforge.fml.common.registry.GameRegistry
 import net.minecraftforge.fml.relauncher.{Side, SideOnly}
 
 class BlockMultiShadow(material: Material, suffix: String) extends BlockProjectX[TileEntityMultiShadow](s"blockMultiShadow$suffix", material) with TBlockMulti {
   setCreativeTab(null)
+
   material match {
     case Material.WOOD => setSoundType(SoundType.WOOD)
     case Material.GLASS => setSoundType(SoundType.GLASS)
@@ -36,7 +35,87 @@ class BlockMultiShadow(material: Material, suffix: String) extends BlockProjectX
     case _ =>
   }
 
+  override def registerTileEntities(): Unit = registerTile(classOf[TileEntityMultiShadow], "multi_shadow")
+
   override def createNewTileEntity(world: World, meta: Int): TileEntityMultiShadow = new TileEntityMultiShadow
+
+  override def getCollisionBoundingBox(blockState: IBlockState, worldIn: IBlockAccess, pos: BlockPos): AxisAlignedBB = {
+    val shadowBlock = getShadowBlock(worldIn, pos)
+
+    shadowBlock.foreach(shadowBlock => {
+      return shadowBlock.block.getCollisionBoundingBox(shadowBlock.getBlockState(), worldIn, pos)
+    })
+
+    super.getCollisionBoundingBox(blockState, worldIn, pos)
+  }
+
+  override def isFireSource(world: World, pos: BlockPos, side: EnumFacing): Boolean = {
+    val shadowBlock = getShadowBlock(world, pos)
+
+    shadowBlock.map(_.block).foreach(shadowBlock => {
+      return shadowBlock.isFireSource(world, pos, side)
+    })
+
+    false
+  }
+
+  override def updateTick(world: World, pos: BlockPos, state: IBlockState, rand: Random): Unit = {
+    super.updateTick(world, pos, state, rand)
+
+    getShadowBlock(world, pos).foreach(blockDef => {
+      blockDef.block.updateTick(world, pos, blockDef.getBlockState(), rand)
+    })
+  }
+
+  override def getPickBlock(state: IBlockState, target: RayTraceResult, world: World, pos: BlockPos, player: EntityPlayer): ItemStack = {
+    getShadowBlock(world, pos).foreach(blockDef => {
+      return blockDef.block.getPickBlock(blockDef.getBlockState(), target, world, pos, player)
+    })
+
+    super.getPickBlock(state, target, world, pos, player)
+  }
+
+  override def getDrops(world: IBlockAccess, pos: BlockPos, state: IBlockState, fortune: Int): util.List[ItemStack] = {
+    getShadowBlock(world, pos).foreach(blockDef => {
+      return blockDef.block.getDrops(world, pos, blockDef.getBlockState(), fortune)
+    })
+
+    super.getDrops(world, pos, state, fortune)
+  }
+
+  override def getBlockHardness(blockState: IBlockState, worldIn: World, pos: BlockPos): Float = {
+    getShadowBlock(worldIn, pos).foreach(blockDef => {
+      return blockDef.block.getBlockHardness(blockDef.getBlockState(), worldIn, pos)
+    })
+
+    super.getBlockHardness(blockState, worldIn, pos)
+  }
+
+  override def getExplosionResistance(world: World, pos: BlockPos, exploder: Entity, explosion: Explosion): Float = {
+    getShadowBlock(world, pos).map(_.block).foreach(blockShadow => {
+      return blockShadow.getExplosionResistance(world, pos, exploder, explosion)
+    })
+
+    super.getExplosionResistance(world, pos, exploder, explosion)
+  }
+
+  override def onNeighborChange(world: IBlockAccess, pos: BlockPos, neighbor: BlockPos): Unit = {
+    getShadowBlock(world, pos).map(_.block).foreach(blockShadow => {
+      blockShadow.onNeighborChange(world, pos, neighbor)
+      return
+    })
+
+    super.onNeighborChange(world, pos, neighbor)
+  }
+
+  override def harvestBlock(worldIn: World, player: EntityPlayer, pos: BlockPos, state: IBlockState, te: TileEntity, stack: ItemStack): Unit = {
+    super.harvestBlock(worldIn, player, pos, state, te, stack)
+    worldIn.setBlockToAir(pos)
+  }
+
+  override def isAir(state: IBlockState, world: IBlockAccess, pos: BlockPos): Boolean = blockMaterial == Material.AIR
+
+  override def canCollideCheck(state: IBlockState, hitIfLiquid: Boolean): Boolean = blockMaterial != Material.AIR
 
   @SideOnly(Side.CLIENT)
   override def getRenderType(state: IBlockState) = RenderShadowBlock.RENDER_TYPE
@@ -51,50 +130,18 @@ class BlockMultiShadow(material: Material, suffix: String) extends BlockProjectX
     }
   }
 
-  override def updateTick(world: World, pos: BlockPos, state: IBlockState, rand: Random): Unit = {
-    super.updateTick(world, pos, state, rand)
-    getShadowBlock(world, pos).foreach(blockDef => {
-      blockDef.block.updateTick(world, pos, blockDef.getBlockState(), rand)
-    })
-  }
-
-  override def getCollisionBoundingBox(blockState: IBlockState, worldIn: IBlockAccess, pos: BlockPos): AxisAlignedBB = {
-    val shadowBlock = getShadowBlock(worldIn, pos)
-    shadowBlock.foreach(shadowBlock => {
-      return shadowBlock.block.getCollisionBoundingBox(shadowBlock.getBlockState(), worldIn, pos)
-    })
-    super.getCollisionBoundingBox(blockState, worldIn, pos)
-  }
-
-  override def isFireSource(world: World, pos: BlockPos, side: EnumFacing): Boolean = {
-    val shadowBlock = getShadowBlock(world, pos)
-    shadowBlock.map(_.block).foreach(shadowBlock => {
-      return shadowBlock.isFireSource(world, pos, side)
-    })
-    false
-  }
-
-  def getShadowBlock(world: IBlockAccess, pos: BlockPos): Option[BlockDef] = {
-    world.getTileEntity(pos) match {
-      case tile: TileEntityMultiShadow => tile.getCurrBlockDef
-      case _ => None
-    }
-  }
   @SideOnly(Side.CLIENT)
   override def isFullCube(state: IBlockState): Boolean = blockMaterial != Material.GLASS && blockMaterial != Material.AIR
 
-  override def isAir(state: IBlockState, world: IBlockAccess, pos: BlockPos): Boolean = blockMaterial == Material.AIR
-
   @SideOnly(Side.CLIENT)
   override def isOpaqueCube(state: IBlockState): Boolean = blockMaterial != Material.GLASS && blockMaterial != Material.AIR
-
-  override def canCollideCheck(state: IBlockState, hitIfLiquid: Boolean): Boolean = blockMaterial != Material.AIR
 
   @SideOnly(Side.CLIENT)
   override def addDestroyEffects(world: World, pos: BlockPos, manager: ParticleManager): Boolean = {
     getShadowBlock(world, pos).map(_.block).foreach(blockShadow => {
       return blockShadow.addDestroyEffects(world, pos, manager)
     })
+
     super.addDestroyEffects(world, pos, manager)
   }
 
@@ -103,49 +150,15 @@ class BlockMultiShadow(material: Material, suffix: String) extends BlockProjectX
     getShadowBlock(worldObj, target.getBlockPos).foreach(blockDef => {
       return blockDef.block.addHitEffects(blockDef.getBlockState(), worldObj, target, manager)
     })
+
     super.addHitEffects(state, worldObj, target, manager)
   }
 
-  override def getPickBlock(state: IBlockState, target: RayTraceResult, world: World, pos: BlockPos, player: EntityPlayer): ItemStack = {
-    getShadowBlock(world, pos).foreach(blockDef => {
-      return blockDef.block.getPickBlock(blockDef.getBlockState(), target, world, pos, player)
-    })
-    super.getPickBlock(state, target, world, pos, player)
+  def getShadowBlock(world: IBlockAccess, pos: BlockPos): Option[BlockDef] = {
+    world.getTileEntity(pos) match {
+      case tile: TileEntityMultiShadow => tile.getCurrBlockDef
+      case _ => None
+    }
   }
 
-  override def getDrops(world: IBlockAccess, pos: BlockPos, state: IBlockState, fortune: Int): util.List[ItemStack] = {
-    getShadowBlock(world, pos).foreach(blockDef => {
-      return blockDef.block.getDrops(world, pos, blockDef.getBlockState(), fortune)
-    })
-    super.getDrops(world, pos, state, fortune)
-  }
-
-  override def getBlockHardness(blockState: IBlockState, worldIn: World, pos: BlockPos): Float = {
-    getShadowBlock(worldIn, pos).foreach(blockDef => {
-      return blockDef.block.getBlockHardness(blockDef.getBlockState(), worldIn, pos)
-    })
-    super.getBlockHardness(blockState, worldIn, pos)
-  }
-
-  override def getExplosionResistance(world: World, pos: BlockPos, exploder: Entity, explosion: Explosion): Float = {
-    getShadowBlock(world, pos).map(_.block).foreach(blockShadow => {
-      return blockShadow.getExplosionResistance(world, pos, exploder, explosion)
-    })
-    super.getExplosionResistance(world, pos, exploder, explosion)
-  }
-
-  override def onNeighborChange(world: IBlockAccess, pos: BlockPos, neighbor: BlockPos): Unit = {
-    getShadowBlock(world, pos).map(_.block).foreach(blockShadow => {
-      blockShadow.onNeighborChange(world, pos, neighbor)
-      return
-    })
-    super.onNeighborChange(world, pos, neighbor)
-  }
-
-  override def harvestBlock(worldIn: World, player: EntityPlayer, pos: BlockPos, state: IBlockState, te: TileEntity, stack: ItemStack): Unit = {
-    super.harvestBlock(worldIn, player, pos, state, te, stack)
-    worldIn.setBlockToAir(pos)
-  }
-
-  override def registerTileEntities(): Unit = GameRegistry.registerTileEntity(classOf[TileEntityMultiShadow], "tile." + ModPrefs.MODID + ".multi_block_shadow_block")
 }

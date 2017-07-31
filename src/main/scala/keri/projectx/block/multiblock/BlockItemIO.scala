@@ -24,21 +24,22 @@ import net.minecraft.world.{IBlockAccess, World}
 import net.minecraftforge.fml.common.registry.GameRegistry
 import net.minecraftforge.fml.relauncher.{Side, SideOnly}
 
-/**
-  * Created by Adam on 7/12/2017.
-  */
 class BlockItemIO extends BlockAnimationHandler[TileEntityItemIO]("item_io", Material.IRON) with TBlockMulti {
   setHardness(1.4F)
+
   @SideOnly(Side.CLIENT)
   var texture: Array[TextureAtlasSprite] = _
 
+  override def registerTileEntities(): Unit = GameRegistry.registerTileEntity(classOf[TileEntityItemIO], "tile." + ModPrefs.MODID + ".multi_block_item_io")
+
+  override def createTileEntity(world: World, state: IBlockState): TileEntity = new TileEntityItemIO
+
+  @SideOnly(Side.CLIENT)
   override def registerIcons(register: IIconRegister): Unit = {
     texture = Array.fill[TextureAtlasSprite](2)(null)
     texture(0) = register.registerIcon(s"${ModPrefs.MODID}:blocks/machine/item_io_out")
     texture(1) = register.registerIcon(s"${ModPrefs.MODID}:blocks/machine/item_io_in")
   }
-
-  override def createTileEntity(world: World, state: IBlockState): TileEntity = new TileEntityItemIO
 
   @SideOnly(Side.CLIENT)
   override def getIcon(meta: Int, side: EnumFacing): TextureAtlasSprite = texture(0)
@@ -53,19 +54,23 @@ class BlockItemIO extends BlockAnimationHandler[TileEntityItemIO]("item_io", Mat
 
   @SideOnly(Side.CLIENT)
   override def getRenderType(state: IBlockState): EnumBlockRenderType = RenderBlockBeveled.RENDER_TYPE
+
   @SideOnly(Side.CLIENT)
   override def getAnimationIcon(stack: ItemStack, side: Int): TextureAtlasSprite = ProjectX.PROXY.getAnimatedTexture
+
   @SideOnly(Side.CLIENT)
   override def getAnimationIcon(world: IBlockAccess, pos: BlockPos, side: Int): TextureAtlasSprite = ProjectX.PROXY.getAnimatedTexture
+
   @SideOnly(Side.CLIENT)
   override def getAnimationColor(stack: ItemStack, side: Int): Int = EnumXycroniumColor.GREEN.getColor.rgba()
+
   @SideOnly(Side.CLIENT)
   override def getAnimationColor(world: IBlockAccess, pos: BlockPos, side: Int): Int = EnumXycroniumColor.GREEN.getColor.rgba()
+
   @SideOnly(Side.CLIENT)
   override def getAnimationBrightness(stack: ItemStack, side: Int): Int = 220
+
   @SideOnly(Side.CLIENT)
   override def getAnimationBrightness(world: IBlockAccess, pos: BlockPos, side: Int): Int = 220
-
-  override def registerTileEntities(): Unit = GameRegistry.registerTileEntity(classOf[TileEntityItemIO], "tile." + ModPrefs.MODID + ".multi_block_item_io")
 
 }

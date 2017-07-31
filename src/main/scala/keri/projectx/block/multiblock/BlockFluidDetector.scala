@@ -19,17 +19,15 @@ import net.minecraft.item.ItemStack
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.{IBlockAccess, World}
-import net.minecraftforge.fml.common.registry.GameRegistry
 import net.minecraftforge.fml.relauncher.{Side, SideOnly}
 
-/**
-  * Created by Adam on 7/11/2017.
-  */
 class BlockFluidDetector extends BlockAnimationHandler[TileEntityFluidDetector]("fluid_detector", Material.IRON) with TBlockMulti {
   setHardness(1.4F)
 
   @SideOnly(Side.CLIENT)
   var texture: TextureAtlasSprite = _
+
+  override def registerTileEntities(): Unit = registerTile(classOf[TileEntityFluidDetector])
 
   override def createNewTileEntity(world: World, meta: Int): TileEntityFluidDetector = new TileEntityFluidDetector
 
@@ -50,18 +48,25 @@ class BlockFluidDetector extends BlockAnimationHandler[TileEntityFluidDetector](
 
   @SideOnly(Side.CLIENT)
   override def getIcon(meta: Int, side: EnumFacing): TextureAtlasSprite = texture
+
   @SideOnly(Side.CLIENT)
   override def getIcon(world: IBlockAccess, pos: BlockPos, side: EnumFacing): TextureAtlasSprite = texture
+
   @SideOnly(Side.CLIENT)
   override def getAnimationIcon(stack: ItemStack, side: Int): TextureAtlasSprite = ProjectX.PROXY.getAnimatedTexture
+
   @SideOnly(Side.CLIENT)
   override def getAnimationIcon(world: IBlockAccess, pos: BlockPos, side: Int): TextureAtlasSprite = ProjectX.PROXY.getAnimatedTexture
+
   @SideOnly(Side.CLIENT)
   override def getAnimationColor(stack: ItemStack, side: Int): Int = EnumXycroniumColor.RED.getColor.rgba()
+
   @SideOnly(Side.CLIENT)
   override def getAnimationColor(world: IBlockAccess, pos: BlockPos, side: Int): Int = EnumXycroniumColor.RED.getColor.rgba()
+
   @SideOnly(Side.CLIENT)
   override def getAnimationBrightness(stack: ItemStack, side: Int): Int = 220
+
   @SideOnly(Side.CLIENT)
   override def getAnimationBrightness(world: IBlockAccess, pos: BlockPos, side: Int): Int = {
     world.getTileEntity(pos) match {
@@ -70,5 +75,4 @@ class BlockFluidDetector extends BlockAnimationHandler[TileEntityFluidDetector](
     }
   }
 
-  override def registerTileEntities(): Unit = GameRegistry.registerTileEntity(classOf[TileEntityFluidDetector], "tile." + ModPrefs.MODID + ".multi_block_fluid_detector")
 }

@@ -71,7 +71,7 @@ object BlockDef {
   def read(nbt: NBTTagCompound): Option[BlockDef] = {
     if (nbt.hasKey("blockId")) {
       val block = Block.getBlockById(nbt.getInteger("blockId"))
-      return Some(new BlockDef(block, nbt.getInteger("metData")))
+      return Some(new BlockDef(block, nbt.getInteger("metaData")))
     }
     None
   }

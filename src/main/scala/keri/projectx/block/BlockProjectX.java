@@ -8,10 +8,12 @@ package keri.projectx.block;
 
 import keri.ninetaillib.lib.block.BlockBase;
 import keri.projectx.client.ProjectXTab;
+import keri.projectx.util.ModPrefs;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public abstract class BlockProjectX<T extends TileEntity> extends BlockBase<T> {
 
@@ -35,4 +37,15 @@ public abstract class BlockProjectX<T extends TileEntity> extends BlockBase<T> {
     public CreativeTabs getCreativeTab() {
         return ProjectXTab.PROJECTX;
     }
+
+    protected void registerTile(Class<? extends TileEntity> clazz){
+        String internalName = "tile." + ModPrefs.MODID + "." + this.getBlockName();
+        GameRegistry.registerTileEntity(clazz, internalName);
+    }
+
+    protected void registerTile(Class<? extends TileEntity> clazz, String name){
+        String internalName = "tile." + ModPrefs.MODID + "." + name;
+        GameRegistry.registerTileEntity(clazz, internalName);
+    }
+
 }
