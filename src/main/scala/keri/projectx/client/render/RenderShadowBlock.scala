@@ -28,7 +28,7 @@ object RenderShadowBlock extends IBlockRenderingHandler {
       case tileMultiShadow: TileEntityMultiShadow => {
         var blockDef: Option[BlockDef] = tileMultiShadow.getCurrBlockDef
 
-        if(blockDef.isDefined){
+        if (blockDef.isDefined) {
           brd.renderBlock(blockDef.get.getBlockState, pos, world, buffer)
         }
 

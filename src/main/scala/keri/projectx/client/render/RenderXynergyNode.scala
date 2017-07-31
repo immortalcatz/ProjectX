@@ -55,7 +55,7 @@ object RenderXynergyNode extends IBlockRenderingHandler {
     renderState.reset()
     renderState.bind(parentBuffer)
 
-    for(part <- 0 until BLOCK_MODEL.length){
+    for (part <- 0 until BLOCK_MODEL.length) {
       val modelPart: CCModel = BLOCK_MODEL(part).copy
 
       EnumFacing.getFront(meta) match {
@@ -73,9 +73,9 @@ object RenderXynergyNode extends IBlockRenderingHandler {
         case _ => false
       }
 
-      if(part < 4) modelPart.render(renderState, new MultiIconTransformation(textureBottom, textureBottom, textureSide, textureSide, textureSide, textureSide))
-      else if(part > 3 && part < 8) modelPart.render(renderState, new MultiIconTransformation(textureTop, textureTop, textureSide, textureSide, textureSide, textureSide))
-      else{
+      if (part < 4) modelPart.render(renderState, new MultiIconTransformation(textureBottom, textureBottom, textureSide, textureSide, textureSide, textureSide))
+      else if (part > 3 && part < 8) modelPart.render(renderState, new MultiIconTransformation(textureTop, textureTop, textureSide, textureSide, textureSide, textureSide))
+      else {
         val zOffset: Double = 0.0004D
         modelPart.zOffset(new Cuboid6(zOffset, zOffset, zOffset, zOffset, zOffset, zOffset))
         modelPart.render(renderState, new MultiIconTransformation(textureTop, textureTop, textureSide, textureSide, textureSide, textureSide))
@@ -93,7 +93,7 @@ object RenderXynergyNode extends IBlockRenderingHandler {
     renderState.reset
     renderState.bind(buffer)
 
-    for(part <- 0 until BLOCK_MODEL.length){
+    for (part <- 0 until BLOCK_MODEL.length) {
       var modelPart: CCModel = BLOCK_MODEL(part).copy
 
       EnumFacing.getFront(meta) match {
@@ -129,12 +129,12 @@ object RenderXynergyNode extends IBlockRenderingHandler {
     renderState.reset
     renderState.bind(buffer)
 
-    for(part <- 0 until BLOCK_MODEL.length){
+    for (part <- 0 until BLOCK_MODEL.length) {
       var modelPart: CCModel = BLOCK_MODEL(part).copy
 
-      if(part < 4) modelPart.render(renderState, new MultiIconTransformation(textureBottom, textureBottom, textureSide, textureSide, textureSide, textureSide))
-      else if(part > 3 && part < 8) modelPart.render(renderState, new MultiIconTransformation(textureTop, textureTop, textureSide, textureSide, textureSide, textureSide))
-      else{
+      if (part < 4) modelPart.render(renderState, new MultiIconTransformation(textureBottom, textureBottom, textureSide, textureSide, textureSide, textureSide))
+      else if (part > 3 && part < 8) modelPart.render(renderState, new MultiIconTransformation(textureTop, textureTop, textureSide, textureSide, textureSide, textureSide))
+      else {
         val zOffset: Double = 0.0004D
         modelPart.zOffset(new Cuboid6(zOffset, zOffset, zOffset, zOffset, zOffset, zOffset))
         modelPart.render(renderState, new MultiIconTransformation(textureTop, textureTop, textureSide, textureSide, textureSide, textureSide))
