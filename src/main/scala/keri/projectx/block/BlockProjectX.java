@@ -29,7 +29,7 @@ public abstract class BlockProjectX<T extends TileEntity> extends BlockBase<T> {
         super(blockName, material, mapColor, subNames);
     }
 
-    public BlockProjectX(String blockName, Material material, String... subNames) {
+    public BlockProjectX(String blockName, Material material, String[] subNames) {
         super(blockName, material, subNames);
     }
 

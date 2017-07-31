@@ -13,7 +13,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import net.minecraftforge.fml.relauncher.{Side, SideOnly}
 
-class BlockXycroniumBricksChiseled extends BlockAnimationHandler("xycronium_bricks_chiseled", Material.ROCK, EnumXycroniumColor.toStringArray) {
+class BlockXycroniumBricksChiseled extends BlockProjectX("xycronium_bricks_chiseled", Material.ROCK, EnumXycroniumColor.toStringArray) with TBlockAnimationHandler {
   setHardness(1.4F)
 
   @SideOnly(Side.CLIENT)

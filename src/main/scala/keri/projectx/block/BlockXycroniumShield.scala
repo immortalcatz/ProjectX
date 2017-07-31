@@ -14,7 +14,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import net.minecraftforge.fml.relauncher.{Side, SideOnly}
 
-class BlockXycroniumShield extends BlockAnimationHandler("xycronium_shield", Material.ROCK, EnumDyeColor.toStringArray) {
+class BlockXycroniumShield extends BlockProjectX("xycronium_shield", Material.ROCK, EnumDyeColor.toStringArray) with TBlockAnimationHandler {
   setHardness(1.4F)
   setResistance(Float.MaxValue)
 

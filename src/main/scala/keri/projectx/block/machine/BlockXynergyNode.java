@@ -302,7 +302,7 @@ public class BlockXynergyNode extends BlockProjectX implements IWrenchableBlock,
     @Override
     @SideOnly(Side.CLIENT)
     public EnumBlockRenderType getRenderType(IBlockState state) {
-        return RenderXynergyNode.RENDER_TYPE;
+        return RenderXynergyNode.RENDER_TYPE();
     }
 
     @Override

@@ -12,7 +12,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import net.minecraftforge.fml.relauncher.{Side, SideOnly}
 
-class BlockXycroniumStructure extends BlockAnimationHandler("xycronium_structure", Material.ROCK, EnumDyeColor.toStringArray) {
+class BlockXycroniumStructure extends BlockProjectX("xycronium_structure", Material.ROCK, EnumDyeColor.toStringArray) with TBlockAnimationHandler {
   setHardness(1.4F)
 
   @SideOnly(Side.CLIENT)

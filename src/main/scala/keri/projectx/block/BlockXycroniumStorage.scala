@@ -14,7 +14,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import net.minecraftforge.fml.relauncher.{Side, SideOnly}
 
-class BlockXycroniumStorage extends BlockAnimationHandler("xycronium_block", Material.ROCK, EnumXycroniumColor.toStringArray) with ICTMBlock {
+class BlockXycroniumStorage extends BlockProjectX("xycronium_block", Material.ROCK, EnumXycroniumColor.toStringArray) with TBlockAnimationHandler with ICTMBlock {
   setHardness(1.4F)
 
   @SideOnly(Side.CLIENT)
