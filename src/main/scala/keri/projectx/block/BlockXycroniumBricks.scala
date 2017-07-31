@@ -29,10 +29,10 @@ class BlockXycroniumBricks extends BlockProjectX("xycronium_bricks", Material.RO
 
   @SideOnly(Side.CLIENT)
   override def getColorMultiplier(meta: Int, side: EnumFacing): Int = {
-    if(ProjectX.CONFIG.getProperty("coloredBricks").getValue.asInstanceOf[Boolean]){
+    if (ProjectX.CONFIG.getProperty("coloredBricks").getValue.asInstanceOf[Boolean]) {
       EnumXycroniumColor.VALUES(meta).getColor.copy.multiplyC(0.5D).rgba
     }
-    else{
+    else {
       0xFFFFFFFF
     }
   }

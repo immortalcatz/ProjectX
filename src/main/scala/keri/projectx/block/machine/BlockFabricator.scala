@@ -24,7 +24,7 @@ import net.minecraft.world.{IBlockAccess, World}
 import net.minecraftforge.fml.relauncher.{Side, SideOnly}
 
 class BlockFabricator extends BlockAnimationHandler[TileEntityFabricator]("fabricator", Material.IRON) {
-  this.setHardness(1.4F)
+  setHardness(1.4F)
 
   @SideOnly(Side.CLIENT)
   var texture: Array[TextureAtlasSprite] = _

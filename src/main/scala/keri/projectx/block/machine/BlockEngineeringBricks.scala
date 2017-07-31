@@ -16,7 +16,7 @@ import net.minecraft.world.IBlockAccess
 import net.minecraftforge.fml.relauncher.{Side, SideOnly}
 
 class BlockEngineeringBricks extends BlockAnimationHandler("engineering_bricks", Material.ROCK, EnumXycroniumColor.toStringArray) with ICTMBlock {
-  this.setHardness(1.4F)
+  setHardness(1.4F)
 
   @SideOnly(Side.CLIENT)
   var texture: Array[TextureAtlasSprite] = _

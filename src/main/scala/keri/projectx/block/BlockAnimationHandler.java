@@ -45,7 +45,7 @@ public abstract class BlockAnimationHandler<T extends TileEntity> extends BlockP
     @Override
     @SideOnly(Side.CLIENT)
     public EnumBlockRenderType getRenderType(IBlockState state) {
-        return RenderSimpleGlow.RENDER_TYPE;
+        return RenderSimpleGlow.RENDER_TYPE();
     }
 
     @Override
