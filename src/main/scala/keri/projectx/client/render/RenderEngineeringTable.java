@@ -50,7 +50,7 @@ import java.util.List;
 public class RenderEngineeringTable implements IBlockRenderingHandler {
 
     public static final RenderEngineeringTable INSTANCE = new RenderEngineeringTable();
-    private static final RenderTruncatedIcosahedron ICOSA_RENDERER = RenderTruncatedIcosahedron.getInstance();
+    private static final RenderTruncatedIcosahedronOld ICOSA_RENDERER = RenderTruncatedIcosahedronOld.getInstance();
     public static EnumBlockRenderType RENDER_TYPE;
     private static CCModel[] BLOCK_MODEL;
 
@@ -176,7 +176,7 @@ public class RenderEngineeringTable implements IBlockRenderingHandler {
         Color colorHsb = Color.getHSBColor((float)ClientUtils.getRenderTime() / 120F, 1F, 1F);
         Colour colorHex = new ColourRGBA(colorHsb.getRed(), colorHsb.getGreen(), colorHsb.getBlue(), colorHsb.getAlpha());
         Colour colorPent = colorHex.copy().multiplyC(0.75D);
-        ICOSA_RENDERER.render(0.92D, colorPent, colorHex, RenderTruncatedIcosahedron.EnumHedrontexture.SPACE);
+        ICOSA_RENDERER.render(0.92D, colorPent, colorHex, RenderTruncatedIcosahedronOld.EnumHedrontexture.SPACE);
         GlStateManager.popMatrix();
         buffer.begin(GL11.GL_QUADS, RenderUtils.getFormatWithLightMap(DefaultVertexFormats.ITEM));
     }

@@ -10,7 +10,7 @@ import codechicken.lib.colour.Colour;
 import codechicken.lib.util.ClientUtils;
 import keri.projectx.api.energy.EnumXynergyClass;
 import keri.projectx.api.energy.EnumXynergyType;
-import keri.projectx.client.render.RenderTruncatedIcosahedron;
+import keri.projectx.client.render.RenderTruncatedIcosahedronOld;
 import keri.projectx.tile.TileEntityXynergyNode;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -20,7 +20,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class TESRXynergyNode extends TileEntitySpecialRenderer<TileEntityXynergyNode> {
 
-    private static final RenderTruncatedIcosahedron ICOSA_RENDERER = RenderTruncatedIcosahedron.getInstance();
+    private static final RenderTruncatedIcosahedronOld ICOSA_RENDERER = RenderTruncatedIcosahedronOld.getInstance();
 
     @Override
     public void renderTileEntityAt(TileEntityXynergyNode tile, double x, double y, double z, float partialTicks, int destroyStage) {
@@ -38,7 +38,7 @@ public class TESRXynergyNode extends TileEntitySpecialRenderer<TileEntityXynergy
                 GlStateManager.rotate((float)ClientUtils.getRenderTime() * 4F, 0F, 1F, 0F);
             }
 
-            ICOSA_RENDERER.render(0.62D, colorCore, colorCore.copy().multiplyC(0.75D), RenderTruncatedIcosahedron.EnumHedrontexture.FILL);
+            ICOSA_RENDERER.render(0.62D, colorCore, colorCore.copy().multiplyC(0.75D), RenderTruncatedIcosahedronOld.EnumHedrontexture.FILL);
             GlStateManager.popMatrix();
             GlStateManager.pushMatrix();
 
@@ -46,7 +46,7 @@ public class TESRXynergyNode extends TileEntitySpecialRenderer<TileEntityXynergy
                 GlStateManager.rotate((float)-ClientUtils.getRenderTime() * 6F, 0F, 1F, 0F);
             }
 
-            ICOSA_RENDERER.render(0.86D, colorShell, colorShell.copy().multiplyC(0.75D), RenderTruncatedIcosahedron.EnumHedrontexture.SPACE);
+            ICOSA_RENDERER.render(0.86D, colorShell, colorShell.copy().multiplyC(0.75D), RenderTruncatedIcosahedronOld.EnumHedrontexture.SPACE);
             GlStateManager.popMatrix();
         }
 

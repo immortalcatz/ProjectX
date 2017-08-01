@@ -19,17 +19,17 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
-public class RenderTruncatedIcosahedron {
+public class RenderTruncatedIcosahedronOld {
 
     private static Vector3[] VERTS = new Vector3[60];
     private static int LIST_INDEX;
-    private static final ThreadLocal<RenderTruncatedIcosahedron> INSTANCES = ThreadLocal.withInitial(RenderTruncatedIcosahedron::new);
+    private static final ThreadLocal<RenderTruncatedIcosahedronOld> INSTANCES = ThreadLocal.withInitial(RenderTruncatedIcosahedronOld::new);
 
-    private RenderTruncatedIcosahedron(){
+    private RenderTruncatedIcosahedronOld(){
         this.generate();
     }
 
-    public static RenderTruncatedIcosahedron getInstance() {
+    public static RenderTruncatedIcosahedronOld getInstance() {
         return INSTANCES.get();
     }
 
