@@ -154,6 +154,9 @@ class BlockMultiShadow(material: Material, suffix: String) extends BlockProjectX
     super.addHitEffects(state, worldObj, target, manager)
   }
 
+
+  override def removedByPlayer(state: IBlockState, world: World, pos: BlockPos, player: EntityPlayer, willHarvest: Boolean): Boolean = if (willHarvest) true else super.removedByPlayer(state, world, pos, player, willHarvest)
+
   def getShadowBlock(world: IBlockAccess, pos: BlockPos): Option[BlockDef] = {
     world.getTileEntity(pos) match {
       case tile: TileEntityMultiShadow => tile.getCurrBlockDef
