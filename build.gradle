@@ -48,7 +48,7 @@ repositories {
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'scala'
 
-version = "1.11.2-2.1.21"
+version = "1.11.2-2.1.22"
 group = "keri.projectx" 
 archivesBaseName = "ProjectX"
 

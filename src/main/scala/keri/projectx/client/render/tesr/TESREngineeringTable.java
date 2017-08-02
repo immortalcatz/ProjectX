@@ -9,7 +9,7 @@ package keri.projectx.client.render.tesr;
 import codechicken.lib.colour.Colour;
 import codechicken.lib.colour.ColourRGBA;
 import codechicken.lib.util.ClientUtils;
-import keri.projectx.client.render.RenderTruncatedIcosahedronOld;
+import keri.projectx.client.render.RenderTruncatedIcosahedron;
 import keri.projectx.tile.TileEntityEngineeringTable;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -21,7 +21,7 @@ import java.awt.*;
 @SideOnly(Side.CLIENT)
 public class TESREngineeringTable extends TileEntitySpecialRenderer<TileEntityEngineeringTable> {
 
-    private static final RenderTruncatedIcosahedronOld ICOSA_RENDERER = RenderTruncatedIcosahedronOld.getInstance();
+    private static final RenderTruncatedIcosahedron ICOSA_RENDERER = RenderTruncatedIcosahedron.getInstance();
 
     @Override
     public void renderTileEntityAt(TileEntityEngineeringTable tile, double x, double y, double z, float partialTicks, int destroyStage) {
@@ -31,7 +31,7 @@ public class TESREngineeringTable extends TileEntitySpecialRenderer<TileEntityEn
         Color colorHsb = Color.getHSBColor((float)ClientUtils.getRenderTime() / 120F, 1F, 1F);
         Colour colorHex = new ColourRGBA(colorHsb.getRed(), colorHsb.getGreen(), colorHsb.getBlue(), colorHsb.getAlpha());
         Colour colorPent = colorHex.copy().multiplyC(0.75D);
-        ICOSA_RENDERER.render(0.92D, colorPent, colorHex, RenderTruncatedIcosahedronOld.EnumHedrontexture.SPACE);
+        ICOSA_RENDERER.render(0.92D, colorPent, colorHex, RenderTruncatedIcosahedron.EnumHedrontexture.SPACE);
         GlStateManager.popMatrix();
     }
 

@@ -123,10 +123,22 @@ class BlockMultiShadow(material: Material, suffix: String) extends BlockProjectX
   @SideOnly(Side.CLIENT)
   override def canRenderInLayer(state: IBlockState, layer: BlockRenderLayer): Boolean = {
     if (blockMaterial == Material.GLASS) {
-      return layer == BlockRenderLayer.CUTOUT || layer == BlockRenderLayer.TRANSLUCENT
+      return layer == BlockRenderLayer.CUTOUT_MIPPED || layer == BlockRenderLayer.TRANSLUCENT
     }
     else {
-      return layer == BlockRenderLayer.CUTOUT_MIPPED || layer == BlockRenderLayer.SOLID
+      return super.canRenderInLayer(state, layer)
+    }
+  }
+
+  @SideOnly(Side.CLIENT)
+  override def shouldSideBeRendered(state: IBlockState, world: IBlockAccess, pos: BlockPos, side: EnumFacing): Boolean = {
+    val shadowBlock = getShadowBlock(world, pos)
+
+    if(shadowBlock.isDefined){
+      return shadowBlock.get.block.shouldSideBeRendered(shadowBlock.get.getBlockState(), world, pos, side)
+    }
+    else{
+      return super.shouldSideBeRendered(state, world, pos, side)
     }
   }
 
@@ -153,7 +165,6 @@ class BlockMultiShadow(material: Material, suffix: String) extends BlockProjectX
 
     super.addHitEffects(state, worldObj, target, manager)
   }
-
 
   override def removedByPlayer(state: IBlockState, world: World, pos: BlockPos, player: EntityPlayer, willHarvest: Boolean): Boolean = if (willHarvest) true else super.removedByPlayer(state, world, pos, player, willHarvest)
 

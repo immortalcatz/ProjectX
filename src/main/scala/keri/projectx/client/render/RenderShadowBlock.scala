@@ -6,9 +6,9 @@
 
 package keri.projectx.client.render
 
-import codechicken.lib.render.CCRenderState
-import codechicken.lib.vec.uv.IconTransformation
-import codechicken.lib.vec.{Cuboid6, Translation, Vector3}
+import codechicken.lib.render.CCModel
+import codechicken.lib.render.block.CCBlockRendererDispatcher
+import codechicken.lib.vec.Cuboid6
 import keri.ninetaillib.lib.render.{IBlockRenderingHandler, RenderingRegistry}
 import keri.ninetaillib.lib.util.ModelUtils
 import keri.projectx.tile.TileEntityMultiShadow
@@ -23,33 +23,29 @@ import net.minecraft.world.IBlockAccess
 
 object RenderShadowBlock extends IBlockRenderingHandler {
 
-  private final val DAMAGE_MODEL = ModelUtils.getNormalized(new Cuboid6(0D, 0D, 0D, 16D, 16D, 16D))
+  private final val DAMAGE_MODEL: CCModel = ModelUtils.getNormalized(new Cuboid6(0D, 0D, 0D, 16D, 16D, 16D))
   final val RENDER_TYPE: EnumBlockRenderType = RenderingRegistry.getNextAvailableType
   RenderingRegistry.registerRenderingHandler(RenderShadowBlock.this)
 
   override def renderWorld(world: IBlockAccess, pos: BlockPos, state: IBlockState, buffer: VertexBuffer, layer: BlockRenderLayer): Boolean = {
-    val brd = Minecraft.getMinecraft.getBlockRendererDispatcher
+    val brd = new CCBlockRendererDispatcher(Minecraft.getMinecraft.getBlockRendererDispatcher, Minecraft.getMinecraft.getBlockColors)
 
     world.getTileEntity(pos) match {
       case tileMultiShadow: TileEntityMultiShadow => {
         val blockDef = tileMultiShadow.getCurrBlockDef
 
         if (blockDef.isDefined) {
-          brd.renderBlock(blockDef.get.getBlockState, pos, world, buffer)
+          return brd.renderBlock(blockDef.get.getBlockState, pos, world, buffer)
         }
 
         false
       }
-      case _ => false
+      case _ => return false
     }
   }
 
   override def renderDamage(world: IBlockAccess, pos: BlockPos, state: IBlockState, buffer: VertexBuffer, texture: TextureAtlasSprite): Unit = {
-    val renderState = CCRenderState.instance
-    val translation = new Translation(Vector3.fromBlockPos(pos))
-    renderState.reset
-    renderState.bind(buffer)
-    DAMAGE_MODEL.apply(translation).render(renderState, new IconTransformation(texture))
+
   }
 
   override def renderInventory(stack: ItemStack, buffer: VertexBuffer): Unit = {}
